@@ -6,6 +6,10 @@ interface RequiredInfo {
   userId: string;
   currentPassword: string;
 }
+interface LoginInfo {
+  userId: string;
+  password: string;
+}
 
 class UserService {
   constructor(private userModel: UserModel) {}
@@ -103,8 +107,33 @@ class UserService {
 
     return result;
   }
-}
+  async getUserToken(loginInfo: LoginInfo) {
+    const { userId, password } = loginInfo;
+    const user = await this.userModel.findById(userId);
 
+    if (!user) {
+      throw new Error('해당 아이디는 가입 내역이 없습니다.');
+    }
+
+    const correctPasswordHash = user.password;
+
+    const isPasswordCorrect = await bcrypt.compare(
+      password,
+      correctPasswordHash
+    );
+
+    if (!isPasswordCorrect) {
+      throw new Error('비밀번호가 일치하지 않습니다.');
+    }
+
+    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
+
+    const token = jwt.sign({ userId }, secretKey);
+    console.log(token);
+
+    return { token, userId };
+  }
+}
 const userService = new UserService(userModel);
 
 export { userService };

@@ -87,4 +87,28 @@ userRouter.delete('/', async (req, res, next) => {
   }
 });
 
+// 로그인
+userRouter.post('/login', async function (req, res, next) {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요'
+      );
+    }
+
+    const userId: string = req.body.id;
+    const password: string = req.body.password;
+
+    const userToken = await userService.getUserToken({ userId, password });
+
+    res.cookie(userId, userToken, {
+      maxAge: 10000,
+    });
+
+    res.status(200).json({ message: '로그인 성공' });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { userRouter };
