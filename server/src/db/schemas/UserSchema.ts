@@ -23,6 +23,7 @@ const UserSchema = new Schema(
     },
     liked: {
       type: [Schema.Types.ObjectId],
+      default: [],
       required: true,
     },
   },
