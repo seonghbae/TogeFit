@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-const RoutineSchema = new Schema({
+const ExerciseSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -16,14 +16,14 @@ const RoutineSchema = new Schema({
   },
 });
 
-const ExerciseRoutineSchema = new Schema(
+const RoutineSchema = new Schema(
   {
     routine_name: {
       type: String,
       required: true,
     },
     routine_list: {
-      type: [RoutineSchema],
+      type: [ExerciseSchema],
     },
     user: {
       type: String,
@@ -35,4 +35,4 @@ const ExerciseRoutineSchema = new Schema(
     timestamps: true,
   }
 );
-export { ExerciseRoutineSchema };
+export { RoutineSchema };

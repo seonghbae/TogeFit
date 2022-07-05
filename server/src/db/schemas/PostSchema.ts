@@ -28,7 +28,7 @@ const PostSchema = new Schema(
     },
     like: {
       type: Number,
-      required: false,
+      default: 0,
     },
     comments: {
       type: [CommentSchema],
