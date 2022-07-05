@@ -1,31 +1,45 @@
 module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  plugins: ['react', '@typescript-eslint'],
+  env: {
+    browser: true,
+    es2021: true,
+    node: true,
+  },
   extends: [
     'airbnb',
-    'eslint',
-    '@typescript-eslint/eslint-recommended',
-    '@typescript-eslint/recommended',
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
+  parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
-    sourceType: 'module',
     ecmaFeatures: {
       jsx: true,
     },
-  },
-  env: {
-    browser: true,
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
   settings: {
-    'import/parsers': {
-      '@typescript-eslint/parser': ['.ts', '.tsx', '.js'],
-    },
     'import/resolver': {
-      typescript: './tsconfig.json',
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        moduleDirectory: ['node_modules', 'src/'],
+      },
     },
   },
-  rules: {},
+  plugins: ['react', '@typescript-eslint'],
+  rules: {
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never',
+      },
+    ],
+  },
 };
