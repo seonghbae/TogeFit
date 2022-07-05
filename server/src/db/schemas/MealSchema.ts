@@ -1,6 +1,6 @@
 import { Schema } from 'mongoose';
 
-const meal = new Schema({
+const MealSchema = new Schema({
   foodName: {
     type: String,
     required: true,
@@ -11,14 +11,15 @@ const meal = new Schema({
   },
 });
 
-const MealSchema = new Schema(
+const MealArticleSchema = new Schema(
   {
     userId: {
       type: String,
       required: true,
     },
     meals: {
-      type: [meal],
+      type: [MealSchema],
+      required: true,
     },
   },
   {
@@ -27,4 +28,4 @@ const MealSchema = new Schema(
   }
 );
 
-export { MealSchema };
+export { MealArticleSchema };
