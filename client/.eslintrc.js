@@ -29,6 +29,7 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
     'react/jsx-filename-extension': ['warn', { extensions: ['.tsx'] }],
     'import/extensions': [
@@ -40,6 +41,10 @@ module.exports = {
         ts: 'never',
         tsx: 'never',
       },
+    ],
+    'react/function-component-definition': [
+      2,
+      { namedComponents: 'arrow-function' | 'function-declaration' },
     ],
   },
 };

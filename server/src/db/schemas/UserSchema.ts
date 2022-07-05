@@ -21,6 +21,11 @@ const UserSchema = new Schema(
     profile_image: {
       type: String,
     },
+    liked: {
+      type: [Schema.Types.ObjectId],
+      default: [],
+      required: true,
+    },
   },
   {
     collection: 'users',
