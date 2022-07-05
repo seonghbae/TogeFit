@@ -5,7 +5,7 @@ type Inputs = {
   searchData: string;
 };
 
-export default function SearchForm() {
+const SearchForm = () => {
   const {
     register,
     handleSubmit,
@@ -20,4 +20,5 @@ export default function SearchForm() {
       <input type="submit" value="검색" />
     </StyledForm>
   );
-}
+};
+export default SearchForm;

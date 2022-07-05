@@ -3,16 +3,14 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 // pages
-import { Routine } from './pages';
+import { RoutinePage } from './pages';
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/routine" element={<Routine />} />
-      </Routes>
-    </BrowserRouter>
-  );
-}
+const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/routine" element={<RoutinePage />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;
