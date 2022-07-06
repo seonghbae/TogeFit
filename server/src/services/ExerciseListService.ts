@@ -28,6 +28,18 @@ class ExerciseService {
 
     return newExercise;
   }
+
+  async deleteExercise(exercise: string) {
+    const foundExercise = await this.exerciseListModel.findByExerciseName(
+      exercise
+    );
+
+    if (!foundExercise) {
+      throw new Error('입력하신 운동은 목록에 존재하지 않습니다.');
+    }
+    const newExercise = await this.exerciseListModel.delete(exercise);
+    return newExercise;
+  }
 }
 const exerciseListService = new ExerciseService(exerciseListModel);
 

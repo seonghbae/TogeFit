@@ -16,6 +16,11 @@ export class ExerciseListModel {
     const createdNewExercise = await ExerciseList.create({ name: exercise });
     return createdNewExercise;
   }
+
+  async delete(exercise: string) {
+    const deletedExercise = await ExerciseList.deleteOne({ name: exercise });
+    return deletedExercise;
+  }
 }
 
 const exerciseListModel = new ExerciseListModel();
