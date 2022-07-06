@@ -8,22 +8,27 @@ const FoodSchema = new Schema(
     },
     carbohydrate: {
       type: Number,
+      default: 0,
       required: true,
     },
     protein: {
       type: Number,
+      default: 0,
       required: true,
     },
     fat: {
       type: Number,
+      default: 0,
       required: true,
     },
     quantity: {
       type: Number,
+      default: 0,
       required: true,
     },
     calories: {
       type: Number,
+      default: 0,
       required: true,
     },
   },
