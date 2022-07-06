@@ -14,9 +14,19 @@ export interface MealArticleInfo {
 }
 
 export class MealModel {
+  async findById(mealArticleId: string) {
+    const mealArticle = await Meal.findOne({ _id: mealArticleId });
+    return mealArticle;
+  }
+
   async create(mealArticleInfo: MealArticleInfo) {
     const createdNewMeal = await Meal.create(mealArticleInfo);
     return createdNewMeal;
+  }
+
+  async deleteMealArticle(mealArticleId: string) {
+    const { deletedCount } = await Meal.deleteOne({ _id: mealArticleId });
+    return { deletedCount };
   }
 }
 

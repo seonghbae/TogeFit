@@ -20,4 +20,22 @@ mealRouter.post('/register', async (req, res, next) => {
   }
 });
 
+mealRouter.delete('/', async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealArticleId } = req.body;
+
+    const result = await mealService.deleteMealArticle(mealArticleId);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { mealRouter };
