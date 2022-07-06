@@ -4,6 +4,17 @@ import { foodService } from '../services';
 
 const foodRouter = Router();
 
+// 음식 리스트 반환
+foodRouter.get('/', async (req, res, next) => {
+  try {
+    const foodList = await foodService.getFoodList();
+
+    res.status(200).json(foodList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 음식 등록
 foodRouter.post('/register', async (req, res, next) => {
   try {

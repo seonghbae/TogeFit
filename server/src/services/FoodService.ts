@@ -3,6 +3,11 @@ import { foodModel, FoodModel, FoodInfo } from '../db';
 class FoodService {
   constructor(private foodModel: FoodModel) {}
 
+  async getFoodList() {
+    const foodList = this.foodModel.findAllFood();
+    return foodList;
+  }
+
   async findById(foodId: string) {
     const food = this.foodModel.findById(foodId);
     return food;

@@ -13,6 +13,11 @@ export interface FoodInfo {
 }
 
 export class FoodModel {
+  async findAllFood() {
+    const foodList = await Food.find({});
+    return foodList;
+  }
+
   async findById(foodId: string) {
     const food = await Food.findOne({ _id: foodId });
     return food;
