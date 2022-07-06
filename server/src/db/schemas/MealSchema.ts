@@ -18,7 +18,7 @@ const MealArticleSchema = new Schema(
       required: true,
     },
     meals: {
-      type: [MealSchema],
+      type: [[MealSchema]],
       required: true,
     },
   },

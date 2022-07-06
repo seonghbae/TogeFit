@@ -3,6 +3,16 @@ import { mealModel, MealModel, MealArticleInfo, MealInfo } from '../db';
 class MealService {
   constructor(private mealModel: MealModel) {}
 
+  async getAllMealArticle() {
+    const mealArticleListAll = this.mealModel.findAllMealArticles();
+    return mealArticleListAll;
+  }
+
+  async getMealArticleList(userId: string) {
+    const mealArticleList = this.mealModel.findMealArticleListByUserId(userId);
+    return mealArticleList;
+  }
+
   async addMeal(mealArticleInfo: MealArticleInfo) {
     const createdMealArticle = this.mealModel.create(mealArticleInfo);
     return createdMealArticle;

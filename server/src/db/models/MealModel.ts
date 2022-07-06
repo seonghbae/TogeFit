@@ -10,10 +10,20 @@ export interface MealInfo {
 
 export interface MealArticleInfo {
   userId: string;
-  meals: MealInfo[];
+  meals: MealInfo[][];
 }
 
 export class MealModel {
+  async findAllMealArticles() {
+    const mealArticleList = await Meal.find({});
+    return mealArticleList;
+  }
+
+  async findMealArticleListByUserId(userId: string) {
+    const mealArticleList = await Meal.find({ userId });
+    return mealArticleList;
+  }
+
   async findById(mealArticleId: string) {
     const mealArticle = await Meal.findOne({ _id: mealArticleId });
     return mealArticle;
