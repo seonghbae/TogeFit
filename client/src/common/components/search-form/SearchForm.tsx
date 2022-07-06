@@ -5,13 +5,15 @@ type Inputs = {
   searchData: string;
 };
 
-export default function SearchForm() {
+const SearchForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    // watch,
+    // formState: { errors },
   } = useForm<Inputs>();
+
+  // eslint-disable-next-line no-console
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (
@@ -20,4 +22,5 @@ export default function SearchForm() {
       <input type="submit" value="검색" />
     </StyledForm>
   );
-}
+};
+export default SearchForm;
