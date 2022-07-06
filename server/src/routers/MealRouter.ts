@@ -44,6 +44,37 @@ mealRouter.post('/register', async (req, res, next) => {
   }
 });
 
+// 식단 글 수정
+mealRouter.patch('/', async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealArticleId, userId, meals } = req.body;
+
+    if (!mealArticleId) {
+      throw new Error(
+        '수정을 위해서는 해당 아티클의 ID(Object ID)가 필요합니다.'
+      );
+    }
+
+    const toUpdateMeal = meals;
+
+    const updatedMealInfo = await mealService.patchMeal(
+      mealArticleId,
+      userId,
+      toUpdateMeal
+    );
+
+    res.status(200).json(updatedMealInfo);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 식단 글 삭제
 mealRouter.delete('/', async (req, res, next) => {
   try {

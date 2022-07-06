@@ -4,25 +4,48 @@ class MealService {
   constructor(private mealModel: MealModel) {}
 
   async getAllMealArticle() {
-    const mealArticleListAll = this.mealModel.findAllMealArticles();
+    const mealArticleListAll = await this.mealModel.findAll();
     return mealArticleListAll;
   }
 
   async getMealArticleList(userId: string) {
-    const mealArticleList = this.mealModel.findMealArticleListByUserId(userId);
+    const mealArticleList = await this.mealModel.findById(userId);
     return mealArticleList;
   }
 
   async addMeal(mealArticleInfo: MealArticleInfo) {
-    const createdMealArticle = this.mealModel.create(mealArticleInfo);
+    const createdMealArticle = await this.mealModel.create(mealArticleInfo);
     return createdMealArticle;
+  }
+
+  async patchMeal(
+    mealArticleId: string,
+    userId: string,
+    toUpdateMeal: MealInfo[][]
+  ) {
+    const mealArticle = await this.mealModel.findById(mealArticleId);
+
+    if (!mealArticle) {
+      throw new Error('해당 아티클을 찾을 수 없습니다.');
+    }
+
+    if (mealArticle.userId !== userId) {
+      throw new Error('작성자만 수정할 수 있습니다.');
+    }
+
+    const updatedMeal = await this.mealModel.update(
+      mealArticleId,
+      toUpdateMeal
+    );
+
+    return updatedMeal;
   }
 
   async deleteMealArticle(mealArticleId: string) {
     const mealArticle = await this.mealModel.findById(mealArticleId);
 
     if (!mealArticle) {
-      throw new Error('해당 식단 기록을 찾을 수 없습니다.');
+      throw new Error('해당 아티클을 찾을 수 없습니다.');
     }
 
     const result = await this.mealModel.deleteMealArticle(mealArticleId);

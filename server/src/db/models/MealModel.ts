@@ -14,24 +14,23 @@ export interface MealArticleInfo {
 }
 
 export class MealModel {
-  async findAllMealArticles() {
+  async findAll() {
     const mealArticleList = await Meal.find({});
     return mealArticleList;
   }
 
-  async findMealArticleListByUserId(userId: string) {
-    const mealArticleList = await Meal.find({ userId });
-    return mealArticleList;
-  }
-
-  async findById(mealArticleId: string) {
-    const mealArticle = await Meal.findOne({ _id: mealArticleId });
+  async findById(id: string) {
+    const mealArticle = await Meal.findOne({ _id: id });
     return mealArticle;
   }
 
   async create(mealArticleInfo: MealArticleInfo) {
     const createdNewMeal = await Meal.create(mealArticleInfo);
     return createdNewMeal;
+  }
+
+  async update(mealArticleId: string, toUpdateMeal: MealInfo[][]) {
+    // 구현 예정
   }
 
   async deleteMealArticle(mealArticleId: string) {
