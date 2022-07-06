@@ -33,9 +33,9 @@ export class RoutineModel {
     }
     const filter = { userId };
     const update = { $push: { routines } };
-    let updatedNewRoutine = await Routine.findOneAndUpdate(filter, update);
-
-    console.log(updatedNewRoutine);
+    const updatedNewRoutine = await Routine.findOneAndUpdate(filter, update, {
+      new: true,
+    });
     return updatedNewRoutine;
   }
 }

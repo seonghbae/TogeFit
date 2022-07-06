@@ -3,9 +3,12 @@ import { routineService } from '../services';
 
 const routineRouter = Router();
 
-// 사용자의 루틴 GET
+// 사용자의 루틴정보 가져오기
 routineRouter.get('/', async (req, res, next) => {
   try {
+    const { userId } = req.body;
+    const userRoutineList = await routineService.findByUserId(userId);
+    res.status(200).json(userRoutineList);
   } catch (error) {
     next(error);
   }
@@ -22,8 +25,7 @@ routineRouter.post('/', async (req, res, next) => {
       routine_list,
     });
 
-    // res.status(201).json(newRoutine);
-    res.status(201).json(userId);
+    res.status(201).json(newRoutine);
   } catch (error) {
     next(error);
   }
