@@ -23,6 +23,18 @@ export class FoodModel {
     return createdNewFood;
   }
 
+  async update(foodId: string, toUpdateInfo: Partial<FoodInfo>) {
+    const filter = { _id: foodId };
+    const options = { returnOriginal: false };
+    const updatedFood = await Food.findOneAndUpdate(
+      filter,
+      toUpdateInfo,
+      options
+    );
+
+    return updatedFood;
+  }
+
   async deleteFood(foodId: string) {
     const { deletedCount } = await Food.deleteOne({ _id: foodId });
     return { deletedCount };

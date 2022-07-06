@@ -13,6 +13,18 @@ class FoodService {
     return createdNewFood;
   }
 
+  async patchFood(foodId: string, toUpdateInfo: Partial<FoodInfo>) {
+    const food = await this.foodModel.findById(foodId);
+
+    if (!food) {
+      throw new Error('해당 음식을 찾을 수 없습니다.');
+    }
+
+    const updatedFood = await this.foodModel.update(foodId, toUpdateInfo);
+
+    return updatedFood;
+  }
+
   async deleteFood(foodId: string) {
     const food = await this.foodModel.findById(foodId);
 
