@@ -21,6 +21,8 @@ routineRouter.post('/', async (req, res, next) => {
       routine_name,
       routine_list,
     });
+
+    res.status(201).json(newRoutine);
   } catch (error) {
     next(error);
   }
