@@ -1,14 +1,10 @@
 import styled from 'styled-components';
 
 export const InfoHeader = styled.header`
-  /* display: flex; */
   position: relative;
-  /* justify-content: space-evenly; */
-  /* align-items: center; */
   width: 70%;
   height: 300px;
   margin-top: 100px;
-  /* border: 1px solid black; */
   border-radius: 4rem;
   background-color: #fff;
 `;
@@ -48,6 +44,7 @@ export const Nav = styled.nav`
   li {
     display: inline-block;
     font-size: 1.8rem;
+    padding: 0 0.3rem;
     padding-bottom: 0.4rem;
 
     + li {
