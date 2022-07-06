@@ -20,3 +20,4 @@ db.on('error', (error) =>
 // export * from './models/user-model';
 export { dbconnect };
 export * from './models/UserModel';
+export * from './models/FoodModel';
