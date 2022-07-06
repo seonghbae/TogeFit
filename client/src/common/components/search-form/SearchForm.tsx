@@ -23,4 +23,5 @@ const SearchForm = () => {
     </StyledForm>
   );
 };
+
 export default SearchForm;
