@@ -1,5 +1,6 @@
 import CustomCarousel from './custom-carousel/CustomCarousel';
 import SearchForm from './search-form/SearchForm';
-import Meal from './meal/Meal';
+import Calorie from './calorie/Calorie';
+import CalorieChart from './calorie-chart/CalorieChart';
 
-export { SearchForm, CustomCarousel, Meal };
+export { SearchForm, CustomCarousel, Calorie, CalorieChart };
