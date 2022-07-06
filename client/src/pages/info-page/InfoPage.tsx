@@ -1,5 +1,3 @@
-const InfoPage: React.FC = () => {
-  return <div>InfoPage!</div>;
-};
+const InfoPage: React.FC = () => <div>InfoPage!</div>;
 
 export default InfoPage;

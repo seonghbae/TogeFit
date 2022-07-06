@@ -39,6 +39,11 @@ export class UserModel {
 
     return { deletedCount };
   }
+
+  async findById(userId: string) {
+    const user = await User.findOne({ userId });
+    return user;
+  }
 }
 
 const userModel = new UserModel();
