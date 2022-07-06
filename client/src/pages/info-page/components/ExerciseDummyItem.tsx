@@ -5,6 +5,6 @@ const Wrapper = styled.div`
   border: 1px solid black;
 `;
 
-const DummyItem: React.FC = () => <Wrapper>Dummy!!!!</Wrapper>;
+const DummyItem: React.FC = () => <Wrapper>Exercise Dummy!!!!</Wrapper>;
 
 export default DummyItem;
