@@ -3,7 +3,7 @@ import Slider, { Settings } from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useMemo } from 'react';
-import Wrapper from './style';
+import { Wrapper, Slide } from './style';
 
 interface sliderProps {
   /** 슬라이더 아이템 요소 */
@@ -39,8 +39,8 @@ const CustomCarousel = ({
           settings: {
             slidesToShow: 3,
             slidesToScroll: 3,
-            infinite: true,
-            dots: true,
+            infinite: false,
+            dots: false,
           },
         },
         {
@@ -62,15 +62,14 @@ const CustomCarousel = ({
     }),
     [autoplay, loop, speed]
   );
-
   return (
     <Wrapper>
       <Slider {...settings}>
         {data.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
-          <div>
+          <Slide>
             <h3>{item}</h3>
-          </div>
+          </Slide>
         ))}
       </Slider>
     </Wrapper>
