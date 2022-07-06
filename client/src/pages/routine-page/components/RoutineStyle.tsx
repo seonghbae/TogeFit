@@ -15,6 +15,7 @@ const BtnWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
+  padding-right: 1rem;
   & > button {
     margin-top: 5%;
     margin-bottom: 5%;

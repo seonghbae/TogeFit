@@ -1,10 +1,9 @@
-import { SearchForm } from '../../common/components';
-import Routine from './components/Routine';
-import { RoutineWrapper } from './style';
+import { Routine, Header } from './components';
+import { Wrapper, RoutineWrapper } from './style';
 
 const RoutinePage = () => (
-  <div>
-    <SearchForm />
+  <Wrapper>
+    <Header />
     <RoutineWrapper>
       <Routine />
       <Routine />
@@ -13,10 +12,8 @@ const RoutinePage = () => (
       <Routine />
       <Routine />
       <Routine />
-      <Routine />
-      <Routine />
     </RoutineWrapper>
-  </div>
+  </Wrapper>
 );
 
 export default RoutinePage;

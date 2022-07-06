@@ -5,11 +5,16 @@ const Wrapper = styled.div`
   background-color: #fff;
   margin-left: 5%;
   margin-right: 5%;
-  width: 80%;
+  height: 100vh;
+  /* width: 80%; */
 `;
 
 const RoutineWrapper = styled.div`
-  height: 100vh;
+  height: 80vh;
+  overflow: scroll;
+  margin-top: 3%;
+  margin-bottom: 3%;
+  padding-right: 1rem;
   & > div {
     margin-top: 5%;
   }
