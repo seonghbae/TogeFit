@@ -8,18 +8,16 @@ interface RoutineInfo {
 class RoutineService {
   constructor(private routineModel: RoutineModel) {}
 
-  async findByRoutineName(routineName: string) {
-    const foundRoutine = await this.routineModel.findByRoutineName(routineName);
+  async findByUserId(userId: string) {
+    const foundRoutine = await this.routineModel.findByUserId(userId);
     return foundRoutine;
   }
 
   async addRoutine(routineInfo: RoutineInfo) {
     const { userId, routine_name, routine_list } = routineInfo;
-
     // 검사 코드 추가
-
     const newRoutine = {
-      user: userId,
+      userId,
       routine_name,
       routine_list,
     };

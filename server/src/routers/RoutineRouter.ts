@@ -22,7 +22,8 @@ routineRouter.post('/', async (req, res, next) => {
       routine_list,
     });
 
-    res.status(201).json(newRoutine);
+    // res.status(201).json(newRoutine);
+    res.status(201).json(userId);
   } catch (error) {
     next(error);
   }
