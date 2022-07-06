@@ -16,18 +16,21 @@ const ExerciseSchema = new Schema({
   },
 });
 
+const RoutineListSchema = new Schema({
+  routine_name: {
+    type: String,
+  },
+  routine_list: [ExerciseSchema],
+});
+
 const RoutineSchema = new Schema(
   {
-    routine_name: {
+    userId: {
       type: String,
       required: true,
     },
-    routine_list: {
-      type: [ExerciseSchema],
-    },
-    user: {
-      type: String,
-      required: true,
+    routines: {
+      type: [RoutineListSchema],
     },
   },
   {
