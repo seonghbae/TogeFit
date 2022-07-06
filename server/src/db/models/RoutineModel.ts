@@ -1,13 +1,8 @@
 import { model } from 'mongoose';
 import { RoutineSchema } from '../schemas/RoutineSchema';
+import { RoutineInfo } from '../../services/RoutineService';
 
 const Routine = model('routines', RoutineSchema);
-
-interface RoutineInfo {
-  userId: string;
-  routine_name: string;
-  routine_list: Array<Object>;
-}
 export class RoutineModel {
   async findByRoutineName(routineName: string) {
     const foundRoutine = await Routine.findOne({

@@ -1,6 +1,5 @@
 import { Schema } from 'mongoose';
 
-// 질문 필요 부분
 const ExerciseSchema = new Schema({
   name: {
     type: String,
@@ -21,7 +20,7 @@ const RoutineListSchema = new Schema({
   routine_name: {
     type: String,
   },
-  routine_list: [Object],
+  routine_list: [ExerciseSchema],
 });
 
 const RoutineSchema = new Schema(

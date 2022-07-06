@@ -1,10 +1,18 @@
 import { routineModel, RoutineModel } from '../db';
 
-interface RoutineInfo {
+export interface RoutineInfo {
   userId: string;
   routine_name: string;
-  routine_list: Array<Object>;
+  routine_list: Array<Exercise>;
 }
+
+interface Exercise {
+  name: string;
+  count?: number;
+  set?: number;
+  weight?: number;
+}
+
 class RoutineService {
   constructor(private routineModel: RoutineModel) {}
 
