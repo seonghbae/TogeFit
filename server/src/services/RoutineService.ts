@@ -21,6 +21,11 @@ class RoutineService {
     return foundRoutine;
   }
 
+  async findRoutineByObjectId(routineId: string) {
+    const result = await this.routineModel.findRoutineByObjectId(routineId);
+    return result;
+  }
+
   async addRoutine(routineInfo: RoutineInfo) {
     const { userId, routine_name, routine_list } = routineInfo;
     // 검사 코드 추가
@@ -33,6 +38,19 @@ class RoutineService {
     const createdNewRoutine = await this.routineModel.create(newRoutine);
 
     return createdNewRoutine;
+  }
+
+  async deleteRoutine(routineId: string) {
+    const foundRoutine = await this.routineModel.findRoutineByObjectId(
+      routineId
+    );
+
+    if (!foundRoutine) {
+      throw new Error('입력하신 루틴은 존재하지 않습니다.');
+    }
+
+    const deletedRoutine = await this.routineModel.deleteByRoutineId(routineId);
+    return deletedRoutine;
   }
 }
 const routineService = new RoutineService(routineModel);

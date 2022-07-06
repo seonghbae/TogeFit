@@ -34,6 +34,9 @@ routineRouter.post('/', async (req, res, next) => {
 // 루틴 삭제
 routineRouter.delete('/', async (req, res, next) => {
   try {
+    const { routineId } = req.body;
+    const deletedRoutine = await routineService.deleteRoutine(routineId);
+    res.status(200).json(deletedRoutine);
   } catch (error) {
     next(error);
   }

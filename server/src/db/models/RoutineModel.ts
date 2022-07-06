@@ -1,4 +1,5 @@
 import { model } from 'mongoose';
+import { Mongoose } from 'mongoose';
 import { RoutineSchema } from '../schemas/RoutineSchema';
 import { RoutineInfo } from '../../services/RoutineService';
 
@@ -18,6 +19,13 @@ export class RoutineModel {
     return foundRoutine;
   }
 
+  async findRoutineByObjectId(routineId: string) {
+    const result = await Routine.findOne({
+      'routines._id': routineId,
+    });
+    return result;
+  }
+
   async create(routineInfo: RoutineInfo) {
     const { userId, routine_name, routine_list } = routineInfo;
     const routines = { routine_name, routine_list };
@@ -32,6 +40,19 @@ export class RoutineModel {
       new: true,
     });
     return updatedNewRoutine;
+  }
+
+  async deleteByRoutineId(routineId: string) {
+    const deletedRoutine = await Routine.updateOne(
+      { 'routines._id': routineId },
+      {
+        $pull: {
+          routines: { _id: routineId },
+        },
+      }
+    );
+
+    return deletedRoutine;
   }
 }
 
