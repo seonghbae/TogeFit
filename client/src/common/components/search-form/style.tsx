@@ -7,12 +7,13 @@ const StyledForm = styled.form`
   justify-content: flex-end;
   align-items: center;
   outline: none;
-  padding-left: 10px;
   position: relative;
   margin: 5%;
+  flex: 1;
   & > input[type='text'] {
+    justify-self: flex-start;
     position: absolute;
-    width: 90%;
+    width: 100%;
     height: 2rem;
     border-radius: 15px;
     border: 1px solid;
