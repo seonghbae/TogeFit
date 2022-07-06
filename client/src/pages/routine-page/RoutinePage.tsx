@@ -1,10 +1,21 @@
-import { SearchForm, CustomCarousel } from '../../common/components';
+import { SearchForm } from '../../common/components';
+import Routine from './components/Routine';
+import { RoutineWrapper } from './style';
 
 const RoutinePage = () => (
   <div>
-    routine
     <SearchForm />
-    <CustomCarousel data={[1, 2, 3, 4, 5]} />
+    <RoutineWrapper>
+      <Routine />
+      <Routine />
+      <Routine />
+      <Routine />
+      <Routine />
+      <Routine />
+      <Routine />
+      <Routine />
+      <Routine />
+    </RoutineWrapper>
   </div>
 );
 
