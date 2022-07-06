@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable jsx-a11y/interactive-supports-focus */
 import Slider, { Settings } from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
@@ -16,7 +18,47 @@ interface sliderProps {
   speed?: number;
   /** 반복 여부 */
   loop?: boolean;
+  // draggable
+  draggable?: boolean;
+
+  width?: number;
 }
+
+const SampleNextArrow = (props: {
+  className?: any;
+  style?: any;
+  onClick?: any;
+}) => {
+  // eslint-disable-next-line react/prop-types
+  const { className, style, onClick } = props;
+  return (
+    <div
+      role="button"
+      className={className}
+      style={{ ...style, display: 'block', background: 'red' }}
+      onKeyUp={onClick}
+      onClick={onClick}
+    />
+  );
+};
+
+const SamplePrevArrow = (props: {
+  className?: any;
+  style?: any;
+  onClick?: any;
+}) => {
+  // eslint-disable-next-line react/prop-types
+  const { className, style, onClick } = props;
+  return (
+    <div
+      role="button"
+      className={className}
+      style={{ ...style, display: 'block', background: 'green' }}
+      onClick={onClick}
+      onKeyUp={onClick}
+    />
+  );
+};
 
 const CustomCarousel = ({
   data,
@@ -24,37 +66,43 @@ const CustomCarousel = ({
   autoplay = true,
   speed = 500,
   loop = false,
+  draggable = false,
+  width = 80,
 }: sliderProps) => {
+  const configureOnlyOneContent = (dataLength: number, showCount: number) =>
+    dataLength < showCount ? dataLength : showCount;
+
   const settings = useMemo<Settings>(
     () => ({
-      dots: false,
-      infinite: false,
+      dots: true,
+      infinite: draggable,
       speed,
-      slidesToShow: 5,
-      slidesToScroll: 5,
+      slidesToShow: configureOnlyOneContent(data.length, 5),
+      slidesToScroll: 2,
       initialSlide: 0,
+      arrows: draggable,
+      draggable: !draggable,
+      nextArrow: <SampleNextArrow />,
+      prevArrow: <SamplePrevArrow />,
       responsive: [
         {
           breakpoint: 1024,
           settings: {
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            infinite: false,
-            dots: false,
+            slidesToShow: configureOnlyOneContent(data.length, 4),
+            slidesToScroll: 1,
           },
         },
         {
           breakpoint: 600,
           settings: {
-            slidesToShow: 3,
+            slidesToShow: configureOnlyOneContent(data.length, 3),
             slidesToScroll: 3,
-            initialSlide: 3,
           },
         },
         {
           breakpoint: 480,
           settings: {
-            slidesToShow: 2,
+            slidesToShow: configureOnlyOneContent(data.length, 2),
             slidesToScroll: 2,
           },
         },
@@ -63,11 +111,11 @@ const CustomCarousel = ({
     [autoplay, loop, speed]
   );
   return (
-    <Wrapper>
+    <Wrapper width={width}>
       <Slider {...settings}>
         {data.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
-          <Slide>
+          <Slide draggable={draggable}>
             <h3>{item}</h3>
           </Slide>
         ))}
