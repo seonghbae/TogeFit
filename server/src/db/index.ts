@@ -21,3 +21,4 @@ export { dbconnect };
 export * from './models/UserModel';
 export * from './models/ExerciseListModel';
 export * from './models/FoodModel';
+export * from './models/RoutineModel';
