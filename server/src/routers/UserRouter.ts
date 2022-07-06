@@ -101,14 +101,19 @@ userRouter.post('/login', async function (req, res, next) {
 
     const userToken = await userService.getUserToken({ userId, password });
 
-    res.cookie(userId, userToken, {
+    res.cookie('token', userToken.token, {
       maxAge: 10000,
     });
 
-    res.status(200).json({ message: '로그인 성공' });
+    res.status(200).json(userToken);
   } catch (error) {
     next(error);
   }
+});
+
+userRouter.get('/logout', async function (req, res, next) {
+  res.cookie('token', '', { maxAge: 0 });
+  res.json({ result: '로그아웃 되었습니다.' });
 });
 
 export { userRouter };
