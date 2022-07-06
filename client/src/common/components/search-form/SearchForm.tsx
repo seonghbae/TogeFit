@@ -9,9 +9,11 @@ const SearchForm = () => {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
+    // watch,
+    // formState: { errors },
   } = useForm<Inputs>();
+
+  // eslint-disable-next-line no-console
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (

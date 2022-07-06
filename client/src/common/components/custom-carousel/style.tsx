@@ -5,12 +5,11 @@ const Wrapper = styled.div`
   background-color: #fff;
   margin-left: 5%;
   margin-right: 5%;
+
+  width: 80%;
 `;
 
 const Slide = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   & > h3 {
     text-align: center;
   }

@@ -87,4 +87,33 @@ userRouter.delete('/', async (req, res, next) => {
   }
 });
 
+// 로그인
+userRouter.post('/login', async function (req, res, next) {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요'
+      );
+    }
+
+    const userId: string = req.body.id;
+    const password: string = req.body.password;
+
+    const userToken = await userService.getUserToken({ userId, password });
+
+    res.cookie('token', userToken.token, {
+      maxAge: 10000,
+    });
+
+    res.status(200).json(userToken);
+  } catch (error) {
+    next(error);
+  }
+});
+
+userRouter.get('/logout', async function (req, res, next) {
+  res.cookie('token', '', { maxAge: 0 });
+  res.json({ result: '로그아웃 되었습니다.' });
+});
+
 export { userRouter };
