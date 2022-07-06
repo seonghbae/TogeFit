@@ -5,14 +5,14 @@ const Wrapper = styled.div`
   background-color: #fff;
   margin-left: 5%;
   margin-right: 5%;
-
   width: 80%;
 `;
 
-const Slide = styled.div`
-  & > h3 {
-    text-align: center;
+const RoutineWrapper = styled.div`
+  height: 100vh;
+  & > div {
+    margin-top: 5%;
   }
 `;
 
-export { Wrapper, Slide };
+export { Wrapper, RoutineWrapper };
