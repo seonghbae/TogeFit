@@ -1,4 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
+
+interface LiProps {
+  active: boolean;
+}
 
 export const InfoHeader = styled.header`
   position: relative;
@@ -41,25 +45,27 @@ export const UserName = styled.span`
 `;
 
 export const Nav = styled.nav`
-  li {
-    display: inline-block;
-    font-size: 1.8rem;
-    padding: 0 0.3rem;
-    padding-bottom: 0.4rem;
-
-    + li {
-      margin-left: 2rem;
-    }
-  }
-
-  li:first-child {
-    border-bottom: 5px solid ${(props) => props.theme.pointColors.orange};
+  a + a {
+    margin-left: 1.5rem;
   }
 
   span {
     padding: 0 1.8rem;
     font-size: 1.6rem;
   }
+`;
+
+export const Li = styled.li<LiProps>`
+  display: inline-block;
+  font-size: 1.8rem;
+  padding: 0 0.3rem;
+  padding-bottom: 0.4rem;
+
+  ${(props) =>
+    props.active &&
+    css`
+      border-bottom: 5px solid ${props.theme.pointColors.orange};
+    `}
 `;
 
 export const JandiContainer = styled.div`
