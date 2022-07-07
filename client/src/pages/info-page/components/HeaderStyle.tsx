@@ -9,6 +9,7 @@ export const InfoHeader = styled.header`
   width: 70%;
   height: 300px;
   margin-top: 100px;
+  margin-bottom: 50px;
   border-radius: 4rem;
   background-color: #fff;
 `;
@@ -60,6 +61,7 @@ export const Li = styled.li<LiProps>`
   font-size: 1.8rem;
   padding: 0 0.3rem;
   padding-bottom: 0.4rem;
+  border-bottom: 5px solid #fff;
 
   ${(props) =>
     props.active &&
