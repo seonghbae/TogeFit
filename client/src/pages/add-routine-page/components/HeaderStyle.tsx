@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
   display: flex;
-  width: 100%;
+  width: 90%;
   justify-content: center;
   align-items: center;
   & > button {

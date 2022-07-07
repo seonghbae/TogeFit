@@ -2,7 +2,7 @@ import { CustomCarousel } from 'common/components';
 import { useEffect, useRef, useState } from 'react';
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
 import { Header } from './components';
-import { Wrapper, RoutineWrapper } from './style';
+import { Wrapper, RoutineWrapper, ButtonWrapper } from './style';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
@@ -37,6 +37,10 @@ const AddRoutinePage = () => {
           modifyFlag={isUserCustomCarousel}
         />
       </RoutineWrapper>
+      <ButtonWrapper>
+        <button type="button">확인</button>
+        <button type="button">취소</button>
+      </ButtonWrapper>
     </Wrapper>
   );
 };
