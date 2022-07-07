@@ -1,4 +1,10 @@
-import { mealModel, MealModel, MealArticleInfo, MealInfo } from '../db';
+import {
+  mealModel,
+  MealModel,
+  MealArticleInfo,
+  MealInfo,
+  MealArrayInfo,
+} from '../db';
 
 class MealService {
   constructor(private mealModel: MealModel) {}
@@ -31,7 +37,7 @@ class MealService {
   async patchMeal(
     mealArticleId: string,
     userId: string,
-    toUpdateMeal: MealInfo[][]
+    toUpdateMeal: MealArrayInfo[]
   ) {
     const mealArticle = await this.mealModel.findById(mealArticleId);
 
@@ -45,6 +51,7 @@ class MealService {
 
     const updatedMeal = await this.mealModel.update(
       mealArticleId,
+      userId,
       toUpdateMeal
     );
 

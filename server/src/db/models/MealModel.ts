@@ -33,8 +33,25 @@ export class MealModel {
     return createdNewMeal;
   }
 
-  async update(mealArticleId: string, toUpdateMeal: MealInfo[][]) {
+  async update(
+    mealArticleId: string,
+    userId: string,
+    toUpdateMeal: MealArrayInfo[]
+  ) {
     // 구현 예정
+    const toUpdateInfo = {
+      userId,
+      meals: toUpdateMeal,
+    };
+
+    const updatedMeal = await Meal.updateOne(
+      { _id: mealArticleId },
+      {
+        $set: toUpdateInfo,
+      }
+    );
+
+    return updatedMeal;
   }
 
   async deleteMealArticle(mealArticleId: string) {

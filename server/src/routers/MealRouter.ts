@@ -86,7 +86,15 @@ mealRouter.patch('/', async (req, res, next) => {
       );
     }
 
-    const toUpdateMeal = meals;
+    if (!meals) {
+      throw new Error('수정할 식단을 입력해주세요.');
+    }
+
+    const toUpdateMeal = meals.map((meal: MealInfo[]) => {
+      return {
+        meal_list: meal,
+      };
+    });
 
     const updatedMealInfo = await mealService.patchMeal(
       mealArticleId,
