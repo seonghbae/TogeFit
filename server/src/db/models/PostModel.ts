@@ -33,6 +33,12 @@ export class PostModel {
     const { deletedCount } = await Post.deleteOne({ _id: postId });
     return { deletedCount };
   }
+
+  async update(postId: string, postInfo: Partial<PostInfo>) {
+    const filter = { _id: postId };
+    const updatedPost = await Post.findOneAndUpdate(filter, postInfo);
+    return updatedPost;
+  }
 }
 
 const postModel = new PostModel();
