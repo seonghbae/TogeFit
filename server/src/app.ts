@@ -7,6 +7,7 @@ import {
   mealRouter,
   exerciseListRouter,
   routineRouter,
+  postRouter,
 } from './routers';
 import cookieParser from 'cookie-parser';
 
@@ -22,6 +23,7 @@ app.use('/api/exerciseList', exerciseListRouter);
 app.use('/api/food', foodRouter);
 app.use('/api/meal', mealRouter);
 app.use('/api/routine', routineRouter);
+app.use('/api/post', postRouter);
 
 app.get('/welcome', (req: Request, res: Response, next: NextFunction) => {
   res.send('welcome!');
