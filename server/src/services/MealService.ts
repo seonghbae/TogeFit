@@ -70,4 +70,4 @@ class MealService {
 
 const mealService = new MealService(mealModel);
 
-export { mealService };
+export { mealService, MealInfo };

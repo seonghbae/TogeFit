@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
-import { mealService } from '../services';
+import { mealService, MealInfo } from '../services';
 
 const mealRouter = Router();
 
@@ -50,9 +50,15 @@ mealRouter.post('/register', async (req, res, next) => {
 
     const { userId, meals } = req.body;
 
+    const mealArray = meals.map((meal: MealInfo[]) => {
+      return {
+        meal_list: meal,
+      };
+    });
+
     const toAddInfo = {
       userId,
-      meals,
+      meals: mealArray,
     };
 
     const newMealArticle = await mealService.addMeal(toAddInfo);
