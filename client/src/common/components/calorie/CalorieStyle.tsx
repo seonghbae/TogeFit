@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  border: 1px solid black;
-  grid-area: calorie;
+const CalorieContainer = styled.div`
+  flex-grow: 1;
   display: flex;
+  align-items: center;
 `;
 
-export default Wrapper;
+export default CalorieContainer;
