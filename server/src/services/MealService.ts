@@ -49,13 +49,17 @@ class MealService {
       throw new Error('작성자만 수정할 수 있습니다.');
     }
 
-    const updatedMeal = await this.mealModel.update(
+    const result = await this.mealModel.update(
       mealArticleId,
       userId,
       toUpdateMeal
     );
 
-    return updatedMeal;
+    if (!result) {
+      throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
+    }
+
+    return result;
   }
 
   async deleteMealArticle(mealArticleId: string) {

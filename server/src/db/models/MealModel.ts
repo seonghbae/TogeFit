@@ -44,14 +44,16 @@ export class MealModel {
       meals: toUpdateMeal,
     };
 
-    const updatedMeal = await Meal.updateOne(
+    const result = await Meal.updateOne(
       { _id: mealArticleId },
       {
         $set: toUpdateInfo,
       }
     );
 
-    return updatedMeal;
+    const { modifiedCount } = result;
+
+    return modifiedCount;
   }
 
   async deleteMealArticle(mealArticleId: string) {
