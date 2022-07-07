@@ -1,4 +1,5 @@
 import { PieChart, Pie, Cell } from 'recharts';
+import Wrapper from './CalorieChartStyle';
 
 interface LabelProps {
   cx: number;
@@ -44,22 +45,27 @@ const CalorieChart = ({
 }: {
   foods: Array<{ name: string; value: number }>;
 }) => (
-  <PieChart width={400} height={400}>
-    <Pie
-      data={foods}
-      cx={200}
-      cy={200}
-      labelLine={false}
-      label={renderCustomizedLabel}
-      outerRadius={80}
-      fill="#8884d8"
-      dataKey="value"
-    >
-      {foods.map((entry, index) => (
-        <Cell key={`cell-${index + 1}`} fill={COLORS[index % COLORS.length]} />
-      ))}
-    </Pie>
-  </PieChart>
+  <Wrapper>
+    <PieChart width={200} height={180}>
+      <Pie
+        data={foods}
+        cx={80}
+        cy={80}
+        labelLine={false}
+        label={renderCustomizedLabel}
+        outerRadius={70}
+        fill="#8884d8"
+        dataKey="value"
+      >
+        {foods.map((entry, index) => (
+          <Cell
+            key={`cell-${index + 1}`}
+            fill={COLORS[index % COLORS.length]}
+          />
+        ))}
+      </Pie>
+    </PieChart>
+  </Wrapper>
 );
 
 export default CalorieChart;
