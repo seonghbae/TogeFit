@@ -61,6 +61,7 @@ export const Li = styled.li<LiProps>`
   font-size: 1.8rem;
   padding: 0 0.3rem;
   padding-bottom: 0.4rem;
+  border-bottom: 5px solid #fff;
 
   ${(props) =>
     props.active &&
