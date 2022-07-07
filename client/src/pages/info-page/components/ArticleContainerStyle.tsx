@@ -4,7 +4,6 @@ const ContainerSection = styled.section`
   width: 70%;
   height: 900px;
   background-color: #fff;
-  margin-top: 50px;
   border-radius: 4rem;
   padding: 2rem;
 

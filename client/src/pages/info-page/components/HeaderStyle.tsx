@@ -9,6 +9,7 @@ export const InfoHeader = styled.header`
   width: 70%;
   height: 300px;
   margin-top: 100px;
+  margin-bottom: 50px;
   border-radius: 4rem;
   background-color: #fff;
 `;
