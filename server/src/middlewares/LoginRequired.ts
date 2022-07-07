@@ -20,6 +20,7 @@ function loginRequired(req: Request, res: Response, next: NextFunction) {
     let jwtDecoded: any = {};
     jwtDecoded = jwt.verify(userToken, secretKey);
     const userId = jwtDecoded.userId;
+    req.currentUserId = userId;
 
     next();
   } catch (error) {
