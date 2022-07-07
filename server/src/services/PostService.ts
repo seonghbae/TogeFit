@@ -23,6 +23,11 @@ class PostService {
 
     return result;
   }
+
+  async updatePost(postId: string, postInfo: Partial<PostInfo>) {
+    const updatedPost = await this.postModel.update(postId, postInfo);
+    return updatedPost;
+  }
 }
 
 const postService = new PostService(postModel);
