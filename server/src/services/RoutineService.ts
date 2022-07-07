@@ -1,4 +1,5 @@
 import { routineModel, RoutineModel } from '../db';
+import { userService } from './UserService';
 
 export interface RoutineInfo {
   userId: string;
@@ -29,6 +30,12 @@ class RoutineService {
   async addRoutine(routineInfo: RoutineInfo) {
     const { userId, routine_name, routine_list } = routineInfo;
     // 검사 코드 추가
+
+    const foundUser = await userService.findByUserId(userId);
+    if (!foundUser) {
+      throw new Error('해당 유저는 존재하지 않습니다.');
+    }
+
     const newRoutine = {
       userId,
       routine_name,
