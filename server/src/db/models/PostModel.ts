@@ -23,6 +23,11 @@ export class PostModel {
     const createdNewPost = await Post.create(postInfo);
     return createdNewPost;
   }
+  async update(postId: string, postInfo: Partial<PostInfo>) {
+    const filter = { _id: postId };
+    const updatedPost = await Post.findOneAndUpdate(filter, postInfo);
+    return updatedPost;
+  }
 }
 
 const postModel = new PostModel();
