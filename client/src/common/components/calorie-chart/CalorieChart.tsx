@@ -44,14 +44,14 @@ const CalorieChart = ({
 }: {
   foods: Array<{ name: string; value: number }>;
 }) => (
-  <PieChart width={400} height={400}>
+  <PieChart width={200} height={180}>
     <Pie
       data={foods}
-      cx={200}
-      cy={200}
+      cx={80}
+      cy={80}
       labelLine={false}
       label={renderCustomizedLabel}
-      outerRadius={80}
+      outerRadius={70}
       fill="#8884d8"
       dataKey="value"
     >

@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.form`
-  border: 1px solid red;
+const DietContainer = styled.div`
+  border: 1px solid ${(props) => props.theme.pointColors.black};
+  background-color: #fff;
+  margin-left: 5%;
+  margin-right: 5%;
+  height: 100vh;
+  overflow: scroll;
 
-  & > ol {
-    border: 1px solid red;
+  ::-webkit-scrollbar {
+    display: none;
   }
 `;
 
-export default Wrapper;
+export default DietContainer;

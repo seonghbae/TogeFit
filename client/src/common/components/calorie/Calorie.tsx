@@ -1,5 +1,5 @@
 import { CalorieChart } from '..';
-import Wrapper from './style';
+import CalorieContainer from './CalorieStyle';
 
 interface CalorieProps {
   foods: Array<{ name: string; value: number }>;
@@ -9,9 +9,14 @@ interface CalorieProps {
 }
 
 const Calorie = ({ foods, carbohydrate, protein, fat }: CalorieProps) => (
-  <Wrapper>
+  <CalorieContainer>
     <CalorieChart foods={foods} />
-  </Wrapper>
+    <ol>
+      <li>탄수화물: {carbohydrate}kcal</li>
+      <li>단백질: {protein}kcal</li>
+      <li>지방: {fat}kcal</li>
+    </ol>
+  </CalorieContainer>
 );
 
 export default Calorie;
