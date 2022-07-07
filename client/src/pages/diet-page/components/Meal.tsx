@@ -1,4 +1,4 @@
-import Wrapper from '../DietPageStyle';
+import { MealWrapper } from '../DietPageStyle';
 import { Calorie } from '../../../common/components';
 
 interface MealProps {
@@ -66,8 +66,8 @@ const Meal = ({ name, meals }: MealProps) => {
     init
   );
   return (
-    <Wrapper>
-      <div>{name}</div>
+    <MealWrapper>
+      <p>{name}</p>
       <ol>
         {meals.map((meal) => (
           <li key={meal.foodName}>{`${meal.foodName} ${meal.quantity}g`}</li>
@@ -79,7 +79,7 @@ const Meal = ({ name, meals }: MealProps) => {
         protein={dummyCalorie.protein}
         fat={dummyCalorie.fat}
       />
-    </Wrapper>
+    </MealWrapper>
   );
 };
 

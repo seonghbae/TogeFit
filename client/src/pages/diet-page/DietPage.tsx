@@ -1,4 +1,5 @@
 import Meal from './components/Meal';
+import { Wrapper } from './DietPageStyle';
 
 const DietPage = () => {
   const dummyMeal = {
@@ -11,9 +12,10 @@ const DietPage = () => {
     ],
   };
   return (
-    <div>
+    <Wrapper>
+      <div>버튼 예정</div>
       <Meal name={dummyMeal.name} meals={dummyMeal.meals} />
-    </div>
+    </Wrapper>
   );
 };
 
