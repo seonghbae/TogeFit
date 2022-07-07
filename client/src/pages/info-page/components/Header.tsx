@@ -1,9 +1,10 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import getPath from 'common/utils/getPath';
 import * as S from './HeaderStyle';
 
 const Header: React.FC = () => {
   const DEFAULT_PATH = '/info';
-  const { type } = useParams();
+  const path = getPath();
 
   return (
     <S.InfoHeader>
@@ -13,10 +14,10 @@ const Header: React.FC = () => {
           <S.UserName>나는능이버섯이야</S.UserName>
           <S.Nav>
             <Link to={`${DEFAULT_PATH}/exercise`}>
-              <S.Li active={type === 'exercise'}>운동</S.Li>
+              <S.Li active={path === 'exercise'}>운동</S.Li>
             </Link>
             <Link to={`${DEFAULT_PATH}/meal`}>
-              <S.Li active={type === 'meal'}>식단</S.Li>
+              <S.Li active={path === 'meal'}>식단</S.Li>
             </Link>
           </S.Nav>
         </S.NameNavContainer>

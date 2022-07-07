@@ -1,18 +1,10 @@
-import { useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import getPath from 'common/utils/getPath';
 import ContainerSection from './ArticleContainerStyle';
 import ExerciseDummyItem from './ExerciseDummyItem';
 import MealDummyItem from './MealDummyItem';
 
 const ArticleContainer: React.FC = () => {
-  const { type } = useParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (type !== 'exercise' && type !== 'meal') {
-      navigate('/error');
-    }
-  }, [type]);
+  const path = getPath();
 
   return (
     <ContainerSection>
@@ -20,7 +12,7 @@ const ArticleContainer: React.FC = () => {
         .fill(0)
         .map(
           () =>
-            type === 'exercise' && (
+            path === 'exercise' && (
               <ExerciseDummyItem key={`dummy-item-${Math.random()}`} />
             )
         )}
@@ -28,7 +20,7 @@ const ArticleContainer: React.FC = () => {
         .fill(0)
         .map(
           () =>
-            type === 'meal' && (
+            path === 'meal' && (
               <MealDummyItem key={`dummy-item-${Math.random()}`} />
             )
         )}
