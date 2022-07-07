@@ -18,5 +18,5 @@
     "baseUrl": "./src", // ./src가 절대경로 추가
     "noImplicitAny": true //이 부분도 추가, 모든 타입의 any라도 넣으라는 뜻이다.
   },
-  "include": ["src"]
+  "include": ["src/**/*"]
 }
