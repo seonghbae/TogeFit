@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import React, { DragEvent, useMemo, useRef } from 'react';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';
+import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
 import { Wrapper, Slide } from './style';
 
 interface sliderProps {
@@ -108,10 +109,19 @@ const CustomCarousel = ({
 
     const dropTargetIndex = Number(e.currentTarget.dataset.index);
     if (e.clientX < middlePointX) {
-      data.splice(dropTargetIndex, 0, dragTarget);
+      if (data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE) {
+        data.splice(dropTargetIndex, 1, dragTarget);
+      } else {
+        data.splice(dropTargetIndex, 0, dragTarget);
+      }
+
       setData([...data]);
     } else {
-      data.splice(dropTargetIndex + 1, 0, dragTarget);
+      if (data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE) {
+        data.splice(dropTargetIndex, 1, dragTarget);
+      } else {
+        data.splice(dropTargetIndex + 1, 0, dragTarget);
+      }
       setData([...data]);
     }
   };
