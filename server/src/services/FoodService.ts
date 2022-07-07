@@ -4,17 +4,17 @@ class FoodService {
   constructor(private foodModel: FoodModel) {}
 
   async getFoodList() {
-    const foodList = this.foodModel.findAllFood();
+    const foodList = await this.foodModel.findAllFood();
     return foodList;
   }
 
   async findById(foodId: string) {
-    const food = this.foodModel.findById(foodId);
+    const food = await this.foodModel.findById(foodId);
     return food;
   }
 
   async addFood(foodInfo: FoodInfo) {
-    const createdNewFood = this.foodModel.create(foodInfo);
+    const createdNewFood = await this.foodModel.create(foodInfo);
     return createdNewFood;
   }
 

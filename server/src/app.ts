@@ -4,6 +4,7 @@ import { dbconnect } from './db/index';
 import {
   userRouter,
   foodRouter,
+  mealRouter,
   exerciseListRouter,
   routineRouter,
 } from './routers';
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/user', userRouter);
 app.use('/api/exerciseList', exerciseListRouter);
 app.use('/api/food', foodRouter);
+app.use('/api/meal', mealRouter);
 app.use('/api/routine', routineRouter);
 
 app.get('/welcome', (req: Request, res: Response, next: NextFunction) => {

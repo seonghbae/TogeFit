@@ -11,6 +11,13 @@ const MealSchema = new Schema({
   },
 });
 
+const MealArraySchema = new Schema({
+  meal_list: {
+    type: [MealSchema],
+    required: true,
+  },
+});
+
 const MealArticleSchema = new Schema(
   {
     userId: {
@@ -18,7 +25,7 @@ const MealArticleSchema = new Schema(
       required: true,
     },
     meals: {
-      type: [MealSchema],
+      type: [MealArraySchema],
       required: true,
     },
   },
