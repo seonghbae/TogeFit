@@ -38,7 +38,6 @@ export class MealModel {
     userId: string,
     toUpdateMeal: MealArrayInfo[]
   ) {
-    // 구현 예정
     const toUpdateInfo = {
       userId,
       meals: toUpdateMeal,
