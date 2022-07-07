@@ -1,5 +1,5 @@
+import { Calorie } from 'common/components';
 import { MealContainer, ContentContainer, MealList } from './MealStyle';
-import { Calorie } from '../../../common/components';
 
 interface MealProps {
   name: string;
