@@ -27,6 +27,18 @@ mealRouter.get('/:userId', async (req, res, next) => {
   }
 });
 
+// 식단 글 반환 (식단 글 object ID 이용)
+mealRouter.get('/:userId/article', async (req, res, next) => {
+  try {
+    const { mealArticleId } = req.body;
+    const mealArticle = await mealService.getMealArticleById(mealArticleId);
+
+    res.status(200).json(mealArticle);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 식단 글 등록
 mealRouter.post('/register', async (req, res, next) => {
   try {

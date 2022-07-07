@@ -13,6 +13,16 @@ class MealService {
     return mealArticleList;
   }
 
+  async getMealArticleById(mealArticleId: string) {
+    const mealArticle = await this.mealModel.findById(mealArticleId);
+
+    if (!mealArticle) {
+      throw new Error('해당 아티클을 찾을 수 없습니다.');
+    }
+
+    return mealArticle;
+  }
+
   async addMeal(mealArticleInfo: MealArticleInfo) {
     const createdMealArticle = await this.mealModel.create(mealArticleInfo);
     return createdMealArticle;
