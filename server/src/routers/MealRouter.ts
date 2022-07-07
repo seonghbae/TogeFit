@@ -48,7 +48,14 @@ mealRouter.post('/register', async (req, res, next) => {
       );
     }
 
-    const newMealArticle = await mealService.addMeal(req.body);
+    const { userId, meals } = req.body;
+
+    const toAddInfo = {
+      userId,
+      meals,
+    };
+
+    const newMealArticle = await mealService.addMeal(toAddInfo);
 
     res.status(201).json(newMealArticle);
   } catch (error) {

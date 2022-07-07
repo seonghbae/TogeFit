@@ -8,9 +8,13 @@ export interface MealInfo {
   quantity: number;
 }
 
+export interface MealArrayInfo {
+  meal_list: MealInfo[];
+}
+
 export interface MealArticleInfo {
   userId: string;
-  meals: MealInfo[][];
+  meals: MealArrayInfo[];
 }
 
 export class MealModel {
