@@ -5,7 +5,7 @@ import { Header } from './components';
 import { Wrapper, RoutineWrapper } from './style';
 
 const isDraggableCarousel = true;
-
+const isUserCustomCarousel = true;
 const AddRoutinePage = () => {
   const [dragTarget, setDragTarget] = useState<string | number | null>(null);
   const [exercise, setExercise] = useState<Array<string | number | null>>([
@@ -34,6 +34,7 @@ const AddRoutinePage = () => {
           dragTarget={dragTarget}
           setDragTarget={setDragTarget}
           setData={setUserCustom}
+          modifyFlag={isUserCustomCarousel}
         />
       </RoutineWrapper>
     </Wrapper>

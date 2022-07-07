@@ -27,6 +27,7 @@ interface sliderProps {
   dragTarget?: string | number | null;
   setDragTarget?: React.Dispatch<React.SetStateAction<string | number | null>>;
   setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
+  modifyFlag?: boolean;
 }
 
 const CustomCarousel = ({
@@ -40,6 +41,7 @@ const CustomCarousel = ({
   dragTarget,
   setDragTarget,
   setData,
+  modifyFlag = false,
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
@@ -101,6 +103,8 @@ const CustomCarousel = ({
   const drapDrop = (e: any) => {
     if (dragTarget === undefined) return;
     if (!setData) return;
+    if (!modifyFlag) return;
+
     e.currentTarget.style.display = 'block';
     // eslint-disable-next-line no-shadow
     const { x, width } = e.currentTarget.getBoundingClientRect();
