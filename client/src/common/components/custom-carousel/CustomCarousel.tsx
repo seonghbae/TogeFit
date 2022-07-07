@@ -4,12 +4,13 @@ import Slider, { Settings } from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { useMemo } from 'react';
+import React, { DragEvent, useMemo, useRef } from 'react';
+import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { Wrapper, Slide } from './style';
 
 interface sliderProps {
   /** 슬라이더 아이템 요소 */
-  data: Array<string | number>;
+  data: Array<string | number | null>;
   /** 커스텀 클래스 */
   className?: string;
   /** 자동재생 (속도 설정시 number 타입으로) */
@@ -22,43 +23,10 @@ interface sliderProps {
   draggable?: boolean;
 
   width?: number;
+  dragTarget?: string | number | null;
+  setDragTarget?: React.Dispatch<React.SetStateAction<string | number | null>>;
+  setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
 }
-
-const SampleNextArrow = (props: {
-  className?: any;
-  style?: any;
-  onClick?: any;
-}) => {
-  // eslint-disable-next-line react/prop-types
-  const { className, style, onClick } = props;
-  return (
-    <div
-      role="button"
-      className={className}
-      style={{ ...style, display: 'block', background: 'red' }}
-      onKeyUp={onClick}
-      onClick={onClick}
-    />
-  );
-};
-
-const SamplePrevArrow = (props: {
-  className?: any;
-  style?: any;
-  onClick?: any;
-}) => {
-  // eslint-disable-next-line react/prop-types
-  const { className, style, onClick } = props;
-  return (
-    <div
-      role="button"
-      className={className}
-      style={{ ...style, display: 'block', background: 'green' }}
-      onClick={onClick}
-      onKeyUp={onClick}
-    />
-  );
-};
 
 const CustomCarousel = ({
   data,
@@ -68,54 +36,100 @@ const CustomCarousel = ({
   loop = false,
   draggable = false,
   width = 80,
+  dragTarget,
+  setDragTarget,
+  setData,
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
+  const slideRef = useRef(null);
+  const settings = {
+    dots: true,
+    infinite: draggable,
+    speed,
+    slidesToShow: configureOnlyOneContent(data.length, 5),
+    slidesToScroll: 2,
+    initialSlide: 0,
+    arrows: draggable,
+    draggable: !draggable,
+    nextArrow: <ArrowButton />,
+    prevArrow: <ArrowButton />,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: configureOnlyOneContent(data.length, 4),
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: configureOnlyOneContent(data.length, 3),
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: configureOnlyOneContent(data.length, 2),
+          slidesToScroll: 2,
+        },
+      },
+    ],
+  };
 
-  const settings = useMemo<Settings>(
-    () => ({
-      dots: true,
-      infinite: draggable,
-      speed,
-      slidesToShow: configureOnlyOneContent(data.length, 5),
-      slidesToScroll: 2,
-      initialSlide: 0,
-      arrows: draggable,
-      draggable: !draggable,
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />,
-      responsive: [
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: configureOnlyOneContent(data.length, 4),
-            slidesToScroll: 1,
-          },
-        },
-        {
-          breakpoint: 600,
-          settings: {
-            slidesToShow: configureOnlyOneContent(data.length, 3),
-            slidesToScroll: 3,
-          },
-        },
-        {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: configureOnlyOneContent(data.length, 2),
-            slidesToScroll: 2,
-          },
-        },
-      ],
-    }),
-    [autoplay, loop, speed]
-  );
+  const dragOver = (e: any) => {
+    e.preventDefault();
+  };
+
+  const dragLeave = (e: any) => {
+    e.preventDefault();
+  };
+  const dragStart = (e: any) => {
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', dragTarget);
+    if (setDragTarget) {
+      setDragTarget(data[e.currentTarget.dataset.index]);
+    }
+  };
+
+  const dragEnd = (e: any) => {
+    e.currentTarget.style.display = 'block';
+  };
+  const drapDrop = (e: any) => {
+    if (dragTarget === undefined) return;
+    if (!setData) return;
+    e.currentTarget.style.display = 'block';
+    // eslint-disable-next-line no-shadow
+    const { x, width } = e.currentTarget.getBoundingClientRect();
+
+    const middlePointX = width / 2 + x;
+
+    const dropTargetIndex = Number(e.currentTarget.dataset.index);
+    if (e.clientX < middlePointX) {
+      data.splice(dropTargetIndex, 0, dragTarget);
+      setData([...data]);
+    } else {
+      data.splice(dropTargetIndex + 1, 0, dragTarget);
+      setData([...data]);
+    }
+  };
+
   return (
     <Wrapper width={width}>
-      <Slider {...settings}>
+      <Slider {...settings} ref={slideRef}>
         {data.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
-          <Slide draggable={draggable}>
+          <Slide
+            data-index={i}
+            draggable={draggable}
+            onDragOver={dragOver}
+            onDragLeave={dragLeave}
+            onDragStart={dragStart}
+            onDragEnd={dragEnd}
+            onDrop={drapDrop}
+          >
             <h3>{item}</h3>
           </Slide>
         ))}

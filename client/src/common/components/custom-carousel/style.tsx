@@ -7,6 +7,10 @@ const Wrapper = styled.div<{ width: number }>`
   margin-right: 5%;
 
   width: ${(props) => props.width}%;
+  .slick-prev:before,
+  .slick-next:before {
+    color: black;
+  }
 `;
 
 const Slide = styled.div`
