@@ -1,7 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import { dbconnect } from './db/index';
-import { userRouter, foodRouter, exerciseListRouter } from './routers';
+import {
+  userRouter,
+  foodRouter,
+  exerciseListRouter,
+  routineRouter,
+} from './routers';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -14,6 +19,7 @@ app.use(express.json());
 app.use('/api/user', userRouter);
 app.use('/api/exerciseList', exerciseListRouter);
 app.use('/api/food', foodRouter);
+app.use('/api/routine', routineRouter);
 
 app.get('/welcome', (req: Request, res: Response, next: NextFunction) => {
   res.send('welcome!');
