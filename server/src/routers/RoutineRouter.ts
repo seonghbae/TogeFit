@@ -45,6 +45,22 @@ routineRouter.delete('/', async (req, res, next) => {
 // 루틴 업데이트
 routineRouter.patch('/', async (req, res, next) => {
   try {
+    const { routineId, routine_name, routine_list } = req.body;
+
+    if (!routineId) {
+      throw new Error('루틴 수정을 위해 루틴의 ObjectId가 필요합니다.');
+    }
+
+    const toUpdateInfo = {
+      ...(routine_name && { routine_name }),
+      ...(routine_list && { routine_list }),
+    };
+
+    const updatedRoutine = await routineService.patchRoutine(
+      routineId,
+      toUpdateInfo
+    );
+    res.status(201).json(updatedRoutine);
   } catch (error) {
     next(error);
   }

@@ -46,11 +46,28 @@ class RoutineService {
     );
 
     if (!foundRoutine) {
-      throw new Error('입력하신 루틴은 존재하지 않습니다.');
+      throw new Error('해당 루틴은 존재하지 않습니다.');
     }
 
     const deletedRoutine = await this.routineModel.deleteByRoutineId(routineId);
     return deletedRoutine;
+  }
+
+  async patchRoutine(routineId: string, toUpdateInfo: Partial<RoutineInfo>) {
+    const foundRoutine = await this.routineModel.findRoutineByObjectId(
+      routineId
+    );
+
+    if (!foundRoutine) {
+      throw new Error('해당 루틴은 존재하지 않습니다.');
+    }
+
+    const updatedRoutine = await this.routineModel.update(
+      routineId,
+      toUpdateInfo
+    );
+
+    return updatedRoutine;
   }
 }
 const routineService = new RoutineService(routineModel);
