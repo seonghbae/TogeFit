@@ -19,9 +19,19 @@ export interface PostInfo {
 }
 
 export class PostModel {
+  async findById(id: string) {
+    const post = await Post.findOne({ _id: id });
+    return post;
+  }
+
   async create(postInfo: PostInfo) {
     const createdNewPost = await Post.create(postInfo);
     return createdNewPost;
+  }
+
+  async deletePost(postId: string) {
+    const { deletedCount } = await Post.deleteOne({ _id: postId });
+    return { deletedCount };
   }
 }
 
