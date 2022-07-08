@@ -15,7 +15,7 @@ class MealService {
   }
 
   async getMealArticleList(userId: string) {
-    const mealArticleList = await this.mealModel.findById(userId);
+    const mealArticleList = await this.mealModel.findByUserId(userId);
     return mealArticleList;
   }
 
@@ -121,9 +121,7 @@ class MealService {
     }
 
     // 남아있는 식사 정보가 없으면 데이터 삭제
-    const isEmpty = await this.mealModel.checkEmpty(mealArticleId);
-
-    if (isEmpty) {
+    if (result.meals) {
       // meals가 비었음 -> 데이터 삭제
       await this.mealModel.deleteMealArticle(mealArticleId);
     }
