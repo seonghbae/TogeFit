@@ -134,4 +134,25 @@ mealRouter.delete('/', loginRequired, async (req, res, next) => {
   }
 });
 
+// 식사 삭제
+mealRouter.delete('/one', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealListId } = req.body;
+
+    const userId = req.currentUserId;
+
+    const result = await mealService.deleteOneMeal(userId, mealListId);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { mealRouter };

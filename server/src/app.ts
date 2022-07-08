@@ -10,7 +10,7 @@ import {
   postRouter,
 } from './routers';
 import cookieParser from 'cookie-parser';
-import { loginRequired, upload } from './middlewares';
+import { loginRequired } from './middlewares';
 
 const app = express();
 dbconnect();
