@@ -10,7 +10,7 @@ import {
   postRouter,
 } from './routers';
 import cookieParser from 'cookie-parser';
-import { loginRequired, upload } from './middlewares';
+import { loginRequired, upload, errorHandler } from './middlewares';
 
 const app = express();
 dbconnect();
@@ -30,10 +30,12 @@ app.use('/api/post', postRouter);
 app.post(
   '/welcome',
   loginRequired,
-  upload.single('image'),
+  upload.array('image'),
   (req: Request, res: Response, next: NextFunction) => {
     res.send('welcome!');
   }
 );
+
+app.use(errorHandler);
 
 export { app };
