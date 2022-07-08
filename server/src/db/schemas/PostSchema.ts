@@ -13,6 +13,12 @@ const CommentSchema = new Schema(
   }
 );
 
+const TagSchema = new Schema({
+  tag_name: {
+    type: String,
+  },
+});
+
 const PostSchema = new Schema(
   {
     userId: {
@@ -24,7 +30,14 @@ const PostSchema = new Schema(
       required: true,
     },
     post_image: {
-      type: String,
+      type: [String],
+    },
+    priate: {
+      type: Boolean,
+      default: false,
+    },
+    tag_list: {
+      type: [TagSchema],
     },
     like: {
       type: Number,
