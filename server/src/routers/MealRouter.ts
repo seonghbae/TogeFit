@@ -6,7 +6,7 @@ import { loginRequired } from '../middlewares';
 const mealRouter = Router();
 
 // 식단 리스트 반환 (전체)
-mealRouter.get('/', async (req, res, next) => {
+mealRouter.get('/all', async (req, res, next) => {
   try {
     const mealArticleListAll = await mealService.getAllMealArticle();
 
@@ -17,9 +17,9 @@ mealRouter.get('/', async (req, res, next) => {
 });
 
 // 식단 리스트 반환 (유저 별)
-mealRouter.get('/:userId', async (req, res, next) => {
+mealRouter.get('/user/:userId', async (req, res, next) => {
   try {
-    const userId = req.params.userId;
+    const { userId } = req.params;
     const mealArticleList = await mealService.getMealArticleList(userId);
 
     res.status(200).json(mealArticleList);
@@ -29,9 +29,9 @@ mealRouter.get('/:userId', async (req, res, next) => {
 });
 
 // 식단 글 반환 (식단 글 object ID 이용)
-mealRouter.get('/:userId/article', async (req, res, next) => {
+mealRouter.get('/article/:mealArticleId', async (req, res, next) => {
   try {
-    const { mealArticleId } = req.body;
+    const { mealArticleId } = req.params;
     const mealArticle = await mealService.getMealArticleById(mealArticleId);
 
     res.status(200).json(mealArticle);
