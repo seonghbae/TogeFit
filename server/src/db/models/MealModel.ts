@@ -9,7 +9,6 @@ export interface MealInfo {
 }
 
 export interface MealArrayInfo {
-  mealListId: string;
   meal_list: MealInfo[];
 }
 
@@ -44,6 +43,18 @@ export class MealModel {
   async create(mealArticleInfo: MealArticleInfo) {
     const createdNewMeal = await Meal.create(mealArticleInfo);
     return createdNewMeal;
+  }
+
+  async pushOneMeal(mealArticleId: string, meals: MealArrayInfo) {
+    console.log(meals);
+    const { modifiedCount } = await Meal.updateOne(
+      { _id: mealArticleId },
+      {
+        $push: { meals },
+      }
+    );
+
+    return { modifiedCount };
   }
 
   async update(
@@ -84,7 +95,7 @@ export class MealModel {
       }
     );
 
-    return modifiedCount;
+    return { modifiedCount };
   }
 }
 

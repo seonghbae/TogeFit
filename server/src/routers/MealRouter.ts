@@ -134,6 +134,35 @@ mealRouter.delete('/', loginRequired, async (req, res, next) => {
   }
 });
 
+// 식사 추가
+mealRouter.post('/one', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealArticleId, meals } = req.body;
+
+    const mealArray = {
+      meal_list: meals,
+    };
+
+    const userId = req.currentUserId;
+
+    const result = await mealService.addOneMeal(
+      userId,
+      mealArticleId,
+      mealArray
+    );
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 식사 삭제
 mealRouter.delete('/one', loginRequired, async (req, res, next) => {
   try {
