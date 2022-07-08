@@ -14,7 +14,7 @@ const CommentSchema = new Schema(
 );
 
 const TagSchema = new Schema({
-  tag_name: {
+  tag: {
     type: String,
   },
 });
@@ -32,9 +32,9 @@ const PostSchema = new Schema(
     post_image: {
       type: [String],
     },
-    priate: {
+    is_open: {
       type: Boolean,
-      default: false,
+      default: true,
     },
     tag_list: {
       type: [TagSchema],
