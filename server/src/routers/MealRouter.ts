@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
 import { mealService, MealInfo } from '../services';
+import { loginRequired } from '../middlewares';
 
 const mealRouter = Router();
 
@@ -40,7 +41,7 @@ mealRouter.get('/:userId/article', async (req, res, next) => {
 });
 
 // 식단 글 등록
-mealRouter.post('/register', async (req, res, next) => {
+mealRouter.post('/register', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -48,7 +49,13 @@ mealRouter.post('/register', async (req, res, next) => {
       );
     }
 
-    const { userId, meals } = req.body;
+    const { meals } = req.body;
+
+    const userId = req.currentUserId;
+
+    if (!meals) {
+      throw new Error('식단 등록은 필수 사항입니다.');
+    }
 
     const mealArray = meals.map((meal: MealInfo[]) => {
       return {
@@ -61,7 +68,7 @@ mealRouter.post('/register', async (req, res, next) => {
       meals: mealArray,
     };
 
-    const newMealArticle = await mealService.addMeal(toAddInfo);
+    const newMealArticle = await mealService.addMealArticle(toAddInfo);
 
     res.status(201).json(newMealArticle);
   } catch (error) {
@@ -69,47 +76,8 @@ mealRouter.post('/register', async (req, res, next) => {
   }
 });
 
-// 식단 글 수정
-mealRouter.patch('/', async (req, res, next) => {
-  try {
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        'headers의 Content-Type을 application/json으로 설정해주세요.'
-      );
-    }
-
-    const { mealArticleId, userId, meals } = req.body;
-
-    if (!mealArticleId) {
-      throw new Error(
-        '수정을 위해서는 해당 아티클의 ID(Object ID)가 필요합니다.'
-      );
-    }
-
-    if (!meals) {
-      throw new Error('수정할 식단을 입력해주세요.');
-    }
-
-    const toUpdateMeal = meals.map((meal: MealInfo[]) => {
-      return {
-        meal_list: meal,
-      };
-    });
-
-    const updatedMealInfo = await mealService.patchMeal(
-      mealArticleId,
-      userId,
-      toUpdateMeal
-    );
-
-    res.status(200).json(updatedMealInfo);
-  } catch (error) {
-    next(error);
-  }
-});
-
 // 식단 글 삭제
-mealRouter.delete('/', async (req, res, next) => {
+mealRouter.delete('/', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -119,7 +87,84 @@ mealRouter.delete('/', async (req, res, next) => {
 
     const { mealArticleId } = req.body;
 
-    const result = await mealService.deleteMealArticle(mealArticleId);
+    const userId = req.currentUserId;
+
+    const result = await mealService.deleteMealArticle(userId, mealArticleId);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 식사 추가
+mealRouter.post('/one', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealArticleId, meals } = req.body;
+
+    const mealArray = {
+      meal_list: meals,
+    };
+
+    const userId = req.currentUserId;
+
+    const result = await mealService.addOneMeal(
+      userId,
+      mealArticleId,
+      mealArray
+    );
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 식사 수정
+mealRouter.patch('/one', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealListId, meals } = req.body;
+
+    const userId = req.currentUserId;
+
+    // const mealArray = {
+    //   meal_list: meals,
+    // };
+
+    const result = await mealService.patchOneMeal(userId, mealListId, meals);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 식사 삭제
+mealRouter.delete('/one', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealListId } = req.body;
+
+    const userId = req.currentUserId;
+
+    const result = await mealService.deleteOneMeal(userId, mealListId);
 
     res.status(200).json(result);
   } catch (error) {
