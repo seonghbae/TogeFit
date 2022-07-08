@@ -68,46 +68,9 @@ mealRouter.post('/register', loginRequired, async (req, res, next) => {
       meals: mealArray,
     };
 
-    const newMealArticle = await mealService.addMeal(toAddInfo);
+    const newMealArticle = await mealService.addMealArticle(toAddInfo);
 
     res.status(201).json(newMealArticle);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// 식단 글 수정
-mealRouter.patch('/', loginRequired, async (req, res, next) => {
-  try {
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        'headers의 Content-Type을 application/json으로 설정해주세요.'
-      );
-    }
-
-    const { mealArticleId, meals } = req.body;
-
-    const userId = req.currentUserId;
-
-    if (!mealArticleId) {
-      throw new Error(
-        '수정을 위해서는 해당 아티클의 ID(Object ID)가 필요합니다.'
-      );
-    }
-
-    if (!meals) {
-      throw new Error('수정할 식단을 입력해주세요.');
-    }
-
-    const toUpdateMeal = meals;
-
-    const updatedMealInfo = await mealService.patchMeal(
-      mealArticleId,
-      userId,
-      toUpdateMeal
-    );
-
-    res.status(200).json(updatedMealInfo);
   } catch (error) {
     next(error);
   }
@@ -156,6 +119,31 @@ mealRouter.post('/one', loginRequired, async (req, res, next) => {
       mealArticleId,
       mealArray
     );
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 식사 수정
+mealRouter.patch('/one', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { mealListId, meals } = req.body;
+
+    const userId = req.currentUserId;
+
+    // const mealArray = {
+    //   meal_list: meals,
+    // };
+
+    const result = await mealService.patchOneMeal(userId, mealListId, meals);
 
     res.status(200).json(result);
   } catch (error) {

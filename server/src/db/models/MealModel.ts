@@ -46,7 +46,6 @@ export class MealModel {
   }
 
   async pushOneMeal(mealArticleId: string, meals: MealArrayInfo) {
-    console.log(meals);
     const { modifiedCount } = await Meal.updateOne(
       { _id: mealArticleId },
       {
@@ -57,27 +56,18 @@ export class MealModel {
     return { modifiedCount };
   }
 
-  async update(
-    mealArticleId: string,
-    userId: string,
-    toUpdateMeal: MealArrayInfo[]
-  ) {
-    // 하...........
-    // toUpdateMeal.map((meal) => {
-    //   console.log(meal);
-    // });
-    // const toUpdateInfo = {
-    //   userId,
-    //   meals: toUpdateMeal,
-    // };
-    // const result = await Meal.updateOne(
-    //   { _id: mealArticleId },
-    //   {
-    //     $set: toUpdateInfo,
-    //   }
-    // );
-    // const { modifiedCount } = result;
-    // return modifiedCount;
+  async updateOneMeal(mealListId: string, toUpdateMeal: MealInfo[]) {
+    console.log(toUpdateMeal);
+    const { modifiedCount } = await Meal.updateOne(
+      { 'meals._id': mealListId },
+      {
+        $set: {
+          'meals.$.meal_list': toUpdateMeal,
+        },
+      }
+    );
+
+    return { modifiedCount };
   }
 
   async deleteMealArticle(mealArticleId: string) {
