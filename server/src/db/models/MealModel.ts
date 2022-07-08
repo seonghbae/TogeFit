@@ -9,6 +9,7 @@ export interface MealInfo {
 }
 
 export interface MealArrayInfo {
+  mealListId: string;
   meal_list: MealInfo[];
 }
 
@@ -38,21 +39,22 @@ export class MealModel {
     userId: string,
     toUpdateMeal: MealArrayInfo[]
   ) {
-    const toUpdateInfo = {
-      userId,
-      meals: toUpdateMeal,
-    };
-
-    const result = await Meal.updateOne(
-      { _id: mealArticleId },
-      {
-        $set: toUpdateInfo,
-      }
-    );
-
-    const { modifiedCount } = result;
-
-    return modifiedCount;
+    // 하...........
+    // toUpdateMeal.map((meal) => {
+    //   console.log(meal);
+    // });
+    // const toUpdateInfo = {
+    //   userId,
+    //   meals: toUpdateMeal,
+    // };
+    // const result = await Meal.updateOne(
+    //   { _id: mealArticleId },
+    //   {
+    //     $set: toUpdateInfo,
+    //   }
+    // );
+    // const { modifiedCount } = result;
+    // return modifiedCount;
   }
 
   async deleteMealArticle(mealArticleId: string) {

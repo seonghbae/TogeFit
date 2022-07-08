@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
 import { mealService, MealInfo } from '../services';
+import { loginRequired } from '../middlewares';
 
 const mealRouter = Router();
 
@@ -40,7 +41,7 @@ mealRouter.get('/:userId/article', async (req, res, next) => {
 });
 
 // 식단 글 등록
-mealRouter.post('/register', async (req, res, next) => {
+mealRouter.post('/register', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -48,7 +49,13 @@ mealRouter.post('/register', async (req, res, next) => {
       );
     }
 
-    const { userId, meals } = req.body;
+    const { meals } = req.body;
+
+    const userId = req.currentUserId;
+
+    if (!meals) {
+      throw new Error('식단 등록은 필수 사항입니다.');
+    }
 
     const mealArray = meals.map((meal: MealInfo[]) => {
       return {
@@ -70,7 +77,7 @@ mealRouter.post('/register', async (req, res, next) => {
 });
 
 // 식단 글 수정
-mealRouter.patch('/', async (req, res, next) => {
+mealRouter.patch('/', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -78,7 +85,9 @@ mealRouter.patch('/', async (req, res, next) => {
       );
     }
 
-    const { mealArticleId, userId, meals } = req.body;
+    const { mealArticleId, meals } = req.body;
+
+    const userId = req.currentUserId;
 
     if (!mealArticleId) {
       throw new Error(
@@ -90,11 +99,7 @@ mealRouter.patch('/', async (req, res, next) => {
       throw new Error('수정할 식단을 입력해주세요.');
     }
 
-    const toUpdateMeal = meals.map((meal: MealInfo[]) => {
-      return {
-        meal_list: meal,
-      };
-    });
+    const toUpdateMeal = meals;
 
     const updatedMealInfo = await mealService.patchMeal(
       mealArticleId,
@@ -109,7 +114,7 @@ mealRouter.patch('/', async (req, res, next) => {
 });
 
 // 식단 글 삭제
-mealRouter.delete('/', async (req, res, next) => {
+mealRouter.delete('/', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -119,7 +124,9 @@ mealRouter.delete('/', async (req, res, next) => {
 
     const { mealArticleId } = req.body;
 
-    const result = await mealService.deleteMealArticle(mealArticleId);
+    const userId = req.currentUserId;
+
+    const result = await mealService.deleteMealArticle(userId, mealArticleId);
 
     res.status(200).json(result);
   } catch (error) {

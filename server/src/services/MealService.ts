@@ -55,18 +55,22 @@ class MealService {
       toUpdateMeal
     );
 
-    if (!result) {
-      throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
+    // if (!result) {
+    //   throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
+    // }
 
     return result;
   }
 
-  async deleteMealArticle(mealArticleId: string) {
+  async deleteMealArticle(userId: string, mealArticleId: string) {
     const mealArticle = await this.mealModel.findById(mealArticleId);
 
     if (!mealArticle) {
       throw new Error('해당 아티클을 찾을 수 없습니다.');
+    }
+
+    if (mealArticle.userId !== userId) {
+      throw new Error('작성자만 삭제할 수 있습니다.');
     }
 
     const result = await this.mealModel.deleteMealArticle(mealArticleId);
@@ -77,6 +81,8 @@ class MealService {
 
     return result;
   }
+
+  async getUserId(userToken: string) {}
 }
 
 const mealService = new MealService(mealModel);
