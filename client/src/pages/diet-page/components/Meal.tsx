@@ -1,9 +1,14 @@
 import { Calorie } from 'common/components';
-import { MealContainer, ContentContainer, MealList } from './MealStyle';
+import {
+  MealContainer,
+  ContentContainer,
+  MealList,
+  ButtonContainer,
+} from './MealStyle';
 
 interface MealProps {
   name: string;
-  meals: Array<{ foodName: string; quantity: number }>;
+  mealList: Array<{ foodName: string; quantity: number }>;
 }
 
 interface CalorieProps {
@@ -13,7 +18,7 @@ interface CalorieProps {
   fat: number;
 }
 
-const Meal = ({ name, meals }: MealProps) => {
+const Meal = ({ name, mealList }: MealProps) => {
   const dummyFood = [
     {
       name: '닭가슴살',
@@ -65,12 +70,21 @@ const Meal = ({ name, meals }: MealProps) => {
     }),
     init
   );
+
+  const handleUpdate = () => {
+    alert('Update');
+  };
+
+  const handleDelete = () => {
+    alert('Delete');
+  };
+
   return (
     <MealContainer>
-      <div>{name}</div>
+      <span>{name}</span>
       <ContentContainer>
         <MealList>
-          {meals.map((meal) => (
+          {mealList.map((meal) => (
             <li key={meal.foodName}>{`${meal.foodName} ${meal.quantity}g`}</li>
           ))}
         </MealList>
@@ -81,6 +95,14 @@ const Meal = ({ name, meals }: MealProps) => {
           fat={dummyCalorie.fat}
         />
       </ContentContainer>
+      <ButtonContainer>
+        <button type="button" onClick={handleUpdate}>
+          수정
+        </button>
+        <button type="button" onClick={handleDelete}>
+          삭제
+        </button>
+      </ButtonContainer>
     </MealContainer>
   );
 };
