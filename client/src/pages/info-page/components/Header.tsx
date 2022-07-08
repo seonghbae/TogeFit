@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import getPath from 'common/utils/getPath';
 import * as S from './HeaderStyle';
+import ExerciseJandi from './ExerciseJandi';
 
 const Header: React.FC = () => {
   const DEFAULT_PATH = '/info';
@@ -22,7 +23,7 @@ const Header: React.FC = () => {
           </S.Nav>
         </S.NameNavContainer>
         <S.JandiContainer>
-          운동 잔디가 들어갈 공간 (경로에 따라 변경 예정)
+          {path === 'exercise' && <ExerciseJandi />}
         </S.JandiContainer>
       </S.InfoContainer>
     </S.InfoHeader>
