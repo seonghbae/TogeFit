@@ -4,7 +4,6 @@ import { UserCircle } from 'styled-icons/boxicons-solid';
 
 export const NavWrapper = styled.nav`
   display: flex;
-  position: relative;
   width: 100%;
   height: 100px;
   background-color: #fff;
