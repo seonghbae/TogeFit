@@ -28,16 +28,16 @@ export class MealModel {
     return mealArticle;
   }
 
+  async findByUserId(userId: string) {
+    const mealArticle = await Meal.findOne({ userId });
+    return mealArticle;
+  }
+
   async findArticleByMealListId(mealListId: string) {
     const mealList = await Meal.findOne({
       'meals._id': mealListId,
     });
     return mealList;
-  }
-
-  async checkEmpty(mealArticleId: string) {
-    const mealArticle = await Meal.findOne({ _id: mealArticleId });
-    return mealArticle?.meals.length === 0;
   }
 
   async create(mealArticleInfo: MealArticleInfo) {
@@ -46,28 +46,29 @@ export class MealModel {
   }
 
   async pushOneMeal(mealArticleId: string, meals: MealArrayInfo) {
-    const { modifiedCount } = await Meal.updateOne(
+    const updatedInfo = await Meal.findOneAndUpdate(
       { _id: mealArticleId },
       {
         $push: { meals },
-      }
+      },
+      { returnOriginal: false }
     );
 
-    return { modifiedCount };
+    return updatedInfo;
   }
 
   async updateOneMeal(mealListId: string, toUpdateMeal: MealInfo[]) {
-    console.log(toUpdateMeal);
-    const { modifiedCount } = await Meal.updateOne(
+    const updatedInfo = await Meal.findOneAndUpdate(
       { 'meals._id': mealListId },
       {
         $set: {
           'meals.$.meal_list': toUpdateMeal,
         },
-      }
+      },
+      { returnOriginal: false }
     );
 
-    return { modifiedCount };
+    return updatedInfo;
   }
 
   async deleteMealArticle(mealArticleId: string) {
@@ -76,16 +77,17 @@ export class MealModel {
   }
 
   async deleteOneMealById(mealListId: string) {
-    const { modifiedCount } = await Meal.updateOne(
+    const updatedInfo = await Meal.findOneAndUpdate(
       { 'meals._id': mealListId },
       {
         $pull: {
           meals: { _id: mealListId },
         },
-      }
+      },
+      { returnOriginal: false }
     );
 
-    return { modifiedCount };
+    return updatedInfo;
   }
 }
 

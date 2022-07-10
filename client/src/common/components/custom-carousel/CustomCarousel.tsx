@@ -4,9 +4,14 @@ import Slider, { Settings } from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import React, { DragEvent, useMemo, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
+import { usePrevious } from 'common/hooks';
+import {
+  getMiddlePointX,
+  isCursorLeftX,
+} from 'common/utils/getElementLocationInfo';
 import { Wrapper, Slide } from './style';
 
 interface sliderProps {
@@ -28,6 +33,13 @@ interface sliderProps {
   setDragTarget?: React.Dispatch<React.SetStateAction<string | number | null>>;
   setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
   modifyFlag?: boolean;
+  setModalView?: React.Dispatch<React.SetStateAction<boolean>>;
+  isCancel?: boolean;
+  setIsCancel?: React.Dispatch<React.SetStateAction<boolean>>;
+  cache?: Array<string | number | null>;
+  setCache?: React.Dispatch<
+    React.SetStateAction<Array<string | number | null>>
+  >;
 }
 
 const CustomCarousel = ({
@@ -42,6 +54,11 @@ const CustomCarousel = ({
   setDragTarget,
   setData,
   modifyFlag = false,
+  setModalView,
+  isCancel,
+  setIsCancel,
+  setCache,
+  cache,
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
@@ -92,6 +109,8 @@ const CustomCarousel = ({
   const dragStart = (e: any) => {
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text/html', dragTarget);
+    if (modifyFlag) return;
+
     if (setDragTarget) {
       setDragTarget(data[e.currentTarget.dataset.index]);
     }
@@ -100,38 +119,34 @@ const CustomCarousel = ({
   const dragEnd = (e: any) => {
     e.currentTarget.style.display = 'block';
   };
-  const drapDrop = (e: any) => {
-    if (dragTarget === undefined) return;
-    if (!setData) return;
-    if (!modifyFlag) return;
+  const dragDrop = (e: any) => {
+    if (!dragTarget || !setData || !modifyFlag) return;
 
-    e.currentTarget.style.display = 'block';
-    // eslint-disable-next-line no-shadow
-    const { x, width } = e.currentTarget.getBoundingClientRect();
-
-    const middlePointX = width / 2 + x;
-
+    const cachedData = data;
     const dropTargetIndex = Number(e.currentTarget.dataset.index);
-    if (e.clientX < middlePointX) {
-      if (data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE) {
-        data.splice(dropTargetIndex, 1, dragTarget);
-      } else {
-        data.splice(dropTargetIndex, 0, dragTarget);
-      }
+    const isInitial = data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE;
 
-      setData([...data]);
+    if (setCache) setCache([...cachedData]);
+
+    if (isInitial) {
+      data.splice(dropTargetIndex, 1, dragTarget);
     } else {
-      if (data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE) {
-        data.splice(dropTargetIndex, 1, dragTarget);
+      // eslint-disable-next-line no-lonely-if
+      if (isCursorLeftX(e)) {
+        data.splice(dropTargetIndex, 0, dragTarget);
       } else {
         data.splice(dropTargetIndex + 1, 0, dragTarget);
       }
-      setData([...data]);
     }
+
+    setData([...data]);
+
+    if (setDragTarget) setDragTarget(null);
+    if (setModalView) setModalView(true);
   };
 
   return (
-    <Wrapper width={width}>
+    <Wrapper width={width} className="CustomCarousel">
       <Slider {...settings} ref={slideRef}>
         {data.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
@@ -142,7 +157,7 @@ const CustomCarousel = ({
             onDragLeave={dragLeave}
             onDragStart={dragStart}
             onDragEnd={dragEnd}
-            onDrop={drapDrop}
+            onDrop={dragDrop}
           >
             <h3>{item}</h3>
           </Slide>
