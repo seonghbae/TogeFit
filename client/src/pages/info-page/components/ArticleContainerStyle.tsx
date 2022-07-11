@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const ContainerSection = styled.section`
+export const ContainerSection = styled.section`
   width: 70%;
   height: 900px;
   background-color: #fff;
@@ -11,5 +11,3 @@ const ContainerSection = styled.section`
   grid-template-columns: repeat(auto-fill, minmax(40%, auto));
   grid-gap: 1rem;
 `;
-
-export default ContainerSection;
