@@ -42,14 +42,14 @@ userRouter.patch(
         );
       }
 
-      const {
-        userId,
-        password,
-        name,
-        nickname,
-        currentPassword,
-        profile_image,
-      } = req.body;
+      let isExistProfileImage = req.file ? true : false;
+      let profile_image = undefined;
+      if (isExistProfileImage) {
+        profile_image = (req.file as Express.MulterS3.File).location;
+      }
+      const userId = req.currentUserId;
+
+      const { password, name, nickname, currentPassword } = req.body;
 
       if (!currentPassword) {
         throw new Error('정보 수정을 위해 비밀번호가 필요합니다.');
