@@ -15,6 +15,21 @@ foodRouter.get('/', async (req, res, next) => {
   }
 });
 
+// 음식 검색
+foodRouter.get('/search', async (req, res, next) => {
+  try {
+    const keyword = req.query.query as string;
+    let searchedFoodList: Object[] = [];
+    if (keyword) {
+      searchedFoodList = await foodService.searchFood(keyword);
+    }
+
+    res.status(200).json(searchedFoodList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 음식 등록
 foodRouter.post('/register', async (req, res, next) => {
   try {
