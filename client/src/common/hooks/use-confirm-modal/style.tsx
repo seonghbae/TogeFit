@@ -2,14 +2,17 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div<{ view: boolean }>`
   visibility: ${(props) => (props.view ? '' : 'hidden')};
-  position: absolute;
+  position: fixed;
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.2);
+  z-index: 5;
   & > div {
     padding: 2rem;
     border: 1px solid;
