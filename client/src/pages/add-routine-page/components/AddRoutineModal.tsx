@@ -29,7 +29,7 @@ const AddRoutineModal = ({
   isCancel,
   setIsCancel,
 }: Iprops) => {
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, resetField } = useForm<Inputs>();
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [userRoutine, setUserRoutine] = useRecoilState(userRoutineState);
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
@@ -57,7 +57,9 @@ const AddRoutineModal = ({
       set: data.set,
       weight: data.weight,
     };
-
+    resetField('count');
+    resetField('set');
+    resetField('weight');
     setUserRoutine(temp);
     setIsOpen(false);
   };
