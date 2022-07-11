@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const StyledForm = styled.form`
+export const StyledForm = styled.form`
   font-size: 2rem;
   border: 0px;
   display: flex;
@@ -36,5 +36,3 @@ const StyledForm = styled.form`
     }
   }
 `;
-
-export default StyledForm;
