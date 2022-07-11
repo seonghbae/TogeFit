@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
   background-color: #fff;
   margin-left: 5%;
   margin-right: 5%;
-  height: 100vh;
+  /* height: 100vh; */
   /* width: 80%; */
   display: flex;
   flex-direction: column;
@@ -17,11 +17,24 @@ export const RoutineWrapper = styled.div`
   /* height: 80vh; */
   width: 100%;
   overflow: scroll;
-  margin-top: 3%;
+
   margin-bottom: 3%;
   padding-right: 1rem;
   & > div {
     margin-top: 5%;
+  }
+`;
+
+export const InputWrapper = styled.div`
+  padding-top: 3rem;
+  width: 90%;
+  display: flex;
+  font-size: 1.5rem;
+  & > input {
+    border-bottom: 1px solid;
+    padding-left: 1rem;
+    width: 80%;
+    padding-right: 1rem;
   }
 `;
 

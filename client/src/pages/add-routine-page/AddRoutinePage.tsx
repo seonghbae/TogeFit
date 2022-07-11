@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { CustomCarousel } from 'common/components';
 
 import { useEffect, useState } from 'react';
@@ -27,7 +28,7 @@ type Idata = {
 const AddRoutinePage = () => {
   const [isCancel, setIsCancel] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const [routineName, setRoutineName] = useState('');
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [exercise, setExercise] = useRecoilState(exerciseState);
 
@@ -65,6 +66,15 @@ const AddRoutinePage = () => {
   return (
     <SC.Wrapper>
       <Header />
+      <SC.InputWrapper>
+        <label htmlFor="routineName">루틴 이름:</label>
+        <input
+          type="text"
+          value={routineName}
+          id="routineName"
+          onChange={(e) => setRoutineName(e.target.value)}
+        />
+      </SC.InputWrapper>
       <SC.RoutineWrapper>
         <CustomCarousel
           data={exercise}
