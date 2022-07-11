@@ -151,7 +151,7 @@ const CustomCarousel = ({
   const dragDrop = (e: any) => {
     if (!dragTarget || !modifyFlag) return;
 
-    const cachedData = objData;
+    const cachedData = [...objData];
     const dropTargetIndex = Number(e.currentTarget.dataset.index);
     const isInitial =
       objData[dropTargetIndex].name === ROUTINE_INITIAL_MESSAGE ||

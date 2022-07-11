@@ -66,7 +66,6 @@ const AddRoutinePage = () => {
   }, [result]);
 
   const handleAddRoutine: MouseEventHandler<HTMLButtonElement> = (e) => {
-    console.log(routineName);
     const postData = {
       routine_name: routineName,
       routine_list: userRoutine,
@@ -76,6 +75,10 @@ const AddRoutinePage = () => {
 
     console.log(postData);
     alert(postData);
+    navigate('/routine');
+  };
+
+  const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {
     navigate('/routine');
   };
 
@@ -111,15 +114,17 @@ const AddRoutinePage = () => {
           setModalView={setIsOpen}
           isCancel={isCancel}
           setIsCancel={setIsCancel}
-          objCache={userRoutine}
-          setObjCache={setUserRoutine}
+          objCache={cache}
+          setObjCache={setCache}
         />
       </SC.RoutineWrapper>
       <SC.ButtonWrapper>
         <button type="button" onClick={handleAddRoutine}>
           확인
         </button>
-        <button type="button">취소</button>
+        <button type="button" onClick={handleCancel}>
+          취소
+        </button>
       </SC.ButtonWrapper>
       <AddRoutineModal
         isOpen={isOpen}
