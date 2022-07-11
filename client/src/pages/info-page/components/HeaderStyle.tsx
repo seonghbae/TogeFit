@@ -16,8 +16,9 @@ export const InfoHeader = styled.header`
 
 export const ProfileImg = styled.img`
   position: absolute;
-  width: 256px;
-  height: 256px;
+  width: 19%;
+  min-width: 150px;
+  height: auto;
   margin: 10px;
   top: -26%;
   left: 9%;

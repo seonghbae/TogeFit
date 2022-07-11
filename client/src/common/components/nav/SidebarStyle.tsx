@@ -22,7 +22,7 @@ export const Wrapper = styled.div<{ openSidebar: boolean }>`
   left: -200px;
   width: 10%;
   min-width: 200px;
-  min-height: ${document.documentElement.offsetHeight}px;
+  min-height: ${document.documentElement.scrollHeight}px;
   background-color: ${(props) => props.theme.pointColors.green};
   padding-top: 5rem;
   align-items: center;
