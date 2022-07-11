@@ -20,7 +20,7 @@ const Sidebar = ({ openSidebar }: SidebarProps) => (
       </Link>
     </SC.NavLink>
     <SC.NavLink>
-      <Link to="/">
+      <Link to="/routine">
         <Dumbbell />
         루틴 관리
       </Link>
