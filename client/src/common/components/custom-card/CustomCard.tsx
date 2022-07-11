@@ -1,9 +1,14 @@
 import * as SC from './CustomCardStyle';
 
+type tagType = {
+  tag: string;
+  _id: string;
+};
+
 interface CustomCardProps {
   imgUrl: string;
   content: string;
-  tagList: Array<string>;
+  tagList: Array<tagType>;
 }
 
 const CustomCard = ({ imgUrl, content, tagList }: CustomCardProps) => (
@@ -12,8 +17,8 @@ const CustomCard = ({ imgUrl, content, tagList }: CustomCardProps) => (
     <SC.Article>
       <SC.ArticleContent>{content}</SC.ArticleContent>
       <SC.TagContainer>
-        {tagList.map((tag) => (
-          <SC.Tag key={Math.random()}>{tag}</SC.Tag>
+        {tagList.map((tagObject) => (
+          <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
         ))}
       </SC.TagContainer>
     </SC.Article>
