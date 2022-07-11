@@ -3,6 +3,26 @@ import { postModel, PostModel, PostInfo, CommentInfo } from '../db';
 class PostService {
   constructor(private postModel: PostModel) {}
 
+  async getAllPost() {
+    const postListAll = await this.postModel.findAll();
+    return postListAll;
+  }
+
+  async getPostById(postId: string) {
+    const post = await this.postModel.findById(postId);
+
+    if (!post) {
+      throw new Error('해당 게시글을 찾을 수 없습니다.');
+    }
+
+    return post;
+  }
+
+  async getPostListByUserId(userId: string) {
+    const postList = await this.postModel.findByUserId(userId);
+    return postList;
+  }
+
   async addPost(postInfo: PostInfo) {
     const createdNewPost = await this.postModel.create(postInfo);
     return createdNewPost;

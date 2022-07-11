@@ -6,6 +6,41 @@ import { getTagList, getPostImageList } from '../utils';
 
 const postRouter = Router();
 
+// 게시글 리스트 가져오기 (전체)
+postRouter.get('/all', async (req, res, next) => {
+  try {
+    const postListAll = await postService.getAllPost();
+
+    res.status(200).json(postListAll);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 게시글 리스트 가져오기 (유저 별)
+postRouter.get('/user/:userId', async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const postList = await postService.getPostListByUserId(userId);
+
+    res.status(200).json(postList);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 게시글 리스트 가져오기 (게시글 object ID 이용)
+postRouter.get('/article/:postId', async (req, res, next) => {
+  try {
+    const { postId } = req.params;
+    const post = await postService.getPostById(postId);
+
+    res.status(200).json(post);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 게시글 등록
 postRouter.post(
   '/register',
