@@ -57,7 +57,7 @@ postRouter.post(
       const userId = req.currentUserId;
       const { contents, tag_list, is_open, meal, routine } = req.body;
       // 'a,b,c'로 태그를 받아와 배열로 만들어줌
-      const newTagList = getTagList(tag_list);
+      const newTagList = tag_list ? getTagList(tag_list) : [];
 
       // req.files의 location을 받아옴
       const postImages = getPostImageList(
