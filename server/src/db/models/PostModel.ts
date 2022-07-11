@@ -39,7 +39,9 @@ export class PostModel {
 
   async update(postId: string, postInfo: Partial<PostInfo>) {
     const filter = { _id: postId };
-    const updatedPost = await Post.findOneAndUpdate(filter, postInfo);
+    const updatedPost = await Post.findOneAndUpdate(filter, postInfo, {
+      returnOriginal: false,
+    });
     return updatedPost;
   }
 }

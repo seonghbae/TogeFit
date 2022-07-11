@@ -96,13 +96,17 @@ postRouter.patch(
       }
 
       const { contents, is_open, tag_list, meal, routine } = req.body;
-      const newTagList = getTagList(tag_list);
+
+      let newTagList = tag_list;
+      if (tag_list) {
+        newTagList = getTagList(tag_list);
+      }
 
       const toUpdateInfo = {
         ...(contents && { contents }),
         ...(imageArrayLength > 0 && { post_image: postImages }),
         ...(is_open && { is_open }),
-        ...(tag_list && { tag_list: newTagList }),
+        ...(newTagList && { tag_list: newTagList }),
         ...(meal && { meal }),
         ...(routine && { routine }),
       };
