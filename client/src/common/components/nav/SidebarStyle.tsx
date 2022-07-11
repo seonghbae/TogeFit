@@ -29,7 +29,7 @@ export const Wrapper = styled.div<{ openSidebar: boolean }>`
   flex-direction: column;
   border-right: 1.3px solid rgba(0, 0, 0, 0.2);
   color: #fff;
-
+  z-index: 10;
   ${(props) =>
     props.openSidebar
       ? css`
