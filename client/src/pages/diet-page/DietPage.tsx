@@ -6,7 +6,7 @@ import * as SC from './DietPageStyle';
 const DietPage = () => (
   <SC.DietContainer>
     <Routes>
-      <Route path="/*" element={<DietInfo />} />
+      <Route path="/" element={<DietInfo />} />
       <Route path="add" element={<AddMeal />} />
     </Routes>
   </SC.DietContainer>
