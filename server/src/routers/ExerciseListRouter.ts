@@ -15,7 +15,7 @@ exerciseListRouter.get('/', async (req, res, next) => {
 });
 
 // 운동 목록에 운동 추가
-exerciseListRouter.post('/', async (req, res, next) => {
+exerciseListRouter.post('/register', async (req, res, next) => {
   try {
     const { exerciseName } = req.body;
     const newExerciseList = await exerciseListService.addExercise(exerciseName);
