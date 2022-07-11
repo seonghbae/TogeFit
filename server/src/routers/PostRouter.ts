@@ -67,27 +67,47 @@ postRouter.delete('/', async (req, res, next) => {
 });
 
 // 게시글 수정
-postRouter.patch('/', async (req, res, next) => {
-  try {
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        'headers의 Content-Type을 application/json으로 설정해주세요.'
-      );
+postRouter.patch(
+  '/:postId',
+  upload.array('post_image'),
+  async (req, res, next) => {
+    try {
+      if (is.emptyObject(req.body)) {
+        throw new Error(
+          'headers의 Content-Type을 application/json으로 설정해주세요.'
+        );
+      }
+
+      const postId = req.params.postId;
+      let postImages = undefined;
+      let imageArrayLength = 0;
+      if (req.files) {
+        postImages = getPostImageList(
+          req.files as {
+            [fieldname: string]: Express.Multer.File[];
+          }
+        );
+        imageArrayLength = postImages.length;
+      }
+
+      const { contents, is_open, tag_list, meal, routine } = req.body;
+      const newTagList = getTagList(tag_list);
+
+      const toUpdateInfo = {
+        ...(contents && { contents }),
+        ...(imageArrayLength > 0 && { post_image: postImages }),
+        ...(is_open && { is_open }),
+        ...(tag_list && { tag_list: newTagList }),
+        ...(meal && { meal }),
+        ...(routine && { routine }),
+      };
+
+      const updatedPost = await postService.updatePost(postId, toUpdateInfo);
+      res.status(201).json(updatedPost);
+    } catch (error) {
+      next(error);
     }
-    const { postId, contents, meal, routine } = req.body;
-
-    const toUpdateInfo = {
-      ...(contents && { contents }),
-      ...(meal && { meal }),
-      ...(routine && { routine }),
-    };
-
-    console.log(postId, toUpdateInfo);
-    const updatedPost = await postService.updatePost(postId, toUpdateInfo);
-    res.status(201).json(updatedPost);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 export { postRouter };
