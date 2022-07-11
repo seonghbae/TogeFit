@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div<{ view: boolean }>`
+export const Wrapper = styled.div<{ view: boolean }>`
   visibility: ${(props) => (props.view ? '' : 'hidden')};
   position: absolute;
   display: flex;
@@ -34,5 +34,3 @@ const Wrapper = styled.div<{ view: boolean }>`
     margin: 0.5rem;
   }
 `;
-
-export default Wrapper;

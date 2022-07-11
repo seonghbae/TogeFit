@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   border: 1px solid #000;
   background-color: #fff;
   margin-left: 5%;
@@ -9,7 +9,7 @@ const Wrapper = styled.div`
   /* width: 80%; */
 `;
 
-const RoutineWrapper = styled.div`
+export const RoutineWrapper = styled.div`
   height: 80vh;
   overflow: scroll;
   margin-top: 3%;
@@ -19,5 +19,3 @@ const RoutineWrapper = styled.div`
     margin-top: 5%;
   }
 `;
-
-export { Wrapper, RoutineWrapper };

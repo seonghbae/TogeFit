@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   width: 100%;
   position: relative;
@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const BtnWrapper = styled.div`
+export const BtnWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
@@ -24,5 +24,3 @@ const BtnWrapper = styled.div`
     width: 3rem;
   }
 `;
-
-export { Wrapper, BtnWrapper };

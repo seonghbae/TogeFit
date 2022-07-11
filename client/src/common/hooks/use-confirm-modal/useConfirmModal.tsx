@@ -2,15 +2,15 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Dispatch, ReactNode, SetStateAction, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import Wrapper from './style';
-
-type useConfrimModalResult = [
-  boolean,
-  React.Dispatch<React.SetStateAction<boolean>>,
-  boolean,
-  React.Dispatch<React.SetStateAction<boolean>>,
-  () => JSX.Element
-];
+import * as SC from './style';
+// isCancel, setIsCancel, open, setOpen, renderConfirmModal
+type useConfrimModalResult = {
+  isCancel: boolean;
+  setIsCancel: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  renderConfirmModal: () => JSX.Element;
+};
 const useConfirmModal = ({
   childComponent,
   handleConfirmFunc,
@@ -37,7 +37,7 @@ const useConfirmModal = ({
   };
 
   const renderConfirmModal = () => (
-    <Wrapper view={open} onClick={handleCancel}>
+    <SC.Wrapper view={open} onClick={handleCancel}>
       <div onClick={handleDivClick}>
         {childComponent()}
         <div>
@@ -45,10 +45,10 @@ const useConfirmModal = ({
           <input type="button" value="취소" onClick={handleCancel} />
         </div>
       </div>
-    </Wrapper>
+    </SC.Wrapper>
   );
 
-  return [isCancel, setIsCancel, open, setOpen, renderConfirmModal];
+  return { isCancel, setIsCancel, open, setOpen, renderConfirmModal };
 };
 
 export default useConfirmModal;

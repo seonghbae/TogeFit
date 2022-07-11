@@ -4,13 +4,13 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
 import { useConfirmModal, usePrevious } from 'common/hooks';
 import { Header, RoutineModal } from './components';
-import { Wrapper, RoutineWrapper, ButtonWrapper } from './style';
+import * as SC from './style';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
 const AddRoutinePage = () => {
-  const [isCancel, setIsCancel, open, setOpen, renderConfirmModal] =
+  const { isCancel, setIsCancel, open, setOpen, renderConfirmModal } =
     useConfirmModal({
       childComponent: RoutineModal,
       handleConfirmFunc: () => {
@@ -40,9 +40,9 @@ const AddRoutinePage = () => {
   }, [isCancel]);
 
   return (
-    <Wrapper>
+    <SC.Wrapper>
       <Header />
-      <RoutineWrapper>
+      <SC.RoutineWrapper>
         <CustomCarousel
           data={exercise}
           draggable={isDraggableCarousel}
@@ -65,13 +65,13 @@ const AddRoutinePage = () => {
           setCache={setCache}
           cache={cache}
         />
-      </RoutineWrapper>
-      <ButtonWrapper>
+      </SC.RoutineWrapper>
+      <SC.ButtonWrapper>
         <button type="button">확인</button>
         <button type="button">취소</button>
-      </ButtonWrapper>
+      </SC.ButtonWrapper>
       {renderConfirmModal()}
-    </Wrapper>
+    </SC.Wrapper>
   );
 };
 
