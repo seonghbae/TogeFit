@@ -3,7 +3,7 @@ import ContainerSection from './ArticleContainerStyle';
 import ExerciseDummyItem from './ExerciseDummyItem';
 import MealDummyItem from './MealDummyItem';
 
-const ArticleContainer: React.FC = () => {
+const ArticleContainer = () => {
   const path = getPath();
 
   return (

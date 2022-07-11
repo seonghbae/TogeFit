@@ -6,7 +6,7 @@ import {
   JandiItem,
 } from './ExerciseJandiStyle';
 
-const ExerciseJandi: React.FC = () => (
+const ExerciseJandi = () => (
   <Wrapper>
     <Title>2022.07</Title>
     <DaySpan>Sun</DaySpan>

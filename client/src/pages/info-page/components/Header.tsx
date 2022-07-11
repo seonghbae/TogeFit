@@ -3,7 +3,7 @@ import getPath from 'common/utils/getPath';
 import * as S from './HeaderStyle';
 import ExerciseJandi from './ExerciseJandi';
 
-const Header: React.FC = () => {
+const Header = () => {
   const DEFAULT_PATH = '/info';
   const path = getPath();
 
