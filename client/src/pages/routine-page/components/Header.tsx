@@ -1,11 +1,11 @@
 import { SearchForm } from '../../../common/components';
-import { HeaderWrapper } from './HeaderStyle';
+import * as SC from './HeaderStyle';
 
 const Header = () => (
-  <HeaderWrapper>
+  <SC.HeaderWrapper>
     <SearchForm />
     <button type="button">+</button>
-  </HeaderWrapper>
+  </SC.HeaderWrapper>
 );
 
 export default Header;

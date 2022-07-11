@@ -1,10 +1,10 @@
 import { Routine, Header } from './components';
-import { Wrapper, RoutineWrapper } from './style';
+import * as SC from './style';
 
 const RoutinePage = () => (
-  <Wrapper>
+  <SC.Wrapper>
     <Header />
-    <RoutineWrapper>
+    <SC.RoutineWrapper>
       <Routine />
       <Routine />
       <Routine />
@@ -12,8 +12,8 @@ const RoutinePage = () => (
       <Routine />
       <Routine />
       <Routine />
-    </RoutineWrapper>
-  </Wrapper>
+    </SC.RoutineWrapper>
+  </SC.Wrapper>
 );
 
 export default RoutinePage;

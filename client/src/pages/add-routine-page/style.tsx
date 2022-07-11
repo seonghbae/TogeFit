@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
   border: 1px solid #000;
   background-color: #fff;
   margin-left: 5%;
@@ -13,7 +13,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const RoutineWrapper = styled.div`
+export const RoutineWrapper = styled.div`
   /* height: 80vh; */
   width: 100%;
   overflow: scroll;
@@ -25,7 +25,7 @@ const RoutineWrapper = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
+export const ButtonWrapper = styled.div`
   display: flex;
   width: 50vw;
   justify-content: center;
@@ -35,5 +35,3 @@ const ButtonWrapper = styled.div`
     background-color: aliceblue;
   }
 `;
-
-export { Wrapper, RoutineWrapper, ButtonWrapper };
