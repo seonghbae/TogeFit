@@ -7,7 +7,7 @@ interface LiProps {
 export const InfoHeader = styled.header`
   position: relative;
   width: 70%;
-  height: 300px;
+  height: 350px;
   margin-top: 100px;
   margin-bottom: 50px;
   border-radius: 4rem;
