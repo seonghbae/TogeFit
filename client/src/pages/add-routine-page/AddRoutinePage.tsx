@@ -5,6 +5,7 @@ import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
 import { useConfirmModal, usePrevious } from 'common/hooks';
 import { Header, RoutineModal } from './components';
 import * as SC from './style';
+import useExcerciseList from './hooks/useExcerciseList';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
@@ -18,7 +19,6 @@ const AddRoutinePage = () => {
       },
     });
   const [dragTarget, setDragTarget] = useState<string | number | null>(null);
-  // 운동목록
   const [exercise, setExercise] = useState<Array<string | number | null>>([
     1, 2, 3, 4, 5,
   ]);
@@ -32,12 +32,26 @@ const AddRoutinePage = () => {
     ROUTINE_INITIAL_MESSAGE,
   ]);
 
+  const { isLoading, result, error, getExcerciseList, showError } =
+    useExcerciseList();
+
   useEffect(() => {
     if (isCancel) {
       setUserCustom([...cache]);
       setIsCancel(false);
     }
   }, [isCancel]);
+
+  useEffect(() => {
+    getExcerciseList();
+  }, []);
+
+  useEffect(() => {
+    if (result?.status === 200) {
+      const excerciseList = result.data.map((item) => item.name);
+      setExercise(excerciseList);
+    }
+  }, [result]);
 
   return (
     <SC.Wrapper>
