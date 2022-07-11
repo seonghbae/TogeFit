@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { NavWrapper, NavBurger, Title, UserIcon } from './NavStyle';
+import * as SC from './NavStyle';
 import Sidebar from './Sidebar';
 
 const Nav = () => {
   const [openSidebar, setOpenSidebar] = useState(false);
 
   return (
-    <NavWrapper>
-      <NavBurger
+    <SC.NavWrapper>
+      <SC.NavBurger
         openSidebar={openSidebar}
         onClick={() => {
           setOpenSidebar((prev) => !prev);
@@ -16,12 +16,12 @@ const Nav = () => {
       />
       <Sidebar openSidebar={openSidebar} />
       <Link to="/">
-        <Title>HealthCare for you</Title>
+        <SC.Title>HealthCare for you</SC.Title>
       </Link>
       <Link to="/info">
-        <UserIcon />
+        <SC.UserIcon />
       </Link>
-    </NavWrapper>
+    </SC.NavWrapper>
   );
 };
 

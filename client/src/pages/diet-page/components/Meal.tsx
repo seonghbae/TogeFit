@@ -1,10 +1,5 @@
 import { Calorie } from 'common/components';
-import {
-  MealContainer,
-  ContentContainer,
-  MealList,
-  ButtonContainer,
-} from './MealStyle';
+import * as SC from './MealStyle';
 
 interface MealProps {
   name: string;
@@ -80,30 +75,30 @@ const Meal = ({ name, mealList }: MealProps) => {
   };
 
   return (
-    <MealContainer>
+    <SC.MealContainer>
       <span>{name}</span>
-      <ContentContainer>
-        <MealList>
+      <SC.ContentContainer>
+        <SC.MealList>
           {mealList.map((meal) => (
             <li key={meal.foodName}>{`${meal.foodName} ${meal.quantity}g`}</li>
           ))}
-        </MealList>
+        </SC.MealList>
         <Calorie
           foods={dummyCalorie.foods}
           carbohydrate={dummyCalorie.carbohydrate}
           protein={dummyCalorie.protein}
           fat={dummyCalorie.fat}
         />
-      </ContentContainer>
-      <ButtonContainer>
+      </SC.ContentContainer>
+      <SC.ButtonContainer>
         <button type="button" onClick={handleUpdate}>
           수정
         </button>
         <button type="button" onClick={handleDelete}>
           삭제
         </button>
-      </ButtonContainer>
-    </MealContainer>
+      </SC.ButtonContainer>
+    </SC.MealContainer>
   );
 };
 

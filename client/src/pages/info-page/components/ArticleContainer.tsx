@@ -1,13 +1,13 @@
 import getPath from 'common/utils/getPath';
-import ContainerSection from './ArticleContainerStyle';
+import * as SC from './ArticleContainerStyle';
 import ExerciseDummyItem from './ExerciseDummyItem';
 import MealDummyItem from './MealDummyItem';
 
-const ArticleContainer: React.FC = () => {
+const ArticleContainer = () => {
   const path = getPath();
 
   return (
-    <ContainerSection>
+    <SC.ContainerSection>
       {Array(8)
         .fill(0)
         .map(
@@ -24,7 +24,7 @@ const ArticleContainer: React.FC = () => {
               <MealDummyItem key={`dummy-item-${Math.random()}`} />
             )
         )}
-    </ContainerSection>
+    </SC.ContainerSection>
   );
 };
 

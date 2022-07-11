@@ -12,7 +12,7 @@ import {
   getMiddlePointX,
   isCursorLeftX,
 } from 'common/utils/getElementLocationInfo';
-import { Wrapper, Slide } from './style';
+import * as SC from './style';
 
 interface sliderProps {
   /** 슬라이더 아이템 요소 */
@@ -146,11 +146,11 @@ const CustomCarousel = ({
   };
 
   return (
-    <Wrapper width={width} className="CustomCarousel">
+    <SC.Wrapper width={width} className="CustomCarousel">
       <Slider {...settings} ref={slideRef}>
         {data.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
-          <Slide
+          <SC.Slide
             data-index={i}
             draggable={draggable}
             onDragOver={dragOver}
@@ -160,10 +160,10 @@ const CustomCarousel = ({
             onDrop={dragDrop}
           >
             <h3>{item}</h3>
-          </Slide>
+          </SC.Slide>
         ))}
       </Slider>
-    </Wrapper>
+    </SC.Wrapper>
   );
 };
 

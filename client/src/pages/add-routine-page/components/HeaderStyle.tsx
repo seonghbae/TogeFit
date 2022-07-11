@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const HeaderWrapper = styled.div`
+export const HeaderWrapper = styled.div`
   display: flex;
   width: 90%;
   justify-content: center;
@@ -12,6 +12,3 @@ const HeaderWrapper = styled.div`
     height: 3rem;
   }
 `;
-
-// eslint-disable-next-line import/prefer-default-export
-export { HeaderWrapper };

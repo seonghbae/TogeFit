@@ -1,15 +1,15 @@
 import { Routes, Route } from 'react-router-dom';
 import DietInfo from './components/DietInfo';
 import AddMeal from './components/AddMeal';
-import DietContainer from './DietPageStyle';
+import * as SC from './DietPageStyle';
 
 const DietPage = () => (
-  <DietContainer>
+  <SC.DietContainer>
     <Routes>
       <Route path="/*" element={<DietInfo />} />
       <Route path="add" element={<AddMeal />} />
     </Routes>
-  </DietContainer>
+  </SC.DietContainer>
 );
 
 export default DietPage;

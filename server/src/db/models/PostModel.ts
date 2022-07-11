@@ -8,12 +8,16 @@ export interface CommentInfo {
   author: string;
 }
 
+export interface TagInfo {
+  tag: string;
+}
+
 export interface PostInfo {
   userId: string;
   contents: string;
-  post_image?: string;
-  like: number;
-  comments: CommentInfo[];
+  post_image?: string[];
+  is_open?: boolean;
+  tag_list?: TagInfo[];
   meal?: string;
   routine?: string;
 }

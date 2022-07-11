@@ -1,5 +1,3 @@
 import styled from 'styled-components';
 
-const DietContainer = styled.div``;
-
-export default DietContainer;
+export const DietContainer = styled.div``;
