@@ -1,12 +1,14 @@
 import { Router } from 'express';
+import { loginRequired } from '../middlewares';
 import { routineService } from '../services';
+import is from '@sindresorhus/is';
 
 const routineRouter = Router();
 
 // 사용자의 루틴정보 가져오기
-routineRouter.get('/', async (req, res, next) => {
+routineRouter.get('/:userId', async (req, res, next) => {
   try {
-    const { userId } = req.body;
+    const userId = req.params.userId;
     const userRoutineList = await routineService.findByUserId(userId);
     res.status(200).json(userRoutineList);
   } catch (error) {
@@ -15,9 +17,15 @@ routineRouter.get('/', async (req, res, next) => {
 });
 
 // 루틴 추가
-routineRouter.post('/', async (req, res, next) => {
+routineRouter.post('/register', loginRequired, async (req, res, next) => {
   try {
-    const { userId, routine_name, routine_list } = req.body;
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+    const userId = req.currentUserId;
+    const { routine_name, routine_list } = req.body;
 
     const newRoutine = await routineService.addRoutine({
       userId,
@@ -32,10 +40,19 @@ routineRouter.post('/', async (req, res, next) => {
 });
 
 // 루틴 삭제
-routineRouter.delete('/', async (req, res, next) => {
+routineRouter.delete('/', loginRequired, async (req, res, next) => {
   try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
     const { routineId } = req.body;
-    const deletedRoutine = await routineService.deleteRoutine(routineId);
+    const userId = req.currentUserId;
+    const deletedRoutine = await routineService.deleteRoutine(
+      userId,
+      routineId
+    );
     res.status(200).json(deletedRoutine);
   } catch (error) {
     next(error);
@@ -43,8 +60,14 @@ routineRouter.delete('/', async (req, res, next) => {
 });
 
 // 루틴 업데이트
-routineRouter.patch('/', async (req, res, next) => {
+routineRouter.patch('/', loginRequired, async (req, res, next) => {
   try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
     const { routineId, routine_name, routine_list } = req.body;
 
     if (!routineId) {
@@ -56,7 +79,10 @@ routineRouter.patch('/', async (req, res, next) => {
       ...(routine_list && { routine_list }),
     };
 
+    const userId = req.currentUserId;
+
     const updatedRoutine = await routineService.patchRoutine(
+      userId,
       routineId,
       toUpdateInfo
     );
