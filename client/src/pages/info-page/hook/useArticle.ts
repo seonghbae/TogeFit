@@ -33,12 +33,16 @@ const useArticle = () => {
 
   useEffect(() => {
     async function getArticle() {
+      setLoading(true);
       try {
         const response = await customAxios.get(`/api/post/user/test123`);
         setArticleList(response.data);
       } catch (err) {
+        // 현재 백엔드에서 던져주는 에러가 없으므로 처리할 것이 없음
+        // eslint-disable-next-line no-console
         console.log(err);
       }
+      setLoading(false);
     }
     getArticle();
   }, [standardDate]);
