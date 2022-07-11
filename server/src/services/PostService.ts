@@ -8,11 +8,15 @@ class PostService {
     return createdNewPost;
   }
 
-  async deletePost(postId: string) {
+  async deletePost(userId: string, postId: string) {
     const post = await this.postModel.findById(postId);
 
     if (!post) {
       throw new Error('해당 글을 찾을 수 없습니다.');
+    }
+
+    if (post.userId !== userId) {
+      throw new Error('작성자만 삭제할 수 있습니다.');
     }
 
     const result = await this.postModel.deletePost(postId);
@@ -24,8 +28,27 @@ class PostService {
     return result;
   }
 
-  async updatePost(postId: string, postInfo: Partial<PostInfo>) {
+  async updatePost(
+    userId: string,
+    postId: string,
+    postInfo: Partial<PostInfo>
+  ) {
+    const post = await this.postModel.findById(postId);
+
+    if (!post) {
+      throw new Error('해당 글을 찾을 수 없습니다.');
+    }
+
+    if (post.userId !== userId) {
+      throw new Error('작성자만 수정할 수 있습니다.');
+    }
+
     const updatedPost = await this.postModel.update(postId, postInfo);
+
+    if (!updatedPost) {
+      throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
+    }
+
     return updatedPost;
   }
 }

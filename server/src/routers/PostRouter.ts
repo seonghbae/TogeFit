@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
 import { postService } from '../services';
-import { upload } from '../middlewares/';
+import { loginRequired, upload } from '../middlewares/';
 import { getTagList, getPostImageList } from '../utils';
 
 const postRouter = Router();
@@ -9,6 +9,7 @@ const postRouter = Router();
 // 게시글 등록
 postRouter.post(
   '/register',
+  loginRequired,
   upload.array('post_image'),
   async (req, res, next) => {
     try {
@@ -18,7 +19,8 @@ postRouter.post(
         );
       }
 
-      const { userId, contents, tag_list, is_open, meal, routine } = req.body;
+      const userId = req.currentUserId;
+      const { contents, tag_list, is_open, meal, routine } = req.body;
       // 'a,b,c'로 태그를 받아와 배열로 만들어줌
       const newTagList = getTagList(tag_list);
 
@@ -48,7 +50,7 @@ postRouter.post(
 );
 
 // 게시글 삭제
-postRouter.delete('/', async (req, res, next) => {
+postRouter.delete('/', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -56,9 +58,10 @@ postRouter.delete('/', async (req, res, next) => {
       );
     }
 
+    const userId = req.currentUserId;
     const { postId } = req.body;
 
-    const result = await postService.deletePost(postId);
+    const result = await postService.deletePost(userId, postId);
 
     res.status(200).json(result);
   } catch (error) {
@@ -69,6 +72,7 @@ postRouter.delete('/', async (req, res, next) => {
 // 게시글 수정
 postRouter.patch(
   '/:postId',
+  loginRequired,
   upload.array('post_image'),
   async (req, res, next) => {
     try {
@@ -78,6 +82,7 @@ postRouter.patch(
         );
       }
 
+      const userId = req.currentUserId;
       const postId = req.params.postId;
       let postImages = undefined;
       let imageArrayLength = 0;
@@ -102,7 +107,11 @@ postRouter.patch(
         ...(routine && { routine }),
       };
 
-      const updatedPost = await postService.updatePost(postId, toUpdateInfo);
+      const updatedPost = await postService.updatePost(
+        userId,
+        postId,
+        toUpdateInfo
+      );
       res.status(201).json(updatedPost);
     } catch (error) {
       next(error);
