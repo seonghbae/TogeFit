@@ -84,6 +84,20 @@ export class PostModel {
     return updatedPost;
   }
 
+  async updateComment(commentId: string, toUpdateContent: string) {
+    const updatedPost = await Post.findOneAndUpdate(
+      { 'comments._id': commentId },
+      {
+        $set: {
+          'comments.$.content': toUpdateContent,
+        },
+      },
+      { returnOriginal: false }
+    );
+
+    return updatedPost;
+  }
+
   async deleteComment(commentId: string) {
     const updatedPost = await Post.findOneAndUpdate(
       { 'comments._id': commentId },
