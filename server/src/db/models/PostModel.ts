@@ -23,9 +23,19 @@ export interface PostInfo {
 }
 
 export class PostModel {
+  async findAll() {
+    const postListAll = await Post.find({});
+    return postListAll;
+  }
+
   async findById(id: string) {
     const post = await Post.findOne({ _id: id });
     return post;
+  }
+
+  async findByUserId(userId: string) {
+    const postList = await Post.find({ userId });
+    return postList;
   }
 
   async create(postInfo: PostInfo) {
@@ -39,7 +49,9 @@ export class PostModel {
 
   async update(postId: string, postInfo: Partial<PostInfo>) {
     const filter = { _id: postId };
-    const updatedPost = await Post.findOneAndUpdate(filter, postInfo);
+    const updatedPost = await Post.findOneAndUpdate(filter, postInfo, {
+      returnOriginal: false,
+    });
     return updatedPost;
   }
 }
