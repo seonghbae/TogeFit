@@ -18,7 +18,7 @@ foodRouter.get('/', async (req, res, next) => {
 // 음식 검색
 foodRouter.get('/search', async (req, res, next) => {
   try {
-    const keyword = req.query.query as string;
+    const keyword = req.query.foodName as string;
     let searchedFoodList: Object[] = [];
     if (keyword) {
       searchedFoodList = await foodService.searchFood(keyword);

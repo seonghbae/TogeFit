@@ -6,7 +6,7 @@ const exerciseListRouter = Router();
 // 운동 검색
 exerciseListRouter.get('/search', async (req, res, next) => {
   try {
-    const keyword = req.query.query as string;
+    const keyword = req.query.exerciseName as string;
     let searchedExerciseList: Object[] = [];
     if (keyword) {
       searchedExerciseList = await exerciseListService.searchExercise(keyword);

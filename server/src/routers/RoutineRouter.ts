@@ -8,7 +8,7 @@ const routineRouter = Router();
 routineRouter.get('/search', loginRequired, async (req, res, next) => {
   try {
     const userId = req.currentUserId;
-    const keyword = req.query.query as string;
+    const keyword = req.query.routineName as string;
     let searchedRoutineList: Object[] = [];
     if (keyword) {
       searchedRoutineList = await routineService.searchRoutine(userId, keyword);
