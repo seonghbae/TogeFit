@@ -8,7 +8,7 @@ export class ExerciseListModel {
     return exerciseList;
   }
   async findByExerciseName(exercise: string) {
-    const foundExercise = await ExerciseList.findOne({ exercise });
+    const foundExercise = await ExerciseList.findOne({ name: exercise });
     return foundExercise;
   }
 
