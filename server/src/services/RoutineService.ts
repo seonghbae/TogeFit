@@ -47,7 +47,7 @@ class RoutineService {
     return createdNewRoutine;
   }
 
-  async deleteRoutine(routineId: string) {
+  async deleteRoutine(userId: string, routineId: string) {
     const foundRoutine = await this.routineModel.findRoutineByObjectId(
       routineId
     );
@@ -56,17 +56,29 @@ class RoutineService {
       throw new Error('해당 루틴은 존재하지 않습니다.');
     }
 
+    if (foundRoutine.userId !== userId) {
+      throw new Error('작성자만 삭제할 수 있습니다.');
+    }
+
     const deletedRoutine = await this.routineModel.deleteByRoutineId(routineId);
     return deletedRoutine;
   }
 
-  async patchRoutine(routineId: string, toUpdateInfo: Partial<RoutineInfo>) {
+  async patchRoutine(
+    userId: string,
+    routineId: string,
+    toUpdateInfo: Partial<RoutineInfo>
+  ) {
     const foundRoutine = await this.routineModel.findRoutineByObjectId(
       routineId
     );
 
     if (!foundRoutine) {
       throw new Error('해당 루틴은 존재하지 않습니다.');
+    }
+
+    if (foundRoutine.userId !== userId) {
+      throw new Error('작성자만 수정할 수 있습니다.');
     }
 
     const updatedRoutine = await this.routineModel.update(
