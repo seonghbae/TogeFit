@@ -157,19 +157,20 @@ const CustomCarousel = ({
       objData[dropTargetIndex].name === ROUTINE_INITIAL_MESSAGE ||
       data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE;
 
-    setCurrentTarget(dropTargetIndex);
-
     if (setObjCache) setObjCache([...cachedData]);
 
     if (setData) {
       if (isInitial) {
         data.splice(dropTargetIndex, 1, dragTarget);
+        setCurrentTarget(dropTargetIndex);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (isCursorLeftX(e)) {
           data.splice(dropTargetIndex, 0, dragTarget);
+          setCurrentTarget(dropTargetIndex);
         } else {
           data.splice(dropTargetIndex + 1, 0, dragTarget);
+          setCurrentTarget(dropTargetIndex + 1);
         }
       }
       setData([...data]);
@@ -183,6 +184,7 @@ const CustomCarousel = ({
           set: '',
           weight: '',
         });
+        setCurrentTarget(dropTargetIndex);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (isCursorLeftX(e)) {
@@ -192,6 +194,7 @@ const CustomCarousel = ({
             set: '',
             weight: '',
           });
+          setCurrentTarget(dropTargetIndex);
         } else {
           tempData.splice(dropTargetIndex + 1, 0, {
             name: String(dragTarget),
@@ -199,6 +202,7 @@ const CustomCarousel = ({
             set: '',
             weight: '',
           });
+          setCurrentTarget(dropTargetIndex + 1);
         }
       }
 
@@ -227,6 +231,7 @@ const CustomCarousel = ({
               <h3>{item}</h3>
             </SC.Slide>
           ))}
+
         {objData &&
           objData.map((item, i) => (
             <SC.Slide
