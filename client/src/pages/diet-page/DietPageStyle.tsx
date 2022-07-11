@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const DietContainer = styled.div`
+export const DietContainer = styled.div`
   border: 1px solid ${(props) => props.theme.pointColors.black};
   background-color: #fff;
   margin-left: 5%;
@@ -12,5 +12,3 @@ const DietContainer = styled.div`
     display: none;
   }
 `;
-
-export default DietContainer;
