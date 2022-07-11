@@ -151,6 +151,7 @@ const CustomCarousel = ({
         {data.map((item, i) => (
           // eslint-disable-next-line react/jsx-key
           <SC.Slide
+            key={Math.random()}
             data-index={i}
             draggable={draggable}
             onDragOver={dragOver}
