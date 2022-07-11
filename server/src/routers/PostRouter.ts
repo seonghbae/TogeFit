@@ -97,10 +97,7 @@ postRouter.patch(
 
       const { contents, is_open, tag_list, meal, routine } = req.body;
 
-      let newTagList = tag_list;
-      if (tag_list) {
-        newTagList = getTagList(tag_list);
-      }
+      const newTagList = tag_list ? getTagList(tag_list) : undefined;
 
       const toUpdateInfo = {
         ...(contents && { contents }),
