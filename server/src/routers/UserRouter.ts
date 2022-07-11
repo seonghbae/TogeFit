@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
 import { userService } from '../services';
+import { loginRequired, upload } from '../middlewares';
 
 const userRouter = Router();
 
@@ -29,43 +30,54 @@ userRouter.post('/register', async (req, res, next) => {
 });
 
 // 회원 정보 수정
-userRouter.patch('/', async (req, res, next) => {
-  try {
-    if (is.emptyObject(req.body)) {
-      throw new Error(
-        'headers의 Content-Type을 application/json으로 설정해주세요'
+userRouter.patch(
+  '/',
+  loginRequired,
+  upload.single('profile_image'),
+  async (req, res, next) => {
+    try {
+      if (is.emptyObject(req.body)) {
+        throw new Error(
+          'headers의 Content-Type을 application/json으로 설정해주세요'
+        );
+      }
+
+      let isExistProfileImage = req.file ? true : false;
+      let profile_image = undefined;
+      if (isExistProfileImage) {
+        profile_image = (req.file as Express.MulterS3.File).location;
+      }
+      const userId = req.currentUserId;
+
+      const { password, name, nickname, currentPassword } = req.body;
+
+      if (!currentPassword) {
+        throw new Error('정보 수정을 위해 비밀번호가 필요합니다.');
+      }
+
+      const requiredInfo = { userId, currentPassword };
+
+      const toUpdateInfo = {
+        ...(name && { name }),
+        ...(nickname && { nickname }),
+        ...(password && { password }),
+        ...(profile_image && { profile_image }),
+      };
+
+      const updatedUserInfo = await userService.patchUser(
+        requiredInfo,
+        toUpdateInfo
       );
+
+      res.status(200).json(updatedUserInfo);
+    } catch (error) {
+      next(error);
     }
-
-    const { userId, password, name, nickname, currentPassword, profile_image } =
-      req.body;
-
-    if (!currentPassword) {
-      throw new Error('정보 수정을 위해 비밀번호가 필요합니다.');
-    }
-
-    const requiredInfo = { userId, currentPassword };
-
-    const toUpdateInfo = {
-      ...(name && { name }),
-      ...(nickname && { nickname }),
-      ...(password && { password }),
-      ...(profile_image && { profile_image }),
-    };
-
-    const updatedUserInfo = await userService.patchUser(
-      requiredInfo,
-      toUpdateInfo
-    );
-
-    res.status(200).json(updatedUserInfo);
-  } catch (error) {
-    next(error);
   }
-});
+);
 
 // 회원 탈퇴
-userRouter.delete('/', async (req, res, next) => {
+userRouter.delete('/', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
