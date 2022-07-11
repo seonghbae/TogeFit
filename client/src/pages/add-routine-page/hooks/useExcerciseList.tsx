@@ -21,7 +21,7 @@ const useExcerciseList = () => {
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
-  // step1: email로만 요청을 보내 인증 번호 메일 전송 상태 응답을 받는다.
+
   const getExcerciseList = useCallback(() => {
     setLoading(true);
     customAxios
