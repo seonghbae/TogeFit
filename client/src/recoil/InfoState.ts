@@ -5,9 +5,19 @@ export interface DateObject {
   month: number;
 }
 
+export interface JandiType {
+  isNow: boolean;
+  isActive: boolean;
+}
+
 const currentDate = new Date();
 
 export const dateObjectAtom = atom<DateObject>({
   key: 'dateObject',
   default: { year: currentDate.getFullYear(), month: currentDate.getMonth() },
+});
+
+export const jandiListAtom = atom<Array<JandiType>>({
+  key: 'jandiList',
+  default: [],
 });
