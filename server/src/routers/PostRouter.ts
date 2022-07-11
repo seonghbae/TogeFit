@@ -155,4 +155,28 @@ postRouter.patch(
   }
 );
 
+// 댓글 등록
+postRouter.post('/comment', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+    const { postId, content } = req.body;
+    const userId = req.currentUserId;
+
+    const data = {
+      author: userId,
+      content,
+    };
+
+    const result = await postService.addComment(postId, data);
+
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export { postRouter };

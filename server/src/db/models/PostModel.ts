@@ -22,6 +22,11 @@ export interface PostInfo {
   routine?: string;
 }
 
+export interface CommentInfo {
+  author: string;
+  content: string;
+}
+
 export class PostModel {
   async findAll() {
     const postListAll = await Post.find({});
@@ -52,6 +57,18 @@ export class PostModel {
     const updatedPost = await Post.findOneAndUpdate(filter, postInfo, {
       returnOriginal: false,
     });
+    return updatedPost;
+  }
+
+  async addComment(postId: string, commentInfo: CommentInfo) {
+    const updatedPost = await Post.findOneAndUpdate(
+      { _id: postId },
+      {
+        $push: { comments: commentInfo },
+      },
+      { returnOriginal: false }
+    );
+
     return updatedPost;
   }
 }

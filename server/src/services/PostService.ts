@@ -71,6 +71,22 @@ class PostService {
 
     return updatedPost;
   }
+
+  async addComment(postId: string, commentInfo: CommentInfo) {
+    const post = await this.postModel.findById(postId);
+
+    if (!post) {
+      throw new Error('해당 글을 찾을 수 없습니다.');
+    }
+
+    const result = await this.postModel.addComment(postId, commentInfo);
+
+    if (!result) {
+      throw new Error('댓글 작성에 실패했습니다.');
+    }
+
+    return result;
+  }
 }
 
 const postService = new PostService(postModel);
