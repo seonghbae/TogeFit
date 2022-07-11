@@ -43,6 +43,18 @@ export class PostModel {
     return postList;
   }
 
+  async findCommentByCommentId(commentId: string) {
+    const post = await Post.findOne(
+      {
+        'comments._id': commentId,
+      },
+      { 'comments.$': 1 }
+    );
+    const comment = post?.comments[0];
+
+    return comment;
+  }
+
   async create(postInfo: PostInfo) {
     const createdNewPost = await Post.create(postInfo);
     return createdNewPost;
@@ -65,6 +77,20 @@ export class PostModel {
       { _id: postId },
       {
         $push: { comments: commentInfo },
+      },
+      { returnOriginal: false }
+    );
+
+    return updatedPost;
+  }
+
+  async deleteComment(commentId: string) {
+    const updatedPost = await Post.findOneAndUpdate(
+      { 'comments._id': commentId },
+      {
+        $pull: {
+          comments: { _id: commentId },
+        },
       },
       { returnOriginal: false }
     );
