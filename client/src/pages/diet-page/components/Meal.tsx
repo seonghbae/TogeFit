@@ -3,7 +3,7 @@ import * as SC from './MealStyle';
 
 interface MealProps {
   name: string;
-  mealList: Array<{ foodName: string; quantity: number }>;
+  mealList: Array<{ foodName: string; quantity: number; id: string }>;
 }
 
 interface CalorieProps {
