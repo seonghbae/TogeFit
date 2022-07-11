@@ -23,7 +23,12 @@ const ArticleContainer = () => {
         .map(
           () =>
             path === 'exercise' && (
-              <CustomCard key={`dummy-item-${Math.random()}`} />
+              <CustomCard
+                key={`dummy-item-${Math.random()}`}
+                imgUrl="https://team-16-s3.s3.ap-northeast-2.amazonaws.com/u99cT3fpd.jpeg"
+                content="날씨가 좋다~~!!!"
+                tagList={['조깅', '야외']}
+              />
             )
         )}
       {Array(8)
