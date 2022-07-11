@@ -66,7 +66,7 @@ const AddMeal = () => {
         setModalView={setOpen}
         isCancel={isCancel}
         setIsCancel={setIsCancel}
-        setCache={setCache}
+        // setCache={setCache}
         cache={cache}
       />
       <button type="button">확인</button>

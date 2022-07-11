@@ -1,43 +1,49 @@
 import { CustomCarousel } from 'common/components';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
-import { useConfirmModal, usePrevious } from 'common/hooks';
-import { Header, RoutineModal } from './components';
-import * as SC from './style';
+
+import { exerciseState } from 'pages/add-routine-page/states';
+import { useRecoilState } from 'recoil';
+
+import { Header } from './components';
 import useExcerciseList from './hooks/useExcerciseList';
+import AddRoutineModal from './components/AddRoutineModal';
+
+import * as SC from './style';
+import dragTargetState from './states/dragTargetState';
+import userRoutineState from './states/userRoutineState';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
+type Idata = {
+  name: string;
+  count?: string;
+  set?: string;
+  weight?: string;
+};
+
 const AddRoutinePage = () => {
-  const { isCancel, setIsCancel, open, setOpen, renderConfirmModal } =
-    useConfirmModal({
-      childComponent: RoutineModal,
-      handleConfirmFunc: () => {
-        console.log('something logic');
-      },
-    });
-  const [dragTarget, setDragTarget] = useState<string | number | null>(null);
-  const [exercise, setExercise] = useState<Array<string | number | null>>([
-    1, 2, 3, 4, 5,
+  const [isCancel, setIsCancel] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
+  const [exercise, setExercise] = useRecoilState(exerciseState);
+
+  const [userRoutine, setUserRoutine] = useRecoilState(userRoutineState);
+
+  const [cache, setCache] = useState<Idata[]>([
+    {
+      name: ROUTINE_INITIAL_MESSAGE,
+    },
   ]);
 
-  // 유저가 운동목록에서 드래그해서 가져오는 부분
-  const [userCustom, setUserCustom] = useState<Array<string | number | null>>([
-    ROUTINE_INITIAL_MESSAGE,
-  ]);
-
-  const [cache, setCache] = useState<Array<string | number | null>>([
-    ROUTINE_INITIAL_MESSAGE,
-  ]);
-
-  const { isLoading, result, error, getExcerciseList, showError } =
-    useExcerciseList();
+  const { result, getExcerciseList } = useExcerciseList();
 
   useEffect(() => {
     if (isCancel) {
-      setUserCustom([...cache]);
+      setUserRoutine([...cache]);
       setIsCancel(false);
     }
   }, [isCancel]);
@@ -53,6 +59,9 @@ const AddRoutinePage = () => {
     }
   }, [result]);
 
+  useEffect(() => {
+    console.log(userRoutine);
+  }, [userRoutine]);
   return (
     <SC.Wrapper>
       <Header />
@@ -66,25 +75,30 @@ const AddRoutinePage = () => {
           setData={setExercise}
         />
         <CustomCarousel
-          data={userCustom}
+          objData={userRoutine}
+          setObjData={setUserRoutine}
           draggable={isDraggableCarousel}
           width={90}
           dragTarget={dragTarget}
           setDragTarget={setDragTarget}
-          setData={setUserCustom}
           modifyFlag={isUserCustomCarousel}
-          setModalView={setOpen}
+          setModalView={setIsOpen}
           isCancel={isCancel}
           setIsCancel={setIsCancel}
-          setCache={setCache}
-          cache={cache}
+          objCache={userRoutine}
+          setObjCache={setUserRoutine}
         />
       </SC.RoutineWrapper>
       <SC.ButtonWrapper>
         <button type="button">확인</button>
         <button type="button">취소</button>
       </SC.ButtonWrapper>
-      {renderConfirmModal()}
+      <AddRoutineModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        isCancel={isCancel}
+        setIsCancel={setIsCancel}
+      />
     </SC.Wrapper>
   );
 };
