@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
-
-interface DateObject {
-  year: number;
-  month: number;
-}
+import { useRecoilState } from 'recoil';
+import { dateObjectAtom, DateObject } from 'recoil/InfoState';
 
 interface JandiType {
   isNow: boolean;
@@ -58,12 +55,9 @@ const moveDate = (prevDate: DateObject, type: string) => {
 };
 
 const useJandi = () => {
-  const currentDate = new Date();
   const [jandiList, setJandiList] = useState<Array<JandiType>>([]);
-  const [dateObject, setDateObject] = useState<DateObject>({
-    year: currentDate.getFullYear(),
-    month: currentDate.getMonth(),
-  });
+  const [dateObject, setDateObject] =
+    useRecoilState<DateObject>(dateObjectAtom);
 
   const changeDate = (type: string) => {
     setDateObject((prevDate) => moveDate(prevDate, type));
