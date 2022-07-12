@@ -90,6 +90,25 @@ export class PostModel {
     return comment;
   }
 
+  async findByMonth(userId: string, year: number, month: number) {
+    const list = await Post.find({
+      $and: [
+        { userId },
+        {
+          createdAt: {
+            $gte: new Date(year, month - 1, 1),
+            $lt: new Date(year, month - 1, 32),
+          },
+        },
+      ],
+    }).sort({ createdAt: 1 });
+    const dateList = list.map((e) => {
+      return e.createdAt?.getDate();
+    });
+
+    return Array.from(new Set(dateList));
+  }
+
   async create(postInfo: PostInfo) {
     const createdNewPost = await Post.create(postInfo);
     return createdNewPost;

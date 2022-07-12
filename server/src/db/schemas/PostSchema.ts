@@ -55,6 +55,7 @@ const PostSchema = new Schema(
     routine: {
       type: Schema.Types.ObjectId,
     },
+    createdAt: { type: Date },
   },
   {
     collection: 'posts',
