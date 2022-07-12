@@ -18,14 +18,15 @@ const useLogin = () => {
 
   const asyncLogin = useCallback((data: FormInputType) => {
     setLoading(true);
-    console.log(data);
+
     customAxios
       .post<LoginResponse>(`/api/user/login`, data, { withCredentials: true })
       .then((response) => {
         setResult('OK');
         setError('');
         setShowError(false);
-        navigate(`/${response.data.userId}`);
+        document.cookie = `userId=${response.data.userId}`;
+        navigate(`/`);
       })
       .catch((err: AxiosError | Error) => {
         if (axios.isAxiosError(err)) {
