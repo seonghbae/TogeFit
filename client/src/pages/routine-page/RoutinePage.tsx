@@ -16,13 +16,9 @@ const RoutinePage = () => {
   }, []);
 
   useEffect(() => {
-    console.log(result?.data.routines);
     setRoutines(result?.data.routines);
   }, [result]);
 
-  useEffect(() => {
-    console.log(routines);
-  }, [routines]);
   return (
     <SC.Wrapper>
       <Header />
