@@ -1,31 +1,27 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
+import { IRoutines } from 'types/interfaces';
 
 type ValidationResponse = {
   message: string;
 };
 
-interface IData {
-  name: string;
-  _id: string;
-}
-
 interface IResult {
   status: number;
-  data: [IData];
+  data: IRoutines;
 }
 
-const useRoutineAdd = () => {
+const useRoutineList = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
 
-  const addRoutine = useCallback((data: object) => {
+  const getRoutineList = useCallback((userId: string) => {
     setLoading(true);
     customAxios
-      .post(`/api/routine/register`, data, { withCredentials: true })
+      .get(`/api/routine/${userId}`)
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');
@@ -47,7 +43,7 @@ const useRoutineAdd = () => {
   }, []);
 
   return {
-    addRoutine,
+    getRoutineList,
     result,
     isLoading,
     error,
@@ -55,4 +51,4 @@ const useRoutineAdd = () => {
   };
 };
 
-export default useRoutineAdd;
+export default useRoutineList;
