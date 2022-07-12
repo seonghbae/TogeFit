@@ -3,7 +3,8 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   width: 100%;
   height: 100%;
-  position: absolute;
+  position: fixed;
+  overflow: hidden;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

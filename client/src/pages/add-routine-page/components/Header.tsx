@@ -16,7 +16,7 @@ const Header = () => {
   return (
     <SC.HeaderWrapper>
       <h1>내 루틴 만들기</h1>
-      <SearchForm />
+      {/* <SearchForm /> */}
       <button type="button" onClick={handleAddBtn}>
         +
       </button>

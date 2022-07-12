@@ -80,6 +80,32 @@ postRouter.get('/list/month', async (req, res, next) => {
   }
 });
 
+postRouter.get('/grass', loginRequired, async (req, res, next) => {
+  try {
+    const userId = req.currentUserId;
+    const isUserExist = await userService.findByUserId(userId as string);
+
+    if (!isUserExist) {
+      throw new Error('존재하지 않는 유저입니다.');
+    }
+    if (!req.query.year || !req.query.month) {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth() + 1;
+      const dateList = await postService.getDateList(userId, year, month);
+      res.status(200).json(dateList);
+      return;
+    }
+
+    const year = Number(req.query.year);
+    const month = Number(req.query.month);
+    const dateList = await postService.getDateList(userId, year, month);
+    res.status(200).json(dateList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 게시글 등록
 postRouter.post(
   '/register',

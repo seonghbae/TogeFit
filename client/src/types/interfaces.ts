@@ -13,6 +13,7 @@ interface IRoutinesExerciseInfo {
   weight?: string;
   set?: string;
   count?: string;
+  _id: string;
 }
 interface IRoutinesInfo {
   routine_name: string;
