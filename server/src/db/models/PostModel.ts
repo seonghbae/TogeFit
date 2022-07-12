@@ -97,7 +97,7 @@ export class PostModel {
         {
           createdAt: {
             $gte: new Date(year, month - 1, 1),
-            $lte: new Date(year, month - 1, 31),
+            $lt: new Date(year, month - 1, 32),
           },
         },
       ],
