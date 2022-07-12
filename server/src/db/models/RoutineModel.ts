@@ -26,6 +26,29 @@ export class RoutineModel {
     return result;
   }
 
+  async searchRoutine(userId: string, keyword: string) {
+    const findBykeyword = await Routine.aggregate([
+      { $match: { userId } },
+      {
+        $project: {
+          routines: {
+            $filter: {
+              input: '$routines',
+              as: 'routines',
+              cond: {
+                $regexMatch: {
+                  input: '$$routines.routine_name',
+                  regex: `.*${keyword}.*`,
+                },
+              },
+            },
+          },
+        },
+      },
+    ]);
+    return findBykeyword;
+  }
+
   async create(routineInfo: RoutineInfo) {
     const { userId, routine_name, routine_list } = routineInfo;
     const routines = { routine_name, routine_list };
