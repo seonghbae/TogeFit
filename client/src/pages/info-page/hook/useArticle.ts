@@ -42,15 +42,22 @@ const useArticle = () => {
   const { userId } = useParams();
 
   useEffect(() => {
+    setArticleList([]);
+  }, [standardDate]);
+
+  useEffect(() => {
     async function getArticle() {
       setLoading(true);
       try {
         const response = await customAxios.get(
           `/api/post/list/month?userId=${userId}&year=${
             standardDate.year
-          }&month=${standardDate.month + 1}&limit=8&reqNumber=${reqNumber}`
+          }&month=${standardDate.month + 1}&limit=4&reqNumber=${reqNumber}`
         );
-        setArticleList(response.data);
+        setArticleList((previousArticle) => {
+          console.log(previousArticle);
+          return [...previousArticle, ...response.data];
+        });
       } catch (err) {
         if (axios.isAxiosError(err)) {
           const responseError = err as AxiosError<ArticleResponse>;
