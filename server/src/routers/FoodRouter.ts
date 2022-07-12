@@ -19,10 +19,7 @@ foodRouter.get('/', async (req, res, next) => {
 foodRouter.get('/search', async (req, res, next) => {
   try {
     const keyword = req.query.foodName as string;
-    let searchedFoodList: Object[] = [];
-    if (keyword) {
-      searchedFoodList = await foodService.searchFood(keyword);
-    }
+    const searchedFoodList = await foodService.searchFood(keyword);
 
     res.status(200).json(searchedFoodList);
   } catch (error) {

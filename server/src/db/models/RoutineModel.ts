@@ -27,6 +27,10 @@ export class RoutineModel {
   }
 
   async searchRoutine(userId: string, keyword: string) {
+    if (!keyword) {
+      const getAllUserRotine = await this.findByUserId(userId);
+      return getAllUserRotine;
+    }
     const findBykeyword = await Routine.aggregate([
       { $match: { userId } },
       {

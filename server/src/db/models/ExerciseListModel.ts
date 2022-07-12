@@ -13,6 +13,10 @@ export class ExerciseListModel {
   }
 
   async searchExercise(keyword: string) {
+    if (!keyword) {
+      const getAllExercise = await this.findAllExercise();
+      return getAllExercise;
+    }
     const findBykeyword = await ExerciseList.find({
       name: { $regex: `.*${keyword}.*` },
     });
