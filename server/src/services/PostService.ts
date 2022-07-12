@@ -1,4 +1,5 @@
 import { postModel, PostModel, PostInfo, CommentInfo } from '../db';
+import { userService } from './UserService';
 
 class PostService {
   constructor(private postModel: PostModel) {}
@@ -19,6 +20,12 @@ class PostService {
   }
 
   async getPostListByUserId(userId: string) {
+    const isUserExist = await userService.findByUserId(userId);
+
+    if (!isUserExist) {
+      throw new Error('존재하지 않는 유저입니다.');
+    }
+
     const postList = await this.postModel.findByUserId(userId);
     return postList;
   }
