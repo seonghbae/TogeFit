@@ -1,4 +1,11 @@
-import { postModel, PostModel, PostInfo, CommentInfo } from '../db';
+import {
+  postModel,
+  PostModel,
+  PostInfo,
+  CommentInfo,
+  DateInfo,
+  ConditionInfo,
+} from '../db';
 
 class PostService {
   constructor(private postModel: PostModel) {}
@@ -20,6 +27,16 @@ class PostService {
 
   async getPostListByUserId(userId: string) {
     const postList = await this.postModel.findByUserId(userId);
+    return postList;
+  }
+
+  async getPostListByDate(
+    userId: string,
+    date: DateInfo,
+    conditions: ConditionInfo
+  ) {
+    const postList = await this.postModel.findByDate(userId, date, conditions);
+
     return postList;
   }
 

@@ -27,6 +27,16 @@ export interface CommentInfo {
   content: string;
 }
 
+export interface DateInfo {
+  year: string;
+  month: number;
+}
+
+export interface ConditionInfo {
+  limit: number;
+  reqNumber: number;
+}
+
 export class PostModel {
   async findAll() {
     const postListAll = await Post.find({});
@@ -40,6 +50,31 @@ export class PostModel {
 
   async findByUserId(userId: string) {
     const postList = await Post.find({ userId });
+    return postList;
+  }
+
+  async findByDate(userId: string, date: DateInfo, conditions: ConditionInfo) {
+    const currentMonth =
+      date.month < 10 ? '0' + date.month : String(date.month);
+    const nextMonth = date.month + 1 > 12 ? String(1) : String(date.month + 1);
+
+    const filter = {
+      $and: [
+        { userId: userId },
+        {
+          createdAt: {
+            $gte: new Date(`${date.year}-${currentMonth}-01`).toISOString(),
+            $lt: new Date(`${date.year}-${nextMonth}-01`).toISOString(),
+          },
+        },
+      ],
+    };
+
+    const postList = await Post.find(filter)
+      .skip(conditions.reqNumber * conditions.limit)
+      .sort({ _id: -1 })
+      .limit(conditions.limit);
+
     return postList;
   }
 

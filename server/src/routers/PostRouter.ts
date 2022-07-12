@@ -48,6 +48,39 @@ postRouter.get('/article/:postId', async (req, res, next) => {
   }
 });
 
+// 게시글 리스트 가져오기 (유저 + 월 별 + 무한스크롤)
+postRouter.get('/list/month', async (req, res, next) => {
+  try {
+    // lastId: 마지막으로 반환된 게시글의 Id
+    const { userId, year, month, limit, reqNumber } = req.query;
+
+    const isUserExist = await userService.findByUserId(userId as string);
+
+    if (!isUserExist) {
+      throw new Error('존재하지 않는 유저입니다.');
+    }
+
+    const date = {
+      year: year as string,
+      month: parseInt(month as string),
+    };
+    const conditions = {
+      limit: parseInt(limit as string),
+      reqNumber: parseInt(reqNumber as string),
+    };
+
+    const postList = await postService.getPostListByDate(
+      userId as string,
+      date,
+      conditions
+    );
+
+    res.status(200).json(postList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 게시글 등록
 postRouter.post(
   '/register',
