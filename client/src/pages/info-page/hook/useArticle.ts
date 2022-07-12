@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { customAxios } from 'common/api';
 import { dateObjectAtom } from 'recoil/infoState';
 import { useRecoilValue } from 'recoil';
+import axios, { AxiosError } from 'axios';
 
 type comment = {
   content: string;
@@ -26,10 +27,16 @@ interface ArticleResponse {
   message: string;
 }
 
+interface ArticleResponse {
+  reason: string;
+}
+
 const useArticle = () => {
   const [isLoading, setLoading] = useState(false);
   const standardDate = useRecoilValue(dateObjectAtom);
   const [articleList, setArticleList] = useState<Array<ArticleResponse>>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     async function getArticle() {
@@ -38,16 +45,20 @@ const useArticle = () => {
         const response = await customAxios.get(`/api/post/user/test123`);
         setArticleList(response.data);
       } catch (err) {
-        // 현재 백엔드에서 던져주는 에러가 없으므로 처리할 것이 없음
-        // eslint-disable-next-line no-console
-        console.log(err);
+        if (axios.isAxiosError(err)) {
+          const responseError = err as AxiosError<ArticleResponse>;
+          if (responseError && responseError.response) {
+            setErrorMessage(responseError.response.data.reason);
+            setIsOpen(true);
+          }
+        }
       }
       setLoading(false);
     }
     getArticle();
   }, [standardDate]);
 
-  return { isLoading, articleList };
+  return { isLoading, articleList, errorMessage, isOpen, setIsOpen };
 };
 
 export default useArticle;

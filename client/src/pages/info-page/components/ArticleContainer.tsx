@@ -1,27 +1,25 @@
 import getPath from 'common/utils/getPath';
 import CustomCard from 'common/components/custom-card/CustomCard';
 import Modal from 'common/components/alert-modal';
-import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import * as SC from './ArticleContainerStyle';
 import MealDummyItem from './MealDummyItem';
 import useArticle from '../hook/useArticle';
 
 const ArticleContainer = () => {
   const path = getPath();
-  const { articleList } = useArticle();
+  const navigate = useNavigate();
+  const { isLoading, articleList, errorMessage, isOpen, setIsOpen } =
+    useArticle();
 
-  const [isOpen, setIsOpen] = useState(true);
-
-  const handleConfirm = () => {
-    console.log('confirm');
-  };
-
-  const handleCancel = () => {
+  const handleClick = () => {
     setIsOpen(false);
+    navigate('/');
   };
 
   return (
     <>
+      {isLoading && <div>loading...</div>}
       <SC.ContainerSection>
         {articleList.map(
           (article) =>
@@ -44,13 +42,7 @@ const ArticleContainer = () => {
               )
           )}
       </SC.ContainerSection>
-      {isOpen && (
-        <Modal
-          message="Test Message!"
-          handleConfirm={handleConfirm}
-          handleCancel={handleCancel}
-        />
-      )}
+      {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
     </>
   );
 };
