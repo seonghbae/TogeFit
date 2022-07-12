@@ -5,7 +5,7 @@ interface ModalProps {
   children?: React.ReactNode;
   message: string;
   handleConfirm: () => void;
-  handleCancel: () => void;
+  handleCancel?: () => void;
 }
 
 const Modal = ({
@@ -20,7 +20,7 @@ const Modal = ({
     <SC.Wrapper
       onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         if (e.target === ref.current) {
-          handleCancel();
+          handleConfirm();
         }
       }}
       ref={ref}
@@ -30,7 +30,7 @@ const Modal = ({
         {children}
         <SC.ButtonContainer>
           <SC.Button onClick={handleConfirm}>확인</SC.Button>
-          <SC.Button onClick={handleCancel}>취소</SC.Button>
+          {handleCancel && <SC.Button onClick={handleCancel}>취소</SC.Button>}
         </SC.ButtonContainer>
       </SC.Modal>
     </SC.Wrapper>
