@@ -4,6 +4,7 @@ import {
   MealArticleInfo,
   MealInfo,
   MealArrayInfo,
+  ConditionInfo,
 } from '../db';
 
 class MealService {
@@ -14,8 +15,11 @@ class MealService {
     return mealArticleListAll;
   }
 
-  async getMealArticleList(userId: string) {
-    const mealArticleList = await this.mealModel.findByUserId(userId);
+  async getMealArticleListByUserId(userId: string, conditions: ConditionInfo) {
+    const mealArticleList = await this.mealModel.findArticlesByUserId(
+      userId,
+      conditions
+    );
     return mealArticleList;
   }
 
