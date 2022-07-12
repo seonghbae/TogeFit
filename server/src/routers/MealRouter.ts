@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
-import { mealService, MealInfo } from '../services';
+import { mealService, MealInfo, userService } from '../services';
 import { loginRequired } from '../middlewares';
 
 const mealRouter = Router();
@@ -16,11 +16,26 @@ mealRouter.get('/all', async (req, res, next) => {
   }
 });
 
-// 식단 리스트 반환 (유저 별)
-mealRouter.get('/user/:userId', async (req, res, next) => {
+// 식단 리스트 반환 (유저 별 + 무한스크롤)
+mealRouter.get('/user', async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const mealArticleList = await mealService.getMealArticleList(userId);
+    const { userId, limit, reqNumber } = req.query;
+
+    const conditions = {
+      limit: parseInt(limit as string),
+      reqNumber: parseInt(reqNumber as string),
+    };
+
+    const isUserExist = await userService.findByUserId(userId as string);
+
+    if (!isUserExist) {
+      throw new Error('존재하지 않는 유저입니다.');
+    }
+
+    const mealArticleList = await mealService.getMealArticleListByUserId(
+      userId as string,
+      conditions
+    );
 
     res.status(200).json(mealArticleList);
   } catch (error) {

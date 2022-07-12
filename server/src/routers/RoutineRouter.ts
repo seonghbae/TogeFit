@@ -5,6 +5,17 @@ import is from '@sindresorhus/is';
 
 const routineRouter = Router();
 
+// 사용자의 루틴정보 가져오기
+routineRouter.get('/', loginRequired, async (req, res, next) => {
+  try {
+    const userId = req.currentUserId;
+    const userRoutineList = await routineService.findByUserId(userId);
+    res.status(200).json(userRoutineList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 routineRouter.get('/search', loginRequired, async (req, res, next) => {
   try {
     const userId = req.currentUserId;
@@ -15,17 +26,6 @@ routineRouter.get('/search', loginRequired, async (req, res, next) => {
     }
 
     res.status(200).json(searchedRoutineList);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// 사용자의 루틴정보 가져오기
-routineRouter.get('/:userId', async (req, res, next) => {
-  try {
-    const userId = req.params.userId;
-    const userRoutineList = await routineService.findByUserId(userId);
-    res.status(200).json(userRoutineList);
   } catch (error) {
     next(error);
   }
