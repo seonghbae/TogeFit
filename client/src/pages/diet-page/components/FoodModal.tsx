@@ -5,8 +5,8 @@ const FoodModal = () => (
   <>
     <h3>음식 상세정보</h3>
     <div>
-      <label htmlFor="name">이름</label>
-      <input type="input" name="name" />
+      <label htmlFor="foodName">이름</label>
+      <input type="input" name="foodName" />
     </div>
     <div>
       <label htmlFor="quantity">양</label>
