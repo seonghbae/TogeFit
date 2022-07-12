@@ -24,6 +24,10 @@ export class FoodModel {
   }
 
   async searchFood(keyword: string) {
+    if (!keyword) {
+      const getAllFood = this.findAllFood();
+      return getAllFood;
+    }
     const findBykeyword = await Food.find({
       name: { $regex: `.*${keyword}.*` },
     });
