@@ -1,11 +1,11 @@
-import { useRef, MutableRefObject } from 'react';
+import { useRef, MutableRefObject, useEffect } from 'react';
 import * as SC from './style';
 
 interface ModalProps {
   children?: React.ReactNode;
   message: string;
   handleConfirm: () => void;
-  handleCancel: () => void;
+  handleCancel?: () => void;
 }
 
 const Modal = ({
@@ -16,11 +16,25 @@ const Modal = ({
 }: ModalProps) => {
   const ref = useRef() as MutableRefObject<HTMLDivElement>;
 
+  useEffect(() => {
+    document.body.style.cssText = `
+      position: fixed; 
+      top: -${window.scrollY}px;
+      overflow-y: scroll;
+      width: 100%;`;
+
+    return () => {
+      const scrollY = document.body.style.top;
+      document.body.style.cssText = '';
+      window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    };
+  }, []);
+
   return (
     <SC.Wrapper
       onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         if (e.target === ref.current) {
-          handleCancel();
+          handleConfirm();
         }
       }}
       ref={ref}
@@ -30,7 +44,7 @@ const Modal = ({
         {children}
         <SC.ButtonContainer>
           <SC.Button onClick={handleConfirm}>확인</SC.Button>
-          <SC.Button onClick={handleCancel}>취소</SC.Button>
+          {handleCancel && <SC.Button onClick={handleCancel}>취소</SC.Button>}
         </SC.ButtonContainer>
       </SC.Modal>
     </SC.Wrapper>

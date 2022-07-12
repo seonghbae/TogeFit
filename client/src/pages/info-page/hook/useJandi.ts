@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react';
-
-interface DateObject {
-  year: number;
-  month: number;
-}
-
-interface JandiType {
-  isNow: boolean;
-  isActive: boolean;
-}
+import { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
+import {
+  dateObjectAtom,
+  DateObject,
+  jandiListAtom,
+  JandiType,
+} from 'recoil/infoState';
 
 const calculateCalendar = (dateObject: DateObject) => {
   const result: Array<JandiType> = [];
@@ -58,12 +55,10 @@ const moveDate = (prevDate: DateObject, type: string) => {
 };
 
 const useJandi = () => {
-  const currentDate = new Date();
-  const [jandiList, setJandiList] = useState<Array<JandiType>>([]);
-  const [dateObject, setDateObject] = useState<DateObject>({
-    year: currentDate.getFullYear(),
-    month: currentDate.getMonth(),
-  });
+  const [jandiList, setJandiList] =
+    useRecoilState<Array<JandiType>>(jandiListAtom);
+  const [dateObject, setDateObject] =
+    useRecoilState<DateObject>(dateObjectAtom);
 
   const changeDate = (type: string) => {
     setDateObject((prevDate) => moveDate(prevDate, type));
