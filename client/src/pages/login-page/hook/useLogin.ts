@@ -25,7 +25,6 @@ const useLogin = () => {
         setResult('OK');
         setError('');
         setShowError(false);
-        document.cookie = `userId=${response.data.userId}`;
         navigate(`/`);
       })
       .catch((err: AxiosError | Error) => {

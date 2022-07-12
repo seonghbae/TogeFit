@@ -1,11 +1,14 @@
 import { useForm, SubmitHandler } from 'react-hook-form';
+
 import * as SC from './style';
 
 type Inputs = {
   searchData: string;
 };
-
-const SearchForm = () => {
+interface ISearchForm {
+  searchFunc: (query: string) => void;
+}
+const SearchForm = (props: ISearchForm) => {
   const {
     register,
     handleSubmit,
@@ -13,8 +16,9 @@ const SearchForm = () => {
     // formState: { errors },
   } = useForm<Inputs>();
 
+  const { searchFunc } = props;
   // eslint-disable-next-line no-console
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data) => searchFunc(data.searchData);
 
   return (
     <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>
