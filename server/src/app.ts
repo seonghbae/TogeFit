@@ -30,7 +30,6 @@ app.use('/api/post', postRouter);
 app.post(
   '/welcome',
   loginRequired,
-  upload.array('image'),
   (req: Request, res: Response, next: NextFunction) => {
     res.send('welcome!');
   }
