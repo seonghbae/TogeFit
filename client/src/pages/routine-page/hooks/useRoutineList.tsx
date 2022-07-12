@@ -3,7 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
 import { IRoutines } from 'types/interfaces';
 
-type EmailValidationResponse = {
+type ValidationResponse = {
   message: string;
 };
 
@@ -30,7 +30,7 @@ const useRoutineList = () => {
       .catch((err) => {
         if (axios.isAxiosError(err)) {
           console.log('catch', err);
-          const responseError = err as AxiosError<EmailValidationResponse>;
+          const responseError = err as AxiosError<ValidationResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
             setShowError(true);
