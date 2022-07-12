@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
 
-type EmailValidationResponse = {
+type ValidationResponse = {
   message: string;
 };
 
@@ -25,7 +25,7 @@ const useRoutineAdd = () => {
   const addRoutine = useCallback((data: object) => {
     setLoading(true);
     customAxios
-      .post(`/api/routine/register`, data)
+      .post(`/api/routine/register`, data, { withCredentials: true })
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');
@@ -34,7 +34,7 @@ const useRoutineAdd = () => {
       .catch((err) => {
         if (axios.isAxiosError(err)) {
           console.log('catch', err);
-          const responseError = err as AxiosError<EmailValidationResponse>;
+          const responseError = err as AxiosError<ValidationResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
             setShowError(true);
