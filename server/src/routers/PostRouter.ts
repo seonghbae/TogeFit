@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
-import { postService } from '../services';
+import { postService, userService } from '../services';
 import { loginRequired, upload } from '../middlewares/';
 import { getTagList, getPostImageList } from '../utils';
 
@@ -21,6 +21,13 @@ postRouter.get('/all', async (req, res, next) => {
 postRouter.get('/user/:userId', async (req, res, next) => {
   try {
     const { userId } = req.params;
+
+    const isUserExist = await userService.findByUserId(userId);
+
+    if (!isUserExist) {
+      throw new Error('존재하지 않는 유저입니다.');
+    }
+
     const postList = await postService.getPostListByUserId(userId);
 
     res.status(200).json(postList);
