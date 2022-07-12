@@ -22,6 +22,21 @@ export interface PostInfo {
   routine?: string;
 }
 
+export interface CommentInfo {
+  author: string;
+  content: string;
+}
+
+export interface DateInfo {
+  year: string;
+  month: number;
+}
+
+export interface ConditionInfo {
+  limit: number;
+  reqNumber: number;
+}
+
 export class PostModel {
   async findAll() {
     const postListAll = await Post.find({});
@@ -38,6 +53,43 @@ export class PostModel {
     return postList;
   }
 
+  async findByDate(userId: string, date: DateInfo, conditions: ConditionInfo) {
+    const currentMonth =
+      date.month < 10 ? '0' + date.month : String(date.month);
+    const nextMonth = date.month + 1 > 12 ? String(1) : String(date.month + 1);
+
+    const filter = {
+      $and: [
+        { userId: userId },
+        {
+          createdAt: {
+            $gte: new Date(`${date.year}-${currentMonth}-01`).toISOString(),
+            $lt: new Date(`${date.year}-${nextMonth}-01`).toISOString(),
+          },
+        },
+      ],
+    };
+
+    const postList = await Post.find(filter)
+      .skip(conditions.reqNumber * conditions.limit)
+      .sort({ _id: -1 })
+      .limit(conditions.limit);
+
+    return postList;
+  }
+
+  async findCommentByCommentId(commentId: string) {
+    const post = await Post.findOne(
+      {
+        'comments._id': commentId,
+      },
+      { 'comments.$': 1 }
+    );
+    const comment = post?.comments[0];
+
+    return comment;
+  }
+
   async create(postInfo: PostInfo) {
     const createdNewPost = await Post.create(postInfo);
     return createdNewPost;
@@ -52,6 +104,46 @@ export class PostModel {
     const updatedPost = await Post.findOneAndUpdate(filter, postInfo, {
       returnOriginal: false,
     });
+    return updatedPost;
+  }
+
+  async addComment(postId: string, commentInfo: CommentInfo) {
+    const updatedPost = await Post.findOneAndUpdate(
+      { _id: postId },
+      {
+        $push: { comments: commentInfo },
+      },
+      { returnOriginal: false }
+    );
+
+    return updatedPost;
+  }
+
+  async updateComment(commentId: string, toUpdateContent: string) {
+    const updatedPost = await Post.findOneAndUpdate(
+      { 'comments._id': commentId },
+      {
+        $set: {
+          'comments.$.content': toUpdateContent,
+        },
+      },
+      { returnOriginal: false }
+    );
+
+    return updatedPost;
+  }
+
+  async deleteComment(commentId: string) {
+    const updatedPost = await Post.findOneAndUpdate(
+      { 'comments._id': commentId },
+      {
+        $pull: {
+          comments: { _id: commentId },
+        },
+      },
+      { returnOriginal: false }
+    );
+
     return updatedPost;
   }
 }

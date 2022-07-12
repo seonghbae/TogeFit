@@ -12,11 +12,24 @@ import {
   getMiddlePointX,
   isCursorLeftX,
 } from 'common/utils/getElementLocationInfo';
+import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
+import { useRecoilState } from 'recoil';
+
 import * as SC from './style';
+
+type Idata = {
+  name: string;
+  count?: string;
+  set?: string;
+  weight?: string;
+};
 
 interface sliderProps {
   /** 슬라이더 아이템 요소 */
-  data: Array<string | number | null>;
+  data?: Array<string | number | null>;
+  setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
+  objData?: Array<Idata>;
+  setObjData?: React.Dispatch<React.SetStateAction<Array<Idata>>>;
   /** 커스텀 클래스 */
   className?: string;
   /** 자동재생 (속도 설정시 number 타입으로) */
@@ -31,19 +44,23 @@ interface sliderProps {
   width?: number;
   dragTarget?: string | number | null;
   setDragTarget?: React.Dispatch<React.SetStateAction<string | number | null>>;
-  setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
   modifyFlag?: boolean;
   setModalView?: React.Dispatch<React.SetStateAction<boolean>>;
   isCancel?: boolean;
   setIsCancel?: React.Dispatch<React.SetStateAction<boolean>>;
-  cache?: Array<string | number | null>;
+  cache?: Array<string | number | null> | Array<Idata>;
   setCache?: React.Dispatch<
-    React.SetStateAction<Array<string | number | null>>
+    React.SetStateAction<Array<string | number | null> | Array<Idata>>
   >;
+  objCache?: Array<Idata>;
+  setObjCache?: React.Dispatch<React.SetStateAction<Array<Idata>>>;
 }
 
 const CustomCarousel = ({
-  data,
+  data = [],
+  setData,
+  objData = [],
+  setObjData,
   className = 'test',
   autoplay = true,
   speed = 500,
@@ -52,13 +69,14 @@ const CustomCarousel = ({
   width = 80,
   dragTarget,
   setDragTarget,
-  setData,
   modifyFlag = false,
   setModalView,
   isCancel,
   setIsCancel,
   setCache,
   cache,
+  objCache,
+  setObjCache,
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
@@ -67,8 +85,8 @@ const CustomCarousel = ({
     dots: true,
     infinite: draggable,
     speed,
-    slidesToShow: configureOnlyOneContent(data.length, 5),
-    slidesToScroll: 2,
+    slidesToShow: configureOnlyOneContent(data.length || objData.length, 5),
+    slidesToScroll: 5,
     initialSlide: 0,
     arrows: draggable,
     draggable: !draggable,
@@ -78,26 +96,36 @@ const CustomCarousel = ({
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: configureOnlyOneContent(data.length, 4),
-          slidesToScroll: 2,
+          slidesToShow: configureOnlyOneContent(
+            data.length || objData.length,
+            4
+          ),
+          slidesToScroll: 4,
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: configureOnlyOneContent(data.length, 3),
-          slidesToScroll: 2,
+          slidesToShow: configureOnlyOneContent(
+            data.length || objData.length,
+            3
+          ),
+          slidesToScroll: 3,
         },
       },
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: configureOnlyOneContent(data.length, 2),
+          slidesToShow: configureOnlyOneContent(
+            data.length || objData.length,
+            2
+          ),
           slidesToScroll: 2,
         },
       },
     ],
   };
+  const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
 
   const dragOver = (e: any) => {
     e.preventDefault();
@@ -119,50 +147,106 @@ const CustomCarousel = ({
   const dragEnd = (e: any) => {
     e.currentTarget.style.display = 'block';
   };
+
   const dragDrop = (e: any) => {
-    if (!dragTarget || !setData || !modifyFlag) return;
+    if (!dragTarget || !modifyFlag) return;
 
-    const cachedData = data;
+    const cachedData = [...objData];
     const dropTargetIndex = Number(e.currentTarget.dataset.index);
-    const isInitial = data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE;
+    const isInitial =
+      objData[dropTargetIndex].name === ROUTINE_INITIAL_MESSAGE ||
+      data[dropTargetIndex] === ROUTINE_INITIAL_MESSAGE;
 
-    if (setCache) setCache([...cachedData]);
+    if (setObjCache) setObjCache([...cachedData]);
 
-    if (isInitial) {
-      data.splice(dropTargetIndex, 1, dragTarget);
-    } else {
-      // eslint-disable-next-line no-lonely-if
-      if (isCursorLeftX(e)) {
-        data.splice(dropTargetIndex, 0, dragTarget);
+    if (setData) {
+      if (isInitial) {
+        data.splice(dropTargetIndex, 1, dragTarget);
+        setCurrentTarget(dropTargetIndex);
       } else {
-        data.splice(dropTargetIndex + 1, 0, dragTarget);
+        // eslint-disable-next-line no-lonely-if
+        if (isCursorLeftX(e)) {
+          data.splice(dropTargetIndex, 0, dragTarget);
+          setCurrentTarget(dropTargetIndex);
+        } else {
+          data.splice(dropTargetIndex + 1, 0, dragTarget);
+          setCurrentTarget(dropTargetIndex + 1);
+        }
       }
+      setData([...data]);
+    } else if (setObjData) {
+      const tempData = objData.slice();
+
+      if (isInitial) {
+        tempData.splice(dropTargetIndex, 1, {
+          name: String(dragTarget),
+          count: '',
+          set: '',
+          weight: '',
+        });
+        setCurrentTarget(dropTargetIndex);
+      } else {
+        // eslint-disable-next-line no-lonely-if
+        if (isCursorLeftX(e)) {
+          tempData.splice(dropTargetIndex, 0, {
+            name: String(dragTarget),
+            count: '',
+            set: '',
+            weight: '',
+          });
+          setCurrentTarget(dropTargetIndex);
+        } else {
+          tempData.splice(dropTargetIndex + 1, 0, {
+            name: String(dragTarget),
+            count: '',
+            set: '',
+            weight: '',
+          });
+          setCurrentTarget(dropTargetIndex + 1);
+        }
+      }
+
+      setObjData([...tempData]);
     }
 
-    setData([...data]);
-
-    if (setDragTarget) setDragTarget(null);
+    // if (setDragTarget) setDragTarget('');
     if (setModalView) setModalView(true);
   };
 
   return (
     <SC.Wrapper width={width} className="CustomCarousel">
       <Slider {...settings} ref={slideRef}>
-        {data.map((item, i) => (
-          // eslint-disable-next-line react/jsx-key
-          <SC.Slide
-            key={Math.random()}
-            data-index={i}
-            draggable={draggable}
-            onDragOver={dragOver}
-            onDragLeave={dragLeave}
-            onDragStart={dragStart}
-            onDragEnd={dragEnd}
-            onDrop={dragDrop}
-          >
-            <h3>{item}</h3>
-          </SC.Slide>
-        ))}
+        {data &&
+          data.map((item, i) => (
+            <SC.Slide
+              key={Math.random()}
+              data-index={i}
+              draggable={draggable}
+              onDragOver={dragOver}
+              onDragLeave={dragLeave}
+              onDragStart={dragStart}
+              onDragEnd={dragEnd}
+              onDrop={dragDrop}
+            >
+              <h3>{item}</h3>
+            </SC.Slide>
+          ))}
+
+        {objData &&
+          objData.map((item, i) => (
+            <SC.Slide
+              key={Math.random()}
+              data-index={i}
+              draggable={draggable}
+              onDragOver={dragOver}
+              onDragLeave={dragLeave}
+              onDragStart={dragStart}
+              onDragEnd={dragEnd}
+              onDrop={dragDrop}
+            >
+              <h3>{item.name}</h3>
+            </SC.Slide>
+          ))}
       </Slider>
     </SC.Wrapper>
   );

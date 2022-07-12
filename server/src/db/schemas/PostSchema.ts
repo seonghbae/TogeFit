@@ -2,10 +2,13 @@ import { Schema } from 'mongoose';
 
 const CommentSchema = new Schema(
   {
-    content: String,
+    content: {
+      type: String,
+      required: true,
+    },
     author: {
-      type: Schema.Types.ObjectId,
-      ref: 'users',
+      type: String,
+      required: true,
     },
   },
   {

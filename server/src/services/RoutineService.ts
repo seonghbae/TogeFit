@@ -27,6 +27,11 @@ class RoutineService {
     return result;
   }
 
+  async searchRoutine(userId: string, keyword: string) {
+    const routineList = await this.routineModel.searchRoutine(userId, keyword);
+    return routineList;
+  }
+
   async addRoutine(routineInfo: RoutineInfo) {
     const { userId, routine_name, routine_list } = routineInfo;
     // 검사 코드 추가

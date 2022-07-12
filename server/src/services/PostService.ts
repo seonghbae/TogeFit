@@ -1,4 +1,11 @@
-import { postModel, PostModel, PostInfo, CommentInfo } from '../db';
+import {
+  postModel,
+  PostModel,
+  PostInfo,
+  CommentInfo,
+  DateInfo,
+  ConditionInfo,
+} from '../db';
 
 class PostService {
   constructor(private postModel: PostModel) {}
@@ -20,6 +27,16 @@ class PostService {
 
   async getPostListByUserId(userId: string) {
     const postList = await this.postModel.findByUserId(userId);
+    return postList;
+  }
+
+  async getPostListByDate(
+    userId: string,
+    date: DateInfo,
+    conditions: ConditionInfo
+  ) {
+    const postList = await this.postModel.findByDate(userId, date, conditions);
+
     return postList;
   }
 
@@ -70,6 +87,69 @@ class PostService {
     }
 
     return updatedPost;
+  }
+
+  async addComment(postId: string, commentInfo: CommentInfo) {
+    const post = await this.postModel.findById(postId);
+
+    if (!post) {
+      throw new Error('해당 글을 찾을 수 없습니다.');
+    }
+
+    const result = await this.postModel.addComment(postId, commentInfo);
+
+    if (!result) {
+      throw new Error('댓글 작성에 실패했습니다.');
+    }
+
+    return result;
+  }
+
+  async updateComment(
+    commentId: string,
+    userId: string,
+    toUpdateContent: string
+  ) {
+    const comment = await this.postModel.findCommentByCommentId(commentId);
+
+    if (!comment) {
+      throw new Error('해당 댓글이 존재하지 않습니다.');
+    }
+
+    if (comment.author !== userId) {
+      throw new Error('작성자만 수정할 수 있습니다.');
+    }
+
+    const result = await this.postModel.updateComment(
+      commentId,
+      toUpdateContent
+    );
+
+    if (!result) {
+      throw new Error('댓글 수정에 실패했습니다.');
+    }
+
+    return result;
+  }
+
+  async deleteComment(userId: string, commentId: string) {
+    const comment = await this.postModel.findCommentByCommentId(commentId);
+
+    if (!comment) {
+      throw new Error('해당 댓글이 존재하지 않습니다.');
+    }
+
+    if (comment.author !== userId) {
+      throw new Error('작성자만 삭제할 수 있습니다.');
+    }
+
+    const result = await this.postModel.deleteComment(commentId);
+
+    if (!result) {
+      throw new Error('댓글 삭제에 실패했습니다.');
+    }
+
+    return result;
   }
 }
 

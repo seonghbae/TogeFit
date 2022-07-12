@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import is from '@sindresorhus/is';
-import { postService } from '../services';
+import { postService, userService } from '../services';
 import { loginRequired, upload } from '../middlewares/';
 import { getTagList, getPostImageList } from '../utils';
 
@@ -21,6 +21,13 @@ postRouter.get('/all', async (req, res, next) => {
 postRouter.get('/user/:userId', async (req, res, next) => {
   try {
     const { userId } = req.params;
+
+    const isUserExist = await userService.findByUserId(userId);
+
+    if (!isUserExist) {
+      throw new Error('존재하지 않는 유저입니다.');
+    }
+
     const postList = await postService.getPostListByUserId(userId);
 
     res.status(200).json(postList);
@@ -36,6 +43,39 @@ postRouter.get('/article/:postId', async (req, res, next) => {
     const post = await postService.getPostById(postId);
 
     res.status(200).json(post);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 게시글 리스트 가져오기 (유저 + 월 별 + 무한스크롤)
+postRouter.get('/list/month', async (req, res, next) => {
+  try {
+    // lastId: 마지막으로 반환된 게시글의 Id
+    const { userId, year, month, limit, reqNumber } = req.query;
+
+    const isUserExist = await userService.findByUserId(userId as string);
+
+    if (!isUserExist) {
+      throw new Error('존재하지 않는 유저입니다.');
+    }
+
+    const date = {
+      year: year as string,
+      month: parseInt(month as string),
+    };
+    const conditions = {
+      limit: parseInt(limit as string),
+      reqNumber: parseInt(reqNumber as string),
+    };
+
+    const postList = await postService.getPostListByDate(
+      userId as string,
+      date,
+      conditions
+    );
+
+    res.status(200).json(postList);
   } catch (error) {
     next(error);
   }
@@ -154,5 +194,69 @@ postRouter.patch(
     }
   }
 );
+
+// 댓글 등록
+postRouter.post('/comment', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+    const { postId, content } = req.body;
+    const userId = req.currentUserId;
+
+    const data = {
+      author: userId,
+      content,
+    };
+
+    const result = await postService.addComment(postId, data);
+
+    res.status(201).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 댓글 수정
+postRouter.patch('/comment/patch', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { commentId, content } = req.body;
+    const userId = req.currentUserId;
+
+    const result = await postService.updateComment(commentId, userId, content);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 댓글 삭제
+postRouter.delete('/comment', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+
+    const { commentId } = req.body;
+    const userId = req.currentUserId;
+
+    const result = await postService.deleteComment(userId, commentId);
+
+    res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+});
 
 export { postRouter };

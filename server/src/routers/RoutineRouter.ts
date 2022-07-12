@@ -5,6 +5,21 @@ import is from '@sindresorhus/is';
 
 const routineRouter = Router();
 
+routineRouter.get('/search', loginRequired, async (req, res, next) => {
+  try {
+    const userId = req.currentUserId;
+    const keyword = req.query.routineName as string;
+    let searchedRoutineList: Object[] = [];
+    if (keyword) {
+      searchedRoutineList = await routineService.searchRoutine(userId, keyword);
+    }
+
+    res.status(200).json(searchedRoutineList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 사용자의 루틴정보 가져오기
 routineRouter.get('/:userId', async (req, res, next) => {
   try {
