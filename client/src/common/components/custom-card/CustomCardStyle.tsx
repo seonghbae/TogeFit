@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
 export const ArticleImg = styled.img`
   width: 50%;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 50px;
   aspect-ratio: 1 / 1;
 `;
 

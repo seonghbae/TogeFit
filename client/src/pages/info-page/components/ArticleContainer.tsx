@@ -41,8 +41,8 @@ const ArticleContainer = () => {
                 <MealDummyItem key={`dummy-item-${Math.random()}`} />
               )
           )}
+        {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>
-      {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
     </>
   );
 };
