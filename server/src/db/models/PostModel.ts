@@ -70,14 +70,12 @@ export class PostModel {
       ],
     };
 
-    console.log(filter);
-
     const postList = await Post.find(filter)
       .skip(conditions.reqNumber * conditions.limit)
       .sort({ _id: -1 })
       .limit(conditions.limit);
 
-    console.log(postList);
+    return postList;
   }
 
   async findCommentByCommentId(commentId: string) {
