@@ -51,7 +51,6 @@ postRouter.get('/article/:postId', async (req, res, next) => {
 // 게시글 리스트 가져오기 (유저 + 월 별 + 무한스크롤)
 postRouter.get('/list/month', async (req, res, next) => {
   try {
-    // lastId: 마지막으로 반환된 게시글의 Id
     const { userId, year, month, limit, reqNumber } = req.query;
 
     const isUserExist = await userService.findByUserId(userId as string);
