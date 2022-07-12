@@ -18,10 +18,10 @@ const useRoutineList = () => {
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
 
-  const getRoutineList = useCallback((userId: string) => {
+  const getRoutineList = useCallback(() => {
     setLoading(true);
     customAxios
-      .get(`/api/routine/${userId}`)
+      .get(`/api/routine`, { withCredentials: true })
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');

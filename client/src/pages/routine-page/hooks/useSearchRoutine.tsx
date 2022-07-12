@@ -1,32 +1,31 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
+import { IRoutines, IRoutinesInfo } from 'types/interfaces';
 
 type ValidationResponse = {
   message: string;
 };
 
-interface IData {
-  name: string;
-  _id: string;
-}
-
 interface IResult {
   status: number;
-  data: [IData];
+  data: [IRoutinesInfo];
 }
 
-const useExcerciseAdd = () => {
+const useSearchRoutine = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
-  const addExercise = useCallback((data: object) => {
+
+  const getRoutineList = useCallback((query: string) => {
     setLoading(true);
     customAxios
-      .post(`/api/exerciseList/register`, data)
+      .get(`/api/routine/search?routineName=${query}`, {
+        withCredentials: true,
+      })
       .then((response) => {
-        setResult({ status: response.status, data: response.data });
+        setResult({ status: response.status, data: response.data[0].routines });
         setError('');
         setShowError(false);
       })
@@ -46,7 +45,7 @@ const useExcerciseAdd = () => {
   }, []);
 
   return {
-    addExercise,
+    getRoutineList,
     result,
     isLoading,
     error,
@@ -54,4 +53,4 @@ const useExcerciseAdd = () => {
   };
 };
 
-export default useExcerciseAdd;
+export default useSearchRoutine;

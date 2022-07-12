@@ -6,7 +6,7 @@ function loginRequired(req: Request, res: Response, next: NextFunction) {
   const splitCookies = req.headers['cookie']?.split(';');
   splitCookies?.map((data) => {
     const splitData = data.split('=');
-    if (splitData[0] == 'token') {
+    if (splitData[0].trim() == 'token') {
       userToken = splitData[1];
     }
   });
