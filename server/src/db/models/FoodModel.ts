@@ -23,6 +23,13 @@ export class FoodModel {
     return food;
   }
 
+  async searchFood(keyword: string) {
+    const findBykeyword = await Food.find({
+      name: { $regex: `.*${keyword}.*` },
+    });
+    return findBykeyword;
+  }
+
   async create(foodInfo: FoodInfo) {
     const createdNewFood = await Food.create(foodInfo);
     return createdNewFood;

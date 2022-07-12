@@ -71,10 +71,7 @@ const AddRoutinePage = () => {
       routine_list: userRoutine,
     };
     // 로그인하면 주석해제
-    // addRoutine(postData);
-
-    console.log(postData);
-    alert(postData);
+    addRoutine(postData);
     navigate('/routine');
   };
 

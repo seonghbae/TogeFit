@@ -12,6 +12,13 @@ export class ExerciseListModel {
     return foundExercise;
   }
 
+  async searchExercise(keyword: string) {
+    const findBykeyword = await ExerciseList.find({
+      name: { $regex: `.*${keyword}.*` },
+    });
+    return findBykeyword;
+  }
+
   async create(exercise: string) {
     const createdNewExercise = await ExerciseList.create({ name: exercise });
     return createdNewExercise;

@@ -7,7 +7,13 @@ import { RecoilRoot } from 'recoil';
 import { Nav } from 'common/components';
 
 // pages
-import { InfoPage, RoutinePage, AddRoutinePage, DietPage } from './pages';
+import {
+  InfoPage,
+  RoutinePage,
+  AddRoutinePage,
+  DietPage,
+  LoginPage,
+} from './pages';
 
 const App = () => (
   <BrowserRouter>
@@ -18,6 +24,7 @@ const App = () => (
         <Route path="/routine" element={<RoutinePage />} />
         <Route path="/info/*" element={<InfoPage />} />
         <Route path="/diet/*" element={<DietPage />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </RecoilRoot>
   </BrowserRouter>

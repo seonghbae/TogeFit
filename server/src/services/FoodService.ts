@@ -13,6 +13,11 @@ class FoodService {
     return food;
   }
 
+  async searchFood(keyword: string) {
+    const food = await this.foodModel.searchFood(keyword);
+    return food;
+  }
+
   async addFood(foodInfo: FoodInfo) {
     const createdNewFood = await this.foodModel.create(foodInfo);
     return createdNewFood;

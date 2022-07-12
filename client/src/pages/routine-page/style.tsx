@@ -5,17 +5,25 @@ export const Wrapper = styled.div`
   background-color: #fff;
   margin-left: 5%;
   margin-right: 5%;
-  height: 100vh;
+  height: 80vh;
   /* width: 80%; */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 `;
 
 export const RoutineWrapper = styled.div`
-  height: 80vh;
+  height: 70vh;
   overflow: scroll;
-  margin-top: 3%;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
   margin-bottom: 3%;
   padding-right: 1rem;
   & > div {
-    margin-top: 5%;
+    margin-top: 8%;
   }
 `;

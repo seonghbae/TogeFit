@@ -9,6 +9,11 @@ class ExerciseService {
     return foundExercise;
   }
 
+  async searchExercise(keyword: string) {
+    const exerciseList = await this.exerciseListModel.searchExercise(keyword);
+    return exerciseList;
+  }
+
   async getExerciseList() {
     const exerciseList = await this.exerciseListModel.findAllExercise();
     return exerciseList;
