@@ -20,7 +20,7 @@ const useLogin = () => {
     setLoading(true);
     console.log(data);
     customAxios
-      .post<LoginResponse>(`api/user/login`, data)
+      .post<LoginResponse>(`/api/user/login`, data, { withCredentials: true })
       .then((response) => {
         setResult('OK');
         setError('');
