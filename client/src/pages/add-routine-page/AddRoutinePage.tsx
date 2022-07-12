@@ -1,43 +1,55 @@
-import { CustomCarousel } from 'common/components';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { MouseEventHandler, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
-import { useConfirmModal, usePrevious } from 'common/hooks';
-import { Header, RoutineModal } from './components';
-import * as SC from './style';
+
+import { CustomCarousel } from 'common/components';
+import { exerciseState } from 'pages/add-routine-page/states';
+import { Header } from './components';
 import useExcerciseList from './hooks/useExcerciseList';
+import AddRoutineModal from './components/AddRoutineModal';
+
+import dragTargetState from './states/dragTargetState';
+import userRoutineState from './states/userRoutineState';
+import useRoutineAdd from './hooks/useRoutineAdd';
+
+import * as SC from './style';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
+type Idata = {
+  name: string;
+  count?: string;
+  set?: string;
+  weight?: string;
+};
+
 const AddRoutinePage = () => {
-  const { isCancel, setIsCancel, open, setOpen, renderConfirmModal } =
-    useConfirmModal({
-      childComponent: RoutineModal,
-      handleConfirmFunc: () => {
-        console.log('something logic');
-      },
-    });
-  const [dragTarget, setDragTarget] = useState<string | number | null>(null);
-  const [exercise, setExercise] = useState<Array<string | number | null>>([
-    1, 2, 3, 4, 5,
+  const navigate = useNavigate();
+
+  const [isCancel, setIsCancel] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [routineName, setRoutineName] = useState('');
+  const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
+  const [exercise, setExercise] = useRecoilState(exerciseState);
+
+  const [userRoutine, setUserRoutine] = useRecoilState(userRoutineState);
+
+  const [cache, setCache] = useState<Idata[]>([
+    {
+      name: ROUTINE_INITIAL_MESSAGE,
+    },
   ]);
 
-  // 유저가 운동목록에서 드래그해서 가져오는 부분
-  const [userCustom, setUserCustom] = useState<Array<string | number | null>>([
-    ROUTINE_INITIAL_MESSAGE,
-  ]);
-
-  const [cache, setCache] = useState<Array<string | number | null>>([
-    ROUTINE_INITIAL_MESSAGE,
-  ]);
-
-  const { isLoading, result, error, getExcerciseList, showError } =
-    useExcerciseList();
+  const { result, getExcerciseList } = useExcerciseList();
+  const { addRoutine } = useRoutineAdd();
 
   useEffect(() => {
     if (isCancel) {
-      setUserCustom([...cache]);
+      setUserRoutine([...cache]);
       setIsCancel(false);
     }
   }, [isCancel]);
@@ -53,9 +65,35 @@ const AddRoutinePage = () => {
     }
   }, [result]);
 
+  const handleAddRoutine: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const postData = {
+      routine_name: routineName,
+      routine_list: userRoutine,
+    };
+    // 로그인하면 주석해제
+    // addRoutine(postData);
+
+    console.log(postData);
+    alert(postData);
+    navigate('/routine');
+  };
+
+  const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {
+    navigate('/routine');
+  };
+
   return (
     <SC.Wrapper>
       <Header />
+      <SC.InputWrapper>
+        <label htmlFor="routineName">루틴 이름:</label>
+        <input
+          type="text"
+          value={routineName}
+          id="routineName"
+          onChange={(e) => setRoutineName(e.target.value)}
+        />
+      </SC.InputWrapper>
       <SC.RoutineWrapper>
         <CustomCarousel
           data={exercise}
@@ -66,25 +104,34 @@ const AddRoutinePage = () => {
           setData={setExercise}
         />
         <CustomCarousel
-          data={userCustom}
+          objData={userRoutine}
+          setObjData={setUserRoutine}
           draggable={isDraggableCarousel}
           width={90}
           dragTarget={dragTarget}
           setDragTarget={setDragTarget}
-          setData={setUserCustom}
           modifyFlag={isUserCustomCarousel}
-          setModalView={setOpen}
+          setModalView={setIsOpen}
           isCancel={isCancel}
           setIsCancel={setIsCancel}
-          setCache={setCache}
-          cache={cache}
+          objCache={cache}
+          setObjCache={setCache}
         />
       </SC.RoutineWrapper>
       <SC.ButtonWrapper>
-        <button type="button">확인</button>
-        <button type="button">취소</button>
+        <button type="button" onClick={handleAddRoutine}>
+          확인
+        </button>
+        <button type="button" onClick={handleCancel}>
+          취소
+        </button>
       </SC.ButtonWrapper>
-      {renderConfirmModal()}
+      <AddRoutineModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        isCancel={isCancel}
+        setIsCancel={setIsCancel}
+      />
     </SC.Wrapper>
   );
 };

@@ -13,7 +13,7 @@ export const Wrapper = styled.div<{ view: boolean }>`
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 5;
-  & > div {
+  & > form {
     padding: 2rem;
     border: 1px solid;
     background-color: aliceblue;
