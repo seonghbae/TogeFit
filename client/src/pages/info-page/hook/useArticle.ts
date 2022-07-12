@@ -3,6 +3,7 @@ import { customAxios } from 'common/api';
 import { dateObjectAtom } from 'recoil/infoState';
 import { useRecoilValue } from 'recoil';
 import axios, { AxiosError } from 'axios';
+import { useParams } from 'react-router-dom';
 
 type comment = {
   content: string;
@@ -37,12 +38,18 @@ const useArticle = () => {
   const [articleList, setArticleList] = useState<Array<ArticleResponse>>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
+  const [reqNumber, setReqNumber] = useState(1);
+  const { userId } = useParams();
 
   useEffect(() => {
     async function getArticle() {
       setLoading(true);
       try {
-        const response = await customAxios.get(`/api/post/user/test123`);
+        const response = await customAxios.get(
+          `/api/post/list/month?userId=${userId}&year=${
+            standardDate.year
+          }&month=${standardDate.month + 1}&limit=8&reqNumber=${reqNumber}`
+        );
         setArticleList(response.data);
       } catch (err) {
         if (axios.isAxiosError(err)) {
@@ -56,9 +63,16 @@ const useArticle = () => {
       setLoading(false);
     }
     getArticle();
-  }, [standardDate]);
+  }, [standardDate, userId, reqNumber]);
 
-  return { isLoading, articleList, errorMessage, isOpen, setIsOpen };
+  return {
+    isLoading,
+    articleList,
+    errorMessage,
+    isOpen,
+    setIsOpen,
+    setReqNumber,
+  };
 };
 
 export default useArticle;
