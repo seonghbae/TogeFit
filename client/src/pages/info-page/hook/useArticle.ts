@@ -18,7 +18,7 @@ const useArticle = () => {
 
   useEffect(() => {
     setArticleList([]);
-    setReqNumber(1);
+    setReqNumber(0);
     setHasMore(false);
   }, [standardDate]);
 
