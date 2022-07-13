@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
-import { CustomCarousel } from 'common/components';
+// import { CustomCarousel } from 'common/components';
 
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
-import foodState from '../states/foodState';
-import userMealState from '../states/userMealState';
+import foodListState from '../states/foodListState';
+import mealListState from '../states/mealListState';
 
+import FoodCarousel from './FoodCarousel';
+import MealModal from './MealModal';
 import FoodModal from './FoodModal';
 import useFood from '../hooks/useFood';
 import useMealAdd from '../hooks/useMealAdd';
@@ -20,9 +22,9 @@ import * as SC from './AddMealStyle';
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
-type IData = {
-  name: string;
-  quantity?: string;
+type IMeal = {
+  foodName: string;
+  quantity?: number;
 };
 
 const AddRoutinePage = () => {
@@ -31,12 +33,12 @@ const AddRoutinePage = () => {
   const [isCancel, setIsCancel] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
-  const [food, setFood] = useRecoilState(foodState);
-  const [userMeal, setUserMeal] = useRecoilState(userMealState);
+  const [foodList, setFoodList] = useRecoilState(foodListState);
+  const [mealList, setMealList] = useRecoilState(mealListState);
 
-  const [cache, setCache] = useState<IData[]>([
+  const [cache, setCache] = useState<IMeal[]>([
     {
-      name: MEAL_INITIAL_MESSAGE,
+      foodName: MEAL_INITIAL_MESSAGE,
     },
   ]);
 
@@ -45,7 +47,7 @@ const AddRoutinePage = () => {
 
   useEffect(() => {
     if (isCancel) {
-      setUserMeal([...cache]);
+      setMealList([...cache]);
       setIsCancel(false);
     }
   }, [isCancel]);
@@ -56,19 +58,21 @@ const AddRoutinePage = () => {
 
   useEffect(() => {
     if (result?.status === 200) {
-      const foodList = result.data.map((item) => item.name);
-      setFood(foodList);
+      const foodNameList = result.data.map((item) => item.name);
+      setFoodList(foodNameList);
     }
   }, [result]);
 
+  const handleAddFood: MouseEventHandler<HTMLButtonElement> = () => {
+    setIsOpen(true);
+  };
+
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
     const postData = {
-      meal_list: userMeal,
+      meal_list: mealList,
     };
-    // 로그인하면 주석해제
-    // addRoutine(postData);
-    // console.log(postData);
-    alert(postData);
+
+    addMeal(postData);
     navigate('/diet');
   };
 
@@ -80,20 +84,28 @@ const AddRoutinePage = () => {
     <SC.AddMealContainer>
       <div>식품 목록</div>
       <SC.ButtonWrapper>
-        <button type="button">+</button>
+        <button type="button" onClick={handleAddFood}>
+          +
+        </button>
       </SC.ButtonWrapper>
+      <FoodModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        isCancel={isCancel}
+        setIsCancel={setIsCancel}
+      />
       <div>
-        <CustomCarousel
-          data={food}
+        <FoodCarousel
+          data={foodList}
           draggable={isDraggableCarousel}
           width={90}
           dragTarget={dragTarget}
           setDragTarget={setDragTarget}
-          setData={setFood}
+          setData={setFoodList}
         />
-        <CustomCarousel
-          objData={userMeal}
-          setObjData={setUserMeal}
+        {/* <FoodCarousel
+          objData={mealList}
+          setObjData={setMealList}
           draggable={isDraggableCarousel}
           width={90}
           dragTarget={dragTarget}
@@ -104,7 +116,7 @@ const AddRoutinePage = () => {
           setIsCancel={setIsCancel}
           objCache={cache}
           setObjCache={setCache}
-        />
+        /> */}
       </div>
       <button type="button" onClick={handleAddMeal}>
         확인
@@ -112,7 +124,7 @@ const AddRoutinePage = () => {
       <button type="button" onClick={handleCancel}>
         취소
       </button>
-      {/* <FoodModal
+      {/* <MealModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
         isCancel={isCancel}

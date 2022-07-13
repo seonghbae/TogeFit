@@ -2,18 +2,22 @@ import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
 
-type EmailValidationResponse = {
+type ValidationResponse = {
   message: string;
 };
 
-interface IData {
-  name: string;
-  _id: string;
+interface IMealList {
+  foodName: string;
+  quantity: number;
+}
+interface IMeal {
+  userId: string;
+  meals: [IMealList];
 }
 
 interface IResult {
   status: number;
-  data: [IData];
+  data: [IMeal];
 }
 
 const useMealAdd = () => {
@@ -34,7 +38,7 @@ const useMealAdd = () => {
       .catch((err) => {
         if (axios.isAxiosError(err)) {
           console.log('catch', err);
-          const responseError = err as AxiosError<EmailValidationResponse>;
+          const responseError = err as AxiosError<ValidationResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
             setShowError(true);

@@ -20,16 +20,15 @@ interface IResult {
   data: [IFood];
 }
 
-const useFood = () => {
+const useFoodAdd = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
-
-  const getFood = useCallback(() => {
+  const addFood = useCallback((data: object) => {
     setLoading(true);
     customAxios
-      .get(`/api/food`)
+      .post(`/api/food/register`, data)
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');
@@ -37,6 +36,7 @@ const useFood = () => {
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
+          console.log('catch', err);
           const responseError = err as AxiosError<ValidationResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
@@ -50,7 +50,7 @@ const useFood = () => {
   }, []);
 
   return {
-    getFood,
+    addFood,
     result,
     isLoading,
     error,
@@ -58,4 +58,4 @@ const useFood = () => {
   };
 };
 
-export default useFood;
+export default useFoodAdd;
