@@ -6,9 +6,9 @@ import { loginRequired, upload } from '../middlewares';
 const userRouter = Router();
 
 // 로그인한 유저 정보 GET
-userRouter.get('/info', loginRequired, async (req, res, next) => {
+userRouter.get('/info/:userId', async (req, res, next) => {
   try {
-    const userId = req.currentUserId;
+    const { userId } = req.params;
 
     const findUser = await userService.findByUserId(userId);
 
