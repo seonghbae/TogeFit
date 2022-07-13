@@ -3,6 +3,7 @@ import CustomCard from 'common/components/custom-card/CustomCard';
 import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef } from 'react';
+import Loading from 'common/components/loading';
 import * as SC from './ArticleContainerStyle';
 import useArticle from '../hook/useArticle';
 
@@ -76,7 +77,7 @@ const ArticleContainer = () => {
         {/* TODO: 식사 게시글 처리 */}
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>
-      {isLoading && <div>loading...</div>}
+      {isLoading && <Loading />}
     </>
   );
 };
