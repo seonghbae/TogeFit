@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { customAxios } from 'common/api';
 import { dateObjectAtom } from 'recoil/infoState';
 import { useRecoilValue } from 'recoil';
