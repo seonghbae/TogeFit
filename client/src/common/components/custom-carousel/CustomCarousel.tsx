@@ -94,8 +94,8 @@ const CustomCarousel = ({
   objCache,
   setObjCache,
   isModify = false,
-  index,
   setIsModify,
+  index,
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
