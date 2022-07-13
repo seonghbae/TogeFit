@@ -26,7 +26,7 @@ const Sidebar = ({ openSidebar }: SidebarProps) => (
       </Link>
     </SC.NavLink>
     <SC.NavLink>
-      <Link to="/">
+      <Link to="/diet">
         <SpoonKnife />
         식단 관리
       </Link>
