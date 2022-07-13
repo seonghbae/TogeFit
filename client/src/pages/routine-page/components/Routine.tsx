@@ -40,9 +40,6 @@ const Routine = (props: IRoutineProps) => {
         setIsModify={() => handleModify()}
       />
       <SC.BtnWrapper>
-        <button type="button" data-id={id}>
-          수정
-        </button>
         <button type="button">삭제</button>
       </SC.BtnWrapper>
     </SC.Wrapper>
