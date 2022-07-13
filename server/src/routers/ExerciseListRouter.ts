@@ -7,10 +7,9 @@ const exerciseListRouter = Router();
 exerciseListRouter.get('/search', async (req, res, next) => {
   try {
     const keyword = req.query.exerciseName as string;
-    let searchedExerciseList: Object[] = [];
-    if (keyword) {
-      searchedExerciseList = await exerciseListService.searchExercise(keyword);
-    }
+    const searchedExerciseList = await exerciseListService.searchExercise(
+      keyword
+    );
 
     res.status(200).json(searchedExerciseList);
   } catch (error) {
