@@ -17,12 +17,20 @@ const SearchForm = (props: ISearchForm) => {
   } = useForm<Inputs>();
 
   const { searchFunc } = props;
+  let timer: string | number | NodeJS.Timeout | undefined;
   // eslint-disable-next-line no-console
   const onSubmit: SubmitHandler<Inputs> = (data) => searchFunc(data.searchData);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const searchData = e.target.value;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      searchFunc(searchData);
+    }, 300);
+  };
   return (
     <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" {...register('searchData')} />
+      <input type="text" {...register('searchData')} onChange={handleChange} />
       <input type="submit" value="검색" />
     </SC.StyledForm>
   );
