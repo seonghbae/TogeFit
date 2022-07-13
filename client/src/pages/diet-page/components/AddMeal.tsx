@@ -22,7 +22,7 @@ import * as SC from './AddMealStyle';
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
-type IMeal = {
+type Meal = {
   foodName: string;
   quantity?: number;
 };
@@ -36,7 +36,7 @@ const AddRoutinePage = () => {
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
 
-  const [cache, setCache] = useState<IMeal[]>([
+  const [cache, setCache] = useState<Meal[]>([
     {
       foodName: MEAL_INITIAL_MESSAGE,
     },

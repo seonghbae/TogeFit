@@ -9,7 +9,7 @@ import foodListState from '../states/foodListState';
 import useFoodAdd from '../hooks/useFoodAdd';
 import * as SC from './FoodModalStyle';
 
-type IFood = {
+type Food = {
   name: string;
   carbohydrate: number;
   protein: number;
@@ -26,7 +26,7 @@ interface IProps {
 }
 
 const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
-  const { register, handleSubmit, setValue } = useForm<IFood>();
+  const { register, handleSubmit, setValue } = useForm<Food>();
   const { addFood } = useFoodAdd();
   const [food, setFood] = useRecoilState(foodListState);
 
@@ -44,7 +44,7 @@ const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
     e.stopPropagation();
   };
 
-  const onSubmit: SubmitHandler<IFood> = (data) => {
+  const onSubmit: SubmitHandler<Food> = (data) => {
     addFood(data);
     setFood((cur) => [...cur, data.name]);
     setValue('name', '');

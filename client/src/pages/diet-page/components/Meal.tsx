@@ -1,19 +1,19 @@
 import { Calorie } from 'common/components';
 import * as SC from './MealStyle';
 
-interface MealProps {
+interface IMealProps {
   name: string;
   mealList: Array<{ foodName: string; quantity: number; id: string }>;
 }
 
-interface CalorieProps {
+interface ICalorieProps {
   foods: Array<{ name: string; value: number }>;
   carbohydrate: number;
   protein: number;
   fat: number;
 }
 
-const Meal = ({ name, mealList }: MealProps) => {
+const Meal = ({ name, mealList }: IMealProps) => {
   const dummyFood = [
     {
       name: '닭가슴살',
@@ -49,7 +49,7 @@ const Meal = ({ name, mealList }: MealProps) => {
     },
   ];
 
-  const init: CalorieProps = {
+  const init: ICalorieProps = {
     foods: [],
     carbohydrate: 0,
     protein: 0,

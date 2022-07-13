@@ -8,7 +8,7 @@ import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import mealListState from '../states/mealListState';
 import * as SC from './MealModalStyle';
 
-type IMeal = {
+type Meal = {
   foodName: string;
   quantity: number;
 };
@@ -21,7 +21,7 @@ interface IProps {
 }
 
 const MealModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
-  const { register, handleSubmit, resetField } = useForm<IMeal>();
+  const { register, handleSubmit, resetField } = useForm<Meal>();
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [userMeal, setUserMeal] = useRecoilState(mealListState);
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
@@ -40,7 +40,7 @@ const MealModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
     e.stopPropagation();
   };
 
-  const onSubmit: SubmitHandler<IMeal> = (data) => {
+  const onSubmit: SubmitHandler<Meal> = (data) => {
     const temp = [...userMeal];
 
     temp[currentTarget] = {
