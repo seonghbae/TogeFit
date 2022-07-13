@@ -126,6 +126,14 @@ export class PostModel {
     return updatedPost;
   }
 
+  async updateLike(postId: string, currentLikeNumber: number) {
+    const filter = { _id: postId };
+    const updatedPost = await Post.findByIdAndUpdate(filter, {
+      like: currentLikeNumber + 1,
+    });
+    return updatedPost;
+  }
+
   async addComment(postId: string, commentInfo: CommentInfo) {
     const updatedPost = await Post.findOneAndUpdate(
       { _id: postId },
