@@ -1,24 +1,31 @@
 import { useCallback, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { IFoodList } from 'types/interfaces';
+import { IUserDietList } from 'types/interfaces';
 
 type ValidationResponse = {
   message: string;
 };
 
-const useFood = () => {
+const useDietList = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [food, setFood] = useState<IFoodList>();
+  const [userDietList, setUserDietList] = useState<IUserDietList>();
+  const [reqNumber, setReqNumber] = useState(0);
+  //   const { userId } = useParams();
+  const userId = 'cozups';
+  const limit = 10;
 
-  const getFood = useCallback(() => {
+  const getDietList = useCallback(() => {
     setLoading(true);
     customAxios
-      .get(`/api/food`)
+      .get(
+        `/api/meal/user?userId=${userId}&limit=${limit}&reqNumber=${reqNumber}`
+      )
       .then((response) => {
-        setFood({ status: response.status, data: response.data });
+        setUserDietList({ status: response.status, data: response.data });
         setError('');
         setShowError(false);
       })
@@ -37,12 +44,12 @@ const useFood = () => {
   }, []);
 
   return {
-    getFood,
-    food,
+    getDietList,
+    userDietList,
     isLoading,
     error,
     showError,
   };
 };
 
-export default useFood;
+export default useDietList;
