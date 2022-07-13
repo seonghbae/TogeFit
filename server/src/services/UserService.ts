@@ -20,6 +20,26 @@ class UserService {
     return user;
   }
 
+  // 좋아요 눌렀는지 검사
+  async isExistPostId(userId: string, postId: string) {
+    const findUser = await this.findByUserId(userId);
+    if (!findUser) {
+      throw new Error('등록된 유저가 아닙니다.');
+    }
+
+    const isExistPostId = await this.userModel.findUserLike(userId, postId);
+
+    return isExistPostId;
+  }
+
+  async pushPostIdInLikedArray(userId: string, postId: string) {
+    const pushedLiked = await this.userModel.pushPostIdInLikedArray(
+      userId,
+      postId
+    );
+    return pushedLiked;
+  }
+
   // 유저 정보 등록
   async addUser(userInfo: UserInfo) {
     const { name, nickname, userId, password } = userInfo;

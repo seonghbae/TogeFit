@@ -149,6 +149,37 @@ postRouter.post(
   }
 );
 
+// 좋아요
+postRouter.post('/like', loginRequired, async (req, res, next) => {
+  try {
+    if (is.emptyObject(req.body)) {
+      throw new Error(
+        'headers의 Content-Type을 application/json으로 설정해주세요.'
+      );
+    }
+    const userId = req.currentUserId;
+    const { postId } = req.body;
+    postId;
+
+    // 유저의 liked 배열에 postId가 있는지 검사
+    const isExistPostId = await userService.isExistPostId(userId, postId);
+
+    // 없다면 좋아요 + 1
+    if (isExistPostId) {
+      throw new Error('이미 좋아요를 누른 게시글 입니다.');
+    }
+
+    const updatedPost = await postService.updateLike(postId);
+
+    const pushLike = await userService.pushPostIdInLikedArray(userId, postId);
+
+    res.status(201).json(updatedPost);
+    // 유저의 liked 배열에 postId 추가
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 게시글 삭제
 postRouter.delete('/', loginRequired, async (req, res, next) => {
   try {
