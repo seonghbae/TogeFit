@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRecoilState, SetterOrUpdater } from 'recoil';
 import {
   dateObjectAtom,
@@ -7,12 +7,14 @@ import {
   JandiType,
 } from 'recoil/infoState';
 import { customAxios } from 'common/api';
+import { useLocation } from 'react-router-dom';
 
-const getPostGrass = async (dateObject: DateObject) => {
-  const id = 'test123';
-
+const getPostGrass = async (
+  dateObject: DateObject,
+  userId: string | undefined
+) => {
   const response = await customAxios.get(
-    `/api/post/grass?userId=${id}&year=${dateObject.year}&month=${
+    `/api/post/grass?userId=${userId}&year=${dateObject.year}&month=${
       dateObject.month + 1
     }`
   );
@@ -22,13 +24,14 @@ const getPostGrass = async (dateObject: DateObject) => {
 
 const calculateCalendar = async (
   dateObject: DateObject,
-  setJandiList: SetterOrUpdater<JandiType[]>
+  setJandiList: SetterOrUpdater<JandiType[]>,
+  userId: string | undefined
 ) => {
   const result: Array<JandiType> = [];
   const standardDate = new Date(dateObject.year, dateObject.month);
   const nextDate = new Date(dateObject.year, dateObject.month + 1, 0);
 
-  const data = await getPostGrass(dateObject);
+  const data = await getPostGrass(dateObject, userId);
 
   // 이번 달 첫 요일 전까지 push
   for (let day = 0; day < standardDate.getDay(); day += 1) {
@@ -77,17 +80,20 @@ const moveDate = (prevDate: DateObject, type: string) => {
 };
 
 const useJandi = () => {
+  const { pathname } = useLocation();
   const [jandiList, setJandiList] =
     useRecoilState<Array<JandiType>>(jandiListAtom);
   const [dateObject, setDateObject] =
     useRecoilState<DateObject>(dateObjectAtom);
+
+  const userId = useMemo(() => pathname.split('/').at(-1), [pathname]);
 
   const changeDate = (type: string) => {
     setDateObject((prevDate) => moveDate(prevDate, type));
   };
 
   useEffect(() => {
-    calculateCalendar(dateObject, setJandiList);
+    calculateCalendar(dateObject, setJandiList, userId);
   }, [dateObject]);
 
   return { dateObject, jandiList, changeDate };
