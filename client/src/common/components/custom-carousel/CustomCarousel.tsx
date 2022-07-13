@@ -1,3 +1,5 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
 import Slider, { Settings } from 'react-slick';
@@ -80,7 +82,6 @@ const CustomCarousel = ({
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
-  const slideRef = useRef(null);
   const settings = {
     dots: true,
     infinite: draggable,
@@ -215,11 +216,11 @@ const CustomCarousel = ({
 
   return (
     <SC.Wrapper width={width} className="CustomCarousel">
-      <Slider {...settings} ref={slideRef}>
+      <Slider {...settings}>
         {data &&
           data.map((item, i) => (
             <SC.Slide
-              key={Math.random()}
+              key={i}
               data-index={i}
               draggable={draggable}
               onDragOver={dragOver}
@@ -235,7 +236,7 @@ const CustomCarousel = ({
         {objData &&
           objData.map((item, i) => (
             <SC.Slide
-              key={Math.random()}
+              key={i}
               data-index={i}
               draggable={draggable}
               onDragOver={dragOver}
@@ -245,6 +246,10 @@ const CustomCarousel = ({
               onDrop={dragDrop}
             >
               <h3>{item.name}</h3>
+
+              {item.set && <p>세트: {item.set}</p>}
+              {item.count && <p>개수: {item.count}</p>}
+              {item.weight && <p>무게: {item.weight}</p>}
             </SC.Slide>
           ))}
       </Slider>
