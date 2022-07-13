@@ -16,12 +16,12 @@ export const InfoHeader = styled.header`
 
 export const ProfileImg = styled.img`
   position: absolute;
-  width: 19%;
+  width: 22%;
   min-width: 150px;
   height: auto;
   margin: 10px;
-  top: -26%;
-  left: 9%;
+  top: -24%;
+  left: 6%;
   background-color: ${(props) => props.theme.pointColors.beige};
   border: 1rem solid ${(props) => props.theme.pointColors.beige};
   border-radius: 100%;
