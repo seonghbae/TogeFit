@@ -1,4 +1,4 @@
-import styled, { keyframes, DefaultTheme } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 export const Wrapper = styled.div`
   position: fixed;
@@ -7,9 +7,6 @@ export const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 `;
 
 const upside = keyframes`
