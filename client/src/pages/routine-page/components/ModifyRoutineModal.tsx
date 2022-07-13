@@ -53,9 +53,9 @@ const ModifyRoutineModal = ({
   };
 
   const onSubmit: SubmitHandler<any> = (data) => {
+    console.log(data);
     const routine = { ...modifyRoutine };
     const routineList = [...routine.routine_list];
-    console.log(routine);
 
     routineList[routine.index] = {
       name: data.name || exerciseModify?.name || '',
@@ -63,15 +63,12 @@ const ModifyRoutineModal = ({
       set: data.set || exerciseModify?.set || '',
       weight: data.weight || exerciseModify?.weight || '',
     };
-    console.log(routineList);
     const temp = { ...routine, routine_list: routineList };
 
     const sendData = {
       routineId: temp._id,
       ...temp,
     };
-
-    console.log(sendData);
 
     modifyExercise(sendData);
 

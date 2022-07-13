@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import Modal from 'common/components/alert-modal';
 import React, { MouseEventHandler, useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -25,14 +26,19 @@ const Routine = (props: IRoutineProps) => {
   const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
   const [routines, setRoutines] = useRecoilState(routinesState);
 
-  const handleModify = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const handleModify = () => {
     setIsModify(true);
   };
   // exerciseInfo
   return (
-    <SC.Wrapper className="routine" onClickCapture={(e) => handleModify(e)}>
+    <SC.Wrapper className="routine">
       <span>{routineName}</span>
-      <CustomCarousel objData={routineList} isModify index={index} />
+      <CustomCarousel
+        objData={routineList}
+        isModify
+        index={index}
+        setIsModify={() => handleModify()}
+      />
       <SC.BtnWrapper>
         <button type="button" data-id={id}>
           수정

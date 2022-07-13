@@ -69,6 +69,7 @@ interface sliderProps {
   >;
   isModify?: boolean;
   index?: number;
+  setIsModify?: () => void;
 }
 
 const CustomCarousel = ({
@@ -94,6 +95,7 @@ const CustomCarousel = ({
   setObjCache,
   isModify = false,
   index,
+  setIsModify,
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
@@ -106,8 +108,8 @@ const CustomCarousel = ({
     initialSlide: 0,
     arrows: true,
     draggable: false,
-    nextArrow: <ArrowButton />,
-    prevArrow: <ArrowButton />,
+    nextArrow: <ArrowButton className="arrow-button" />,
+    prevArrow: <ArrowButton className="arrow-button" />,
     responsive: [
       {
         breakpoint: 1024,
@@ -235,6 +237,7 @@ const CustomCarousel = ({
   };
 
   const handleModify = (modifyData: IRoutinesExerciseInfo, i: number) => {
+    if (setIsModify) setIsModify();
     setExerciseModify(modifyData);
     if (routines) {
       let temp = { ...modifyRoutine };
