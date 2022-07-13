@@ -14,9 +14,10 @@ export const Wrapper = styled.div<{ width: number }>`
 `;
 
 export const Slide = styled.div`
+  align-items: center;
+  text-align: center;
   & > h3 {
     text-align: center;
-
-    height: 3rem;
+    height: 2rem;
   }
 `;
