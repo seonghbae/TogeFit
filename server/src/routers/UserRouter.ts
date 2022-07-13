@@ -114,7 +114,7 @@ userRouter.post('/login', async function (req, res, next) {
     const userToken = await userService.getUserToken({ userId, password });
 
     res.cookie('token', userToken.token, {
-      maxAge: 60 * 60 * 24,
+      maxAge: 1000 * 60 * 60 * 24,
       httpOnly: true,
     });
 

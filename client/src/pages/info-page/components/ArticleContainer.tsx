@@ -2,15 +2,46 @@ import getPath from 'common/utils/getPath';
 import CustomCard from 'common/components/custom-card/CustomCard';
 import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
+import { useCallback, useRef } from 'react';
 import * as SC from './ArticleContainerStyle';
-import MealDummyItem from './MealDummyItem';
 import useArticle from '../hook/useArticle';
 
 const ArticleContainer = () => {
   const path = getPath();
   const navigate = useNavigate();
-  const { isLoading, articleList, errorMessage, isOpen, setIsOpen } =
-    useArticle();
+  const {
+    isLoading,
+    articleList,
+    errorMessage,
+    isOpen,
+    hasMore,
+    setIsOpen,
+    setReqNumber,
+  } = useArticle();
+
+  const observer = useRef<IntersectionObserver>();
+  const lastArticleRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isLoading) {
+        return;
+      }
+
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setReqNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+
+      if (node) {
+        observer.current.observe(node);
+      }
+    },
+    [isLoading, hasMore]
+  );
 
   const handleClick = () => {
     setIsOpen(false);
@@ -18,37 +49,35 @@ const ArticleContainer = () => {
   };
 
   return (
-    <SC.ContainerSection>
-      {isLoading ? (
-        <div>loading...</div>
-      ) : (
-        <>
-          {articleList.map(
-            (article) =>
-              path === 'exercise' && (
+    <>
+      <SC.ContainerSection>
+        {articleList.map((article, index) => {
+          if (articleList.length === index + 2) {
+            return (
+              <div ref={lastArticleRef}>
                 <CustomCard
                   key={`custom-card-${Math.random()}`}
                   imgUrl={article.post_image[0]}
                   content={article.contents}
                   tagList={article.tag_list}
                 />
-              )
-          )}
-          {/* TODO: 식사 게시글 처리 */}
-          {Array(8)
-            .fill(0)
-            .map(
-              () =>
-                path === 'meal' && (
-                  <MealDummyItem key={`dummy-item-${Math.random()}`} />
-                )
-            )}
-          {isOpen && (
-            <Modal message={errorMessage} handleConfirm={handleClick} />
-          )}
-        </>
-      )}
-    </SC.ContainerSection>
+              </div>
+            );
+          }
+          return (
+            <CustomCard
+              key={`custom-card-${Math.random()}`}
+              imgUrl={article.post_image[0]}
+              content={article.contents}
+              tagList={article.tag_list}
+            />
+          );
+        })}
+        {/* TODO: 식사 게시글 처리 */}
+        {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
+      </SC.ContainerSection>
+      {isLoading && <div>loading...</div>}
+    </>
   );
 };
 

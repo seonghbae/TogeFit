@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { SearchForm } from '../../../common/components';
@@ -16,7 +17,9 @@ const Header = () => {
   return (
     <SC.HeaderWrapper>
       <SearchForm searchFunc={getRoutineList} />
-      <button type="button">+</button>
+      <Link to="/routine/add">
+        <button type="button">+</button>
+      </Link>
     </SC.HeaderWrapper>
   );
 };
