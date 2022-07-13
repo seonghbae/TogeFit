@@ -19,7 +19,9 @@ const Header = () => {
   };
   useEffect(() => {
     const searchedExercise = result?.data.map((item) => item.name) || [null];
-    setExercise(searchedExercise);
+    setExercise(
+      searchedExercise.length ? searchedExercise : ['검색 값이 없습니다.']
+    );
   }, [result]);
 
   return (
