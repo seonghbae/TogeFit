@@ -6,7 +6,7 @@
 import exerciseState from 'pages/add-routine-page/states/exerciseState';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
-import useExcerciseAdd from '../hooks/useExcerciseAdd';
+import useExcerciseAdd from '../hooks/useExerciseAdd';
 
 import * as SC from './AddExerciseModalStyle';
 
