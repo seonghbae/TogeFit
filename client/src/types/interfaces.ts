@@ -17,7 +17,7 @@ interface IRoutinesExerciseInfo {
 }
 interface IRoutinesInfo {
   routine_name: string;
-  routine_list: [IRoutinesExerciseInfo];
+  routine_list: IRoutinesExerciseInfo[];
   _id: string;
 }
 

@@ -69,8 +69,23 @@ const ModifyRoutineModal = ({
       routineId: temp._id,
       ...temp,
     };
+    const cachedData = {
+      ...temp,
+    };
+    // 전체 데이터 호출하지 않고 저장 후 표현
+    let routinesTemp;
+    if (typeof routines === 'object') {
+      routinesTemp = [...routines];
+      routinesTemp[cachedData.index] = {
+        routine_name: cachedData.routine_name,
+        routine_list: cachedData.routine_list,
+        _id: cachedData._id,
+      };
+    }
 
     modifyExercise(sendData);
+
+    setRoutines(routinesTemp);
 
     setIsOpen(false);
   };
