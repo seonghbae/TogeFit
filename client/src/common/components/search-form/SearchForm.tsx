@@ -23,6 +23,7 @@ const SearchForm = (props: ISearchForm) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchData = e.target.value;
+
     clearTimeout(timer);
     timer = setTimeout(() => {
       searchFunc(searchData);

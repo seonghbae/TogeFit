@@ -8,7 +8,7 @@ import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
 import { CustomCarousel } from 'common/components';
 import { exerciseState } from 'pages/add-routine-page/states';
 import { Header } from './components';
-import useExcerciseList from './hooks/useExcerciseList';
+import useExcerciseList from './hooks/useExerciseList';
 import AddRoutineModal from './components/AddRoutineModal';
 
 import dragTargetState from './states/dragTargetState';
