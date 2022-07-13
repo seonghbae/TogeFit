@@ -20,6 +20,7 @@ const UserSchema = new Schema(
     },
     profile_image: {
       type: String,
+      default: 'https://team-16-s3.s3.ap-northeast-2.amazonaws.com/user.png',
     },
     liked: {
       type: [Schema.Types.ObjectId],
