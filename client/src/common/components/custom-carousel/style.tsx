@@ -20,4 +20,13 @@ export const Slide = styled.div`
     text-align: center;
     height: 2rem;
   }
+  input {
+    border: 1px solid;
+    width: 3rem;
+  }
+
+  .info {
+    /* border: none; */
+    /* display: none; */
+  }
 `;

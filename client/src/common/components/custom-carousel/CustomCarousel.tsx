@@ -14,8 +14,13 @@ import {
   getMiddlePointX,
   isCursorLeftX,
 } from 'common/utils/getElementLocationInfo';
+import routineModifyState from 'pages/routine-page/states/routineModifyState';
 import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
+import exerciseModifyState from 'pages/routine-page/states/exerciseModifyState';
+import { routinesState } from 'pages/routine-page/states';
 import { useRecoilState } from 'recoil';
+
+import { IRoutinesExerciseInfo } from 'types/interfaces';
 
 import * as SC from './style';
 
@@ -30,8 +35,10 @@ interface sliderProps {
   /** 슬라이더 아이템 요소 */
   data?: Array<string | number | null>;
   setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
-  objData?: Array<Idata>;
-  setObjData?: React.Dispatch<React.SetStateAction<Array<Idata>>>;
+  objData?: Array<IRoutinesExerciseInfo>;
+  setObjData?: React.Dispatch<
+    React.SetStateAction<Array<IRoutinesExerciseInfo>>
+  >;
   /** 커스텀 클래스 */
   className?: string;
   /** 자동재생 (속도 설정시 number 타입으로) */
@@ -50,12 +57,18 @@ interface sliderProps {
   setModalView?: React.Dispatch<React.SetStateAction<boolean>>;
   isCancel?: boolean;
   setIsCancel?: React.Dispatch<React.SetStateAction<boolean>>;
-  cache?: Array<string | number | null> | Array<Idata>;
+  cache?: Array<string | number | null> | Array<IRoutinesExerciseInfo>;
   setCache?: React.Dispatch<
-    React.SetStateAction<Array<string | number | null> | Array<Idata>>
+    React.SetStateAction<
+      Array<string | number | null> | Array<IRoutinesExerciseInfo>
+    >
   >;
-  objCache?: Array<Idata>;
-  setObjCache?: React.Dispatch<React.SetStateAction<Array<Idata>>>;
+  objCache?: Array<IRoutinesExerciseInfo>;
+  setObjCache?: React.Dispatch<
+    React.SetStateAction<Array<IRoutinesExerciseInfo>>
+  >;
+  isModify?: boolean;
+  index?: number;
 }
 
 const CustomCarousel = ({
@@ -79,6 +92,8 @@ const CustomCarousel = ({
   cache,
   objCache,
   setObjCache,
+  isModify = false,
+  index,
 }: sliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
@@ -89,8 +104,8 @@ const CustomCarousel = ({
     slidesToShow: configureOnlyOneContent(data.length || objData.length, 5),
     slidesToScroll: 5,
     initialSlide: 0,
-    arrows: draggable,
-    draggable: !draggable,
+    arrows: true,
+    draggable: false,
     nextArrow: <ArrowButton />,
     prevArrow: <ArrowButton />,
     responsive: [
@@ -127,6 +142,11 @@ const CustomCarousel = ({
     ],
   };
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
+  const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
+  const [routines, setRoutines] = useRecoilState(routinesState);
+
+  const [exerciseModify, setExerciseModify] =
+    useRecoilState(exerciseModifyState);
 
   const dragOver = (e: any) => {
     e.preventDefault();
@@ -214,6 +234,15 @@ const CustomCarousel = ({
     if (setModalView) setModalView(true);
   };
 
+  const handleModify = (modifyData: IRoutinesExerciseInfo, i: number) => {
+    setExerciseModify(modifyData);
+    if (routines) {
+      let temp = { ...modifyRoutine };
+      temp = { ...routines[index || 0], index: i };
+      console.log('custom temp', temp);
+      setModifyRoutine(temp);
+    }
+  };
   return (
     <SC.Wrapper width={width} className="CustomCarousel">
       <Slider {...settings}>
@@ -234,6 +263,7 @@ const CustomCarousel = ({
           ))}
 
         {objData &&
+          !isModify &&
           objData.map((item, i) => (
             <SC.Slide
               key={i}
@@ -247,7 +277,34 @@ const CustomCarousel = ({
             >
               <h3>{item.name}</h3>
 
-              {item.set && <p>세트: {item.set}</p>}
+              {item.set && (
+                <p data-type="">
+                  세트:
+                  <span>{item.set}</span>
+                </p>
+              )}
+
+              {item.count && <p>개수: {item.count}</p>}
+              {item.weight && <p>무게: {item.weight}</p>}
+            </SC.Slide>
+          ))}
+
+        {objData &&
+          isModify &&
+          objData.map((item, i) => (
+            <SC.Slide
+              key={i}
+              onClick={(e) => handleModify(item, i)}
+              className="exerciseInfo"
+              data-index={i}
+            >
+              <h3>{item.name}</h3>
+              {item.set && (
+                <p>
+                  세트:
+                  {item.set}
+                </p>
+              )}
               {item.count && <p>개수: {item.count}</p>}
               {item.weight && <p>무게: {item.weight}</p>}
             </SC.Slide>

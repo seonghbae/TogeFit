@@ -21,9 +21,9 @@ export const Modal = styled.div`
   align-items: center;
   flex-direction: column;
   width: 90%;
-  max-width: 400px;
+  max-width: 800px;
   height: 350px;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 0.7rem;
   background-color: #fff;
   border-radius: 20px;
 `;
@@ -33,8 +33,11 @@ export const ModalMessage = styled.p`
   text-align: center;
 `;
 
-export const ButtonContainer = styled.div``;
+export const ButtonContainer = styled.div`
+  margin-top: 1.3rem;
+`;
 
 export const Button = styled.button`
   font-size: 1.2rem;
+  margin: 1rem;
 `;

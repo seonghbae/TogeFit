@@ -1,16 +1,42 @@
+import Modal from 'common/components/alert-modal';
+import React, { MouseEventHandler, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { IRoutinesInfo } from 'types/interfaces';
 import { CustomCarousel } from '../../../common/components';
+import { routinesState } from '../states';
+import routineModifyState from '../states/routineModifyState';
 import * as SC from './RoutineStyle';
 
-const Routine = (props: IRoutinesInfo) => {
-  const { routine_name: routineName, routine_list: routineList } = props;
+interface IRoutineProps extends IRoutinesInfo {
+  index: number;
+  isModify: boolean;
+  setIsModify: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
+const Routine = (props: IRoutineProps) => {
+  const {
+    routine_name: routineName,
+    routine_list: routineList,
+    _id: id,
+    index,
+    isModify,
+    setIsModify,
+  } = props;
+  const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
+  const [routines, setRoutines] = useRecoilState(routinesState);
+
+  const handleModify = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    setIsModify(true);
+  };
+  // exerciseInfo
   return (
-    <SC.Wrapper>
+    <SC.Wrapper className="routine" onClickCapture={(e) => handleModify(e)}>
       <span>{routineName}</span>
-      <CustomCarousel objData={routineList} />
+      <CustomCarousel objData={routineList} isModify index={index} />
       <SC.BtnWrapper>
-        <button type="button">수정</button>
+        <button type="button" data-id={id}>
+          수정
+        </button>
         <button type="button">삭제</button>
       </SC.BtnWrapper>
     </SC.Wrapper>
