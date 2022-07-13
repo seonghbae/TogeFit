@@ -29,7 +29,7 @@ const useArticle = () => {
         const response = await customAxios.get(
           `/api/post/list/month?userId=${userId}&year=${
             standardDate.year
-          }&month=${standardDate.month + 1}&limit=4&reqNumber=${reqNumber}`
+          }&month=${standardDate.month + 1}&limit=6&reqNumber=${reqNumber}`
         );
         setArticleList((previousArticle) => [
           ...previousArticle,

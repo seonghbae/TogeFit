@@ -80,9 +80,9 @@ postRouter.get('/list/month', async (req, res, next) => {
   }
 });
 
-postRouter.get('/grass', loginRequired, async (req, res, next) => {
+postRouter.get('/grass', async (req, res, next) => {
   try {
-    const userId = req.currentUserId;
+    const userId = req.query.userId as string;
     const isUserExist = await userService.findByUserId(userId as string);
 
     if (!isUserExist) {

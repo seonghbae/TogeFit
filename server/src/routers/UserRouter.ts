@@ -5,6 +5,27 @@ import { loginRequired, upload } from '../middlewares';
 
 const userRouter = Router();
 
+// 유저 정보 GET
+userRouter.get('/info/:userId', async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+
+    const findUser = await userService.findByUserId(userId);
+
+    if (!findUser) {
+      throw new Error('사용자를 찾을 수 없습니다.');
+    }
+    const user = {
+      nickname: findUser.nickname,
+      profile_image: findUser.profile_image,
+    };
+
+    res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 회원 가입
 userRouter.post('/register', async (req, res, next) => {
   try {
@@ -36,12 +57,6 @@ userRouter.patch(
   upload.single('profile_image'),
   async (req, res, next) => {
     try {
-      if (is.emptyObject(req.body)) {
-        throw new Error(
-          'headers의 Content-Type을 application/json으로 설정해주세요'
-        );
-      }
-
       let isExistProfileImage = req.file ? true : false;
       let profile_image = undefined;
       if (isExistProfileImage) {
