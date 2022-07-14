@@ -44,15 +44,17 @@ const Meal = ({ name, mealList }: IMealProps) => {
   ];
 
   const init: ICalorieProps = {
-    foods: [],
+    names: [],
     carbohydrate: 0,
     protein: 0,
     fat: 0,
+    calories: 0,
   };
 
   const dummyCalorie = dummyFood.reduce(
     (prev, food) => ({
-      foods: [...prev.foods, { name: food.name, value: food.calories }],
+      ...prev,
+      foods: [...prev.names, { name: food.name, value: food.calories }],
       carbohydrate: prev.carbohydrate + food.carbohydrate,
       protein: prev.protein + food.protein,
       fat: prev.fat + food.fat,
@@ -78,7 +80,7 @@ const Meal = ({ name, mealList }: IMealProps) => {
           ))}
         </SC.MealList>
         <Calorie
-          foods={dummyCalorie.foods}
+          foods={dummyCalorie.names}
           carbohydrate={dummyCalorie.carbohydrate}
           protein={dummyCalorie.protein}
           fat={dummyCalorie.fat}

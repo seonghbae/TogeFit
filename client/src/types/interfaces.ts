@@ -55,10 +55,11 @@ interface ArticleErrResponse {
 }
 
 interface ICalorieProps {
-  foods: Array<{ name: string; value: number }>;
+  names: Array<{ name: string; value: number }>;
   carbohydrate: number;
   protein: number;
   fat: number;
+  calories: number;
 }
 
 interface IFood {
