@@ -22,10 +22,6 @@ export const FoodContainer = styled.div<{ view: boolean }>`
     align-items: center;
     flex-direction: column;
   }
-  // label {
-  //   display: inline-block;
-  //   width: 5rem;
-  // }
   label::after {
     content: ' :';
   }
