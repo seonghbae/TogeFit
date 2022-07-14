@@ -7,6 +7,12 @@ import {
   ConditionInfo,
 } from '../db';
 
+interface ErrorWithStatus {
+  status?: number;
+  message: string;
+  stack?: string;
+}
+
 class PostService {
   constructor(private postModel: PostModel) {}
 
@@ -19,7 +25,7 @@ class PostService {
     const post = await this.postModel.findById(postId);
 
     if (!post) {
-      throw new Error('해당 게시글을 찾을 수 없습니다.');
+      throw new Error('해당 게시글을 찾지 못했습니다.');
     }
 
     return post;
@@ -54,18 +60,16 @@ class PostService {
     const post = await this.postModel.findById(postId);
 
     if (!post) {
-      throw new Error('해당 글을 찾을 수 없습니다.');
+      throw new Error('해당 글을 찾지 못했습니다.');
     }
 
     if (post.userId !== userId) {
-      throw new Error('작성자만 삭제할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 삭제할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const result = await this.postModel.deletePost(postId);
-
-    if (!result) {
-      throw new Error('삭제에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
 
     return result;
   }
@@ -78,18 +82,16 @@ class PostService {
     const post = await this.postModel.findById(postId);
 
     if (!post) {
-      throw new Error('해당 글을 찾을 수 없습니다.');
+      throw new Error('해당 글을 찾지 못했습니다.');
     }
 
     if (post.userId !== userId) {
-      throw new Error('작성자만 수정할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const updatedPost = await this.postModel.update(postId, postInfo);
-
-    if (!updatedPost) {
-      throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
 
     return updatedPost;
   }
@@ -97,7 +99,7 @@ class PostService {
   async updateLike(postId: string) {
     const post = await this.postModel.findById(postId);
     if (!post) {
-      throw new Error('해당 글을 찾을 수 없습니다.');
+      throw new Error('해당 글을 찾지 못했습니다.');
     }
 
     const currentLikeNumber = post.like;
@@ -113,14 +115,10 @@ class PostService {
     const post = await this.postModel.findById(postId);
 
     if (!post) {
-      throw new Error('해당 글을 찾을 수 없습니다.');
+      throw new Error('해당 글을 찾지 못했습니다.');
     }
 
     const result = await this.postModel.addComment(postId, commentInfo);
-
-    if (!result) {
-      throw new Error('댓글 작성에 실패했습니다.');
-    }
 
     return result;
   }
@@ -133,21 +131,19 @@ class PostService {
     const comment = await this.postModel.findCommentByCommentId(commentId);
 
     if (!comment) {
-      throw new Error('해당 댓글이 존재하지 않습니다.');
+      throw new Error('해당 댓글을 찾지 못했습니다.');
     }
 
     if (comment.author !== userId) {
-      throw new Error('작성자만 수정할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const result = await this.postModel.updateComment(
       commentId,
       toUpdateContent
     );
-
-    if (!result) {
-      throw new Error('댓글 수정에 실패했습니다.');
-    }
 
     return result;
   }
@@ -156,18 +152,16 @@ class PostService {
     const comment = await this.postModel.findCommentByCommentId(commentId);
 
     if (!comment) {
-      throw new Error('해당 댓글이 존재하지 않습니다.');
+      throw new Error('해당 댓글을 찾지 못했습니다.');
     }
 
     if (comment.author !== userId) {
-      throw new Error('작성자만 삭제할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 삭제할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const result = await this.postModel.deleteComment(commentId);
-
-    if (!result) {
-      throw new Error('댓글 삭제에 실패했습니다.');
-    }
 
     return result;
   }

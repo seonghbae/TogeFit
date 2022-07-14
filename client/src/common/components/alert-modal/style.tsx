@@ -33,8 +33,11 @@ export const ModalMessage = styled.p`
   text-align: center;
 `;
 
-export const ButtonContainer = styled.div``;
+export const ButtonContainer = styled.div`
+  margin-top: 1.3rem;
+`;
 
 export const Button = styled.button`
   font-size: 1.2rem;
+  margin: 1rem;
 `;
