@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { loginRequired } from '../middlewares';
 import { routineService } from '../services';
+import { checkRoutine } from '../utils';
+
 import is from '@sindresorhus/is';
 
 const routineRouter = Router();
@@ -89,9 +91,14 @@ routineRouter.patch('/', loginRequired, async (req, res, next) => {
       throw new Error('루틴 수정을 위해 루틴의 ObjectId가 필요합니다.');
     }
 
+    let newRoutineList = routine_list;
+    if (newRoutineList) {
+      newRoutineList = checkRoutine(newRoutineList);
+    }
+
     const toUpdateInfo = {
       ...(routine_name && { routine_name }),
-      ...(routine_list && { routine_list }),
+      ...(newRoutineList && { routine_list: newRoutineList }),
     };
 
     const userId = req.currentUserId;
