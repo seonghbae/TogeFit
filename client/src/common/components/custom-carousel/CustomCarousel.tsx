@@ -199,32 +199,22 @@ const CustomCarousel = ({
       setData([...data]);
     } else if (setObjData) {
       const tempData = objData.slice();
-
+      const dragObj = {
+        name: String(dragTarget),
+        count: '',
+        set: '',
+        weight: '',
+      };
       if (isInitial) {
-        tempData.splice(dropTargetIndex, 1, {
-          name: String(dragTarget),
-          count: '',
-          set: '',
-          weight: '',
-        });
+        tempData.splice(dropTargetIndex, 1, dragObj);
         setCurrentTarget(dropTargetIndex);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (isCursorLeftX(e)) {
-          tempData.splice(dropTargetIndex, 0, {
-            name: String(dragTarget),
-            count: '',
-            set: '',
-            weight: '',
-          });
+          tempData.splice(dropTargetIndex, 0, dragObj);
           setCurrentTarget(dropTargetIndex);
         } else {
-          tempData.splice(dropTargetIndex + 1, 0, {
-            name: String(dragTarget),
-            count: '',
-            set: '',
-            weight: '',
-          });
+          tempData.splice(dropTargetIndex + 1, 0, dragObj);
           setCurrentTarget(dropTargetIndex + 1);
         }
       }
