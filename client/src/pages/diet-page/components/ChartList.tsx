@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { Calorie } from 'common/components';
@@ -56,16 +57,16 @@ export const ChartList = ({
           init
         );
 
-        const handleRead = () => {
+        const handleRead: MouseEventHandler<HTMLButtonElement> = () => {
           setDiet(dietItem);
           navigate('/diet/info');
         };
 
-        const handleUpdate = () => {
+        const handleUpdate: MouseEventHandler<HTMLButtonElement> = () => {
           alert('Update');
         };
 
-        const handleDelete = () => {
+        const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
           alert('Delete');
         };
 

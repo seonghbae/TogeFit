@@ -1,3 +1,4 @@
+import { MouseEventHandler } from 'react';
 import { Calorie } from 'common/components';
 import { ICalorieProps, IFoodList, IMeal } from 'types/interfaces';
 import * as SC from './MealStyle';
@@ -33,11 +34,11 @@ const Meal = ({ mealName, mealList, food }: IMealProps) => {
     };
   }, init);
 
-  const handleUpdate = () => {
+  const handleUpdate: MouseEventHandler<HTMLButtonElement> = () => {
     alert('Update');
   };
 
-  const handleDelete = () => {
+  const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
     alert('Delete');
   };
 
