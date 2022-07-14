@@ -254,6 +254,7 @@ const CustomCarousel = ({
               onDragStart={dragStart}
               onDragEnd={dragEnd}
               onDrop={dragDrop}
+              className="slide-element"
             >
               <h3>{item}</h3>
             </SC.Slide>
@@ -271,6 +272,7 @@ const CustomCarousel = ({
               onDragStart={dragStart}
               onDragEnd={dragEnd}
               onDrop={dragDrop}
+              className="slide-element"
             >
               <h3>{item.name}</h3>
 
@@ -292,7 +294,7 @@ const CustomCarousel = ({
             <SC.Slide
               key={i}
               onClick={(e) => handleModify(item, i)}
-              className="exerciseInfo"
+              className="exerciseInfo slide-element"
               data-index={i}
             >
               <h3>{item.name}</h3>

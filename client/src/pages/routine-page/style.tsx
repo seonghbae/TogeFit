@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  border: 1px solid #000;
-  background-color: #fff;
   margin-left: 5%;
   margin-right: 5%;
   height: 80vh;
@@ -10,7 +8,12 @@ export const Wrapper = styled.div`
   overflow: hidden;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
+
+  button {
+    border-radius: 10px;
+  }
 `;
 
 export const RoutineWrapper = styled.div`
@@ -20,10 +23,11 @@ export const RoutineWrapper = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
-
-  margin-bottom: 3%;
-  padding-right: 1rem;
-  & > div {
-    margin-top: 8%;
-  }
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  margin-top: 5%;
+  padding-top: 5%;
 `;
