@@ -26,7 +26,7 @@ class ExerciseService {
     );
 
     if (foundExercise) {
-      throw new Error('입력하신 운동은 이미 목록에 존재합니다.');
+      throw new Error('해당 운동은 이미 존재합니다.');
     }
 
     const newExercise = await this.exerciseListModel.create(exercise);
@@ -40,7 +40,7 @@ class ExerciseService {
     );
 
     if (!foundExercise) {
-      throw new Error('입력하신 운동은 목록에 존재하지 않습니다.');
+      throw new Error('해당 운동을 찾지 못했습니다.');
     }
     const newExercise = await this.exerciseListModel.delete(exercise);
     return newExercise;

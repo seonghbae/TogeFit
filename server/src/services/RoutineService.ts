@@ -14,6 +14,12 @@ interface Exercise {
   weight?: number;
 }
 
+interface ErrorWithStatus {
+  status?: number;
+  message: string;
+  stack?: string;
+}
+
 class RoutineService {
   constructor(private routineModel: RoutineModel) {}
 
@@ -38,7 +44,7 @@ class RoutineService {
 
     const foundUser = await userService.findByUserId(userId);
     if (!foundUser) {
-      throw new Error('해당 유저는 존재하지 않습니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     const newRoutine = {
@@ -58,11 +64,13 @@ class RoutineService {
     );
 
     if (!foundRoutine) {
-      throw new Error('해당 루틴은 존재하지 않습니다.');
+      throw new Error('해당 루틴을 찾지 못했습니다.');
     }
 
     if (foundRoutine.userId !== userId) {
-      throw new Error('작성자만 삭제할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 삭제할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const deletedRoutine = await this.routineModel.deleteByRoutineId(routineId);
@@ -79,11 +87,13 @@ class RoutineService {
     );
 
     if (!foundRoutine) {
-      throw new Error('해당 루틴은 존재하지 않습니다.');
+      throw new Error('해당 루틴을 찾지 못했습니다.');
     }
 
     if (foundRoutine.userId !== userId) {
-      throw new Error('작성자만 수정할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const updatedRoutine = await this.routineModel.update(
