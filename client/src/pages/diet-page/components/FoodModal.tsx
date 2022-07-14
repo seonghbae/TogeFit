@@ -48,7 +48,7 @@ const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
       <form onSubmit={handleSubmit(onSubmit)} onClick={handleDivClick}>
         <h3>음식 추가</h3>
         <div>
-          <label htmlFor="name">이름</label>
+          <label htmlFor="name">이름 &nbsp; &nbsp; &nbsp;</label>
           <input type="text" {...register('name')} />
         </div>
         <div>
@@ -56,19 +56,19 @@ const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
           <input type="text" {...register('carbohydrate')} />
         </div>
         <div>
-          <label htmlFor="protein">단백질</label>
+          <label htmlFor="protein">단백질 &nbsp;&nbsp;</label>
           <input type="text" {...register('protein')} />
         </div>
         <div>
-          <label htmlFor="fat">지방</label>
+          <label htmlFor="fat">지방 &nbsp; &nbsp; &nbsp;</label>
           <input type="text" {...register('fat')} />
         </div>
         <div>
-          <label htmlFor="quantity">양</label>
+          <label htmlFor="quantity">양 &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</label>
           <input type="text" {...register('quantity')} />
         </div>
         <div>
-          <label htmlFor="calories">칼로리</label>
+          <label htmlFor="calories">칼로리 &nbsp;&nbsp;</label>
           <input type="text" {...register('calories')} />
         </div>
         <div>
