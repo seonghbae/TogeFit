@@ -16,7 +16,7 @@ const useDietList = () => {
   const [reqNumber, setReqNumber] = useState(0);
   //   const { userId } = useParams();
   const userId = 'cozups';
-  const limit = 10;
+  const limit = 20;
 
   const getDietList = useCallback(() => {
     setLoading(true);

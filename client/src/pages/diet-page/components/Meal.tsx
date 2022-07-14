@@ -54,7 +54,7 @@ const Meal = ({ name, mealList }: IMealProps) => {
   const dummyCalorie = dummyFood.reduce(
     (prev, food) => ({
       ...prev,
-      foods: [...prev.names, { name: food.name, value: food.calories }],
+      names: [...prev.names, { name: food.name, value: food.calories }],
       carbohydrate: prev.carbohydrate + food.carbohydrate,
       protein: prev.protein + food.protein,
       fat: prev.fat + food.fat,

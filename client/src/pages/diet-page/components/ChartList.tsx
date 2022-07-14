@@ -46,14 +46,18 @@ export const ChartList = ({
             fat: prevMeal.fat + calorie.fat,
           };
         }, init);
+        const date = new Date(diet.createdAt);
         return (
-          <Calorie
-            key={diet.id}
-            foods={calorieChart.names}
-            carbohydrate={calorieChart.carbohydrate}
-            protein={calorieChart.protein}
-            fat={calorieChart.fat}
-          />
+          <>
+            <div>{`${date.getMonth() + 1}/${date.getDate()}`}</div>
+            <Calorie
+              key={diet.id}
+              foods={calorieChart.names}
+              carbohydrate={Number(calorieChart.carbohydrate.toFixed(1))}
+              protein={Number(calorieChart.protein.toFixed(1))}
+              fat={Number(calorieChart.fat.toFixed(1))}
+            />
+          </>
         );
       })}
     </SC.ChartListContainer>
