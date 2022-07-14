@@ -6,7 +6,8 @@ import {
 } from 'types/interfaces';
 
 interface IRoutineModifyInfo extends IRoutinesInfo {
-  index: number;
+  exerciseIndex: number;
+  routineIndex: number;
 }
 
 const routineModifyState = atom<IRoutineModifyInfo>({

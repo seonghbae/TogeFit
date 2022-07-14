@@ -33,7 +33,7 @@ const RoutinePage = () => {
         {typeof routines === 'object' &&
           routines.map((routine, i) => (
             <Routine
-              key={`${routine._id}${i}`}
+              key={i}
               {...routine}
               index={i}
               isModify={isModify}

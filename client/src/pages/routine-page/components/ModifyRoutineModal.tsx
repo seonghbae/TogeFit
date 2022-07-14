@@ -53,11 +53,10 @@ const ModifyRoutineModal = ({
   };
 
   const onSubmit: SubmitHandler<any> = (data) => {
-    console.log(data);
     const routine = { ...modifyRoutine };
     const routineList = [...routine.routine_list];
 
-    routineList[routine.index] = {
+    routineList[routine.exerciseIndex] = {
       name: data.name || exerciseModify?.name || '',
       count: data.count || exerciseModify?.count || '',
       set: data.set || exerciseModify?.set || '',
@@ -74,9 +73,10 @@ const ModifyRoutineModal = ({
     };
     // 전체 데이터 호출하지 않고 저장 후 표현
     let routinesTemp;
+
     if (typeof routines === 'object') {
       routinesTemp = [...routines];
-      routinesTemp[cachedData.index] = {
+      routinesTemp[cachedData.routineIndex] = {
         routine_name: cachedData.routine_name,
         routine_list: cachedData.routine_list,
         _id: cachedData._id,
