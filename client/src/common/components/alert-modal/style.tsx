@@ -21,9 +21,9 @@ export const Modal = styled.div`
   align-items: center;
   flex-direction: column;
   width: 90%;
-  max-width: 800px;
+  max-width: 400px;
   height: 350px;
-  padding: 0.5rem 0.7rem;
+  padding: 1rem 1.5rem;
   background-color: #fff;
   border-radius: 20px;
 `;

@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div<{ view: boolean }>`
+export const FoodContainer = styled.div<{ view: boolean }>`
+  visibility: ${(props) => (props.view ? '' : 'hidden')};
   position: fixed;
-  /* display: flex; */
-  display: ${(props) => (props.view ? 'flex' : 'none')};
+  display: flex;
   height: 100%;
   width: 100%;
   top: 0;

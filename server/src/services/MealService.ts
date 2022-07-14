@@ -7,6 +7,12 @@ import {
   ConditionInfo,
 } from '../db';
 
+interface ErrorWithStatus {
+  status?: number;
+  message: string;
+  stack?: string;
+}
+
 class MealService {
   constructor(private mealModel: MealModel) {}
 
@@ -27,7 +33,7 @@ class MealService {
     const mealArticle = await this.mealModel.findById(mealArticleId);
 
     if (!mealArticle) {
-      throw new Error('해당 아티클을 찾을 수 없습니다.');
+      throw new Error('해당 아티클을 찾지 못했습니다.');
     }
 
     return mealArticle;
@@ -42,18 +48,16 @@ class MealService {
     const mealArticle = await this.mealModel.findById(mealArticleId);
 
     if (!mealArticle) {
-      throw new Error('해당 아티클을 찾을 수 없습니다.');
+      throw new Error('해당 아티클을 찾지 못했습니다.');
     }
 
     if (mealArticle.userId !== userId) {
-      throw new Error('작성자만 삭제할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 삭제할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const result = await this.mealModel.deleteMealArticle(mealArticleId);
-
-    if (!result) {
-      throw new Error('삭제에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
 
     return result;
   }
@@ -66,18 +70,16 @@ class MealService {
     const mealArticle = await this.mealModel.findById(mealArticleId);
 
     if (!mealArticle) {
-      throw new Error('해당 아티클을 찾을 수 없습니다.');
+      throw new Error('해당 아티클을 찾지 못했습니다.');
     }
 
     if (mealArticle.userId !== userId) {
-      throw new Error('작성자만 수정할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const result = await this.mealModel.pushOneMeal(mealArticleId, meals);
-
-    if (!result) {
-      throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
 
     return result;
   }
@@ -88,18 +90,16 @@ class MealService {
     );
 
     if (!mealArticle) {
-      throw new Error('해당 식사를 찾을 수 없습니다.');
+      throw new Error('해당 아티클을 찾지 못했습니다.');
     }
 
     if (mealArticle.userId !== userId) {
-      throw new Error('작성자만 수정할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const result = await this.mealModel.updateOneMeal(mealListId, meals);
-
-    if (!result) {
-      throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
 
     return result;
   }
@@ -110,22 +110,20 @@ class MealService {
     );
 
     if (!mealArticle) {
-      throw new Error('해당 식사를 찾을 수 없습니다.');
+      throw new Error('해당 아티클을 찾지 못했습니다.');
     }
     const mealArticleId = mealArticle._id.toString();
 
     if (mealArticle.userId !== userId) {
-      throw new Error('작성자만 수정할 수 있습니다.');
+      const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
+      error.status = 403;
+      throw error;
     }
 
     const result = await this.mealModel.deleteOneMealById(mealListId);
 
-    if (!result) {
-      throw new Error('수정에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
-
     // 남아있는 식사 정보가 없으면 데이터 삭제
-    if (result.meals) {
+    if (result!.meals) {
       // meals가 비었음 -> 데이터 삭제
       await this.mealModel.deleteMealArticle(mealArticleId);
     }

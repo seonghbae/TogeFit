@@ -1,79 +1,137 @@
-import { useState, useEffect } from 'react';
-import { CustomCarousel } from 'common/components';
-import { useConfirmModal } from 'common/hooks';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+import { MouseEventHandler, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+
+import { MEAL_INITIAL_MESSAGE } from 'common/constants';
+// import { CustomCarousel } from 'common/components';
+
+import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
+import foodListState from '../states/foodListState';
+import mealListState from '../states/mealListState';
+
+import FoodCarousel from './FoodCarousel';
+import MealModal from './MealModal';
 import FoodModal from './FoodModal';
+import useFood from '../hooks/useFood';
+import useMealAdd from '../hooks/useMealAdd';
+// import { Header } from './components';
+
 import * as SC from './AddMealStyle';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
-const MEAL_INITIAL_MESSAGE = '위 음식을 드래그 해주세요.';
 
-const AddMeal = () => {
-  const { isCancel, setIsCancel, open, setOpen, renderConfirmModal } =
-    useConfirmModal({
-      childComponent: FoodModal,
-      handleConfirmFunc: () => {
-        console.log('something logic');
-      },
-    });
+type IMeal = {
+  foodName: string;
+  quantity?: number;
+};
 
-  const [dragTarget, setDragTarget] = useState<string | number | null>(null);
+const AddRoutinePage = () => {
+  const navigate = useNavigate();
 
-  const [food, setFood] = useState<Array<string | number | null>>([
-    '닭가슴살',
-    '쌀밥',
-    '바나나',
-    '오트밀',
+  const [isCancel, setIsCancel] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
+  const [foodList, setFoodList] = useRecoilState(foodListState);
+  const [mealList, setMealList] = useRecoilState(mealListState);
+
+  const [cache, setCache] = useState<IMeal[]>([
+    {
+      foodName: MEAL_INITIAL_MESSAGE,
+    },
   ]);
 
-  const [userCustom, setUserCustom] = useState<Array<string | number | null>>([
-    MEAL_INITIAL_MESSAGE,
-  ]);
-
-  const [cache, setCache] = useState<Array<string | number | null>>([
-    MEAL_INITIAL_MESSAGE,
-  ]);
+  const { result, getFood } = useFood();
+  const { addMeal } = useMealAdd();
 
   useEffect(() => {
     if (isCancel) {
-      setUserCustom([...cache]);
+      setMealList([...cache]);
       setIsCancel(false);
     }
   }, [isCancel]);
+
+  useEffect(() => {
+    getFood();
+  }, []);
+
+  useEffect(() => {
+    if (result?.status === 200) {
+      const foodNameList = result.data.map((item) => item.name);
+      setFoodList(foodNameList);
+    }
+  }, [result]);
+
+  const handleAddFood: MouseEventHandler<HTMLButtonElement> = () => {
+    setIsOpen(true);
+  };
+
+  const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
+    const postData = {
+      meal_list: mealList,
+    };
+
+    addMeal(postData);
+    navigate('/diet');
+  };
+
+  const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {
+    navigate('/diet');
+  };
 
   return (
     <SC.AddMealContainer>
       <div>식품 목록</div>
       <SC.ButtonWrapper>
-        <button type="button">+</button>
+        <button type="button" onClick={handleAddFood}>
+          +
+        </button>
       </SC.ButtonWrapper>
-      <CustomCarousel
-        data={food}
-        draggable={isDraggableCarousel}
-        width={90}
-        dragTarget={dragTarget}
-        setDragTarget={setDragTarget}
-        setData={setFood}
-      />
-      <CustomCarousel
-        data={userCustom}
-        draggable={isDraggableCarousel}
-        width={90}
-        dragTarget={dragTarget}
-        setDragTarget={setDragTarget}
-        setData={setUserCustom}
-        modifyFlag={isUserCustomCarousel}
-        setModalView={setOpen}
+      <FoodModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
         isCancel={isCancel}
         setIsCancel={setIsCancel}
-        // setCache={setCache}
-        cache={cache}
       />
-      <button type="button">확인</button>
-      <button type="button">취소</button>
-      {renderConfirmModal()}
+      <div>
+        <FoodCarousel
+          data={foodList}
+          draggable={isDraggableCarousel}
+          width={90}
+          dragTarget={dragTarget}
+          setDragTarget={setDragTarget}
+          setData={setFoodList}
+        />
+        {/* <FoodCarousel
+          objData={mealList}
+          setObjData={setMealList}
+          draggable={isDraggableCarousel}
+          width={90}
+          dragTarget={dragTarget}
+          setDragTarget={setDragTarget}
+          modifyFlag={isUserCustomCarousel}
+          setModalView={setIsOpen}
+          isCancel={isCancel}
+          setIsCancel={setIsCancel}
+          objCache={cache}
+          setObjCache={setCache}
+        /> */}
+      </div>
+      <button type="button" onClick={handleAddMeal}>
+        확인
+      </button>
+      <button type="button" onClick={handleCancel}>
+        취소
+      </button>
+      {/* <MealModal
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        isCancel={isCancel}
+        setIsCancel={setIsCancel}
+      /> */}
     </SC.AddMealContainer>
   );
 };
 
-export default AddMeal;
+export default AddRoutinePage;
