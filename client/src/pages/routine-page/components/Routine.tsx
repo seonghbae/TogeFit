@@ -33,8 +33,12 @@ const Routine = (props: IRoutineProps) => {
   };
 
   const handleDelete = () => {
+    let temp;
     if (routines) {
       deleteRoutine({ routineId: routines[index]._id });
+      temp = [...routines];
+      temp.splice(index, 1);
+      setRoutines(temp);
     }
   };
 
