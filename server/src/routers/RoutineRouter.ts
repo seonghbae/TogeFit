@@ -86,7 +86,7 @@ routineRouter.patch('/', loginRequired, async (req, res, next) => {
     const { routineId, routine_name, routine_list } = req.body;
 
     if (!routineId) {
-      throw new Error('루틴 수정을 위해 루틴의 ObjectId가 필요합니다.');
+      throw new Error('해당 루틴의 ID(Object ID)가 반드시 필요합니다.');
     }
 
     const toUpdateInfo = {

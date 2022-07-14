@@ -13,7 +13,7 @@ userRouter.get('/info/:userId', async (req, res, next) => {
     const findUser = await userService.findByUserId(userId);
 
     if (!findUser) {
-      throw new Error('사용자를 찾을 수 없습니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
     const user = {
       nickname: findUser.nickname,
@@ -67,7 +67,7 @@ userRouter.patch(
       const { password, name, nickname, currentPassword } = req.body;
 
       if (!currentPassword) {
-        throw new Error('정보 수정을 위해 비밀번호가 필요합니다.');
+        throw new Error('비밀번호가 반드시 필요합니다.');
       }
 
       const requiredInfo = { userId, currentPassword };
@@ -103,7 +103,7 @@ userRouter.delete('/', loginRequired, async (req, res, next) => {
     const { userId, password } = req.body;
 
     if (!password) {
-      throw new Error('비밀번호를 입력해주십시오.');
+      throw new Error('비밀번호가 반드시 필요합니다.');
     }
 
     const result = await userService.deleteUser(userId, password);
