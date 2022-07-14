@@ -9,7 +9,7 @@ type ValidationResponse = {
 
 interface IResult {
   status: number;
-  data: [IDiet];
+  data: IDiet[];
 }
 
 const useMealAdd = () => {

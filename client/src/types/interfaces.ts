@@ -74,7 +74,7 @@ interface IFood {
 
 interface IFoodList {
   status: number;
-  data: [IFood];
+  data: IFood[];
 }
 
 interface IMeal {
@@ -84,20 +84,20 @@ interface IMeal {
 }
 
 interface IDiet {
-  meal_list: [IMeal];
+  meal_list: IMeal[];
   id: string;
 }
 
 interface IDietList {
   userId: string;
-  meals: [IDiet];
+  meals: IDiet[];
   id: string;
   createdAt: string;
 }
 
 interface IUserDietList {
   status: number;
-  data: [IDietList];
+  data: IDietList[];
 }
 
 export type {
