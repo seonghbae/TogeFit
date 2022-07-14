@@ -306,12 +306,7 @@ const CustomCarousel = ({
               data-index={i}
             >
               <h3>{item.name}</h3>
-              {item.set && (
-                <p>
-                  세트:
-                  {item.set}
-                </p>
-              )}
+              {item.count && <p>세트: {item.set}</p>}
               {item.count && <p>개수: {item.count}</p>}
               {item.weight && <p>무게: {item.weight}</p>}
             </SC.Slide>
