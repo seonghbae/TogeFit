@@ -1,5 +1,6 @@
 import { routineModel, RoutineModel } from '../db';
 import { userService } from './UserService';
+import { checkRoutine } from '../utils';
 
 export interface RoutineInfo {
   userId: string;
@@ -7,7 +8,7 @@ export interface RoutineInfo {
   routine_list: Array<Exercise>;
 }
 
-interface Exercise {
+export interface Exercise {
   name: string;
   count?: number;
   set?: number;
@@ -46,11 +47,12 @@ class RoutineService {
     if (!foundUser) {
       throw new Error('해당 유저를 찾지 못했습니다.');
     }
+    const newRoutineList = checkRoutine(routine_list);
 
     const newRoutine = {
       userId,
       routine_name,
-      routine_list,
+      routine_list: newRoutineList,
     };
 
     const createdNewRoutine = await this.routineModel.create(newRoutine);
