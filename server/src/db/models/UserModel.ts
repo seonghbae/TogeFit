@@ -19,8 +19,8 @@ export class UserModel {
   }
 
   async create(userInfo: UserInfo) {
-    const createdNewUser = await User.create(userInfo);
-    return createdNewUser;
+    const { nickname } = await User.create(userInfo);
+    return nickname;
   }
 
   async update(userId: string, toUpdateInfo: Partial<UserInfo>) {
@@ -32,7 +32,11 @@ export class UserModel {
       options
     );
 
-    return updatedUser;
+    return {
+      name: updatedUser?.name,
+      nickname: updatedUser?.nickname,
+      userId: updatedUser?.userId,
+    };
   }
 
   async deleteUser(userId: string) {
