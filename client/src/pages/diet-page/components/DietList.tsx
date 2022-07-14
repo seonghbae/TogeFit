@@ -17,7 +17,7 @@ const DietList = () => {
     <SC.DietListContainer>
       <div>dietList</div>
       {food?.status === 200 && userDietList?.status === 200 && (
-        <ChartList food={food} userDietList={userDietList} />
+        <ChartList food={food} dietList={userDietList} />
       )}
     </SC.DietListContainer>
   );

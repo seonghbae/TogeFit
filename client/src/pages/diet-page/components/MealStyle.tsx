@@ -3,8 +3,7 @@ import styled from 'styled-components';
 export const MealContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-left: 5%;
-  margin-right: 5%;
+  margin: 0 5%;
   position: relative;
 
   & > span {

@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { IDiet } from 'types/interfaces';
+import { IMealList } from 'types/interfaces';
 
 type ValidationResponse = {
   message: string;
@@ -9,7 +9,7 @@ type ValidationResponse = {
 
 interface IResult {
   status: number;
-  data: IDiet[];
+  data: IMealList[];
 }
 
 const useMealAdd = () => {

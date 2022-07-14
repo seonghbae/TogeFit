@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { IUserDietList } from 'types/interfaces';
+import { IDietList } from 'types/interfaces';
 
 type ValidationResponse = {
   message: string;
@@ -12,7 +12,7 @@ const useDietList = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [userDietList, setUserDietList] = useState<IUserDietList>();
+  const [userDietList, setUserDietList] = useState<IDietList>();
   const [reqNumber, setReqNumber] = useState(0);
   //   const { userId } = useParams();
   const userId = 'cozups';

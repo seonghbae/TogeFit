@@ -83,21 +83,21 @@ interface IMeal {
   id: string;
 }
 
-interface IDiet {
+interface IMealList {
   meal_list: IMeal[];
   id: string;
 }
 
-interface IDietList {
+interface IDiet {
   userId: string;
-  meals: IDiet[];
+  meals: IMealList[];
   id: string;
   createdAt: string;
 }
 
-interface IUserDietList {
+interface IDietList {
   status: number;
-  data: IDietList[];
+  data: IDiet[];
 }
 
 export type {
@@ -112,7 +112,7 @@ export type {
   IFood,
   IFoodList,
   IMeal,
+  IMealList,
   IDiet,
   IDietList,
-  IUserDietList,
 };
