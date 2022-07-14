@@ -29,7 +29,12 @@ const AddRoutineModal = ({
   isCancel,
   setIsCancel,
 }: Iprops) => {
-  const { register, handleSubmit, resetField } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    resetField,
+    formState: { errors },
+  } = useForm<Inputs>();
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [userRoutine, setUserRoutine] = useRecoilState(userRoutineState);
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
@@ -80,15 +85,42 @@ const AddRoutineModal = ({
         </div>
         <div>
           <label htmlFor="count">개수</label>
-          <input type="text" {...register('count', { min: 0 })} />
+          <input
+            type="text"
+            {...register('count', { min: 0, pattern: /^[0-9]/g })}
+          />
+          {errors.count && errors.count.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.count && errors.count.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
         </div>
         <div>
           <label htmlFor="set">세트</label>
-          <input type="text" {...register('set', { min: 0 })} />
+          <input
+            type="text"
+            {...register('set', { min: 0, pattern: /^[0-9]/g })}
+          />
+          {errors.set && errors.set.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.set && errors.set.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
         </div>
         <div>
           <label htmlFor="weight">무게</label>
-          <input type="text" {...register('weight', { min: 0 })} />
+          <input
+            type="text"
+            {...register('weight', { min: 0, pattern: /^[0-9]/g })}
+          />
+          {errors.weight && errors.weight.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.weight && errors.weight.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
         </div>
         <SC.ButtonWrapper>
           <button type="submit">확인</button>

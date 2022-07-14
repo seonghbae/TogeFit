@@ -26,7 +26,12 @@ const AddExerciseModal = ({
   isCancel,
   setIsCancel,
 }: Iprops) => {
-  const { register, handleSubmit, setValue } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<Inputs>();
   const { addExercise } = useExcerciseAdd();
   const [exercise, setExercise] = useRecoilState(exerciseState);
 
@@ -61,6 +66,9 @@ const AddExerciseModal = ({
             type="text"
             {...register('exerciseName', { required: true, maxLength: 15 })}
           />
+          {errors.exerciseName && errors.exerciseName.type === 'required' && (
+            <p>이름을 입력해주세요.</p>
+          )}
         </div>
         <SC.ButtonWrapper>
           <button type="submit">확인</button>
