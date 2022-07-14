@@ -21,6 +21,18 @@ mealRouter.get('/user', async (req, res, next) => {
   try {
     const { userId, limit, reqNumber } = req.query;
 
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
+    if (!limit) {
+      throw new Error('limit 정보가 반드시 필요합니다.');
+    }
+
+    if (!reqNumber) {
+      throw new Error('reqNumber 정보가 반드시 필요합니다.');
+    }
+
     const conditions = {
       limit: parseInt(limit as string),
       reqNumber: parseInt(reqNumber as string),
@@ -29,7 +41,7 @@ mealRouter.get('/user', async (req, res, next) => {
     const isUserExist = await userService.findByUserId(userId as string);
 
     if (!isUserExist) {
-      throw new Error('존재하지 않는 유저입니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     const mealArticleList = await mealService.getMealArticleListByUserId(
@@ -47,6 +59,11 @@ mealRouter.get('/user', async (req, res, next) => {
 mealRouter.get('/article/:mealArticleId', async (req, res, next) => {
   try {
     const { mealArticleId } = req.params;
+
+    if (!mealArticleId) {
+      throw new Error('식단 글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
     const mealArticle = await mealService.getMealArticleById(mealArticleId);
 
     res.status(200).json(mealArticle);
@@ -69,7 +86,7 @@ mealRouter.post('/register', loginRequired, async (req, res, next) => {
     const userId = req.currentUserId;
 
     if (!meals) {
-      throw new Error('식단 등록은 필수 사항입니다.');
+      throw new Error('식단 정보가 반드시 필요합니다.');
     }
 
     const mealArray = meals.map((meal: MealInfo[]) => {
@@ -102,6 +119,10 @@ mealRouter.delete('/', loginRequired, async (req, res, next) => {
 
     const { mealArticleId } = req.body;
 
+    if (!mealArticleId) {
+      throw new Error('식단 글의 ID(Object ID)가 반드시 필요합니다.');
+    }
+
     const userId = req.currentUserId;
 
     const result = await mealService.deleteMealArticle(userId, mealArticleId);
@@ -122,6 +143,14 @@ mealRouter.post('/one', loginRequired, async (req, res, next) => {
     }
 
     const { mealArticleId, meals } = req.body;
+
+    if (!mealArticleId) {
+      throw new Error('식단 글의 ID(Object ID)가 반드시 필요합니다.');
+    }
+
+    if (!meals) {
+      throw new Error('식단 정보가 반드시 필요합니다.');
+    }
 
     const mealArray = {
       meal_list: meals,
@@ -152,11 +181,15 @@ mealRouter.patch('/one', loginRequired, async (req, res, next) => {
 
     const { mealListId, meals } = req.body;
 
-    const userId = req.currentUserId;
+    if (!mealListId) {
+      throw new Error('식단 글의 ID(Object ID)가 반드시 필요합니다.');
+    }
 
-    // const mealArray = {
-    //   meal_list: meals,
-    // };
+    if (!meals) {
+      throw new Error('식단 정보가 반드시 필요합니다.');
+    }
+
+    const userId = req.currentUserId;
 
     const result = await mealService.patchOneMeal(userId, mealListId, meals);
 
@@ -176,6 +209,10 @@ mealRouter.delete('/one', loginRequired, async (req, res, next) => {
     }
 
     const { mealListId } = req.body;
+
+    if (!mealListId) {
+      throw new Error('식단 글의 ID(Object ID)가 반드시 필요합니다.');
+    }
 
     const userId = req.currentUserId;
 
