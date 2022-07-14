@@ -16,10 +16,13 @@ const Header = () => {
   }, [result]);
   return (
     <SC.HeaderWrapper>
-      <SearchForm searchFunc={getRoutineList} />
-      <Link to="/routine/add">
-        <button type="button">+</button>
-      </Link>
+      <h2>루틴 목록</h2>
+      <SC.Search>
+        <SearchForm searchFunc={getRoutineList} />
+        <Link to="/routine/add">
+          <button type="button">+</button>
+        </Link>
+      </SC.Search>
     </SC.HeaderWrapper>
   );
 };

@@ -82,47 +82,50 @@ const AddRoutinePage = () => {
   return (
     <SC.Wrapper>
       <Header />
-      <SC.InputWrapper>
-        <label htmlFor="routineName">루틴 이름:</label>
-        <input
-          type="text"
-          value={routineName}
-          id="routineName"
-          onChange={(e) => setRoutineName(e.target.value)}
-        />
-      </SC.InputWrapper>
-      <SC.RoutineWrapper>
-        <CustomCarousel
-          data={exercise}
-          draggable={isDraggableCarousel}
-          width={90}
-          dragTarget={dragTarget}
-          setDragTarget={setDragTarget}
-          setData={setExercise}
-        />
-        <CustomCarousel
-          objData={userRoutine}
-          setObjData={setUserRoutine}
-          draggable={isDraggableCarousel}
-          width={90}
-          dragTarget={dragTarget}
-          setDragTarget={setDragTarget}
-          modifyFlag={isUserCustomCarousel}
-          setModalView={setIsOpen}
-          isCancel={isCancel}
-          setIsCancel={setIsCancel}
-          objCache={cache}
-          setObjCache={setCache}
-        />
-      </SC.RoutineWrapper>
-      <SC.ButtonWrapper>
-        <button type="button" onClick={handleAddRoutine}>
-          확인
-        </button>
-        <button type="button" onClick={handleCancel}>
-          취소
-        </button>
-      </SC.ButtonWrapper>
+      <SC.ContentWrapper>
+        <SC.InputWrapper>
+          <label htmlFor="routineName">루틴 이름:</label>
+          <input
+            type="text"
+            value={routineName}
+            id="routineName"
+            onChange={(e) => setRoutineName(e.target.value)}
+          />
+        </SC.InputWrapper>
+        <SC.RoutineWrapper>
+          <CustomCarousel
+            data={exercise}
+            draggable={isDraggableCarousel}
+            width={90}
+            dragTarget={dragTarget}
+            setDragTarget={setDragTarget}
+            setData={setExercise}
+          />
+          <CustomCarousel
+            objData={userRoutine}
+            setObjData={setUserRoutine}
+            draggable={isDraggableCarousel}
+            width={90}
+            dragTarget={dragTarget}
+            setDragTarget={setDragTarget}
+            modifyFlag={isUserCustomCarousel}
+            setModalView={setIsOpen}
+            isCancel={isCancel}
+            setIsCancel={setIsCancel}
+            objCache={cache}
+            setObjCache={setCache}
+          />
+        </SC.RoutineWrapper>
+        <SC.ButtonWrapper>
+          <button type="button" onClick={handleAddRoutine}>
+            확인
+          </button>
+          <button type="button" onClick={handleCancel}>
+            취소
+          </button>
+        </SC.ButtonWrapper>
+      </SC.ContentWrapper>
+
       <AddRoutineModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
