@@ -7,7 +7,7 @@ export const HeaderWrapper = styled.div`
   align-items: center;
 
   button {
-    margin-right: 1rem;
+    margin-right: 3rem;
 
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     width: 3rem;
@@ -15,7 +15,7 @@ export const HeaderWrapper = styled.div`
     color: #000000b2;
     border-radius: 3rem;
     transition: all 300ms;
-    background-color: rgba(0, 0, 0, 0.1);
+
     :hover {
       background-color: ${(props) => props.theme.pointColors.orange};
       border-radius: 1rem;

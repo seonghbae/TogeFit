@@ -72,7 +72,7 @@ const AddRoutineModal = ({
           <label htmlFor="name">이름</label>
           <input
             type="text"
-            {...register('name')}
+            {...register('name', { required: true, maxLength: 15 })}
             // eslint-disable-next-line react/jsx-curly-brace-presence
             unselectable={'on'}
             value={dragTarget !== null ? dragTarget : ''}
@@ -80,22 +80,22 @@ const AddRoutineModal = ({
         </div>
         <div>
           <label htmlFor="count">개수</label>
-          <input type="text" {...register('count')} />
+          <input type="text" {...register('count', { min: 0 })} />
         </div>
         <div>
           <label htmlFor="set">세트</label>
-          <input type="text" {...register('set')} />
+          <input type="text" {...register('set', { min: 0 })} />
         </div>
         <div>
           <label htmlFor="weight">무게</label>
-          <input type="text" {...register('weight')} />
+          <input type="text" {...register('weight', { min: 0 })} />
         </div>
-        <div>
+        <SC.ButtonWrapper>
           <button type="submit">확인</button>
           <button type="button" onClick={handleCancel}>
             취소
           </button>
-        </div>
+        </SC.ButtonWrapper>
       </form>
     </SC.Wrapper>
   );

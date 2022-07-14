@@ -57,14 +57,17 @@ const AddExerciseModal = ({
         <h3>운동 추가</h3>
         <div>
           <label htmlFor="exerciseName">이름</label>
-          <input type="text" {...register('exerciseName')} />
+          <input
+            type="text"
+            {...register('exerciseName', { required: true, maxLength: 15 })}
+          />
         </div>
-        <div>
+        <SC.ButtonWrapper>
           <button type="submit">확인</button>
           <button type="button" onClick={handleCancel}>
             취소
           </button>
-        </div>
+        </SC.ButtonWrapper>
       </form>
     </SC.Wrapper>
   );
