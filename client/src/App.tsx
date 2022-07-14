@@ -20,11 +20,13 @@ const App = () => (
     <RecoilRoot>
       <Nav />
       <Routes>
+        <Route path="/" element={<div>HOME!!!</div>} />
         <Route path="/routine/add" element={<AddRoutinePage />} />
         <Route path="/routine" element={<RoutinePage />} />
         <Route path="/info/*" element={<InfoPage />} />
         <Route path="/diet/*" element={<DietPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="*" element={<div>error!</div>} />
       </Routes>
     </RecoilRoot>
   </BrowserRouter>
