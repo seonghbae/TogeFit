@@ -28,6 +28,6 @@ export const RoutineWrapper = styled.div`
   padding: 1rem;
   border-radius: 10px;
   width: 100%;
-  margin-top: 5%;
+
   padding-top: 5%;
 `;

@@ -5,7 +5,7 @@ export const HeaderWrapper = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-
+  margin-bottom: 1rem;
   button {
     margin-right: 3rem;
 
