@@ -62,7 +62,7 @@ foodRouter.patch('/', async (req, res, next) => {
       req.body;
 
     if (!foodId) {
-      throw new Error('해당 음식의 ID(Object ID)가 반드시 필요합니다.');
+      throw new Error('음식의 ID(Object ID)가 반드시 필요합니다.');
     }
 
     const toUpdateInfo = {
