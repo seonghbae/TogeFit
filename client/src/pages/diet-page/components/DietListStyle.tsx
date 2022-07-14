@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const DietListContainer = styled.div`
   border: 1px solid ${(props) => props.theme.pointColors.black};
   background-color: #fff;
-  margin: 0 5%;
+  margin: 0 5% 5% 5%;
   height: 100vh;
 `;
 
