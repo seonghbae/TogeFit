@@ -5,18 +5,10 @@
 
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
+import { IFood } from 'types/interfaces';
 import foodListState from '../states/foodListState';
 import useFoodAdd from '../hooks/useFoodAdd';
 import * as SC from './FoodModalStyle';
-
-type Food = {
-  name: string;
-  carbohydrate: number;
-  protein: number;
-  fat: number;
-  quantity: number;
-  calories: number;
-};
 
 interface IProps {
   isOpen: boolean;
@@ -26,7 +18,7 @@ interface IProps {
 }
 
 const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
-  const { register, handleSubmit, setValue } = useForm<Food>();
+  const { register, handleSubmit, setValue } = useForm<IFood>();
   const { addFood } = useFoodAdd();
   const [food, setFood] = useRecoilState(foodListState);
 
@@ -44,7 +36,7 @@ const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
     e.stopPropagation();
   };
 
-  const onSubmit: SubmitHandler<Food> = (data) => {
+  const onSubmit: SubmitHandler<IFood> = (data) => {
     addFood(data);
     setFood((cur) => [...cur, data.name]);
     setValue('name', '');

@@ -1,16 +1,10 @@
 import { Calorie } from 'common/components';
+import { ICalorieProps } from 'types/interfaces';
 import * as SC from './MealStyle';
 
 interface IMealProps {
   name: string;
   mealList: Array<{ foodName: string; quantity: number; id: string }>;
-}
-
-interface ICalorieProps {
-  foods: Array<{ name: string; value: number }>;
-  carbohydrate: number;
-  protein: number;
-  fat: number;
 }
 
 const Meal = ({ name, mealList }: IMealProps) => {

@@ -5,13 +5,9 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
+import { IMeal } from 'types/interfaces';
 import mealListState from '../states/mealListState';
 import * as SC from './MealModalStyle';
-
-type Meal = {
-  foodName: string;
-  quantity: number;
-};
 
 interface IProps {
   isOpen: boolean;
@@ -21,7 +17,7 @@ interface IProps {
 }
 
 const MealModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
-  const { register, handleSubmit, resetField } = useForm<Meal>();
+  const { register, handleSubmit, resetField } = useForm<IMeal>();
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [userMeal, setUserMeal] = useRecoilState(mealListState);
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
@@ -40,7 +36,7 @@ const MealModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
     e.stopPropagation();
   };
 
-  const onSubmit: SubmitHandler<Meal> = (data) => {
+  const onSubmit: SubmitHandler<IMeal> = (data) => {
     const temp = [...userMeal];
 
     temp[currentTarget] = {
