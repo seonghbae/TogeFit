@@ -8,7 +8,7 @@ export const InfoHeader = styled.header`
   position: relative;
   width: 70%;
   height: 350px;
-  margin-top: 100px;
+  margin-top: 50px;
   margin-bottom: 50px;
   border-radius: 4rem;
   background-color: #fff;

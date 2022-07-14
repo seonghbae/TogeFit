@@ -7,7 +7,7 @@ const InfoPage = () => (
   <SC.Wrapper>
     <Header />
     <Routes>
-      {/* <Route path="/*" element={<Navigate replace to="exercise" />} /> */}
+      <Route path="/*" element={<Navigate replace to="exercise/undifined" />} />
       <Route path="exercise/:userId" element={<ArticleContainer />} />
       <Route path="meal" element={<ArticleContainer />} />
     </Routes>
