@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
 import { CustomCarousel } from 'common/components';
 import Modal from 'common/components/alert-modal';
@@ -32,7 +33,7 @@ const RoutinePage = () => {
         {typeof routines === 'object' &&
           routines.map((routine, i) => (
             <Routine
-              key={routine._id}
+              key={`${routine._id}${i}`}
               {...routine}
               index={i}
               isModify={isModify}
