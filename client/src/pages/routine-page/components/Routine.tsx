@@ -1,9 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-plusplus */
 import Modal from 'common/components/alert-modal';
 import React, { MouseEventHandler, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { IRoutinesInfo } from 'types/interfaces';
 import { CustomCarousel } from '../../../common/components';
+import useRoutineDelete from '../hooks/useRoutineDelete';
 import { routinesState } from '../states';
 import routineModifyState from '../states/routineModifyState';
 import * as SC from './RoutineStyle';
@@ -25,11 +27,17 @@ const Routine = (props: IRoutineProps) => {
   } = props;
   const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
   const [routines, setRoutines] = useRecoilState(routinesState);
-
+  const { deleteRoutine, result } = useRoutineDelete();
   const handleModify = () => {
     setIsModify(true);
   };
-  // exerciseInfo
+
+  const handleDelete = () => {
+    if (routines) {
+      deleteRoutine({ routineId: routines[index]._id });
+    }
+  };
+
   return (
     <SC.Wrapper className="routine">
       <span>{routineName}</span>
@@ -40,7 +48,9 @@ const Routine = (props: IRoutineProps) => {
         setIsModify={() => handleModify()}
       />
       <SC.BtnWrapper>
-        <button type="button">삭제</button>
+        <button type="button" onClick={handleDelete}>
+          삭제
+        </button>
       </SC.BtnWrapper>
     </SC.Wrapper>
   );

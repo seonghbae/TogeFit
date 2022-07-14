@@ -239,8 +239,9 @@ const CustomCarousel = ({
   const handleModify = (modifyData: IRoutinesExerciseInfo, i: number) => {
     if (setIsModify) setIsModify();
     setExerciseModify(modifyData);
+    let temp;
     if (routines) {
-      let temp = { ...modifyRoutine };
+      console.log('custom modifyRoutine', modifyRoutine);
       temp = { ...routines[index || 0], index: i };
       console.log('custom temp', temp);
       setModifyRoutine(temp);
