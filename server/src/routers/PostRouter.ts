@@ -22,10 +22,14 @@ postRouter.get('/user/:userId', async (req, res, next) => {
   try {
     const { userId } = req.params;
 
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
     const isUserExist = await userService.findByUserId(userId);
 
     if (!isUserExist) {
-      throw new Error('존재하지 않는 유저입니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     const postList = await postService.getPostListByUserId(userId);
@@ -40,6 +44,11 @@ postRouter.get('/user/:userId', async (req, res, next) => {
 postRouter.get('/article/:postId', async (req, res, next) => {
   try {
     const { postId } = req.params;
+
+    if (!postId) {
+      throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
     const post = await postService.getPostById(postId);
 
     res.status(200).json(post);
@@ -53,10 +62,30 @@ postRouter.get('/list/month', async (req, res, next) => {
   try {
     const { userId, year, month, limit, reqNumber } = req.query;
 
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
+    if (!year) {
+      throw new Error('연도가 반드시 필요합니다.');
+    }
+
+    if (!month) {
+      throw new Error('월 정보가 반드시 필요합니다.');
+    }
+
+    if (!limit) {
+      throw new Error('limit 정보가 반드시 필요합니다.');
+    }
+
+    if (!reqNumber) {
+      throw new Error('reqNumber 정보가 반드시 필요합니다.');
+    }
+
     const isUserExist = await userService.findByUserId(userId as string);
 
     if (!isUserExist) {
-      throw new Error('존재하지 않는 유저입니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     const date = {
@@ -83,11 +112,17 @@ postRouter.get('/list/month', async (req, res, next) => {
 postRouter.get('/grass', async (req, res, next) => {
   try {
     const userId = req.query.userId as string;
+
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
     const isUserExist = await userService.findByUserId(userId as string);
 
     if (!isUserExist) {
-      throw new Error('존재하지 않는 유저입니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
+
     if (!req.query.year || !req.query.month) {
       const today = new Date();
       const year = today.getFullYear();
@@ -159,7 +194,10 @@ postRouter.post('/like', loginRequired, async (req, res, next) => {
     }
     const userId = req.currentUserId;
     const { postId } = req.body;
-    postId;
+
+    if (!postId) {
+      throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
+    }
 
     // 유저의 liked 배열에 postId가 있는지 검사
     const isExistPostId = await userService.isExistPostId(userId, postId);
@@ -192,6 +230,10 @@ postRouter.delete('/', loginRequired, async (req, res, next) => {
     const userId = req.currentUserId;
     const { postId } = req.body;
 
+    if (!postId) {
+      throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
     const result = await postService.deletePost(userId, postId);
 
     res.status(200).json(result);
@@ -215,6 +257,11 @@ postRouter.patch(
 
       const userId = req.currentUserId;
       const postId = req.params.postId;
+
+      if (!postId) {
+        throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
+      }
+
       let postImages = undefined;
       let imageArrayLength = 0;
       if (req.files) {
@@ -260,6 +307,15 @@ postRouter.post('/comment', loginRequired, async (req, res, next) => {
       );
     }
     const { postId, content } = req.body;
+
+    if (!postId) {
+      throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
+    if (content) {
+      throw new Error('댓글의 내용이 반드시 필요합니다.');
+    }
+
     const userId = req.currentUserId;
 
     const data = {
@@ -285,6 +341,15 @@ postRouter.patch('/comment/patch', loginRequired, async (req, res, next) => {
     }
 
     const { commentId, content } = req.body;
+
+    if (!commentId) {
+      throw new Error('해당 댓글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
+    if (content) {
+      throw new Error('댓글의 내용이 반드시 필요합니다.');
+    }
+
     const userId = req.currentUserId;
 
     const result = await postService.updateComment(commentId, userId, content);
@@ -305,6 +370,11 @@ postRouter.delete('/comment', loginRequired, async (req, res, next) => {
     }
 
     const { commentId } = req.body;
+
+    if (!commentId) {
+      throw new Error('해당 댓글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
     const userId = req.currentUserId;
 
     const result = await postService.deleteComment(userId, commentId);
