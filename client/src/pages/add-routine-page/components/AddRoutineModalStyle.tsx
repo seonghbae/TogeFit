@@ -22,6 +22,10 @@ export const Wrapper = styled.div<{ view: boolean }>`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    p {
+      color: rgb(255, 54, 54);
+      font-size: smaller;
+    }
   }
   label::after {
     content: ' :';

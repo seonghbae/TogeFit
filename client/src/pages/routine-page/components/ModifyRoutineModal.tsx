@@ -31,7 +31,12 @@ const ModifyRoutineModal = ({
   isCancel,
   setIsCancel,
 }: Iprops) => {
-  const { register, handleSubmit, resetField } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    resetField,
+    formState: { errors },
+  } = useForm<Inputs>();
   const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
   const [exerciseModify, setExerciseModify] =
     useRecoilState(exerciseModifyState);
@@ -103,7 +108,7 @@ const ModifyRoutineModal = ({
           <label htmlFor="name">이름</label>
           <input
             type="text"
-            {...register('name')}
+            {...register('name', { required: true })}
             // eslint-disable-next-line react/jsx-curly-brace-presence
             unselectable={'on'}
             defaultValue={exerciseModify?.name}
@@ -114,25 +119,40 @@ const ModifyRoutineModal = ({
           <label htmlFor="count">개수</label>
           <input
             type="text"
-            {...register('count')}
-            defaultValue={exerciseModify?.count}
+            {...register('count', { min: 0, pattern: /^[0-9]/g })}
           />
+          {errors.count && errors.count.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.count && errors.count.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
         </div>
         <div>
           <label htmlFor="set">세트</label>
           <input
             type="text"
-            {...register('set')}
-            defaultValue={exerciseModify?.set}
+            {...register('set', { min: 0, pattern: /^[0-9]/g })}
           />
+          {errors.set && errors.set.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.set && errors.set.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
         </div>
         <div>
           <label htmlFor="weight">무게</label>
           <input
             type="text"
-            {...register('weight')}
-            defaultValue={exerciseModify?.weight}
+            {...register('weight', { min: 0, pattern: /^[0-9]/g })}
           />
+          {errors.weight && errors.weight.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.weight && errors.weight.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
         </div>
         <div>
           <button type="submit">확인</button>
