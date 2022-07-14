@@ -142,7 +142,9 @@ class UserService {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      throw new Error('해당 유저를 찾지 못했습니다.');
+      const error: ErrorWithStatus = new Error('해당 유저를 찾지 못했습니다.');
+      error.status = 401;
+      throw error;
     }
 
     const correctPasswordHash = user.password;

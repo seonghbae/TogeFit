@@ -1,71 +1,139 @@
-import request from 'supertest';
-import { app } from '../src/app';
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import { userService } from '../src/services';
 
-describe('POST /api/user/register', () => {
-  let server: any = null;
+let mongod: MongoMemoryServer;
+beforeAll(async () => {
+  mongod = await MongoMemoryServer.create();
 
-  beforeAll(() => {
-    server = app.listen(5000, () => console.log('Listening on port 5000'));
+  const uri = mongod.getUri();
+
+  await mongoose.connect(uri);
+});
+
+afterAll(async () => {
+  await mongoose.connection.dropDatabase();
+  await mongoose.connection.close();
+  await mongod.stop();
+});
+
+describe('회원가입 TEST', () => {
+  test('회원가입 성공', async () => {
+    const user = await userService.addUser({
+      name: 'jest1',
+      nickname: 'jesthard',
+      userId: 'jest1',
+      password: '1234',
+    });
+
+    expect(user).toEqual('jesthard');
   });
 
-  afterAll(async () => {
-    await server.close();
+  test('회원가입 실패 - 중복 id', async () => {
+    await expect(
+      userService.addUser({
+        name: 'jest1',
+        nickname: 'jesthard',
+        userId: 'jest1',
+        password: '1234',
+      })
+    ).rejects.toThrow(
+      '이 아이디는 현재 사용중입니다. 다른 아이디를 입력해주세요.'
+    );
+  });
+});
+
+describe('로그인 TEST', () => {
+  test('로그인 성공', async () => {
+    const userToken = await userService.getUserToken({
+      userId: 'jest1',
+      password: '1234',
+    });
+
+    expect(userToken).not.toBeNull();
   });
 
-  describe('이름, 닉네임, 아이디, 패스워드 전송', () => {
-    // test('회원가입 성공 시 201 status code를 반환', async () => {
-    //   const res: any = await request(app).post('/api/user/register').send({
-    //     name: '테스트2',
-    //     nickname: 'testUser2',
-    //     userId: 'testuser2',
-    //     password: '123123',
-    //   });
-    //   expect(res.status).toBe(201);
-    // });
+  test('로그인 실패 - 존재하지 않는 유저', async () => {
+    await expect(
+      userService.getUserToken({
+        userId: 'jest123',
+        password: '1234',
+      })
+    ).rejects.toThrow('해당 유저를 찾지 못했습니다.');
+  });
 
-    test('이미 존재하는 유저의 경우 400 status code 반환', async () => {
-      const res: any = await request(app).post('/api/user/register').send({
-        name: '테스트',
-        nickname: 'testUser',
-        userId: 'testuser',
-        password: '123123',
-      });
-      expect(res.status).toBe(400);
+  test('로그인 실패 - 비밀번호 불일치', async () => {
+    await expect(
+      userService.getUserToken({
+        userId: 'jest1',
+        password: '123456789',
+      })
+    ).rejects.toThrow('비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.');
+  });
+});
+
+describe('회원 정보 수정 TEST', () => {
+  test('회원 정보 수정 실패 - 존재하지 않는 유저', async () => {
+    const requiredInfo = { userId: 'jest12345', currentPassword: '1234' };
+    const toUpdateInfo = {
+      name: 'jest2',
+      nickname: 'jest2',
+      password: '123456',
+    };
+
+    await expect(
+      userService.patchUser(requiredInfo, toUpdateInfo)
+    ).rejects.toThrow('해당 유저를 찾지 못했습니다.');
+  });
+
+  test('회원 정보 수정 실패 - 비밀번호 불일치', async () => {
+    const requiredInfo = { userId: 'jest1', currentPassword: '123456789' };
+    const toUpdateInfo = {
+      name: 'jest3',
+      nickname: 'jest3',
+      password: '123456',
+    };
+
+    await expect(
+      userService.patchUser(requiredInfo, toUpdateInfo)
+    ).rejects.toThrow('비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.');
+  });
+
+  test('회원 정보 수정 성공', async () => {
+    const requiredInfo = { userId: 'jest1', currentPassword: '1234' };
+    const toUpdateInfo = {
+      name: 'jest2',
+      nickname: 'jest2',
+      password: '123456',
+    };
+    const updatedUserInfo = await userService.patchUser(
+      requiredInfo,
+      toUpdateInfo
+    );
+
+    expect(updatedUserInfo).toEqual({
+      name: 'jest2',
+      nickname: 'jest2',
+      userId: 'jest1',
     });
   });
+});
 
-  describe('이름, 닉네임, 아이디, 패스워드 중 어느 하나라도 빠진 경우', () => {
-    test('400 status code를 반환', async () => {
-      const bodyData = [
-        {
-          nickname: 'testUser3',
-          userId: 'testuser3',
-          password: '123123',
-        },
-        {
-          name: '테스트3',
-          userId: 'testuser3',
-          password: '123123',
-        },
-        {
-          name: '테스트3',
-          nickname: 'testUser3',
-          password: '123123',
-        },
-        {
-          name: '테스트3',
-          nickname: 'testUser3',
-          userId: 'testuser3',
-        },
-        {},
-      ];
+describe('회원 탈퇴 TEST', () => {
+  test('회원 탈퇴 실패 - 비밀번호 불일치', async () => {
+    const userId = 'jest1';
+    const password = '1234';
 
-      for (const body of bodyData) {
-        const res: any = await request(app)
-          .post('/api/user/register')
-          .send(body);
-        expect(res.status).toBe(400);
-      }
-    });
+    await expect(userService.deleteUser(userId, password)).rejects.toThrow(
+      '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
+    );
+  });
+
+  test('회원 탈퇴 성공', async () => {
+    const userId = 'jest1';
+    const password = '123456';
+    const result = await userService.deleteUser(userId, password);
+
+    expect(result).toEqual({ deletedCount: 1 });
   });
 });

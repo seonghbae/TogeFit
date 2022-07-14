@@ -37,6 +37,21 @@ userRouter.post('/register', async (req, res, next) => {
 
     const { name, nickname, userId, password } = req.body;
 
+    if (!name) {
+      throw new Error('이름 정보가 반드시 필요합니다.');
+    }
+
+    if (!nickname) {
+      throw new Error('닉네임 정보가 반드시 필요합니다.');
+    }
+
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
+    if (!password) {
+      throw new Error('패스워드가 반드시 필요합니다.');
+    }
     const newUser = await userService.addUser({
       name,
       nickname,
@@ -100,7 +115,8 @@ userRouter.delete('/', loginRequired, async (req, res, next) => {
       );
     }
 
-    const { userId, password } = req.body;
+    const userId = req.currentUserId;
+    const { password } = req.body;
 
     if (!password) {
       throw new Error('비밀번호가 반드시 필요합니다.');
@@ -125,6 +141,14 @@ userRouter.post('/login', async function (req, res, next) {
 
     const userId: string = req.body.id;
     const password: string = req.body.password;
+
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
+    if (!password) {
+      throw new Error('패스워드가 반드시 필요합니다.');
+    }
 
     const userToken = await userService.getUserToken({ userId, password });
 
