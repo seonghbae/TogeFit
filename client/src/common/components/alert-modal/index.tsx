@@ -34,7 +34,8 @@ const Modal = ({
     <SC.Wrapper
       onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         if (e.target === ref.current) {
-          handleConfirm();
+          if (handleCancel) handleCancel();
+          else handleConfirm();
         }
       }}
       ref={ref}

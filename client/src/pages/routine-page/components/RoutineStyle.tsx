@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   & > span {
     position: absolute;
     left: 5%;
-    top: -30%;
+    top: -2rem;
   }
 `;
 

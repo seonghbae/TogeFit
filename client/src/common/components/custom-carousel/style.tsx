@@ -14,9 +14,20 @@ export const Wrapper = styled.div<{ width: number }>`
 `;
 
 export const Slide = styled.div`
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
   & > h3 {
     text-align: center;
+    height: 2rem;
+  }
+  input {
+    border: 1px solid;
+    width: 3rem;
+  }
 
-    height: 3rem;
+  .info {
+    /* border: none; */
+    /* display: none; */
   }
 `;
