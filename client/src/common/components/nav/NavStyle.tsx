@@ -37,3 +37,10 @@ export const UserIcon = styled(UserCircle)`
   height: 60px;
   color: ${(props) => props.theme.pointColors.orange};
 `;
+
+export const LoginButton = styled.button`
+  padding: 8px 20px;
+  border: 1px solid ${(props) => props.theme.pointColors.orange};
+  border-radius: 2rem;
+  font-size: 1.2rem;
+`;
