@@ -1,30 +1,17 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
+import { IFoodList } from 'types/interfaces';
 
 type ValidationResponse = {
   message: string;
 };
 
-interface IFood {
-  name: string;
-  carbohydrate: number;
-  protein: number;
-  fat: number;
-  quantity: number;
-  calories: number;
-}
-
-interface IResult {
-  status: number;
-  data: [IFood];
-}
-
 const useFoodAdd = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [result, setResult] = useState<IResult>();
+  const [result, setResult] = useState<IFoodList>();
   const addFood = useCallback((data: object) => {
     setLoading(true);
     customAxios

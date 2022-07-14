@@ -13,7 +13,7 @@ import { useRecoilState } from 'recoil';
 
 import * as SC from './FoodCarouselStyle';
 
-type IFood = {
+type Food = {
   name: string;
   carbohydrate?: number;
   protein?: number;
@@ -22,12 +22,12 @@ type IFood = {
   calories?: number;
 };
 
-interface sliderProps {
+interface ISliderProps {
   /** 슬라이더 아이템 요소 */
   data?: Array<string | number | null>;
   setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
-  objData?: Array<IFood>;
-  setObjData?: React.Dispatch<React.SetStateAction<Array<IFood>>>;
+  objData?: Array<Food>;
+  setObjData?: React.Dispatch<React.SetStateAction<Array<Food>>>;
   /** 커스텀 클래스 */
   className?: string;
   /** 자동재생 (속도 설정시 number 타입으로) */
@@ -46,12 +46,12 @@ interface sliderProps {
   setModalView?: React.Dispatch<React.SetStateAction<boolean>>;
   isCancel?: boolean;
   setIsCancel?: React.Dispatch<React.SetStateAction<boolean>>;
-  cache?: Array<string | number | null> | Array<IFood>;
+  cache?: Array<string | number | null> | Array<Food>;
   setCache?: React.Dispatch<
-    React.SetStateAction<Array<string | number | null> | Array<IFood>>
+    React.SetStateAction<Array<string | number | null> | Array<Food>>
   >;
-  objCache?: Array<IFood>;
-  setObjCache?: React.Dispatch<React.SetStateAction<Array<IFood>>>;
+  objCache?: Array<Food>;
+  setObjCache?: React.Dispatch<React.SetStateAction<Array<Food>>>;
 }
 
 const FoodCarousel = ({
@@ -75,7 +75,7 @@ const FoodCarousel = ({
   cache,
   objCache,
   setObjCache,
-}: sliderProps) => {
+}: ISliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
   const slideRef = useRef(null);

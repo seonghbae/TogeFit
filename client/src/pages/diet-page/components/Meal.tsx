@@ -1,19 +1,13 @@
 import { Calorie } from 'common/components';
+import { ICalorieProps } from 'types/interfaces';
 import * as SC from './MealStyle';
 
-interface MealProps {
+interface IMealProps {
   name: string;
   mealList: Array<{ foodName: string; quantity: number; id: string }>;
 }
 
-interface CalorieProps {
-  foods: Array<{ name: string; value: number }>;
-  carbohydrate: number;
-  protein: number;
-  fat: number;
-}
-
-const Meal = ({ name, mealList }: MealProps) => {
+const Meal = ({ name, mealList }: IMealProps) => {
   const dummyFood = [
     {
       name: '닭가슴살',
@@ -49,16 +43,18 @@ const Meal = ({ name, mealList }: MealProps) => {
     },
   ];
 
-  const init: CalorieProps = {
-    foods: [],
+  const init: ICalorieProps = {
+    names: [],
     carbohydrate: 0,
     protein: 0,
     fat: 0,
+    calories: 0,
   };
 
   const dummyCalorie = dummyFood.reduce(
     (prev, food) => ({
-      foods: [...prev.foods, { name: food.name, value: food.calories }],
+      ...prev,
+      names: [...prev.names, { name: food.name, value: food.calories }],
       carbohydrate: prev.carbohydrate + food.carbohydrate,
       protein: prev.protein + food.protein,
       fat: prev.fat + food.fat,
@@ -84,7 +80,7 @@ const Meal = ({ name, mealList }: MealProps) => {
           ))}
         </SC.MealList>
         <Calorie
-          foods={dummyCalorie.foods}
+          foods={dummyCalorie.names}
           carbohydrate={dummyCalorie.carbohydrate}
           protein={dummyCalorie.protein}
           fat={dummyCalorie.fat}

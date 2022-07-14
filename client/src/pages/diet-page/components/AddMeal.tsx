@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
-// import { CustomCarousel } from 'common/components';
 
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import foodListState from '../states/foodListState';
@@ -15,14 +14,13 @@ import MealModal from './MealModal';
 import FoodModal from './FoodModal';
 import useFood from '../hooks/useFood';
 import useMealAdd from '../hooks/useMealAdd';
-// import { Header } from './components';
 
 import * as SC from './AddMealStyle';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
-type IMeal = {
+type Meal = {
   foodName: string;
   quantity?: number;
 };
@@ -36,13 +34,13 @@ const AddRoutinePage = () => {
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
 
-  const [cache, setCache] = useState<IMeal[]>([
+  const [cache, setCache] = useState<Meal[]>([
     {
       foodName: MEAL_INITIAL_MESSAGE,
     },
   ]);
 
-  const { result, getFood } = useFood();
+  const { food, getFood } = useFood();
   const { addMeal } = useMealAdd();
 
   useEffect(() => {
@@ -57,11 +55,11 @@ const AddRoutinePage = () => {
   }, []);
 
   useEffect(() => {
-    if (result?.status === 200) {
-      const foodNameList = result.data.map((item) => item.name);
+    if (food?.status === 200) {
+      const foodNameList = food.data.map((item) => item.name);
       setFoodList(foodNameList);
     }
-  }, [result]);
+  }, [food]);
 
   const handleAddFood: MouseEventHandler<HTMLButtonElement> = () => {
     setIsOpen(true);

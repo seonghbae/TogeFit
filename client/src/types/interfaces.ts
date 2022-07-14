@@ -54,6 +54,52 @@ interface ArticleErrResponse {
   reason: string;
 }
 
+interface ICalorieProps {
+  names: Array<{ name: string; value: number }>;
+  carbohydrate: number;
+  protein: number;
+  fat: number;
+  calories: number;
+}
+
+interface IFood {
+  name: string;
+  carbohydrate: number;
+  protein: number;
+  fat: number;
+  quantity: number;
+  calories: number;
+  id: string;
+}
+
+interface IFoodList {
+  status: number;
+  data: [IFood];
+}
+
+interface IMeal {
+  foodName: string;
+  quantity: number;
+  id: string;
+}
+
+interface IDiet {
+  meal_list: [IMeal];
+  id: string;
+}
+
+interface IDietList {
+  userId: string;
+  meals: [IDiet];
+  id: string;
+  createdAt: string;
+}
+
+interface IUserDietList {
+  status: number;
+  data: [IDietList];
+}
+
 export type {
   FormInputType,
   RegisterInputType,
@@ -62,4 +108,11 @@ export type {
   IRoutinesExerciseInfo,
   ArticleResponse,
   ArticleErrResponse,
+  ICalorieProps,
+  IFood,
+  IFoodList,
+  IMeal,
+  IDiet,
+  IDietList,
+  IUserDietList,
 };
