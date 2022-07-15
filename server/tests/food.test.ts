@@ -95,6 +95,12 @@ describe('음식 검색 TEST', () => {
       expect(searched.length).toBe(0);
     }
   });
+
+  test('검색 결과 없음 - 없는 검색 키워드', async () => {
+    const searched = await foodService.searchFood('밥');
+
+    expect(searched.length).toBe(0);
+  });
 });
 
 describe('음식 리스트 TEST', () => {
