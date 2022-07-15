@@ -8,7 +8,7 @@ const DietPage = () => (
   <SC.DietContainer>
     <Routes>
       <Route path="/" element={<DietList />} />
-      <Route path=":id" element={<DietInfo />} />
+      <Route path="info" element={<DietInfo />} />
       <Route path="add" element={<AddMeal />} />
     </Routes>
   </SC.DietContainer>

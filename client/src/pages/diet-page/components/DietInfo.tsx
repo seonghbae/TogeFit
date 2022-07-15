@@ -1,61 +1,42 @@
-import { Link } from 'react-router-dom';
+import { MouseEventHandler, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import Meal from './Meal';
+import dietState from '../states/dietState';
+import useFood from '../hooks/useFood';
 import * as SC from './DietInfoStyle';
 
 const DietInfo = () => {
-  const dummyMeal = {
-    name: '식사1',
-    mealList: [
-      { foodName: '닭가슴살', quantity: 150, id: 'a' },
-      { foodName: '쌀밥', quantity: 100, id: 'b' },
-      { foodName: '바나나', quantity: 100, id: 'c' },
-      { foodName: '오트밀', quantity: 100, id: 'd' },
-    ],
-  };
+  const { food, getFood } = useFood();
+  const diet = useRecoilValue(dietState);
+  const date = new Date(diet.createdAt);
+  const navigate = useNavigate();
 
-  const dummyDiet = {
-    userId: 'user1',
-    meals: [
-      {
-        mealList: [
-          { foodName: '닭가슴살', quantity: 150, id: 'a' },
-          { foodName: '쌀밥', quantity: 100, id: 'b' },
-          { foodName: '바나나', quantity: 100, id: 'c' },
-          { foodName: '오트밀', quantity: 100, id: 'd' },
-        ],
-        id: 1,
-      },
-      {
-        mealList: [
-          { foodName: '닭가슴살', quantity: 200, id: 'e' },
-          { foodName: '쌀밥', quantity: 150, id: 'f' },
-          { foodName: '바나나', quantity: 80, id: 'g' },
-          { foodName: '오트밀', quantity: 50, id: 'h' },
-        ],
-        id: 2,
-      },
-    ],
+  useEffect(() => {
+    getFood();
+  }, []);
+
+  const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
+    navigate('/diet/add');
   };
 
   return (
     <SC.DietInfoContainer>
-      <Link to="/diet/add">
-        <SC.ButtonWrapper>
-          <button type="button">+</button>
-        </SC.ButtonWrapper>
-      </Link>
-      {dummyDiet.meals.map((meal, index) => (
-        <Meal
-          key={meal.id}
-          name={`식사${index + 1}`}
-          mealList={meal.mealList}
-        />
-      ))}
-      <Meal name={dummyMeal.name} mealList={dummyMeal.mealList} />
-      <Meal name={dummyMeal.name} mealList={dummyMeal.mealList} />
-      <Meal name={dummyMeal.name} mealList={dummyMeal.mealList} />
-      <Meal name={dummyMeal.name} mealList={dummyMeal.mealList} />
-      <Meal name={dummyMeal.name} mealList={dummyMeal.mealList} />
+      <div>{`${date.getMonth() + 1}/${date.getDate()}`}</div>
+      <SC.ButtonWrapper>
+        <button type="button" onClick={handleAddMeal}>
+          +
+        </button>
+      </SC.ButtonWrapper>
+      {food?.status === 200 &&
+        diet.meals.map((meal, index) => (
+          <Meal
+            key={`식사${index + 1}`}
+            mealName={`식사${index + 1}`}
+            mealList={meal.meal_list}
+            food={food}
+          />
+        ))}
     </SC.DietInfoContainer>
   );
 };
