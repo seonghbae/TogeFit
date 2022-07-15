@@ -18,18 +18,13 @@ interface IProps {
 }
 
 const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
-  const { register, handleSubmit, setValue } = useForm<IFood>();
+  const { register, handleSubmit, resetField } = useForm<IFood>();
   const { addFood } = useFoodAdd();
   const [food, setFood] = useRecoilState(foodListState);
 
-  const handleCancel = (e: React.MouseEvent<HTMLElement>) => {
+  const handleCancel = () => {
     setIsOpen(false);
     setIsCancel(true);
-  };
-
-  const handleConfirm = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    setIsOpen(false);
   };
 
   const handleDivClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -39,7 +34,12 @@ const AddFoodModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
   const onSubmit: SubmitHandler<IFood> = (data) => {
     addFood(data);
     setFood((cur) => [...cur, data.name]);
-    setValue('name', '');
+    resetField('name');
+    resetField('carbohydrate');
+    resetField('protein');
+    resetField('fat');
+    resetField('quantity');
+    resetField('calories');
     setIsOpen(false);
   };
 
