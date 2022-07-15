@@ -33,12 +33,14 @@ const AddMeal = () => {
   const [mealList, setMealList] = useRecoilState(mealListState);
   const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
 
-  const [cache, setCache] = useState<IMeal[]>([
+  const init = [
     {
       foodName: MEAL_INITIAL_MESSAGE,
       quantity: 0,
     },
-  ]);
+  ];
+
+  const [cache, setCache] = useState<IMeal[]>(init);
 
   const { food, getFood } = useFood();
   const { addMeal } = useMealAdd();
@@ -79,10 +81,13 @@ const AddMeal = () => {
     }
 
     // addMeal(postMeal);
+    // setCache(init);
+    setMealList(init);
     navigate('/diet');
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {
+    setMealList(init);
     navigate('/diet');
   };
 

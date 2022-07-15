@@ -45,9 +45,6 @@ interface ISliderProps {
   >;
   objCache?: Array<IMeal>;
   setObjCache?: React.Dispatch<React.SetStateAction<Array<IMeal>>>;
-  // isModify?: boolean;
-  // index?: number;
-  // setIsModify?: () => void;
 }
 
 const FoodCarousel = ({
@@ -71,10 +68,7 @@ const FoodCarousel = ({
   cache,
   objCache,
   setObjCache,
-}: // isModify = false,
-// setIsModify,
-// index,
-ISliderProps) => {
+}: ISliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
   const settings = {
@@ -122,11 +116,6 @@ ISliderProps) => {
     ],
   };
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
-
-  // const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
-  // const [routines, setRoutines] = useRecoilState(routinesState);
-  // const [exerciseModify, setExerciseModify] =
-  //   useRecoilState(exerciseModifyState);
 
   const dragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -198,24 +187,8 @@ ISliderProps) => {
       setObjData([...tempData]);
     }
 
-    // if (setDragTarget) setDragTarget('');
     if (setModalView) setModalView(true);
   };
-
-  // const handleModify = (modifyData: IRoutinesExerciseInfo, i: number) => {
-  //   if (setIsModify) setIsModify();
-  //   setExerciseModify(modifyData);
-  //   let temp;
-  //   if (routines) {
-  //     temp = {
-  //       ...routines[index || 0],
-  //       exerciseIndex: i,
-  //       routineIndex: index || 0,
-  //     };
-
-  //     setModifyRoutine(temp);
-  //   }
-  // };
 
   return (
     <SC.CarouselWrapper width={width} className="CustomCarousel">
@@ -251,34 +224,8 @@ ISliderProps) => {
               className="slide-element"
             >
               <h3>{item.foodName}</h3>
-
-              {/* {item.set && (
-                <p data-type="">
-                  세트:
-                  <span>{item.set}</span>
-                </p>
-              )}
-
-              {item.count && <p>개수: {item.count}</p>}
-              {item.weight && <p>무게: {item.weight}</p>} */}
             </SC.Slide>
           ))}
-
-        {/* {objData &&
-          isModify &&
-          objData.map((item, i) => (
-            <SC.Slide
-              key={i}
-              onClick={(e) => handleModify(item, i)}
-              className="exerciseInfo slide-element"
-              data-index={i}
-            >
-              <h3>{item.name}</h3>
-              {item.count && <p>세트: {item.set}</p>}
-              {item.count && <p>개수: {item.count}</p>}
-              {item.weight && <p>무게: {item.weight}</p>}
-            </SC.Slide>
-          ))} */}
       </Slider>
     </SC.CarouselWrapper>
   );
