@@ -14,13 +14,18 @@ export const Wrapper = styled.div<{ view: boolean }>`
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 5;
   & > form {
-    padding: 2rem;
-    border: 1px solid;
-    background-color: aliceblue;
+    padding: 1rem;
+
+    border-radius: 10px;
+    background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    p {
+      color: rgb(255, 54, 54);
+      font-size: smaller;
+    }
   }
   label::after {
     content: ' :';
@@ -35,5 +40,26 @@ export const Wrapper = styled.div<{ view: boolean }>`
   }
   div {
     margin: 0.5rem;
+  }
+`;
+
+export const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  button {
+    margin: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    width: 3rem;
+    height: 2rem;
+    color: #000000b2;
+
+    border-radius: 1rem;
+
+    :hover {
+      background-color: ${(props) => props.theme.pointColors.orange};
+      border-radius: 1rem;
+      color: #fff;
+    }
   }
 `;

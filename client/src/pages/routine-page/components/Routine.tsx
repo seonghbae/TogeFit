@@ -44,7 +44,10 @@ const Routine = (props: IRoutineProps) => {
 
   return (
     <SC.Wrapper className="routine">
-      <span>{routineName}</span>
+      <SC.Label>
+        <span>{routineName}</span>
+      </SC.Label>
+
       <CustomCarousel
         objData={routineList}
         isModify

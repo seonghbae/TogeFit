@@ -199,32 +199,22 @@ const CustomCarousel = ({
       setData([...data]);
     } else if (setObjData) {
       const tempData = objData.slice();
-
+      const dragObj = {
+        name: String(dragTarget),
+        count: '',
+        set: '',
+        weight: '',
+      };
       if (isInitial) {
-        tempData.splice(dropTargetIndex, 1, {
-          name: String(dragTarget),
-          count: '',
-          set: '',
-          weight: '',
-        });
+        tempData.splice(dropTargetIndex, 1, dragObj);
         setCurrentTarget(dropTargetIndex);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (isCursorLeftX(e)) {
-          tempData.splice(dropTargetIndex, 0, {
-            name: String(dragTarget),
-            count: '',
-            set: '',
-            weight: '',
-          });
+          tempData.splice(dropTargetIndex, 0, dragObj);
           setCurrentTarget(dropTargetIndex);
         } else {
-          tempData.splice(dropTargetIndex + 1, 0, {
-            name: String(dragTarget),
-            count: '',
-            set: '',
-            weight: '',
-          });
+          tempData.splice(dropTargetIndex + 1, 0, dragObj);
           setCurrentTarget(dropTargetIndex + 1);
         }
       }
@@ -264,6 +254,7 @@ const CustomCarousel = ({
               onDragStart={dragStart}
               onDragEnd={dragEnd}
               onDrop={dragDrop}
+              className="slide-element"
             >
               <h3>{item}</h3>
             </SC.Slide>
@@ -281,6 +272,7 @@ const CustomCarousel = ({
               onDragStart={dragStart}
               onDragEnd={dragEnd}
               onDrop={dragDrop}
+              className="slide-element"
             >
               <h3>{item.name}</h3>
 
@@ -302,7 +294,7 @@ const CustomCarousel = ({
             <SC.Slide
               key={i}
               onClick={(e) => handleModify(item, i)}
-              className="exerciseInfo"
+              className="exerciseInfo slide-element"
               data-index={i}
             >
               <h3>{item.name}</h3>

@@ -13,14 +13,19 @@ export const Wrapper = styled.div<{ view: boolean }>`
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 5;
+  font-size: large;
   & > form {
     padding: 2rem;
-    border: 1px solid;
-    background-color: aliceblue;
+    border-radius: 10px;
+    background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    p {
+      color: rgb(255, 54, 54);
+      font-size: smaller;
+    }
   }
   label::after {
     content: ' :';

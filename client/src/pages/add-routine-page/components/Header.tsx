@@ -27,10 +27,12 @@ const Header = () => {
   return (
     <SC.HeaderWrapper>
       <h1>내 루틴 만들기</h1>
-      <SearchForm searchFunc={searchExercise} />
-      <button type="button" onClick={handleAddBtn}>
-        +
-      </button>
+      <SC.Search>
+        <SearchForm searchFunc={searchExercise} />
+        <button type="button" onClick={handleAddBtn}>
+          +
+        </button>
+      </SC.Search>
       <AddExerciseModal
         isOpen={isOpen}
         setIsOpen={setIsOpen}
