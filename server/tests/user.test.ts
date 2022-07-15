@@ -100,6 +100,7 @@ describe('회원 정보 수정 TEST', () => {
   });
 
   test('회원 정보 수정 성공', async () => {
+    const userInfo = await userService.findByUserId('jest1');
     const requiredInfo = { userId: 'jest1', currentPassword: '1234' };
     const toUpdateInfo = {
       name: 'jest2',
@@ -111,11 +112,7 @@ describe('회원 정보 수정 TEST', () => {
       toUpdateInfo
     );
 
-    expect(updatedUserInfo).toEqual({
-      name: 'jest2',
-      nickname: 'jest2',
-      userId: 'jest1',
-    });
+    expect(updatedUserInfo).not.toEqual(userInfo);
   });
 });
 

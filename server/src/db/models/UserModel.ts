@@ -32,11 +32,7 @@ export class UserModel {
       options
     );
 
-    return {
-      name: updatedUser?.name,
-      nickname: updatedUser?.nickname,
-      userId: updatedUser?.userId,
-    };
+    return updatedUser;
   }
 
   async deleteUser(userId: string) {
