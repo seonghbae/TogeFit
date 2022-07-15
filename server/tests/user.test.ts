@@ -87,19 +87,26 @@ describe('회원 정보 수정 TEST', () => {
   });
 
   test('회원 정보 수정 성공', async () => {
-    const userInfo = await userService.findByUserId('jest1');
     const requiredInfo = { userId: 'jest1', currentPassword: '1234' };
     const toUpdateInfo = {
       name: 'jest2',
       nickname: 'jest2',
       password: '123456',
+      profile_image: 'test.png',
     };
     const updatedUserInfo = await userService.patchUser(
       requiredInfo,
       toUpdateInfo
     );
 
-    expect(updatedUserInfo).not.toEqual(userInfo);
+    expect({
+      ...(toUpdateInfo.name && { name: updatedUserInfo?.name }),
+      ...(toUpdateInfo.nickname && { nickname: updatedUserInfo?.nickname }),
+      ...(toUpdateInfo.password && { password: updatedUserInfo?.password }),
+      ...(toUpdateInfo.profile_image && {
+        profile_image: updatedUserInfo?.profile_image,
+      }),
+    }).toEqual(toUpdateInfo); //toUpdateInfo의 password는 userService에서 알아서 hash됨.
   });
 });
 
