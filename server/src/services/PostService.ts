@@ -31,11 +31,6 @@ class PostService {
     return post;
   }
 
-  async getPostListByUserId(userId: string) {
-    const postList = await this.postModel.findByUserId(userId);
-    return postList;
-  }
-
   async getPostListByDate(
     userId: string,
     date: DateInfo,
