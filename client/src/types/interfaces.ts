@@ -99,10 +99,11 @@ interface IDietList {
   status: number;
   data: IDiet[];
 }
-interface ITagList {
+interface ITag {
   tag: string;
   _id: string;
 }
+
 interface IComment {
   content: string;
   author: string;
@@ -116,7 +117,7 @@ interface IBoard {
   contents: string;
   post_image: string[];
   is_open: boolean;
-  tag_list: ITagList[];
+  tag_list: ITag[];
   like: number;
   meal: string;
   routine: string;
@@ -145,4 +146,8 @@ export type {
   IMealList,
   IDiet,
   IDietList,
+  IBoard,
+  IBoardList,
+  IComment,
+  ITag,
 };
