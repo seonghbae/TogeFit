@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { MouseEventHandler, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -29,7 +28,8 @@ const AddRoutinePage = () => {
   const navigate = useNavigate();
 
   const [isCancel, setIsCancel] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isFoodOpen, setIsFoodOpen] = useState(false);
+  const [isMealOpen, setIsMealOpen] = useState(false);
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
@@ -62,7 +62,7 @@ const AddRoutinePage = () => {
   }, [food]);
 
   const handleAddFood: MouseEventHandler<HTMLButtonElement> = () => {
-    setIsOpen(true);
+    setIsFoodOpen(true);
   };
 
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
@@ -70,8 +70,8 @@ const AddRoutinePage = () => {
       meal_list: mealList,
     };
 
-    addMeal(postData);
-    navigate('/diet');
+    // addMeal(postData);
+    // navigate('/diet');
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {
@@ -87,8 +87,8 @@ const AddRoutinePage = () => {
         </button>
       </SC.ButtonWrapper>
       <FoodModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        isOpen={isFoodOpen}
+        setIsOpen={setIsFoodOpen}
         isCancel={isCancel}
         setIsCancel={setIsCancel}
       />
@@ -101,7 +101,7 @@ const AddRoutinePage = () => {
           setDragTarget={setDragTarget}
           setData={setFoodList}
         />
-        {/* <FoodCarousel
+        <FoodCarousel
           objData={mealList}
           setObjData={setMealList}
           draggable={isDraggableCarousel}
@@ -109,12 +109,12 @@ const AddRoutinePage = () => {
           dragTarget={dragTarget}
           setDragTarget={setDragTarget}
           modifyFlag={isUserCustomCarousel}
-          setModalView={setIsOpen}
+          setModalView={setIsMealOpen}
           isCancel={isCancel}
           setIsCancel={setIsCancel}
           objCache={cache}
           setObjCache={setCache}
-        /> */}
+        />
       </div>
       <button type="button" onClick={handleAddMeal}>
         확인
@@ -122,12 +122,12 @@ const AddRoutinePage = () => {
       <button type="button" onClick={handleCancel}>
         취소
       </button>
-      {/* <MealModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
+      <MealModal
+        isOpen={isMealOpen}
+        setIsOpen={setIsMealOpen}
         isCancel={isCancel}
         setIsCancel={setIsCancel}
-      /> */}
+      />
     </SC.AddMealContainer>
   );
 };
