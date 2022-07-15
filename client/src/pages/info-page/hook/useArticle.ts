@@ -26,11 +26,10 @@ const useArticle = () => {
     async function getArticle() {
       setLoading(true);
       try {
-        console.log(reqNumber);
         const response = await customAxios.get(
-          `/api/post/user?userId=${userId}&year=${standardDate.year}&month=${
-            standardDate.month + 1
-          }&limit=6&reqNumber=${reqNumber}`
+          `/api/post/list/month?userId=${userId}&year=${
+            standardDate.year
+          }&month=${standardDate.month + 1}&limit=6&reqNumber=${reqNumber}`
         );
         setArticleList((previousArticle) => [
           ...previousArticle,
