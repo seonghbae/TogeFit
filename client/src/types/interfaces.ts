@@ -1,3 +1,7 @@
+interface IError {
+  message: string;
+}
+
 interface FormInputType {
   id: string;
   password: string;
@@ -150,4 +154,5 @@ export type {
   IBoardList,
   IComment,
   ITag,
+  IError,
 };
