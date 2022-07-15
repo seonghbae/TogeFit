@@ -17,23 +17,6 @@ export const Search = styled.div`
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: 10px;
-  margin-bottom: 1rem;
-  margin-left: 1rem;
+
   background-color: #fff;
-  button {
-    margin-right: 3rem;
-
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    width: 3rem;
-    height: 3rem;
-    color: #000000b2;
-    border-radius: 3rem;
-    transition: all 300ms;
-
-    :hover {
-      background-color: ${(props) => props.theme.pointColors.orange};
-      border-radius: 1rem;
-      color: #fff;
-    }
-  }
 `;

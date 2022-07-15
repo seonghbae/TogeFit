@@ -5,12 +5,13 @@ export const Wrapper = styled.div`
   width: 100%;
   height: 25rem;
   margin-bottom: 1rem;
+  background-color: #fff;
 `;
 
 export const ArticleImg = styled.img`
   width: 50%;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 5px;
   aspect-ratio: 1 / 1;
 `;
 
