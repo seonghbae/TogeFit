@@ -1,21 +1,8 @@
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import * as db from './utils/db';
 import { userService } from '../src/services';
 
-let mongod: MongoMemoryServer;
-beforeAll(async () => {
-  mongod = await MongoMemoryServer.create();
-
-  const uri = mongod.getUri();
-
-  await mongoose.connect(uri);
-});
-
-afterAll(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
-  await mongod.stop();
-});
+beforeAll(async () => await db.connect());
+afterAll(async () => await db.close());
 
 describe('회원가입 TEST', () => {
   test('회원가입 성공', async () => {
