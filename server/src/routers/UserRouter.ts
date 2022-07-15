@@ -157,7 +157,7 @@ userRouter.post('/login', async function (req, res, next) {
       httpOnly: true,
     });
 
-    res.status(200).json(userToken);
+    res.status(200).json(userToken.userId);
   } catch (error) {
     next(error);
   }
