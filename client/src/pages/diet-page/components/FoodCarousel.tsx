@@ -10,21 +10,17 @@ import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
 import { isCursorLeftX } from 'common/utils/getElementLocationInfo';
 import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
+import { IMeal } from 'types/interfaces';
 import { useRecoilState } from 'recoil';
 
 import * as SC from './FoodCarouselStyle';
-
-type Meal = {
-  foodName: string;
-  quantity?: number;
-};
 
 interface ISliderProps {
   /** 슬라이더 아이템 요소 */
   data?: Array<string | number | null>;
   setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
-  objData?: Array<Meal>;
-  setObjData?: React.Dispatch<React.SetStateAction<Array<Meal>>>;
+  objData?: Array<IMeal>;
+  setObjData?: React.Dispatch<React.SetStateAction<Array<IMeal>>>;
   /** 커스텀 클래스 */
   className?: string;
   /** 자동재생 (속도 설정시 number 타입으로) */
@@ -43,12 +39,12 @@ interface ISliderProps {
   setModalView?: React.Dispatch<React.SetStateAction<boolean>>;
   isCancel?: boolean;
   setIsCancel?: React.Dispatch<React.SetStateAction<boolean>>;
-  cache?: Array<string | number | null> | Array<Meal>;
+  cache?: Array<string | number | null> | Array<IMeal>;
   setCache?: React.Dispatch<
-    React.SetStateAction<Array<string | number | null> | Array<Meal>>
+    React.SetStateAction<Array<string | number | null> | Array<IMeal>>
   >;
-  objCache?: Array<Meal>;
-  setObjCache?: React.Dispatch<React.SetStateAction<Array<Meal>>>;
+  objCache?: Array<IMeal>;
+  setObjCache?: React.Dispatch<React.SetStateAction<Array<IMeal>>>;
   // isModify?: boolean;
   // index?: number;
   // setIsModify?: () => void;

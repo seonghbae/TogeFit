@@ -6,7 +6,6 @@ const dietState = atom<IDiet>({
   default: {
     userId: '',
     meals: [],
-    id: '',
     createdAt: '',
   },
 });

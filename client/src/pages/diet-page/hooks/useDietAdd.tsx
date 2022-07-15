@@ -1,11 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { IDiet } from 'types/interfaces';
-
-type ValidationResponse = {
-  message: string;
-};
+import { ArticleResponse, IDiet } from 'types/interfaces';
 
 interface IResult {
   status: number;
@@ -30,7 +26,7 @@ const useDietAdd = () => {
       .catch((err) => {
         if (axios.isAxiosError(err)) {
           console.log('catch', err);
-          const responseError = err as AxiosError<ValidationResponse>;
+          const responseError = err as AxiosError<ArticleResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
             setShowError(true);

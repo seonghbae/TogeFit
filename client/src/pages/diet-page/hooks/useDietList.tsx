@@ -2,11 +2,7 @@ import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { IDietList } from 'types/interfaces';
-
-type ValidationResponse = {
-  message: string;
-};
+import { ArticleResponse, IDietList } from 'types/interfaces';
 
 const useDietList = () => {
   const [error, setError] = useState<Error['message']>('');
@@ -31,7 +27,7 @@ const useDietList = () => {
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
-          const responseError = err as AxiosError<ValidationResponse>;
+          const responseError = err as AxiosError<ArticleResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
             setShowError(true);
