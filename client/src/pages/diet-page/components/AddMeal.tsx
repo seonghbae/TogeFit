@@ -7,12 +7,14 @@ import { MEAL_INITIAL_MESSAGE } from 'common/constants';
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import foodListState from '../states/foodListState';
 import mealListState from '../states/mealListState';
+import dietAddState from '../states/dietAddState';
 
 import FoodCarousel from './FoodCarousel';
 import MealModal from './MealModal';
 import FoodModal from './FoodModal';
 import useFood from '../hooks/useFood';
 import useMealAdd from '../hooks/useMealAdd';
+import useDietAdd from '../hooks/useDietAdd';
 
 import * as SC from './AddMealStyle';
 
@@ -24,7 +26,7 @@ type Meal = {
   quantity?: number;
 };
 
-const AddRoutinePage = () => {
+const AddMeal = () => {
   const navigate = useNavigate();
 
   const [isCancel, setIsCancel] = useState(false);
@@ -33,6 +35,7 @@ const AddRoutinePage = () => {
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
+  const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
 
   const [cache, setCache] = useState<Meal[]>([
     {
@@ -42,6 +45,7 @@ const AddRoutinePage = () => {
 
   const { food, getFood } = useFood();
   const { addMeal } = useMealAdd();
+  const { addDiet } = useDietAdd();
 
   useEffect(() => {
     if (isCancel) {
@@ -66,12 +70,19 @@ const AddRoutinePage = () => {
   };
 
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
-    const postData = {
+    const postMeal = {
       meal_list: mealList,
     };
 
-    // addMeal(postData);
-    // navigate('/diet');
+    if (dietAdd) {
+      const postDiet = {
+        meals: [postMeal],
+      };
+      addDiet(postDiet);
+    }
+
+    // addMeal(postMeal);
+    navigate('/diet');
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {
@@ -132,4 +143,4 @@ const AddRoutinePage = () => {
   );
 };
 
-export default AddRoutinePage;
+export default AddMeal;
