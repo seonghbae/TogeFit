@@ -94,7 +94,7 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
-      error.status = 401;
+      error.status = 403;
       throw error;
     }
 
@@ -129,7 +129,7 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
-      error.status = 401;
+      error.status = 403;
       throw error;
     }
 
@@ -142,9 +142,7 @@ class UserService {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      const error: ErrorWithStatus = new Error('해당 유저를 찾지 못했습니다.');
-      error.status = 401;
-      throw error;
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     const correctPasswordHash = user.password;
@@ -158,7 +156,7 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
-      error.status = 401;
+      error.status = 403;
       throw error;
     }
 
