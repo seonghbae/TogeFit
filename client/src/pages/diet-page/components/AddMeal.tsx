@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
+import { IMeal } from 'types/interfaces';
 
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import foodListState from '../states/foodListState';
@@ -21,11 +22,6 @@ import * as SC from './AddMealStyle';
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
-type Meal = {
-  foodName: string;
-  quantity?: number;
-};
-
 const AddMeal = () => {
   const navigate = useNavigate();
 
@@ -37,9 +33,10 @@ const AddMeal = () => {
   const [mealList, setMealList] = useRecoilState(mealListState);
   const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
 
-  const [cache, setCache] = useState<Meal[]>([
+  const [cache, setCache] = useState<IMeal[]>([
     {
       foodName: MEAL_INITIAL_MESSAGE,
+      quantity: 0,
     },
   ]);
 
@@ -76,7 +73,7 @@ const AddMeal = () => {
 
     if (dietAdd) {
       const postDiet = {
-        meals: [postMeal],
+        meals: [mealList],
       };
       addDiet(postDiet);
     }

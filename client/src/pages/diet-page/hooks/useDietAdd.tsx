@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IDiet } from 'types/interfaces';
+import { ArticleResponse, IMeal, IDiet } from 'types/interfaces';
 
 interface IResult {
   status: number;
@@ -14,7 +14,7 @@ const useDietAdd = () => {
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
 
-  const addDiet = useCallback((data: object) => {
+  const addDiet = useCallback((data: { meals: IMeal[][] }) => {
     setLoading(true);
     customAxios
       .post(`/api/meal/register`, data, { withCredentials: true })
