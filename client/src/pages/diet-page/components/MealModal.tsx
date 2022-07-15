@@ -59,7 +59,7 @@ const MealModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
           <input type="input" {...register('foodName')} />
         </div>
         <div>
-          <label htmlFor="quantity">양</label>
+          <label htmlFor="quantity">양 &nbsp;&nbsp;</label>
           <input type="input" {...register('quantity')} />
         </div>
         <div>
