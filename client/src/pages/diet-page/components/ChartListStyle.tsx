@@ -2,8 +2,8 @@ import styled from 'styled-components';
 
 export const ChartListContainer = styled.div`
   border: 1px solid ${(props) => props.theme.pointColors.black};
-  margin: 0 5%;
-  height: 90%;
+  margin: 0 5% 5% 5%;
+  height: 80%;
   overflow: scroll;
 
   ::-webkit-scrollbar {
