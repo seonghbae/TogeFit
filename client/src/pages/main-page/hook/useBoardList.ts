@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { customAxios } from 'common/api';
-import { dateObjectAtom } from 'recoil/infoState';
-import { useRecoilValue } from 'recoil';
 import axios, { AxiosError } from 'axios';
-import { useParams } from 'react-router-dom';
-import { IBoardList, IBoard, IError } from 'types/interfaces';
+
+import { IBoard, IError } from 'types/interfaces';
 
 const useBoardList = () => {
   const [isLoading, setLoading] = useState(false);
@@ -19,10 +17,7 @@ const useBoardList = () => {
       setLoading(true);
       try {
         const response = await customAxios.get(`/api/post/all`);
-        setBoardList((previousArticle) => [
-          ...previousArticle,
-          ...response.data,
-        ]);
+        setBoardList((previousBoard) => [...previousBoard, ...response.data]);
         setHasMore(response.data.length > 0);
       } catch (err) {
         if (axios.isAxiosError(err)) {
