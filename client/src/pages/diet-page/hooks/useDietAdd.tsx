@@ -21,7 +21,7 @@ const useDietAdd = () => {
   const addDiet = useCallback((data: object) => {
     setLoading(true);
     customAxios
-      .post(`/api/meal/register`, data)
+      .post(`/api/meal/register`, data, { withCredentials: true })
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');
