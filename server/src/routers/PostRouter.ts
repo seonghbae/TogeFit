@@ -17,29 +17,6 @@ postRouter.get('/all', async (req, res, next) => {
   }
 });
 
-// 게시글 리스트 가져오기 (유저 별)
-postRouter.get('/user/:userId', async (req, res, next) => {
-  try {
-    const { userId } = req.params;
-
-    if (!userId) {
-      throw new Error('유저 아이디가 반드시 필요합니다.');
-    }
-
-    const isUserExist = await userService.findByUserId(userId);
-
-    if (!isUserExist) {
-      throw new Error('해당 유저를 찾지 못했습니다.');
-    }
-
-    const postList = await postService.getPostListByUserId(userId);
-
-    res.status(200).json(postList);
-  } catch (error) {
-    next(error);
-  }
-});
-
 // 게시글 리스트 가져오기 (게시글 object ID 이용)
 postRouter.get('/article/:postId', async (req, res, next) => {
   try {
@@ -58,7 +35,7 @@ postRouter.get('/article/:postId', async (req, res, next) => {
 });
 
 // 게시글 리스트 가져오기 (유저 + 월 별 + 무한스크롤)
-postRouter.get('/list/month', async (req, res, next) => {
+postRouter.get('/user', async (req, res, next) => {
   try {
     const { userId, year, month, limit, reqNumber } = req.query;
 

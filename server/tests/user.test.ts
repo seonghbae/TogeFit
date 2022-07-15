@@ -1,21 +1,8 @@
-import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
+import * as db from './utils/db';
 import { userService } from '../src/services';
 
-let mongod: MongoMemoryServer;
-beforeAll(async () => {
-  mongod = await MongoMemoryServer.create();
-
-  const uri = mongod.getUri();
-
-  await mongoose.connect(uri);
-});
-
-afterAll(async () => {
-  await mongoose.connection.dropDatabase();
-  await mongoose.connection.close();
-  await mongod.stop();
-});
+beforeAll(async () => await db.connect());
+afterAll(async () => await db.close());
 
 describe('회원가입 TEST', () => {
   test('회원가입 성공', async () => {
@@ -105,17 +92,21 @@ describe('회원 정보 수정 TEST', () => {
       name: 'jest2',
       nickname: 'jest2',
       password: '123456',
+      profile_image: 'test.png',
     };
     const updatedUserInfo = await userService.patchUser(
       requiredInfo,
       toUpdateInfo
     );
 
-    expect(updatedUserInfo).toEqual({
-      name: 'jest2',
-      nickname: 'jest2',
-      userId: 'jest1',
-    });
+    expect({
+      ...(toUpdateInfo.name && { name: updatedUserInfo?.name }),
+      ...(toUpdateInfo.nickname && { nickname: updatedUserInfo?.nickname }),
+      ...(toUpdateInfo.password && { password: updatedUserInfo?.password }),
+      ...(toUpdateInfo.profile_image && {
+        profile_image: updatedUserInfo?.profile_image,
+      }),
+    }).toEqual(toUpdateInfo); //toUpdateInfo의 password는 userService에서 알아서 hash됨.
   });
 });
 

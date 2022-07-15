@@ -1,6 +1,6 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cors from 'cors';
-import { dbconnect } from './db/index';
+import { dbconnect } from './db/Connect';
 import {
   userRouter,
   foodRouter,
@@ -10,7 +10,7 @@ import {
   postRouter,
 } from './routers';
 import cookieParser from 'cookie-parser';
-import { loginRequired, upload, errorHandler } from './middlewares';
+import { errorHandler } from './middlewares';
 
 const app = express();
 dbconnect();
@@ -25,15 +25,6 @@ app.use('/api/food', foodRouter);
 app.use('/api/meal', mealRouter);
 app.use('/api/routine', routineRouter);
 app.use('/api/post', postRouter);
-
-// 테스트용 라우터
-app.post(
-  '/welcome',
-  loginRequired,
-  (req: Request, res: Response, next: NextFunction) => {
-    res.send('welcome!');
-  }
-);
 
 app.use(errorHandler);
 
