@@ -99,6 +99,36 @@ interface IDietList {
   status: number;
   data: IDiet[];
 }
+interface ITagList {
+  tag: string;
+  _id: string;
+}
+interface IComment {
+  content: string;
+  author: string;
+  _id: string;
+  updatedAt: string;
+  createdAt: string;
+}
+interface IBoard {
+  _id: string;
+  userId: string;
+  contents: string;
+  post_image: string[];
+  is_open: boolean;
+  tag_list: ITagList[];
+  like: number;
+  meal: string;
+  routine: string;
+  comments: IComment[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+interface IBoardList {
+  board: IBoard[];
+}
 
 export type {
   FormInputType,
