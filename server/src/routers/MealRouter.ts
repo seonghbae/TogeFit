@@ -89,18 +89,7 @@ mealRouter.post('/register', loginRequired, async (req, res, next) => {
       throw new Error('식단 정보가 반드시 필요합니다.');
     }
 
-    const mealArray = meals.map((meal: MealInfo[]) => {
-      return {
-        meal_list: meal,
-      };
-    });
-
-    const toAddInfo = {
-      userId,
-      meals: mealArray,
-    };
-
-    const newMealArticle = await mealService.addMealArticle(toAddInfo);
+    const newMealArticle = await mealService.addMealArticle(userId, meals);
 
     res.status(201).json(newMealArticle);
   } catch (error) {

@@ -39,8 +39,28 @@ class MealService {
     return mealArticle;
   }
 
-  async addMealArticle(mealArticleInfo: MealArticleInfo) {
-    const createdMealArticle = await this.mealModel.create(mealArticleInfo);
+  async addMealArticle(userId: string, meals: MealInfo[][]) {
+    const mealArray = meals.map((meal: MealInfo[]) => {
+      for (const obj of meal) {
+        if (obj.foodName.length === 0) {
+          throw new Error('음식 이름이 반드시 필요합니다.');
+        }
+        if (obj.quantity < 0) {
+          throw new Error('음식의 양은 반드시 양수여야 합니다.');
+        }
+      }
+
+      return {
+        meal_list: meal,
+      };
+    });
+
+    const toAddInfo = {
+      userId,
+      meals: mealArray,
+    };
+
+    const createdMealArticle = await this.mealModel.create(toAddInfo);
     return createdMealArticle;
   }
 
@@ -79,6 +99,15 @@ class MealService {
       throw error;
     }
 
+    for (const obj of meals.meal_list) {
+      if (obj.foodName.length === 0) {
+        throw new Error('음식 이름이 반드시 필요합니다.');
+      }
+      if (obj.quantity < 0) {
+        throw new Error('음식의 양은 반드시 양수여야 합니다.');
+      }
+    }
+
     const result = await this.mealModel.pushOneMeal(mealArticleId, meals);
 
     return result;
@@ -97,6 +126,15 @@ class MealService {
       const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
       error.status = 403;
       throw error;
+    }
+
+    for (const obj of meals) {
+      if (obj.foodName.length === 0) {
+        throw new Error('음식 이름이 반드시 필요합니다.');
+      }
+      if (obj.quantity < 0) {
+        throw new Error('음식의 양은 반드시 양수여야 합니다.');
+      }
     }
 
     const result = await this.mealModel.updateOneMeal(mealListId, meals);
@@ -123,7 +161,7 @@ class MealService {
     const result = await this.mealModel.deleteOneMealById(mealListId);
 
     // 남아있는 식사 정보가 없으면 데이터 삭제
-    if (result!.meals) {
+    if (result!.meals.length === 0) {
       // meals가 비었음 -> 데이터 삭제
       await this.mealModel.deleteMealArticle(mealArticleId);
     }
