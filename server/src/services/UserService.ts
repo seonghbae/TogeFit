@@ -94,8 +94,6 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
-      error.status = 403;
-      throw error;
     }
 
     // 업데이트
@@ -129,8 +127,6 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
-      error.status = 403;
-      throw error;
     }
 
     const result = await this.userModel.deleteUser(userId);
@@ -156,8 +152,6 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
-      error.status = 403;
-      throw error;
     }
 
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
