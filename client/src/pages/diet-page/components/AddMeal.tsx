@@ -80,8 +80,6 @@ const AddMeal = () => {
       addDiet(postDiet);
     }
 
-    // addMeal(postMeal);
-    // setCache(init);
     setMealList(init);
     navigate('/diet');
   };
