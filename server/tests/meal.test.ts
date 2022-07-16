@@ -388,7 +388,6 @@ describe('식단 글 삭제 TEST', () => {
     const userId = 'fail123';
     const mealArticleId = id;
 
-    console.log(id);
     await expect(
       mealService.deleteMealArticle(userId, mealArticleId)
     ).rejects.toThrow('작성자만 삭제할 수 있습니다.');
