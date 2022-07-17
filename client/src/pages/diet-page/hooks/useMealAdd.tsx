@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IMealList } from 'types/interfaces';
+import { ArticleResponse, IMeal, IMealList } from 'types/interfaces';
 
 interface IResult {
   status: number;
@@ -14,29 +14,32 @@ const useMealAdd = () => {
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
 
-  const addMeal = useCallback((data: object) => {
-    setLoading(true);
-    customAxios
-      .post(`/api/meal/register`, data)
-      .then((response) => {
-        setResult({ status: response.status, data: response.data });
-        setError('');
-        setShowError(false);
-      })
-      .catch((err) => {
-        if (axios.isAxiosError(err)) {
-          console.log('catch', err);
-          const responseError = err as AxiosError<ArticleResponse>;
-          if (responseError && responseError.response) {
-            setError(responseError.response.data.message);
-            setShowError(true);
+  const addMeal = useCallback(
+    (data: { mealArticleId: string; meals: IMeal[] }) => {
+      setLoading(true);
+      customAxios
+        .post(`/api/meal/one`, data, { withCredentials: true })
+        .then((response) => {
+          setResult({ status: response.status, data: response.data });
+          setError('');
+          setShowError(false);
+        })
+        .catch((err) => {
+          if (axios.isAxiosError(err)) {
+            console.log('catch', err);
+            const responseError = err as AxiosError<ArticleResponse>;
+            if (responseError && responseError.response) {
+              setError(responseError.response.data.message);
+              setShowError(true);
+            }
           }
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    },
+    []
+  );
 
   return {
     addMeal,

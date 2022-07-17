@@ -90,6 +90,7 @@ interface IDiet {
   userId: string;
   meals: IMealList[];
   createdAt: string;
+  _id: string;
 }
 
 interface IDietList {

@@ -4,6 +4,7 @@ import { useRecoilState } from 'recoil';
 import { Calorie } from 'common/components';
 import { ICalorieProps, IFoodList, IDietList } from 'types/interfaces';
 import dietState from '../states/dietState';
+import dietIdState from '../states/dietIdState';
 import * as SC from './ChartListStyle';
 
 export const ChartList = ({
@@ -14,6 +15,7 @@ export const ChartList = ({
   dietList: IDietList;
 }) => {
   const [diet, setDiet] = useRecoilState(dietState);
+  const [dietId, setDietId] = useRecoilState(dietIdState);
   const navigate = useNavigate();
 
   const init: ICalorieProps = {
@@ -59,11 +61,9 @@ export const ChartList = ({
 
         const handleRead: MouseEventHandler<HTMLButtonElement> = () => {
           setDiet(dietItem);
+          // eslint-disable-next-line no-underscore-dangle
+          setDietId(dietItem._id);
           navigate('/diet/info');
-        };
-
-        const handleUpdate: MouseEventHandler<HTMLButtonElement> = () => {
-          alert('Update');
         };
 
         const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
@@ -84,9 +84,6 @@ export const ChartList = ({
             <SC.ButtonContainer>
               <button type="button" onClick={handleRead}>
                 상세
-              </button>
-              <button type="button" onClick={handleUpdate}>
-                수정
               </button>
               <button type="button" onClick={handleDelete}>
                 삭제

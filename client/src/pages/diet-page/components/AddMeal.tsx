@@ -1,6 +1,6 @@
 import { MouseEventHandler, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
 import { IMeal } from 'types/interfaces';
@@ -9,6 +9,7 @@ import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import foodListState from '../states/foodListState';
 import mealListState from '../states/mealListState';
 import dietAddState from '../states/dietAddState';
+import dietIdState from '../states/dietIdState';
 
 import FoodCarousel from './FoodCarousel';
 import MealModal from './MealModal';
@@ -32,6 +33,7 @@ const AddMeal = () => {
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
   const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
+  const dietId = useRecoilValue(dietIdState);
 
   const init = [
     {
@@ -69,15 +71,17 @@ const AddMeal = () => {
   };
 
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
-    const postMeal = {
-      meal_list: mealList,
-    };
-
     if (dietAdd) {
       const postDiet = {
         meals: [mealList],
       };
       addDiet(postDiet);
+    } else {
+      const postMeal = {
+        mealArticleId: dietId,
+        meals: mealList,
+      };
+      addMeal(postMeal);
     }
 
     setMealList(init);

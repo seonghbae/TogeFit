@@ -7,6 +7,7 @@ const dietState = atom<IDiet>({
     userId: '',
     meals: [],
     createdAt: '',
+    _id: '',
   },
 });
 
