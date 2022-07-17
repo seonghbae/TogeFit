@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
+import { getUserId } from 'common/utils/getUserId';
 import { ArticleResponse, IDietList } from 'types/interfaces';
 
 const useDietList = () => {
@@ -10,8 +10,7 @@ const useDietList = () => {
   const [showError, setShowError] = useState(false);
   const [userDietList, setUserDietList] = useState<IDietList>();
   const [reqNumber, setReqNumber] = useState(0);
-  //   const { userId } = useParams();
-  const userId = 'cozups';
+  const userId = getUserId();
   const limit = 20;
 
   const getDietList = useCallback(() => {
