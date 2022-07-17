@@ -1,8 +1,6 @@
 import { MouseEventHandler } from 'react';
-import { useRecoilValue } from 'recoil';
 import { Calorie } from 'common/components';
 import { ICalorieProps, IFoodList, IMeal } from 'types/interfaces';
-import dietUpdateState from '../states/dietUpdateState';
 import * as SC from './MealStyle';
 
 interface IMealProps {
@@ -12,7 +10,6 @@ interface IMealProps {
 }
 
 const Meal = ({ mealName, mealList, food }: IMealProps) => {
-  const dietUpdate = useRecoilValue(dietUpdateState);
   const init: ICalorieProps = {
     names: [],
     carbohydrate: 0,
@@ -61,16 +58,14 @@ const Meal = ({ mealName, mealList, food }: IMealProps) => {
           fat={Number(calorie.fat.toFixed(3))}
         />
       </SC.ContentContainer>
-      {dietUpdate && (
-        <SC.ButtonContainer>
-          <button type="button" onClick={handleUpdate}>
-            수정
-          </button>
-          <button type="button" onClick={handleDelete}>
-            삭제
-          </button>
-        </SC.ButtonContainer>
-      )}
+      <SC.ButtonContainer>
+        <button type="button" onClick={handleUpdate}>
+          수정
+        </button>
+        <button type="button" onClick={handleDelete}>
+          삭제
+        </button>
+      </SC.ButtonContainer>
     </SC.MealContainer>
   );
 };

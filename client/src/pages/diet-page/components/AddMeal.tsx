@@ -32,7 +32,7 @@ const AddMeal = () => {
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
-  const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
+  const dietAdd = useRecoilValue(dietAddState);
   const dietId = useRecoilValue(dietIdState);
 
   const init = [
