@@ -128,9 +128,13 @@ export class PostModel {
 
   async updateLike(postId: string, currentLikeNumber: number) {
     const filter = { _id: postId };
-    const updatedPost = await Post.findByIdAndUpdate(filter, {
-      like: currentLikeNumber + 1,
-    });
+    const updatedPost = await Post.findByIdAndUpdate(
+      filter,
+      {
+        like: currentLikeNumber + 1,
+      },
+      { new: true }
+    );
     return updatedPost;
   }
 

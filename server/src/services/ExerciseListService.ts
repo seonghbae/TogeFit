@@ -21,6 +21,11 @@ class ExerciseService {
 
   async addExercise(exercise: string) {
     // 검색 코드 추가
+
+    if (exercise.length == 0) {
+      throw new Error('한 글자 이상 입력이 반드시 필요합니다.');
+    }
+
     const foundExercise = await this.exerciseListModel.findByExerciseName(
       exercise
     );
@@ -35,6 +40,10 @@ class ExerciseService {
   }
 
   async deleteExercise(exercise: string) {
+    if (exercise.length == 0) {
+      throw new Error('한 글자 이상 입력이 반드시 필요합니다.');
+    }
+
     const foundExercise = await this.exerciseListModel.findByExerciseName(
       exercise
     );
