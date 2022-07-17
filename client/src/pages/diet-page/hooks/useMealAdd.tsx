@@ -18,7 +18,7 @@ const useMealAdd = () => {
     (data: { mealArticleId: string; meals: IMeal[] }) => {
       setLoading(true);
       customAxios
-        .post(`/api/meal/one`, data, { withCredentials: true })
+        .post(`/api/meal/one`, { data, withCredentials: true })
         .then((response) => {
           setResult({ status: response.status, data: response.data });
           setError('');
