@@ -11,7 +11,7 @@ const Nav = () => {
 
   useEffect(() => {
     setUserId(getUserId());
-  }, [location.pathname]);
+  }, [location]);
 
   const handleClick = () => {
     setIsOpen((prev) => !prev);

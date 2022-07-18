@@ -27,6 +27,7 @@ const Sidebar = ({ isOpen, userId, handleClick }: SidebarProps) => {
 
   const handleConfirm = () => {
     setModalOpen(false);
+    window.location.reload();
   };
 
   return (
