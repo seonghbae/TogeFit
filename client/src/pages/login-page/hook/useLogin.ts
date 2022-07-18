@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useCallback, useState } from 'react';
 import { customAxios } from 'common/api';
 
-type LoginResponse = {
+interface LoginResponse {
   message: string;
   userId: string;
-};
+}
 
 const useLogin = () => {
   const [error, setError] = useState<Error['message']>('');
@@ -25,7 +25,7 @@ const useLogin = () => {
         setResult('OK');
         setError('');
         setShowError(false);
-        document.cookie = `userId=${response.data}`;
+        localStorage.setItem('userId', response.data.userId);
         navigate(`/`);
       })
       .catch((err: AxiosError | Error) => {
@@ -39,7 +39,6 @@ const useLogin = () => {
         }
       })
       .finally(() => {
-        console.log('finally');
         setLoading(false);
       });
   }, []);
