@@ -1,5 +1,6 @@
 import { ICalorieProps } from 'types/interfaces';
 import CalorieChart from 'common/components/calorie-chart/CalorieChart';
+import getPadString from 'common/utils/getPadString';
 import * as SC from './style';
 
 interface DataTypes {
@@ -11,13 +12,33 @@ interface MealCardProps {
   data: DataTypes;
 }
 
+const getFixedKcal = (nutrition: number) => nutrition.toFixed(2);
+
 const MealCard = ({ data }: MealCardProps) => {
-  const date = new Date(data.date);
+  const { carbohydrate, protein, fat, names } = data.reducedMealList;
+  const createdDate = new Date(data.date);
 
   return (
     <SC.Wrapper>
-      {`${date.getMonth() + 1}/${date.getDate()}`}
-      <CalorieChart foods={data.reducedMealList.names} />
+      <div>
+        <SC.Date>
+          {`${createdDate.getMonth() + 1}/${getPadString(
+            createdDate.getDate(),
+            2
+          )}`}
+        </SC.Date>
+        <CalorieChart foods={names} />
+      </div>
+      <div>
+        <SC.ListContainer>
+          <SC.ListItem>
+            총 탄수화물: {getFixedKcal(carbohydrate)}kcal
+          </SC.ListItem>
+          <SC.ListItem>총 단백질: {getFixedKcal(protein)}kcal</SC.ListItem>
+          <SC.ListItem>총 지방: {getFixedKcal(fat)}kcal</SC.ListItem>
+        </SC.ListContainer>
+        <SC.GoDetail>상세보기</SC.GoDetail>
+      </div>
     </SC.Wrapper>
   );
 };
