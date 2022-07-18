@@ -12,7 +12,7 @@ export const Wrapper = styled.div<{ view: boolean }>`
   justify-content: center;
   flex-direction: column;
   background-color: rgba(0, 0, 0, 0.2);
-  z-index: 5;
+  z-index: 9999;
   & > form {
     padding: 1rem;
 
