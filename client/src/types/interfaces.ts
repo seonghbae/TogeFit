@@ -69,7 +69,7 @@ interface IFood {
   fat: number;
   quantity: number;
   calories: number;
-  id: string;
+  _id: string;
 }
 
 interface IFoodList {

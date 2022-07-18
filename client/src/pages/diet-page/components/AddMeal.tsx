@@ -15,7 +15,8 @@ import dietIdState from '../states/dietIdState';
 
 import FoodCarousel from './FoodCarousel';
 import MealModal from './MealModal';
-import FoodModal from './FoodModal';
+import AddFoodModal from './AddFoodModal';
+import UpdateFoodModal from './UpdateFoodModal';
 import useFood from '../hooks/useFood';
 import useMealAdd from '../hooks/useMealAdd';
 import useMealUpdate from '../hooks/useMealUpdate';
@@ -31,6 +32,7 @@ const AddMeal = () => {
 
   const [isCancel, setIsCancel] = useState(false);
   const [isFoodOpen, setIsFoodOpen] = useState(false);
+  const [isFoodUpdateOpen, setIsFoodUpdateOpen] = useState(false);
   const [isMealOpen, setIsMealOpen] = useState(false);
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [foodList, setFoodList] = useRecoilState(foodListState);
@@ -121,20 +123,28 @@ const AddMeal = () => {
           +
         </button>
       </SC.ButtonWrapper>
-      <FoodModal
+      <AddFoodModal
         isOpen={isFoodOpen}
         setIsOpen={setIsFoodOpen}
         isCancel={isCancel}
         setIsCancel={setIsCancel}
       />
+      <UpdateFoodModal
+        isOpen={isFoodUpdateOpen}
+        setIsOpen={setIsFoodUpdateOpen}
+        isCancel={isCancel}
+        setIsCancel={setIsCancel}
+        food={food}
+      />
       <div>
         <FoodCarousel
           data={foodList}
+          setData={setFoodList}
           draggable={isDraggableCarousel}
           width={90}
           dragTarget={dragTarget}
           setDragTarget={setDragTarget}
-          setData={setFoodList}
+          setModalView={setIsFoodUpdateOpen}
         />
         <FoodCarousel
           objData={mealList}
