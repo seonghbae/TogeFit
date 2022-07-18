@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { MouseEventHandler, useEffect, useState } from 'react';
+import { MouseEventHandler, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
+import { IRoutinesExerciseInfo } from 'types/interfaces';
 
 import { CustomCarousel } from 'common/components';
 import { exerciseState } from 'pages/add-routine-page/states';
@@ -20,13 +21,6 @@ import * as SC from './style';
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
-type Idata = {
-  name: string;
-  count?: string;
-  set?: string;
-  weight?: string;
-};
-
 const AddRoutinePage = () => {
   const navigate = useNavigate();
 
@@ -38,7 +32,7 @@ const AddRoutinePage = () => {
 
   const [userRoutine, setUserRoutine] = useRecoilState(userRoutineState);
 
-  const [cache, setCache] = useState<Idata[]>([
+  const [cache, setCache] = useState<IRoutinesExerciseInfo[]>([
     {
       name: ROUTINE_INITIAL_MESSAGE,
     },
@@ -46,6 +40,7 @@ const AddRoutinePage = () => {
 
   const { result, getExcerciseList } = useExcerciseList();
   const { addRoutine } = useRoutineAdd();
+  const routineNameRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (isCancel) {
@@ -70,9 +65,19 @@ const AddRoutinePage = () => {
       routine_name: routineName,
       routine_list: userRoutine,
     };
-    // 로그인하면 주석해제
+
+    if (!routineName) {
+      alert('루틴 이름을 입력해주세요.');
+      routineNameRef.current?.focus();
+      return;
+    }
+
+    if (postData.routine_list[0].name === ROUTINE_INITIAL_MESSAGE) {
+      alert('운동을 목록에 드래그해서 넣어주세요.');
+      return;
+    }
+
     addRoutine(postData);
-    navigate('/routine');
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -90,6 +95,7 @@ const AddRoutinePage = () => {
             value={routineName}
             id="routineName"
             onChange={(e) => setRoutineName(e.target.value)}
+            ref={routineNameRef}
           />
         </SC.InputWrapper>
         <SC.RoutineWrapper>

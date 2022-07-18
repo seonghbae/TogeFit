@@ -1,14 +1,8 @@
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
 import { atom } from 'recoil';
+import { IRoutinesExerciseInfo } from 'types/interfaces';
 
-type Idata = {
-  name: string;
-  count?: string;
-  set?: string;
-  weight?: string;
-};
-
-const userRoutineState = atom<Idata[]>({
+const userRoutineState = atom<IRoutinesExerciseInfo[]>({
   key: 'userRoutineState',
   default: [
     {
