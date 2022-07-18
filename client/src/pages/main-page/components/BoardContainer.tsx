@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -57,9 +58,8 @@ const BoardContainer = () => {
         {boardList.map((article, index) => {
           if (boardList.length === index + 2) {
             return (
-              <div ref={lastArticleRef}>
+              <div ref={lastArticleRef} key={article._id}>
                 <BoardCard
-                  key={`custom-card-${Math.random()}`}
                   imgUrl={article.post_image[0]}
                   content={article.contents}
                   tagList={article.tag_list}
@@ -69,7 +69,7 @@ const BoardContainer = () => {
           }
           return (
             <BoardCard
-              key={`custom-card-${Math.random()}`}
+              key={article._id}
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
