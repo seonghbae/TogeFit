@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Dumbbell } from 'styled-icons/fa-solid';
 import { SpoonKnife } from 'styled-icons/icomoon';
 import { Article } from 'styled-icons/material-rounded';
+import { Logout } from 'styled-icons/material-twotone';
 
 import * as SC from './SidebarStyle';
 
@@ -29,6 +30,12 @@ const Sidebar = ({ openSidebar }: SidebarProps) => (
       <Link to="/diet">
         <SpoonKnife />
         식단 관리
+      </Link>
+    </SC.NavLink>
+    <SC.NavLink>
+      <Link to="/diet">
+        <Logout />
+        로그아웃
       </Link>
     </SC.NavLink>
   </SC.Wrapper>
