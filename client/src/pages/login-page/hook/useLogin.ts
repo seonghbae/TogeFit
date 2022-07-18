@@ -5,7 +5,7 @@ import { useCallback, useState } from 'react';
 import { customAxios } from 'common/api';
 
 interface LoginResponse {
-  message: string;
+  reason: string;
   userId: string;
 }
 
@@ -13,7 +13,7 @@ const useLogin = () => {
   const [error, setError] = useState<Error['message']>('');
   const [result, setResult] = useState<string>();
   const [isLoading, setLoading] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigate = useNavigate();
 
   const asyncLogin = useCallback((data: FormInputType) => {
@@ -24,7 +24,7 @@ const useLogin = () => {
       .then((response) => {
         setResult('OK');
         setError('');
-        setShowError(false);
+        setIsError(false);
         localStorage.setItem('userId', response.data.userId);
         navigate(`/`);
       })
@@ -32,8 +32,8 @@ const useLogin = () => {
         if (axios.isAxiosError(err)) {
           const responseError = err as AxiosError<LoginResponse>;
           if (responseError && responseError.response) {
-            setError(responseError.response.data.message);
-            setShowError(true);
+            setError(responseError.response.data.reason);
+            setIsError(true);
             setResult('');
           }
         }
@@ -43,7 +43,7 @@ const useLogin = () => {
       });
   }, []);
 
-  return { asyncLogin, error, result, isLoading, showError };
+  return { asyncLogin, error, result, isLoading, isError, setIsError };
 };
 
 export default useLogin;
