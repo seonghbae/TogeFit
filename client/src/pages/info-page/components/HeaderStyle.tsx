@@ -7,8 +7,8 @@ interface LiProps {
 export const InfoHeader = styled.header`
   position: relative;
   width: 70%;
-  height: 300px;
-  margin-top: 100px;
+  height: 350px;
+  margin-top: 50px;
   margin-bottom: 50px;
   border-radius: 4rem;
   background-color: #fff;
@@ -16,11 +16,12 @@ export const InfoHeader = styled.header`
 
 export const ProfileImg = styled.img`
   position: absolute;
-  width: 256px;
-  height: 256px;
+  width: 22%;
+  min-width: 150px;
+  height: auto;
   margin: 10px;
-  top: -26%;
-  left: 9%;
+  top: -24%;
+  left: 6%;
   background-color: ${(props) => props.theme.pointColors.beige};
   border: 1rem solid ${(props) => props.theme.pointColors.beige};
   border-radius: 100%;

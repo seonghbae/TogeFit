@@ -8,8 +8,19 @@ export class ExerciseListModel {
     return exerciseList;
   }
   async findByExerciseName(exercise: string) {
-    const foundExercise = await ExerciseList.findOne({ exercise });
+    const foundExercise = await ExerciseList.findOne({ name: exercise });
     return foundExercise;
+  }
+
+  async searchExercise(keyword: string) {
+    if (!keyword) {
+      const getAllExercise = await this.findAllExercise();
+      return getAllExercise;
+    }
+    const findBykeyword = await ExerciseList.find({
+      name: { $regex: `.*${keyword}.*` },
+    });
+    return findBykeyword;
   }
 
   async create(exercise: string) {

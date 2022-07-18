@@ -8,8 +8,8 @@ class FoodService {
     return foodList;
   }
 
-  async findById(foodId: string) {
-    const food = await this.foodModel.findById(foodId);
+  async searchFood(keyword: string) {
+    const food = await this.foodModel.searchFood(keyword);
     return food;
   }
 
@@ -22,7 +22,7 @@ class FoodService {
     const food = await this.foodModel.findById(foodId);
 
     if (!food) {
-      throw new Error('해당 음식을 찾을 수 없습니다.');
+      throw new Error('해당 음식을 찾지 못했습니다.');
     }
 
     const updatedFood = await this.foodModel.update(foodId, toUpdateInfo);
@@ -34,14 +34,10 @@ class FoodService {
     const food = await this.foodModel.findById(foodId);
 
     if (!food) {
-      throw new Error('해당 음식을 찾을 수 없습니다.');
+      throw new Error('해당 음식을 찾지 못했습니다.');
     }
 
     const result = await this.foodModel.deleteFood(foodId);
-
-    if (!result) {
-      throw new Error('삭제에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
 
     return result;
   }

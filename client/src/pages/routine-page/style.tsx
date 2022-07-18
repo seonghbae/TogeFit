@@ -1,23 +1,33 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  border: 1px solid #000;
-  background-color: #fff;
+export const Wrapper = styled.div`
   margin-left: 5%;
   margin-right: 5%;
-  height: 100vh;
-  /* width: 80%; */
-`;
-
-const RoutineWrapper = styled.div`
   height: 80vh;
-  overflow: scroll;
-  margin-top: 3%;
-  margin-bottom: 3%;
-  padding-right: 1rem;
-  & > div {
-    margin-top: 5%;
+  /* width: 80%; */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  button {
+    border-radius: 10px;
   }
 `;
 
-export { Wrapper, RoutineWrapper };
+export const RoutineWrapper = styled.div`
+  height: 70vh;
+  overflow: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+
+  padding-top: 5%;
+`;

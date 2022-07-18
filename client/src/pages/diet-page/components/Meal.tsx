@@ -1,87 +1,72 @@
-import { MealContainer, ContentContainer, MealList } from './MealStyle';
-import { Calorie } from '../../../common/components';
+import { MouseEventHandler } from 'react';
+import { Calorie } from 'common/components';
+import { ICalorieProps, IFoodList, IMeal } from 'types/interfaces';
+import * as SC from './MealStyle';
 
-interface MealProps {
-  name: string;
-  meals: Array<{ foodName: string; quantity: number }>;
+interface IMealProps {
+  mealName: string;
+  mealList: IMeal[];
+  food: IFoodList;
 }
 
-interface CalorieProps {
-  foods: Array<{ name: string; value: number }>;
-  carbohydrate: number;
-  protein: number;
-  fat: number;
-}
-
-const Meal = ({ name, meals }: MealProps) => {
-  const dummyFood = [
-    {
-      name: '닭가슴살',
-      carbohydrate: 0,
-      protein: 100,
-      fat: 130,
-      quantity: 100,
-      calories: 230,
-    },
-    {
-      name: '쌀밥',
-      carbohydrate: 100,
-      protein: 10,
-      fat: 1,
-      quantity: 100,
-      calories: 111,
-    },
-    {
-      name: '바나나',
-      carbohydrate: 30,
-      protein: 30,
-      fat: 30,
-      quantity: 100,
-      calories: 90,
-    },
-    {
-      name: '오트밀',
-      carbohydrate: 80,
-      protein: 10,
-      fat: 1,
-      quantity: 100,
-      calories: 91,
-    },
-  ];
-
-  const init: CalorieProps = {
-    foods: [],
+const Meal = ({ mealName, mealList, food }: IMealProps) => {
+  const init: ICalorieProps = {
+    names: [],
     carbohydrate: 0,
     protein: 0,
     fat: 0,
+    calories: 0,
   };
 
-  const dummyCalorie = dummyFood.reduce(
-    (prev, food) => ({
-      foods: [...prev.foods, { name: food.name, value: food.calories }],
-      carbohydrate: prev.carbohydrate + food.carbohydrate,
-      protein: prev.protein + food.protein,
-      fat: prev.fat + food.fat,
-    }),
-    init
-  );
+  const calorie = mealList.reduce((prevMeal, nextMeal) => {
+    const foodItem = food.data.find((item) => item.name === nextMeal.foodName);
+    if (foodItem === undefined) return prevMeal;
+    const ratio = nextMeal.quantity / foodItem.quantity;
+    return {
+      ...prevMeal,
+      names: [
+        ...prevMeal.names,
+        { name: foodItem.name, value: foodItem.calories * ratio },
+      ],
+      carbohydrate: prevMeal.carbohydrate + foodItem.carbohydrate * ratio,
+      protein: prevMeal.protein + foodItem.protein * ratio,
+      fat: prevMeal.fat + foodItem.fat * ratio,
+    };
+  }, init);
+
+  const handleUpdate: MouseEventHandler<HTMLButtonElement> = () => {
+    alert('Update');
+  };
+
+  const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
+    alert('Delete');
+  };
+
   return (
-    <MealContainer>
-      <div>{name}</div>
-      <ContentContainer>
-        <MealList>
-          {meals.map((meal) => (
+    <SC.MealContainer>
+      <span>{mealName}</span>
+      <SC.ContentContainer>
+        <SC.MealList>
+          {mealList.map((meal) => (
             <li key={meal.foodName}>{`${meal.foodName} ${meal.quantity}g`}</li>
           ))}
-        </MealList>
+        </SC.MealList>
         <Calorie
-          foods={dummyCalorie.foods}
-          carbohydrate={dummyCalorie.carbohydrate}
-          protein={dummyCalorie.protein}
-          fat={dummyCalorie.fat}
+          foods={calorie.names}
+          carbohydrate={Number(calorie.carbohydrate.toFixed(3))}
+          protein={Number(calorie.protein.toFixed(3))}
+          fat={Number(calorie.fat.toFixed(3))}
         />
-      </ContentContainer>
-    </MealContainer>
+      </SC.ContentContainer>
+      <SC.ButtonContainer>
+        <button type="button" onClick={handleUpdate}>
+          수정
+        </button>
+        <button type="button" onClick={handleDelete}>
+          삭제
+        </button>
+      </SC.ButtonContainer>
+    </SC.MealContainer>
   );
 };
 

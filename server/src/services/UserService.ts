@@ -11,6 +11,12 @@ interface LoginInfo {
   password: string;
 }
 
+interface ErrorWithStatus {
+  status?: number;
+  message: string;
+  stack?: string;
+}
+
 class UserService {
   constructor(private userModel: UserModel) {}
 
@@ -18,6 +24,26 @@ class UserService {
     const user = await this.userModel.findByUserId(userId);
 
     return user;
+  }
+
+  // 좋아요 눌렀는지 검사
+  async isExistPostId(userId: string, postId: string) {
+    const findUser = await this.findByUserId(userId);
+    if (!findUser) {
+      throw new Error('해당 유저를 찾지 못했습니다.');
+    }
+
+    const isExistPostId = await this.userModel.findUserLike(userId, postId);
+
+    return isExistPostId;
+  }
+
+  async pushPostIdInLikedArray(userId: string, postId: string) {
+    const pushedLiked = await this.userModel.pushPostIdInLikedArray(
+      userId,
+      postId
+    );
+    return pushedLiked;
   }
 
   // 유저 정보 등록
@@ -54,7 +80,7 @@ class UserService {
     const user = await this.userModel.findByUserId(userId);
 
     if (!user) {
-      throw new Error('해당 사용자를 찾을 수 없습니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     // 비밀번호 확인
@@ -65,7 +91,9 @@ class UserService {
     );
 
     if (!isCorrect) {
-      throw new Error('비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.');
+      const error: ErrorWithStatus = new Error(
+        '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
+      );
     }
 
     // 업데이트
@@ -87,7 +115,7 @@ class UserService {
     const user = await this.userModel.findByUserId(userId);
 
     if (!user) {
-      throw new Error('해당 사용자를 찾을 수 없습니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     // 비밀번호 확인
@@ -96,14 +124,12 @@ class UserService {
 
     // 불일치
     if (!isCorrect) {
-      throw new Error('비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.');
+      const error: ErrorWithStatus = new Error(
+        '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
+      );
     }
 
     const result = await this.userModel.deleteUser(userId);
-
-    if (!result) {
-      throw new Error('삭제에 실패했습니다. 다시 한 번 확인해주세요.');
-    }
 
     return result;
   }
@@ -112,7 +138,7 @@ class UserService {
     const user = await this.userModel.findById(userId);
 
     if (!user) {
-      throw new Error('해당 아이디는 가입 내역이 없습니다.');
+      throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
     const correctPasswordHash = user.password;
@@ -123,7 +149,9 @@ class UserService {
     );
 
     if (!isPasswordCorrect) {
-      throw new Error('비밀번호가 일치하지 않습니다.');
+      const error: ErrorWithStatus = new Error(
+        '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
+      );
     }
 
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';

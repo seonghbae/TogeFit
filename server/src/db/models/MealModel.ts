@@ -1,6 +1,6 @@
 import { model } from 'mongoose';
 import { MealArticleSchema } from '../schemas/MealSchema';
-
+import { ConditionInfo } from './PostModel';
 const Meal = model('meals', MealArticleSchema);
 
 export interface MealInfo {
@@ -28,8 +28,12 @@ export class MealModel {
     return mealArticle;
   }
 
-  async findByUserId(userId: string) {
-    const mealArticle = await Meal.findOne({ userId });
+  async findArticlesByUserId(userId: string, conditions: ConditionInfo) {
+    const mealArticle = await Meal.find({ userId })
+      .skip(conditions.reqNumber * conditions.limit)
+      .sort({ _id: -1 })
+      .limit(conditions.limit);
+
     return mealArticle;
   }
 

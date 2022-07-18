@@ -1,5 +1,6 @@
 import { model } from 'mongoose';
 import { UserSchema } from '../schemas/UserSchema';
+import mongoose from 'mongoose';
 
 const User = model('users', UserSchema);
 
@@ -18,8 +19,8 @@ export class UserModel {
   }
 
   async create(userInfo: UserInfo) {
-    const createdNewUser = await User.create(userInfo);
-    return createdNewUser;
+    const { nickname } = await User.create(userInfo);
+    return nickname;
   }
 
   async update(userId: string, toUpdateInfo: Partial<UserInfo>) {
@@ -43,6 +44,21 @@ export class UserModel {
   async findById(userId: string) {
     const user = await User.findOne({ userId });
     return user;
+  }
+
+  async findUserLike(userId: string, postId: string) {
+    const user = await User.findOne({ $and: [{ userId }, { liked: postId }] });
+    return user ? true : false;
+  }
+
+  async pushPostIdInLikedArray(userId: string, postId: string) {
+    const objectPostId = new mongoose.Types.ObjectId(postId);
+    const filter = { userId };
+    const update = { $push: { liked: objectPostId } };
+    const updatedUser = await User.findOneAndUpdate(filter, update, {
+      new: true,
+    });
+    return updatedUser;
   }
 }
 

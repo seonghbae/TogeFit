@@ -1,15 +1,66 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-plusplus */
+import Modal from 'common/components/alert-modal';
+import React, { MouseEventHandler, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { IRoutinesInfo } from 'types/interfaces';
 import { CustomCarousel } from '../../../common/components';
-import { Wrapper, BtnWrapper } from './RoutineStyle';
+import useRoutineDelete from '../hooks/useRoutineDelete';
+import { routinesState } from '../states';
+import routineModifyState from '../states/routineModifyState';
+import * as SC from './RoutineStyle';
 
-const Routine = () => (
-  <Wrapper>
-    <span>나만의 가슴운동</span>
-    <CustomCarousel data={[1, 2, 3, 4, 5, 6]} />
-    <BtnWrapper>
-      <button type="button">수정</button>
-      <button type="button">삭제</button>
-    </BtnWrapper>
-  </Wrapper>
-);
+interface IRoutineProps extends IRoutinesInfo {
+  index: number;
+  isModify: boolean;
+  setIsModify: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Routine = (props: IRoutineProps) => {
+  const {
+    routine_name: routineName,
+    routine_list: routineList,
+    _id: id,
+    index,
+    isModify,
+    setIsModify,
+  } = props;
+  const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
+  const [routines, setRoutines] = useRecoilState(routinesState);
+  const { deleteRoutine, result } = useRoutineDelete();
+  const handleModify = () => {
+    setIsModify(true);
+  };
+
+  const handleDelete = () => {
+    let temp;
+    if (routines) {
+      deleteRoutine({ routineId: routines[index]._id });
+      temp = [...routines];
+      temp.splice(index, 1);
+      setRoutines(temp);
+    }
+  };
+
+  return (
+    <SC.Wrapper className="routine">
+      <SC.Label>
+        <span>{routineName}</span>
+      </SC.Label>
+
+      <CustomCarousel
+        objData={routineList}
+        isModify
+        index={index}
+        setIsModify={() => handleModify()}
+      />
+      <SC.BtnWrapper>
+        <button type="button" onClick={handleDelete}>
+          삭제
+        </button>
+      </SC.BtnWrapper>
+    </SC.Wrapper>
+  );
+};
 
 export default Routine;

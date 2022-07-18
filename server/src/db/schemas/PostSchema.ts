@@ -2,16 +2,25 @@ import { Schema } from 'mongoose';
 
 const CommentSchema = new Schema(
   {
-    content: String,
+    content: {
+      type: String,
+      required: true,
+    },
     author: {
-      type: Schema.Types.ObjectId,
-      ref: 'users',
+      type: String,
+      required: true,
     },
   },
   {
     timestamps: true,
   }
 );
+
+const TagSchema = new Schema({
+  tag: {
+    type: String,
+  },
+});
 
 const PostSchema = new Schema(
   {
@@ -24,7 +33,14 @@ const PostSchema = new Schema(
       required: true,
     },
     post_image: {
-      type: String,
+      type: [String],
+    },
+    is_open: {
+      type: Boolean,
+      default: true,
+    },
+    tag_list: {
+      type: [TagSchema],
     },
     like: {
       type: Number,
@@ -39,6 +55,7 @@ const PostSchema = new Schema(
     routine: {
       type: Schema.Types.ObjectId,
     },
+    createdAt: { type: Date },
   },
   {
     collection: 'posts',

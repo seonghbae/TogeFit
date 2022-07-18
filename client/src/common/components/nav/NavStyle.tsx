@@ -11,6 +11,7 @@ export const NavWrapper = styled.nav`
   align-items: center;
   justify-content: space-around;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  margin-bottom: 5%;
 `;
 
 export const NavBurger = styled(Navicon)<{ openSidebar: boolean }>`
@@ -35,4 +36,11 @@ export const UserIcon = styled(UserCircle)`
   width: 60px;
   height: 60px;
   color: ${(props) => props.theme.pointColors.orange};
+`;
+
+export const LoginButton = styled.button`
+  padding: 8px 20px;
+  border: 1px solid ${(props) => props.theme.pointColors.orange};
+  border-radius: 2rem;
+  font-size: 1.2rem;
 `;
