@@ -26,6 +26,7 @@ export const Modal = styled.div`
   padding: 1rem 1.5rem;
   background-color: #fff;
   border-radius: 20px;
+  z-index: 9999;
 `;
 
 export const ModalMessage = styled.p`
