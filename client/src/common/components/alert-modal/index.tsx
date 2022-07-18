@@ -30,16 +30,15 @@ const Modal = ({
     };
   }, []);
 
+  const handleModalEvent = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (e.target === ref.current) {
+      if (handleCancel) handleCancel();
+      else handleConfirm();
+    }
+  };
+
   return (
-    <SC.Wrapper
-      onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        if (e.target === ref.current) {
-          if (handleCancel) handleCancel();
-          else handleConfirm();
-        }
-      }}
-      ref={ref}
-    >
+    <SC.Wrapper onClick={handleModalEvent} ref={ref}>
       <SC.Modal>
         <SC.ModalMessage>{message}</SC.ModalMessage>
         {children}
