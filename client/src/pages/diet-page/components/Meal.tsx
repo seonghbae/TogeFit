@@ -1,15 +1,19 @@
 import { MouseEventHandler } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Calorie } from 'common/components';
-import { ICalorieProps, IFoodList, IMeal } from 'types/interfaces';
+import { ICalorieProps, IFoodList, IMealList } from 'types/interfaces';
+import useMealDelete from '../hooks/useMealDelete';
 import * as SC from './MealStyle';
 
 interface IMealProps {
   mealName: string;
-  mealList: IMeal[];
+  mealList: IMealList;
   food: IFoodList;
 }
 
 const Meal = ({ mealName, mealList, food }: IMealProps) => {
+  const { deleteMeal } = useMealDelete();
+  const navigate = useNavigate();
   const init: ICalorieProps = {
     names: [],
     carbohydrate: 0,
@@ -18,7 +22,7 @@ const Meal = ({ mealName, mealList, food }: IMealProps) => {
     calories: 0,
   };
 
-  const calorie = mealList.reduce((prevMeal, nextMeal) => {
+  const calorie = mealList.meal_list.reduce((prevMeal, nextMeal) => {
     const foodItem = food.data.find((item) => item.name === nextMeal.foodName);
     if (foodItem === undefined) return prevMeal;
     const ratio = nextMeal.quantity / foodItem.quantity;
@@ -39,7 +43,9 @@ const Meal = ({ mealName, mealList, food }: IMealProps) => {
   };
 
   const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
-    alert('Delete');
+    // eslint-disable-next-line no-underscore-dangle
+    deleteMeal({ mealListId: mealList._id });
+    navigate('/diet');
   };
 
   return (
@@ -47,7 +53,7 @@ const Meal = ({ mealName, mealList, food }: IMealProps) => {
       <span>{mealName}</span>
       <SC.ContentContainer>
         <SC.MealList>
-          {mealList.map((meal) => (
+          {mealList.meal_list.map((meal) => (
             <li key={meal.foodName}>{`${meal.foodName} ${meal.quantity}g`}</li>
           ))}
         </SC.MealList>

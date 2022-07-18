@@ -84,6 +84,7 @@ interface IMeal {
 
 interface IMealList {
   meal_list: IMeal[];
+  _id: string;
 }
 
 interface IDiet {
