@@ -163,9 +163,26 @@ class UserService {
 
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
-    const token = jwt.sign({ userId }, secretKey);
+    // accessToken은 5분으로 설정
+    const accessToken = jwt.sign({ userId }, secretKey, {
+      expiresIn: '5m',
+    });
 
-    return { token, userId };
+    // refreshToken은 7일로 설정
+    const refreshToken = jwt.sign({}, secretKey, {
+      expiresIn: '7d',
+    });
+
+    this.setRefreshToken(userId, refreshToken);
+
+    return { accessToken, userId };
+  }
+
+  async setRefreshToken(userId: string, refreshToken: string) {
+    const updatedUser = await this.userModel.setRefreshToken(
+      userId,
+      refreshToken
+    );
   }
 }
 const userService = new UserService(userModel);
