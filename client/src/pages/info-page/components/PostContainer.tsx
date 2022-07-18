@@ -1,15 +1,13 @@
-import getPath from 'common/utils/getPath';
 import CustomCard from 'common/components/custom-card/CustomCard';
 import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef } from 'react';
 import Loading from 'common/components/loading';
 import { PostResponse } from 'types/interfaces';
-import * as SC from './ArticleContainerStyle';
+import * as SC from './PostContainerStyle';
 import useArticle from '../hook/useArticle';
 
-const ArticleContainer = () => {
-  const path = getPath();
+const PostContainer = () => {
   const navigate = useNavigate();
   const {
     isLoading,
@@ -75,7 +73,6 @@ const ArticleContainer = () => {
             />
           );
         })}
-        {/* TODO: 식사 게시글 처리 */}
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>
       {isLoading && <Loading />}
@@ -83,4 +80,4 @@ const ArticleContainer = () => {
   );
 };
 
-export default ArticleContainer;
+export default PostContainer;
