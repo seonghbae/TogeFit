@@ -1,14 +1,17 @@
 /* eslint-disable no-underscore-dangle */
-import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef, useEffect } from 'react';
-import Loading from 'common/components/loading';
+
 import { IDiet } from 'types/interfaces';
+
+import Modal from 'common/components/alert-modal';
+import Loading from 'common/components/loading';
 import MealCard from 'common/components/meal-card';
+
 import useFood from 'pages/diet-page/hooks/useFood';
-import * as SC from './MealContainerStyle';
 import useArticle from '../hook/useArticle';
 import reduceMeal from '../util/reduceMeal';
+import * as SC from './MealContainerStyle';
 
 const MealContainer = () => {
   const navigate = useNavigate();
