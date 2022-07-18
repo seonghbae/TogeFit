@@ -29,6 +29,36 @@ describe('음식 등록 TEST', () => {
       calories: createdFood.calories,
     }).toEqual(input);
   });
+
+  test('등록 실패 - 이름이 비어있는 경우', async () => {
+    const input = {
+      name: '',
+      carbohydrate: 10,
+      protein: 50,
+      fat: 20,
+      quantity: 100,
+      calories: 40,
+    };
+
+    await expect(foodService.addFood(input)).rejects.toThrow(
+      '음식 이름이 반드시 필요합니다.'
+    );
+  });
+
+  test('등록 실패 - 음수 데이터가 있는 경우', async () => {
+    const input = {
+      name: '닭가슴살',
+      carbohydrate: -10,
+      protein: 50,
+      fat: 20,
+      quantity: 100,
+      calories: 40,
+    };
+
+    await expect(foodService.addFood(input)).rejects.toThrow(
+      '음수의 데이터는 포함될 수 없습니다.'
+    );
+  });
 });
 
 describe('음식 수정 TEST', () => {
@@ -45,6 +75,22 @@ describe('음식 수정 TEST', () => {
 
     await expect(foodService.patchFood(foodId, foodInfo)).rejects.toThrow(
       '해당 음식을 찾지 못했습니다.'
+    );
+  });
+
+  test('수정 실패 - 숫자 데이터(영양소, 양)를 수정할 때 음수 데이터가 있는 경우', async () => {
+    const input: any = {
+      foodId: id,
+      name: '오이 무침',
+      fat: 1,
+      calories: -10,
+    };
+
+    const { foodId, ...rest } = input;
+    const foodInfo = rest;
+
+    await expect(foodService.patchFood(foodId, foodInfo)).rejects.toThrow(
+      '음수의 데이터는 포함될 수 없습니다.'
     );
   });
 
