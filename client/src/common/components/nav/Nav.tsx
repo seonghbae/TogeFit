@@ -13,15 +13,14 @@ const Nav = () => {
     setUserId(getUserId());
   }, [location.pathname]);
 
+  const handleClick = () => {
+    setOpenSidebar((prev) => !prev);
+  };
+
   return (
     <SC.NavWrapper>
-      <SC.NavBurger
-        openSidebar={openSidebar}
-        onClick={() => {
-          setOpenSidebar((prev) => !prev);
-        }}
-      />
-      <Sidebar openSidebar={openSidebar} />
+      <SC.NavBurger openSidebar={openSidebar} onClick={handleClick} />
+      <Sidebar openSidebar={openSidebar} handleClick={handleClick} />
       <Link to="/">
         <SC.Title>HealthCare for you</SC.Title>
       </Link>

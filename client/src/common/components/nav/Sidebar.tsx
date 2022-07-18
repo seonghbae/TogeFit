@@ -10,24 +10,25 @@ import * as SC from './SidebarStyle';
 
 interface SidebarProps {
   openSidebar: boolean;
+  handleClick(): void;
 }
 
-const Sidebar = ({ openSidebar }: SidebarProps) => (
+const Sidebar = ({ openSidebar, handleClick }: SidebarProps) => (
   <SC.Wrapper openSidebar={openSidebar}>
     <SC.NavLink>
-      <Link to="/">
+      <Link to="/" onClick={handleClick}>
         <Article />
         전체 게시글
       </Link>
     </SC.NavLink>
     <SC.NavLink>
-      <Link to="/routine">
+      <Link to="/routine" onClick={handleClick}>
         <Dumbbell />
         루틴 관리
       </Link>
     </SC.NavLink>
     <SC.NavLink>
-      <Link to="/diet">
+      <Link to="/diet" onClick={handleClick}>
         <SpoonKnife />
         식단 관리
       </Link>
