@@ -14,22 +14,18 @@ import {
   getMiddlePointX,
   isCursorLeftX,
 } from 'common/utils/getElementLocationInfo';
-import routineModifyState from 'pages/routine-page/states/routineModifyState';
+import {
+  routineModifyState,
+  exerciseModifyState,
+  routinesState,
+} from 'pages/routine-page/states';
 import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
-import exerciseModifyState from 'pages/routine-page/states/exerciseModifyState';
-import { routinesState } from 'pages/routine-page/states';
+
 import { useRecoilState } from 'recoil';
 
 import { IRoutinesExerciseInfo } from 'types/interfaces';
 
 import * as SC from './style';
-
-type Idata = {
-  name: string;
-  count?: string;
-  set?: string;
-  weight?: string;
-};
 
 interface sliderProps {
   /** 슬라이더 아이템 요소 */
@@ -201,9 +197,9 @@ const CustomCarousel = ({
       const tempData = objData.slice();
       const dragObj = {
         name: String(dragTarget),
-        count: '',
-        set: '',
-        weight: '',
+        count: 0,
+        set: 0,
+        weight: 0,
       };
       if (isInitial) {
         tempData.splice(dropTargetIndex, 1, dragObj);
@@ -277,7 +273,7 @@ const CustomCarousel = ({
               <h3>{item.name}</h3>
 
               {item.set && (
-                <p data-type="">
+                <p>
                   세트:
                   <span>{item.set}</span>
                 </p>

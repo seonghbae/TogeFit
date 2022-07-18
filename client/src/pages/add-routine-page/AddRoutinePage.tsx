@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
+import { IRoutinesExerciseInfo } from 'types/interfaces';
 
 import { CustomCarousel } from 'common/components';
 import { exerciseState } from 'pages/add-routine-page/states';
@@ -20,13 +21,6 @@ import * as SC from './style';
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
-type Idata = {
-  name: string;
-  count?: string;
-  set?: string;
-  weight?: string;
-};
-
 const AddRoutinePage = () => {
   const navigate = useNavigate();
 
@@ -38,7 +32,7 @@ const AddRoutinePage = () => {
 
   const [userRoutine, setUserRoutine] = useRecoilState(userRoutineState);
 
-  const [cache, setCache] = useState<Idata[]>([
+  const [cache, setCache] = useState<IRoutinesExerciseInfo[]>([
     {
       name: ROUTINE_INITIAL_MESSAGE,
     },
@@ -71,6 +65,7 @@ const AddRoutinePage = () => {
       routine_name: routineName,
       routine_list: userRoutine,
     };
+
     if (!routineName) {
       alert('루틴 이름을 입력해주세요.');
       routineNameRef.current?.focus();
@@ -83,7 +78,6 @@ const AddRoutinePage = () => {
     }
 
     addRoutine(postData);
-    navigate('/routine');
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {

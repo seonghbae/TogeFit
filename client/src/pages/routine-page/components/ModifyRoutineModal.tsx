@@ -5,6 +5,7 @@
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
+import { IRoutinesExerciseInfo } from 'types/interfaces';
 import useExcerciseModify from '../hooks/useExerciseModify';
 import { routinesState } from '../states';
 import exerciseModifyState from '../states/exerciseModifyState';
@@ -12,12 +13,6 @@ import routineModifyState from '../states/routineModifyState';
 // isCancel, setIsCancel, open, setOpen, renderConfirmModal
 import * as SC from './ModifyRoutineModalStyle';
 
-type Inputs = {
-  name: string;
-  count: string;
-  set: string;
-  weight: string;
-};
 interface Iprops {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,7 +31,7 @@ const ModifyRoutineModal = ({
     handleSubmit,
     resetField,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<IRoutinesExerciseInfo>();
   const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
   const [exerciseModify, setExerciseModify] =
     useRecoilState(exerciseModifyState);
@@ -63,9 +58,9 @@ const ModifyRoutineModal = ({
 
     routineList[routine.exerciseIndex] = {
       name: data.name || exerciseModify?.name || '',
-      count: data.count || exerciseModify?.count || '',
-      set: data.set || exerciseModify?.set || '',
-      weight: data.weight || exerciseModify?.weight || '',
+      count: data.count || Number(exerciseModify?.count) || '',
+      set: data.set || Number(exerciseModify?.set) || '',
+      weight: data.weight || Number(exerciseModify?.weight) || '',
     };
     const temp = { ...routine, routine_list: routineList };
 
@@ -118,7 +113,7 @@ const ModifyRoutineModal = ({
         <div>
           <label htmlFor="count">개수</label>
           <input
-            type="text"
+            type="number"
             {...register('count', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.count && errors.count.type === 'min' && (
@@ -131,7 +126,7 @@ const ModifyRoutineModal = ({
         <div>
           <label htmlFor="set">세트</label>
           <input
-            type="text"
+            type="number"
             {...register('set', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.set && errors.set.type === 'min' && (
@@ -144,7 +139,7 @@ const ModifyRoutineModal = ({
         <div>
           <label htmlFor="weight">무게</label>
           <input
-            type="text"
+            type="number"
             {...register('weight', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.weight && errors.weight.type === 'min' && (
