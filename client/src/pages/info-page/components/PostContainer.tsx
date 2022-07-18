@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import CustomCard from 'common/components/custom-card/CustomCard';
 import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +18,7 @@ const PostContainer = () => {
     hasMore,
     setIsOpen,
     setReqNumber,
-  } = useArticle<PostResponse>();
+  } = useArticle<PostResponse>('post');
 
   const observer = useRef<IntersectionObserver>();
   const lastArticleRef = useCallback(
@@ -56,7 +57,7 @@ const PostContainer = () => {
             return (
               <div ref={lastArticleRef}>
                 <CustomCard
-                  key={`custom-card-${Math.random()}`}
+                  key={article._id}
                   imgUrl={article.post_image[0]}
                   content={article.contents}
                   tagList={article.tag_list}
@@ -66,7 +67,7 @@ const PostContainer = () => {
           }
           return (
             <CustomCard
-              key={`custom-card-${Math.random()}`}
+              key={article._id}
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}

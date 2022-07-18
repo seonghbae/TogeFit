@@ -42,6 +42,7 @@ type tagType = {
 };
 
 interface PostResponse {
+  _id: string;
   userId: string;
   contents: string;
   post_image: Array<string>;
