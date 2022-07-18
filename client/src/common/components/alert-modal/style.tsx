@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9998;
 `;
 
 export const Modal = styled.div`
