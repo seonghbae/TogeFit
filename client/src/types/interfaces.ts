@@ -41,7 +41,7 @@ type tagType = {
   _id: string;
 };
 
-interface ArticleResponse {
+interface PostResponse {
   userId: string;
   contents: string;
   post_image: Array<string>;
@@ -56,6 +56,20 @@ interface ArticleResponse {
 
 interface ArticleErrResponse {
   reason: string;
+}
+
+interface food {
+  foodName: string;
+  quantity: string;
+  _id: string;
+}
+
+interface MealList {
+  meal_list: food[];
+}
+
+export interface MealResponse {
+  meals: MealList[];
 }
 
 interface ICalorieProps {
@@ -141,7 +155,7 @@ export type {
   IRoutines,
   IRoutinesInfo,
   IRoutinesExerciseInfo,
-  ArticleResponse,
+  PostResponse,
   ArticleErrResponse,
   ICalorieProps,
   IFood,

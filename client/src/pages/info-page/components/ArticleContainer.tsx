@@ -4,7 +4,7 @@ import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef } from 'react';
 import Loading from 'common/components/loading';
-import { ArticleResponse } from 'types/interfaces';
+import { PostResponse } from 'types/interfaces';
 import * as SC from './ArticleContainerStyle';
 import useArticle from '../hook/useArticle';
 
@@ -19,7 +19,7 @@ const ArticleContainer = () => {
     hasMore,
     setIsOpen,
     setReqNumber,
-  } = useArticle<ArticleResponse>();
+  } = useArticle<PostResponse>();
 
   const observer = useRef<IntersectionObserver>();
   const lastArticleRef = useCallback(

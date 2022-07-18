@@ -4,7 +4,7 @@ import { dateObjectAtom } from 'recoil/infoState';
 import { useRecoilValue } from 'recoil';
 import axios, { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
-import { ArticleResponse, ArticleErrResponse } from 'types/interfaces';
+import { ArticleErrResponse } from 'types/interfaces';
 
 const useArticle = <T>() => {
   const [isLoading, setLoading] = useState(false);
