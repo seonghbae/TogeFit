@@ -1,14 +1,16 @@
 /* eslint-disable no-underscore-dangle */
 import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import Loading from 'common/components/loading';
-import { MealResponse } from 'types/interfaces';
+import { IDiet } from 'types/interfaces';
 import MealCard from 'common/components/meal-card';
+import useFood from 'pages/diet-page/hooks/useFood';
 import * as SC from './MealContainerStyle';
 import useArticle from '../hook/useArticle';
+import reduceMeal from '../util/reduceMeal';
 
-const ArticleContainer = () => {
+const MealContainer = () => {
   const navigate = useNavigate();
   const {
     isLoading,
@@ -18,7 +20,14 @@ const ArticleContainer = () => {
     hasMore,
     setIsOpen,
     setReqNumber,
-  } = useArticle<MealResponse>('meal');
+  } = useArticle<IDiet>('meal');
+
+  const { food, getFood } = useFood();
+  const reducedMealList = reduceMeal(articleList, food);
+
+  useEffect(() => {
+    getFood();
+  }, []);
 
   const observer = useRef<IntersectionObserver>();
   const lastArticleRef = useCallback(
@@ -52,15 +61,15 @@ const ArticleContainer = () => {
   return (
     <>
       <SC.ContainerSection>
-        {articleList.map((article, index) => {
-          if (articleList.length === index + 2) {
+        {reducedMealList?.map((meal, index) => {
+          if (reducedMealList.length === index + 2) {
             return (
               <div ref={lastArticleRef}>
-                <MealCard key={article._id} />
+                <MealCard key={Math.random()} data={meal} />
               </div>
             );
           }
-          return <MealCard key={article._id} />;
+          return <MealCard key={Math.random()} data={meal} />;
         })}
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>
@@ -69,4 +78,4 @@ const ArticleContainer = () => {
   );
 };
 
-export default ArticleContainer;
+export default MealContainer;
