@@ -12,9 +12,6 @@ userRouter.get('/info/:userId', async (req, res, next) => {
 
     const findUser = await userService.findByUserId(userId);
 
-    if (!findUser) {
-      throw new Error('해당 유저를 찾지 못했습니다.');
-    }
     const user = {
       nickname: findUser.nickname,
       profile_image: findUser.profile_image,
