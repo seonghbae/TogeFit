@@ -14,9 +14,11 @@ customAxios.interceptors.response.use(
   (error) => {
     if (error?.response?.status === 401) {
       document.cookie = 'userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      alert('권한이 올바르지 않습니다. 로그인 화면으로 이동합니다.');
+      window.location.href = '/login';
+      return Promise.reject(error);
     }
-    alert('권한이 올바르지 않습니다. 로그인 화면으로 이동합니다.');
-    window.location.href = '/login';
+
     return Promise.reject(error);
   }
 );
