@@ -325,7 +325,7 @@ postRouter.post('/comment', loginRequired, async (req, res, next) => {
       throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
     }
 
-    if (content) {
+    if (!content) {
       throw new Error('댓글의 내용이 반드시 필요합니다.');
     }
 
@@ -359,7 +359,7 @@ postRouter.patch('/comment/patch', loginRequired, async (req, res, next) => {
       throw new Error('해당 댓글의 ID(object ID)가 반드시 필요합니다.');
     }
 
-    if (content) {
+    if (!content) {
       throw new Error('댓글의 내용이 반드시 필요합니다.');
     }
 
