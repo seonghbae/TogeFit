@@ -27,7 +27,7 @@ const SearchForm = (props: ISearchForm) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       searchFunc(searchData);
-    }, 300);
+    }, 400);
   };
   return (
     <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>

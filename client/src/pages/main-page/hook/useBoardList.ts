@@ -9,14 +9,16 @@ const useBoardList = () => {
   const [boardList, setBoardList] = useState<IBoard[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
-  const [reqNumber, setReqNumber] = useState(1);
+  const [reqNumber, setReqNumber] = useState(0);
   const [hasMore, setHasMore] = useState(false);
 
   useEffect(() => {
     async function getBoardList() {
       setLoading(true);
       try {
-        const response = await customAxios.get(`/api/post/all`);
+        const response = await customAxios.get(
+          `/api/post/all?limit=10&reqNumber=${reqNumber}`
+        );
         setBoardList((previousBoard) => [...previousBoard, ...response.data]);
         setHasMore(response.data.length > 0);
       } catch (err) {

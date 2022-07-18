@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import * as SC from './BoardCardStyle';
 
 type tagType = {
@@ -17,8 +18,8 @@ const BoardCard = ({ imgUrl, content, tagList }: CustomCardProps) => (
     <SC.Article>
       <SC.ArticleContent>{content}</SC.ArticleContent>
       <SC.TagContainer>
-        {tagList.map((tagObject) => (
-          <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
+        {tagList.map((tagObject, i) => (
+          <SC.Tag key={i}>{`#${tagObject.tag}`}</SC.Tag>
         ))}
       </SC.TagContainer>
     </SC.Article>
