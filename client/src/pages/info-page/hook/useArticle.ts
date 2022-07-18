@@ -6,7 +6,7 @@ import axios, { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
 import { ArticleErrResponse } from 'types/interfaces';
 
-const useArticle = <T>() => {
+const useArticle = <T>(apiLink: string) => {
   const [isLoading, setLoading] = useState(false);
   const standardDate = useRecoilValue(dateObjectAtom);
   const [articleList, setArticleList] = useState<Array<T>>([]);
@@ -27,9 +27,9 @@ const useArticle = <T>() => {
       setLoading(true);
       try {
         const response = await customAxios.get(
-          `/api/post/user?userId=${userId}&year=${standardDate.year}&month=${
-            standardDate.month + 1
-          }&limit=6&reqNumber=${reqNumber}`
+          `/api/${apiLink}/user?userId=${userId}&year=${
+            standardDate.year
+          }&month=${standardDate.month + 1}&limit=6&reqNumber=${reqNumber}`
         );
         setArticleList((previousArticle) => [
           ...previousArticle,
