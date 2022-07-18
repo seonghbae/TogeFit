@@ -25,7 +25,6 @@ const useMealDelete = () => {
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
-          console.log('catch', err);
           const responseError = err as AxiosError<ArticleResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
