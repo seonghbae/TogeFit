@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
-
   justify-content: center;
   align-items: center;
+
   & > div {
     background-color: #fff;
     display: flex;
