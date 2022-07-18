@@ -53,10 +53,11 @@ const AddRoutineModal = ({
 
     temp[currentTarget] = {
       ...temp[currentTarget],
-      count: Number(data.count),
-      set: Number(data.set),
-      weight: Number(data.weight),
+      count: data.count ? Number(data.count) : undefined,
+      set: data.set ? Number(data.set) : undefined,
+      weight: data.weight ? Number(data.weight) : undefined,
     };
+
     resetField('count');
     resetField('set');
     resetField('weight');

@@ -197,9 +197,6 @@ const CustomCarousel = ({
       const tempData = objData.slice();
       const dragObj = {
         name: String(dragTarget),
-        count: 0,
-        set: 0,
-        weight: 0,
       };
       if (isInitial) {
         tempData.splice(dropTargetIndex, 1, dragObj);
@@ -278,7 +275,6 @@ const CustomCarousel = ({
                   <span>{item.set}</span>
                 </p>
               )}
-
               {item.count && <p>개수: {item.count}</p>}
               {item.weight && <p>무게: {item.weight}</p>}
             </SC.Slide>
