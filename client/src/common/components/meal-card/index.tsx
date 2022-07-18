@@ -31,11 +31,9 @@ const MealCard = ({ data }: MealCardProps) => {
       </div>
       <div>
         <SC.ListContainer>
-          <SC.ListItem>
-            총 탄수화물: {getFixedKcal(carbohydrate)}kcal
-          </SC.ListItem>
-          <SC.ListItem>총 단백질: {getFixedKcal(protein)}kcal</SC.ListItem>
-          <SC.ListItem>총 지방: {getFixedKcal(fat)}kcal</SC.ListItem>
+          <li>총 탄수화물: {getFixedKcal(carbohydrate)}kcal</li>
+          <li>총 단백질: {getFixedKcal(protein)}kcal</li>
+          <li>총 지방: {getFixedKcal(fat)}kcal</li>
         </SC.ListContainer>
         <SC.GoDetail>상세보기</SC.GoDetail>
       </div>

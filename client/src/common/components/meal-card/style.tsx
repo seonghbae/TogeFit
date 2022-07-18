@@ -24,8 +24,6 @@ export const ListContainer = styled.ol`
   }
 `;
 
-export const ListItem = styled.li``;
-
 export const GoDetail = styled.button`
   display: block;
   margin-left: auto;
