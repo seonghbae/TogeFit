@@ -1,7 +1,12 @@
+/* eslint-disable no-underscore-dangle */
 import { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { Calorie } from 'common/components';
 import { ICalorieProps, IFoodList, IMealList } from 'types/interfaces';
+import mealListState from '../states/mealListState';
+import mealIdState from '../states/mealIdState';
+import mealUpdateState from '../states/mealUpdateState';
 import useMealDelete from '../hooks/useMealDelete';
 import * as SC from './MealStyle';
 
@@ -12,6 +17,9 @@ interface IMealProps {
 }
 
 const Meal = ({ mealName, mealList, food }: IMealProps) => {
+  const [meals, setMealList] = useRecoilState(mealListState);
+  const [mealId, setMealId] = useRecoilState(mealIdState);
+  const [mealUpdate, setMealUpdate] = useRecoilState(mealUpdateState);
   const { deleteMeal } = useMealDelete();
   const navigate = useNavigate();
   const init: ICalorieProps = {
@@ -39,11 +47,13 @@ const Meal = ({ mealName, mealList, food }: IMealProps) => {
   }, init);
 
   const handleUpdate: MouseEventHandler<HTMLButtonElement> = () => {
-    alert('Update');
+    setMealUpdate(true);
+    setMealList(mealList.meal_list);
+    setMealId(mealList._id);
+    navigate('/diet/add');
   };
 
   const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
-    // eslint-disable-next-line no-underscore-dangle
     deleteMeal({ mealListId: mealList._id });
     navigate('/diet');
   };

@@ -8,6 +8,8 @@ import { IMeal } from 'types/interfaces';
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import foodListState from '../states/foodListState';
 import mealListState from '../states/mealListState';
+import mealIdState from '../states/mealIdState';
+import mealUpdateState from '../states/mealUpdateState';
 import dietAddState from '../states/dietAddState';
 import dietIdState from '../states/dietIdState';
 
@@ -16,6 +18,7 @@ import MealModal from './MealModal';
 import FoodModal from './FoodModal';
 import useFood from '../hooks/useFood';
 import useMealAdd from '../hooks/useMealAdd';
+import useMealUpdate from '../hooks/useMealUpdate';
 import useDietAdd from '../hooks/useDietAdd';
 
 import * as SC from './AddMealStyle';
@@ -33,7 +36,9 @@ const AddMeal = () => {
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
   const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
+  const [mealUpdate, setMealUpdate] = useRecoilState(mealUpdateState);
   const dietId = useRecoilValue(dietIdState);
+  const mealId = useRecoilValue(mealIdState);
 
   const init = [
     {
@@ -46,7 +51,14 @@ const AddMeal = () => {
 
   const { food, getFood } = useFood();
   const { addMeal } = useMealAdd();
+  const { updateMeal } = useMealUpdate();
   const { addDiet } = useDietAdd();
+
+  useEffect(() => {
+    if (mealUpdate) {
+      setCache([...mealList]);
+    }
+  }, []);
 
   useEffect(() => {
     if (isCancel) {
@@ -71,7 +83,14 @@ const AddMeal = () => {
   };
 
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
-    if (dietAdd) {
+    if (mealUpdate) {
+      const patchMeal = {
+        mealListId: mealId,
+        meals: mealList,
+      };
+      updateMeal(patchMeal);
+      setMealUpdate(false);
+    } else if (dietAdd) {
       const postDiet = {
         meals: [mealList],
       };
