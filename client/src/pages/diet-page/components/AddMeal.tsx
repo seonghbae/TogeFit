@@ -1,47 +1,52 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { MouseEventHandler, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
+import { IMeal } from 'types/interfaces';
 
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import foodListState from '../states/foodListState';
 import mealListState from '../states/mealListState';
+import dietAddState from '../states/dietAddState';
+import dietIdState from '../states/dietIdState';
 
 import FoodCarousel from './FoodCarousel';
 import MealModal from './MealModal';
 import FoodModal from './FoodModal';
 import useFood from '../hooks/useFood';
 import useMealAdd from '../hooks/useMealAdd';
+import useDietAdd from '../hooks/useDietAdd';
 
 import * as SC from './AddMealStyle';
 
 const isDraggableCarousel = true;
 const isUserCustomCarousel = true;
 
-type Meal = {
-  foodName: string;
-  quantity?: number;
-};
-
-const AddRoutinePage = () => {
+const AddMeal = () => {
   const navigate = useNavigate();
 
   const [isCancel, setIsCancel] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isFoodOpen, setIsFoodOpen] = useState(false);
+  const [isMealOpen, setIsMealOpen] = useState(false);
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [foodList, setFoodList] = useRecoilState(foodListState);
   const [mealList, setMealList] = useRecoilState(mealListState);
+  const dietAdd = useRecoilValue(dietAddState);
+  const dietId = useRecoilValue(dietIdState);
 
-  const [cache, setCache] = useState<Meal[]>([
+  const init = [
     {
       foodName: MEAL_INITIAL_MESSAGE,
+      quantity: 0,
     },
-  ]);
+  ];
+
+  const [cache, setCache] = useState<IMeal[]>(init);
 
   const { food, getFood } = useFood();
   const { addMeal } = useMealAdd();
+  const { addDiet } = useDietAdd();
 
   useEffect(() => {
     if (isCancel) {
@@ -62,19 +67,29 @@ const AddRoutinePage = () => {
   }, [food]);
 
   const handleAddFood: MouseEventHandler<HTMLButtonElement> = () => {
-    setIsOpen(true);
+    setIsFoodOpen(true);
   };
 
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
-    const postData = {
-      meal_list: mealList,
-    };
+    if (dietAdd) {
+      const postDiet = {
+        meals: [mealList],
+      };
+      addDiet(postDiet);
+    } else {
+      const postMeal = {
+        mealArticleId: dietId,
+        meals: mealList,
+      };
+      addMeal(postMeal);
+    }
 
-    addMeal(postData);
+    setMealList(init);
     navigate('/diet');
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {
+    setMealList(init);
     navigate('/diet');
   };
 
@@ -87,8 +102,8 @@ const AddRoutinePage = () => {
         </button>
       </SC.ButtonWrapper>
       <FoodModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
+        isOpen={isFoodOpen}
+        setIsOpen={setIsFoodOpen}
         isCancel={isCancel}
         setIsCancel={setIsCancel}
       />
@@ -101,7 +116,7 @@ const AddRoutinePage = () => {
           setDragTarget={setDragTarget}
           setData={setFoodList}
         />
-        {/* <FoodCarousel
+        <FoodCarousel
           objData={mealList}
           setObjData={setMealList}
           draggable={isDraggableCarousel}
@@ -109,12 +124,12 @@ const AddRoutinePage = () => {
           dragTarget={dragTarget}
           setDragTarget={setDragTarget}
           modifyFlag={isUserCustomCarousel}
-          setModalView={setIsOpen}
+          setModalView={setIsMealOpen}
           isCancel={isCancel}
           setIsCancel={setIsCancel}
           objCache={cache}
           setObjCache={setCache}
-        /> */}
+        />
       </div>
       <button type="button" onClick={handleAddMeal}>
         확인
@@ -122,14 +137,14 @@ const AddRoutinePage = () => {
       <button type="button" onClick={handleCancel}>
         취소
       </button>
-      {/* <MealModal
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
+      <MealModal
+        isOpen={isMealOpen}
+        setIsOpen={setIsMealOpen}
         isCancel={isCancel}
         setIsCancel={setIsCancel}
-      /> */}
+      />
     </SC.AddMealContainer>
   );
 };
 
-export default AddRoutinePage;
+export default AddMeal;

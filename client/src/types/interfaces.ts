@@ -84,19 +84,17 @@ interface IFoodList {
 interface IMeal {
   foodName: string;
   quantity: number;
-  id: string;
 }
 
 interface IMealList {
   meal_list: IMeal[];
-  id: string;
 }
 
 interface IDiet {
   userId: string;
   meals: IMealList[];
-  id: string;
   createdAt: string;
+  _id: string;
 }
 
 interface IDietList {

@@ -1,16 +1,13 @@
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
+import { IMeal } from 'types/interfaces';
 import { atom } from 'recoil';
 
-type Meal = {
-  foodName: string;
-  quantity?: number;
-};
-
-const mealListState = atom<Meal[]>({
+const mealListState = atom<IMeal[]>({
   key: 'mealListState',
   default: [
     {
       foodName: MEAL_INITIAL_MESSAGE,
+      quantity: 0,
     },
   ],
 });

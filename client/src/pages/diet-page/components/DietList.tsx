@@ -1,13 +1,16 @@
 import { MouseEventHandler, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import useFood from '../hooks/useFood';
 import useDietList from '../hooks/useDietList';
+import dietAddState from '../states/dietAddState';
 import { ChartList } from './ChartList';
 import * as SC from './DietListStyle';
 
 const DietList = () => {
   const { food, getFood } = useFood();
   const { userDietList, getDietList } = useDietList();
+  const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +19,7 @@ const DietList = () => {
   }, []);
 
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
+    setDietAdd(true);
     navigate('/diet/add');
   };
 

@@ -1,25 +1,31 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IFoodList } from 'types/interfaces';
+import { ArticleResponse, IMeal, IDiet } from 'types/interfaces';
 
-const useFood = () => {
+interface IResult {
+  status: number;
+  data: IDiet[];
+}
+
+const useDietAdd = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [food, setFood] = useState<IFoodList>();
+  const [result, setResult] = useState<IResult>();
 
-  const getFood = useCallback(() => {
+  const addDiet = useCallback((data: { meals: IMeal[][] }) => {
     setLoading(true);
     customAxios
-      .get(`/api/food`)
+      .post(`/api/meal/register`, data, { withCredentials: true })
       .then((response) => {
-        setFood({ status: response.status, data: response.data });
+        setResult({ status: response.status, data: response.data });
         setError('');
         setShowError(false);
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
+          console.log('catch', err);
           const responseError = err as AxiosError<ArticleResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
@@ -33,12 +39,12 @@ const useFood = () => {
   }, []);
 
   return {
-    getFood,
-    food,
+    addDiet,
+    result,
     isLoading,
     error,
     showError,
   };
 };
 
-export default useFood;
+export default useDietAdd;
