@@ -44,9 +44,11 @@ export const NavLink = styled.li`
   margin-bottom: 2rem;
   border-bottom: 3px solid ${(props) => props.theme.pointColors.green};
 
-  > a {
+  > a,
+  > button {
     font-size: 1.5rem;
     padding-bottom: 10px;
+    color: #fff;
 
     :hover {
       border-bottom: 3px solid #fff;
