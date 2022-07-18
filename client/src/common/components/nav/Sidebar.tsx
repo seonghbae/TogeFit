@@ -9,29 +9,33 @@ import * as SC from './SidebarStyle';
 
 interface SidebarProps {
   openSidebar: boolean;
+  handleClick(): void;
 }
 
-const Sidebar = ({ openSidebar }: SidebarProps) => (
-  <SC.Wrapper openSidebar={openSidebar}>
-    <SC.NavLink>
-      <Link to="/">
-        <Article />
-        전체 게시글
-      </Link>
-    </SC.NavLink>
-    <SC.NavLink>
-      <Link to="/routine">
-        <Dumbbell />
-        루틴 관리
-      </Link>
-    </SC.NavLink>
-    <SC.NavLink>
-      <Link to="/diet">
-        <SpoonKnife />
-        식단 관리
-      </Link>
-    </SC.NavLink>
-  </SC.Wrapper>
-);
+const Sidebar = ({ openSidebar, handleClick }: SidebarProps) => {
+  const handleClick1 = () => 1;
+  return (
+    <SC.Wrapper openSidebar={openSidebar}>
+      <SC.NavLink>
+        <Link to="/" onClick={handleClick}>
+          <Article />
+          전체 게시글
+        </Link>
+      </SC.NavLink>
+      <SC.NavLink>
+        <Link to="/routine" onClick={handleClick}>
+          <Dumbbell />
+          루틴 관리
+        </Link>
+      </SC.NavLink>
+      <SC.NavLink>
+        <Link to="/diet" onClick={handleClick}>
+          <SpoonKnife />
+          식단 관리
+        </Link>
+      </SC.NavLink>
+    </SC.Wrapper>
+  );
+};
 
 export default Sidebar;
