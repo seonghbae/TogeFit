@@ -31,6 +31,7 @@ function loginRequired(req: Request, res: Response, next: NextFunction) {
 
     next();
   } catch (error) {
+    res.cookie('token', '', { maxAge: 0 });
     res.status(401).json({
       result: 'forbidden-approach',
       reason: '정상적인 토큰이 아닙니다.',
