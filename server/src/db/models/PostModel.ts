@@ -38,8 +38,12 @@ export interface ConditionInfo {
 }
 
 export class PostModel {
-  async findAll() {
-    const postListAll = await Post.find({});
+  async findAll(conditions: ConditionInfo) {
+    const postListAll = await Post.find({})
+      .skip(conditions.reqNumber * conditions.limit)
+      .sort({ _id: -1 })
+      .limit(conditions.limit);
+
     return postListAll;
   }
 
@@ -107,6 +111,23 @@ export class PostModel {
     });
 
     return Array.from(new Set(dateList));
+  }
+
+  async searchTag(tag: string, conditions: ConditionInfo) {
+    if (!tag) {
+      const postListAll = await this.findAll(conditions);
+      return postListAll;
+    }
+    const postListByTag = await Post.find({
+      tag_list: {
+        $elemMatch: { tag: { $regex: `.*${tag}.*` } },
+      },
+    })
+      .skip(conditions.reqNumber * conditions.limit)
+      .sort({ _id: -1 })
+      .limit(conditions.limit);
+
+    return postListByTag;
   }
 
   async create(postInfo: PostInfo) {

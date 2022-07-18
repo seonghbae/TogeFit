@@ -6,10 +6,25 @@ import { getTagList, getPostImageList } from '../utils';
 
 const postRouter = Router();
 
-// 게시글 리스트 가져오기 (전체)
+// 게시글 리스트 가져오기 (전체 + 무한 스크롤)
 postRouter.get('/all', async (req, res, next) => {
   try {
-    const postListAll = await postService.getAllPost();
+    const { limit, reqNumber } = req.query;
+
+    if (!limit) {
+      throw new Error('limit 정보가 반드시 필요합니다.');
+    }
+
+    if (!reqNumber) {
+      throw new Error('reqNumber 정보가 반드시 필요합니다.');
+    }
+
+    const conditions = {
+      limit: parseInt(limit as string),
+      reqNumber: parseInt(reqNumber as string),
+    };
+
+    const postListAll = await postService.getAllPost(conditions);
 
     res.status(200).json(postListAll);
   } catch (error) {
@@ -81,6 +96,27 @@ postRouter.get('/user', async (req, res, next) => {
     );
 
     res.status(200).json(postList);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 게시글 검색
+postRouter.get('/search', async (req, res, next) => {
+  try {
+    const { tagName, limit, reqNumber } = req.query;
+
+    const conditions = {
+      limit: parseInt(limit as string),
+      reqNumber: parseInt(reqNumber as string),
+    };
+
+    const searchedPostList = await postService.searchPost(
+      tagName as string,
+      conditions
+    );
+
+    res.status(200).json(searchedPostList);
   } catch (error) {
     next(error);
   }
