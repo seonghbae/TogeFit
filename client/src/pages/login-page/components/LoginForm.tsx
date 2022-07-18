@@ -1,5 +1,6 @@
 import { FormInputType } from 'types/interfaces';
 import { AlertModal } from 'common/components';
+import Loading from 'common/components/loading';
 import CustomForm from './CustomForm';
 import { LoginButton } from './LoginFormStyle';
 import useLogin from '../hook/useLogin';
@@ -17,6 +18,7 @@ const LoginForm = () => {
 
   return (
     <>
+      {isLoading && <Loading />}
       <CustomForm onSubmit={onSubmit}>
         <LoginButton type="submit">Login</LoginButton>
       </CustomForm>
