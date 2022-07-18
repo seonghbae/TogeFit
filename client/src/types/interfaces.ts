@@ -59,21 +59,6 @@ interface ArticleErrResponse {
   reason: string;
 }
 
-interface food {
-  foodName: string;
-  quantity: string;
-  _id: string;
-}
-
-interface MealList {
-  meal_list: food[];
-}
-
-export interface MealResponse {
-  _id: string;
-  meals: MealList[];
-}
-
 interface ICalorieProps {
   names: Array<{ name: string; value: number }>;
   carbohydrate: number;
