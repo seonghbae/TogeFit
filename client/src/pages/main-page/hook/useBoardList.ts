@@ -17,7 +17,7 @@ const useBoardList = () => {
       setLoading(true);
       try {
         const response = await customAxios.get(
-          `/api/post/all?limit=5&reqNumber=${reqNumber}`
+          `/api/post/all?limit=10&reqNumber=${reqNumber}`
         );
         setBoardList((previousBoard) => [...previousBoard, ...response.data]);
         setHasMore(response.data.length > 0);
