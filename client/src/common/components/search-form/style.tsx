@@ -26,6 +26,7 @@ export const StyledForm = styled.form`
     position: absolute;
     border: solid 1px rgba(0, 0, 0, 0.2);
     border-radius: 0px 15px 15px 0px;
+    font-size: 1rem;
     width: 4rem;
     margin-right: 0%;
     height: 2rem;

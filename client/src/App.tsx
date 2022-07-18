@@ -13,6 +13,7 @@ import {
   AddRoutinePage,
   DietPage,
   LoginPage,
+  MainPage,
 } from './pages';
 
 const App = () => (
@@ -20,7 +21,7 @@ const App = () => (
     <RecoilRoot>
       <Nav />
       <Routes>
-        <Route path="/" element={<div>HOME!!!</div>} />
+        <Route path="/" element={<MainPage />} />
         <Route path="/routine/add" element={<AddRoutinePage />} />
         <Route path="/routine" element={<RoutinePage />} />
         <Route path="/info/*" element={<InfoPage />} />
