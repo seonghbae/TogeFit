@@ -70,6 +70,7 @@ interface MealList {
 }
 
 export interface MealResponse {
+  _id: string;
   meals: MealList[];
 }
 
