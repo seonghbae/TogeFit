@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
 import { IMeal } from 'types/interfaces';
 
+import { SearchForm } from 'common/components';
 import dragTargetState from 'pages/add-routine-page/states/dragTargetState';
 import foodListState from '../states/foodListState';
 import mealListState from '../states/mealListState';
@@ -21,6 +22,7 @@ import useFood from '../hooks/useFood';
 import useMealAdd from '../hooks/useMealAdd';
 import useMealUpdate from '../hooks/useMealUpdate';
 import useDietAdd from '../hooks/useDietAdd';
+import useFoodSearch from '../hooks/useFoodSearch';
 
 import * as SC from './AddMealStyle';
 
@@ -52,6 +54,7 @@ const AddMeal = () => {
   const [cache, setCache] = useState<IMeal[]>(init);
 
   const { food, getFood } = useFood();
+  const { searchFood, getSearchedFood } = useFoodSearch();
   const { addMeal } = useMealAdd();
   const { updateMeal } = useMealUpdate();
   const { addDiet } = useDietAdd();
@@ -74,11 +77,18 @@ const AddMeal = () => {
   }, []);
 
   useEffect(() => {
-    if (food?.status === 200) {
+    if (food.status === 200) {
       const foodNameList = food.data.map((item) => item.name);
       setFoodList(foodNameList);
     }
   }, [food]);
+
+  useEffect(() => {
+    if (searchFood.status === 200) {
+      const foodNameList = searchFood.data.map((item) => item.name);
+      setFoodList(foodNameList);
+    }
+  }, [searchFood]);
 
   const handleAddFood: MouseEventHandler<HTMLButtonElement> = () => {
     setIsFoodOpen(true);
@@ -118,6 +128,7 @@ const AddMeal = () => {
   return (
     <SC.AddMealContainer>
       <div>식품 목록</div>
+      <SearchForm searchFunc={getSearchedFood} />
       <SC.ButtonWrapper>
         <button type="button" onClick={handleAddFood}>
           +
