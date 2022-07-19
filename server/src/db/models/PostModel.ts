@@ -1,4 +1,4 @@
-import { model } from 'mongoose';
+import mongoose, { model } from 'mongoose';
 import { PostSchema } from '../schemas/PostSchema';
 
 const Post = model('posts', PostSchema);
@@ -48,8 +48,45 @@ export class PostModel {
   }
 
   async findById(id: string) {
-    const post = await Post.findOne({ _id: id });
-    return post;
+    const post = await Post.aggregate([
+      { $match: { _id: new mongoose.Types.ObjectId(id) } },
+      {
+        $lookup: {
+          from: 'meals',
+          localField: 'meal',
+          foreignField: '_id',
+          as: 'meal_info',
+        },
+      },
+      { $set: { meal_info: '$meal_info.meals.meal_list' } },
+      {
+        $lookup: {
+          from: 'routines',
+          localField: 'routine',
+          foreignField: '_id',
+          as: 'routine_info',
+        },
+      },
+      { $set: { routine_info: '$routine_info.routines' } },
+      { $unwind: { path: '$meal_info', preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: '$routine_info', preserveNullAndEmptyArrays: true } },
+      {
+        $project: {
+          meal: 0,
+          routine: 0,
+        },
+      },
+    ]);
+
+    if (post[0] && !post[0].meal_info) {
+      post[0].meal_info = [];
+    }
+
+    if (post[0] && !post[0].routine_info) {
+      post[0].routine_info = [];
+    }
+
+    return post[0];
   }
 
   async findByUserId(userId: string) {

@@ -1,11 +1,17 @@
 import { routineModel, RoutineModel } from '../db';
 import { userService } from './UserService';
 import { checkRoutine } from '../utils';
-
+import { Types } from 'mongoose';
 export interface RoutineInfo {
   userId: string;
   routine_name: string;
   routine_list: Array<Exercise>;
+}
+
+export interface Routine {
+  routine_name: string;
+  routine_list: Array<Exercise>;
+  _id: Types.ObjectId;
 }
 
 export interface Exercise {
@@ -35,6 +41,11 @@ class RoutineService {
   }
 
   async searchRoutine(userId: string, keyword: string) {
+    const foundUser = await userService.findByUserId(userId);
+    if (!foundUser) {
+      throw new Error('해당 유저를 찾지 못했습니다.');
+    }
+
     const routineList = await this.routineModel.searchRoutine(userId, keyword);
     return routineList;
   }
