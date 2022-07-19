@@ -78,6 +78,26 @@ export const CommentContainer = styled.div`
   }
 `;
 
+export const CommentInput = styled.input`
+  width: 100%;
+  margin-top: 2rem;
+  font-size: 1rem;
+  padding: 0.5rem 0.8rem;
+  border-bottom: 3px solid gray;
+
+  &:focus {
+    border-bottom: 3px solid ${(props) => props.theme.pointColors.lightGreen};
+  }
+`;
+
+export const SubmitButton = styled.button`
+  padding: 5px 10px;
+  margin-top: 10px;
+  border: 1px solid ${(props) => props.theme.pointColors.lightGreen};
+  border-radius: 20px;
+  font-size: 1.1rem;
+`;
+
 export const TagContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, auto));

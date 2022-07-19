@@ -41,6 +41,8 @@ const ArticleModal = ({ post, closeModal }: ArticleProps) => {
               <li>안녕하세요!</li>
               <li>안녕하세요!</li>
               <li>안녕하세요!</li>
+              <SC.CommentInput placeholder="댓글을 입력하세요." type="text" />
+              <SC.SubmitButton type="submit">입력</SC.SubmitButton>
             </SC.CommentContainer>
           </SC.Article>
         </SC.Modal>
