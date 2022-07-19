@@ -4,15 +4,15 @@ import { dateObjectAtom } from 'recoil/infoState';
 import { useRecoilValue } from 'recoil';
 import axios, { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
-import { ArticleResponse, ArticleErrResponse } from 'types/interfaces';
+import { ArticleErrResponse } from 'types/interfaces';
 
-const useArticle = () => {
+const useArticle = <T>(apiLink: string) => {
   const [isLoading, setLoading] = useState(false);
   const standardDate = useRecoilValue(dateObjectAtom);
-  const [articleList, setArticleList] = useState<Array<ArticleResponse>>([]);
+  const [articleList, setArticleList] = useState<Array<T>>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
-  const [reqNumber, setReqNumber] = useState(1);
+  const [reqNumber, setReqNumber] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const { userId } = useParams();
 
@@ -27,7 +27,7 @@ const useArticle = () => {
       setLoading(true);
       try {
         const response = await customAxios.get(
-          `/api/post/list/month?userId=${userId}&year=${
+          `/api/${apiLink}/user?userId=${userId}&year=${
             standardDate.year
           }&month=${standardDate.month + 1}&limit=6&reqNumber=${reqNumber}`
         );

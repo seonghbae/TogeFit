@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IFood } from 'types/interfaces';
+import { PostResponse, IFood } from 'types/interfaces';
 
 interface IData extends IFood {
   foodId: string;
@@ -29,7 +29,7 @@ const useFoodUpdate = () => {
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
-          const responseError = err as AxiosError<ArticleResponse>;
+          const responseError = err as AxiosError<PostResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
             setShowError(true);

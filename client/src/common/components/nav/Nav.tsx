@@ -5,22 +5,22 @@ import * as SC from './NavStyle';
 import Sidebar from './Sidebar';
 
 const Nav = () => {
-  const [openSidebar, setOpenSidebar] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const [userId, setUserId] = useState(getUserId());
 
   useEffect(() => {
     setUserId(getUserId());
-  }, [location.pathname]);
+  }, [location]);
 
   const handleClick = () => {
-    setOpenSidebar((prev) => !prev);
+    setIsOpen((prev) => !prev);
   };
 
   return (
     <SC.NavWrapper>
-      <SC.NavBurger openSidebar={openSidebar} onClick={handleClick} />
-      <Sidebar openSidebar={openSidebar} handleClick={handleClick} />
+      <SC.NavBurger isOpen={isOpen} onClick={handleClick} />
+      <Sidebar isOpen={isOpen} userId={userId} handleClick={handleClick} />
       <Link to="/">
         <SC.Title>HealthCare for you</SC.Title>
       </Link>
