@@ -15,7 +15,7 @@ const wipeOut = keyframes`
   }
 `;
 
-export const Wrapper = styled.div<{ openSidebar: boolean }>`
+export const Wrapper = styled.div<{ isOpen: boolean }>`
   display: flex;
   position: absolute;
   top: 100px;
@@ -31,7 +31,7 @@ export const Wrapper = styled.div<{ openSidebar: boolean }>`
   color: #fff;
   z-index: 10;
   ${(props) =>
-    props.openSidebar
+    props.isOpen
       ? css`
           animation: 0.5s cubic-bezier(0.25, 1, 0.3, 1) ${wipeIn} both;
         `
@@ -44,9 +44,11 @@ export const NavLink = styled.li`
   margin-bottom: 2rem;
   border-bottom: 3px solid ${(props) => props.theme.pointColors.green};
 
-  > a {
+  > a,
+  > button {
     font-size: 1.5rem;
     padding-bottom: 10px;
+    color: #fff;
 
     :hover {
       border-bottom: 3px solid #fff;

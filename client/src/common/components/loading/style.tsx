@@ -7,6 +7,7 @@ export const Wrapper = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 9998;
 `;
 
 const upside = keyframes`
@@ -30,6 +31,7 @@ export const LoadingBar = styled.div`
   height: 50px;
   display: flex;
   justify-content: center;
+  z-index: 9999;
 
   & > div:not(:first-child) {
     margin-left: 20px;

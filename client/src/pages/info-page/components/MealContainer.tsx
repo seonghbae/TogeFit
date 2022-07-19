@@ -1,14 +1,19 @@
-import getPath from 'common/utils/getPath';
-import CustomCard from 'common/components/custom-card/CustomCard';
-import Modal from 'common/components/alert-modal';
+/* eslint-disable no-underscore-dangle */
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useRef } from 'react';
-import Loading from 'common/components/loading';
-import * as SC from './ArticleContainerStyle';
-import useArticle from '../hook/useArticle';
+import { useCallback, useRef, useEffect } from 'react';
 
-const ArticleContainer = () => {
-  const path = getPath();
+import { IDiet } from 'types/interfaces';
+
+import Modal from 'common/components/alert-modal';
+import Loading from 'common/components/loading';
+import MealCard from 'common/components/meal-card';
+
+import useFood from 'pages/diet-page/hooks/useFood';
+import useArticle from '../hook/useArticle';
+import reduceMeal from '../util/reduceMeal';
+import * as SC from './MealContainerStyle';
+
+const MealContainer = () => {
   const navigate = useNavigate();
   const {
     isLoading,
@@ -18,7 +23,14 @@ const ArticleContainer = () => {
     hasMore,
     setIsOpen,
     setReqNumber,
-  } = useArticle();
+  } = useArticle<IDiet>('meal');
+
+  const { food, getFood } = useFood();
+  const reducedMealList = reduceMeal(articleList, food);
+
+  useEffect(() => {
+    getFood();
+  }, []);
 
   const observer = useRef<IntersectionObserver>();
   const lastArticleRef = useCallback(
@@ -52,29 +64,16 @@ const ArticleContainer = () => {
   return (
     <>
       <SC.ContainerSection>
-        {articleList.map((article, index) => {
-          if (articleList.length === index + 2) {
+        {reducedMealList?.map((meal, index) => {
+          if (reducedMealList.length === index + 2) {
             return (
               <div ref={lastArticleRef}>
-                <CustomCard
-                  key={`custom-card-${Math.random()}`}
-                  imgUrl={article.post_image[0]}
-                  content={article.contents}
-                  tagList={article.tag_list}
-                />
+                <MealCard key={Math.random()} data={meal} />
               </div>
             );
           }
-          return (
-            <CustomCard
-              key={`custom-card-${Math.random()}`}
-              imgUrl={article.post_image[0]}
-              content={article.contents}
-              tagList={article.tag_list}
-            />
-          );
+          return <MealCard key={Math.random()} data={meal} />;
         })}
-        {/* TODO: 식사 게시글 처리 */}
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>
       {isLoading && <Loading />}
@@ -82,4 +81,4 @@ const ArticleContainer = () => {
   );
 };
 
-export default ArticleContainer;
+export default MealContainer;

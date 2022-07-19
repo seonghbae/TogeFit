@@ -14,7 +14,7 @@ export const NavWrapper = styled.nav`
   margin-bottom: 5%;
 `;
 
-export const NavBurger = styled(Navicon)<{ openSidebar: boolean }>`
+export const NavBurger = styled(Navicon)<{ isOpen: boolean }>`
   width: 65px;
   height: 65px;
   color: ${(props) => props.theme.pointColors.orange};
@@ -22,7 +22,7 @@ export const NavBurger = styled(Navicon)<{ openSidebar: boolean }>`
   transition: transform 0.2s ease-in-out;
 
   ${(props) =>
-    props.openSidebar &&
+    props.isOpen &&
     css`
       transform: rotate(90deg);
     `}
