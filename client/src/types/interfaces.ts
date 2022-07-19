@@ -41,7 +41,8 @@ type tagType = {
   _id: string;
 };
 
-interface ArticleResponse {
+interface PostResponse {
+  _id: string;
   userId: string;
   contents: string;
   post_image: Array<string>;
@@ -139,7 +140,7 @@ export type {
   IRoutines,
   IRoutinesInfo,
   IRoutinesExerciseInfo,
-  ArticleResponse,
+  PostResponse,
   ArticleErrResponse,
   ICalorieProps,
   IFood,
