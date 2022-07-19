@@ -1,17 +1,27 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IFood, IFoodList } from 'types/interfaces';
+import { ArticleResponse, IFood } from 'types/interfaces';
 
-const useFoodAdd = () => {
+interface IData extends IFood {
+  foodId: string;
+}
+
+interface IResult {
+  status: number;
+  data: IFood[];
+}
+
+const useFoodUpdate = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [result, setResult] = useState<IFoodList>();
-  const addFood = useCallback((data: IFood) => {
+  const [result, setResult] = useState<IResult>();
+
+  const updateFood = useCallback((data: IData) => {
     setLoading(true);
     customAxios
-      .post(`/api/food/register`, data)
+      .patch(`/api/food`, data)
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');
@@ -32,7 +42,7 @@ const useFoodAdd = () => {
   }, []);
 
   return {
-    addFood,
+    updateFood,
     result,
     isLoading,
     error,
@@ -40,4 +50,4 @@ const useFoodAdd = () => {
   };
 };
 
-export default useFoodAdd;
+export default useFoodUpdate;

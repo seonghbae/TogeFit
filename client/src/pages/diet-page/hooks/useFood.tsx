@@ -7,7 +7,10 @@ const useFood = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [food, setFood] = useState<IFoodList>();
+  const [food, setFood] = useState<IFoodList>({
+    status: 0,
+    data: [],
+  });
 
   const getFood = useCallback(() => {
     setLoading(true);
