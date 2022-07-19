@@ -1,22 +1,23 @@
 import { PostResponse } from 'types/interfaces';
 import { MutableRefObject, useRef } from 'react';
 import * as SC from './style';
+import ImageCarousel from './components/ImageCarousel';
 
 interface ArticleProps {
   post: PostResponse | undefined;
-  closeModal: React.Dispatch<React.SetStateAction<boolean>>;
+  modalState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type ClickEvent =
   | React.MouseEvent<HTMLDivElement, MouseEvent>
   | React.MouseEvent<SVGSVGElement, MouseEvent>;
 
-const ArticleModal = ({ post, closeModal }: ArticleProps) => {
+const ArticleModal = ({ post, modalState }: ArticleProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   const handleClose = (e: ClickEvent) => {
     if (wrapperRef.current === e.target || e.target instanceof SVGSVGElement) {
-      closeModal(false);
+      modalState(false);
     }
   };
 
@@ -27,7 +28,9 @@ const ArticleModal = ({ post, closeModal }: ArticleProps) => {
       ) : (
         <SC.Modal>
           <SC.CloseIcon onClick={handleClose} />
-          <SC.ArticleImg src={post.post_image[0]} />
+          <SC.CarouselContainer>
+            <ImageCarousel imgUrl={post.post_image} />
+          </SC.CarouselContainer>
           <SC.Article>
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
@@ -36,6 +39,7 @@ const ArticleModal = ({ post, closeModal }: ArticleProps) => {
               ))}
             </SC.TagContainer>
             {/* 아래 댓글 연결 필요 */}
+            <SC.DivideLine />
             <SC.CommentContainer>
               <h3>Comments</h3>
               <li>안녕하세요!</li>

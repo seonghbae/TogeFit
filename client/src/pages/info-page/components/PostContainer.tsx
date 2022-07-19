@@ -93,7 +93,7 @@ const PostContainer = () => {
         )}
       </SC.ContainerSection>
       {(false || articleOpen) && (
-        <ArticleModal post={post} closeModal={setArticleOpen} />
+        <ArticleModal post={post} modalState={setArticleOpen} />
       )}
       {isLoading && <Loading />}
     </>

@@ -50,6 +50,15 @@ export const ArticleImg = styled.img`
   }
 `;
 
+export const CarouselContainer = styled.div`
+  display: inline-block;
+  width: 50%;
+
+  /* > div {
+    height: 95%;
+  } */
+`;
+
 export const Article = styled.article`
   display: flex;
   width: 50%;
@@ -88,6 +97,11 @@ export const CommentInput = styled.input`
   &:focus {
     border-bottom: 3px solid ${(props) => props.theme.pointColors.lightGreen};
   }
+`;
+
+export const DivideLine = styled.div`
+  width: 100%;
+  border: 0.2px solid #000;
 `;
 
 export const SubmitButton = styled.button`
