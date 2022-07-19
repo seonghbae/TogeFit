@@ -53,19 +53,41 @@ export class PostModel {
       {
         $lookup: {
           from: 'meals',
-          localField: 'meal',
-          foreignField: '_id',
+          let: { meal: '$meal' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$_id', '$$meal'],
+                },
+              },
+            },
+            { $project: { _id: 0, meals: '$meals.meal_list' } },
+          ],
           as: 'meal_info',
         },
       },
+      { $set: { meal_info: '$meal_info.meals' } },
       {
         $lookup: {
           from: 'routines',
-          localField: 'routine',
-          foreignField: '_id',
+          let: { routine: '$routine' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $eq: ['$_id', '$$routine'],
+                },
+              },
+            },
+            { $project: { _id: 0, routines: 1 } },
+          ],
           as: 'routine_info',
         },
       },
+      { $set: { routine_info: '$routine_info.routines' } },
+      { $unwind: '$meal_info' },
+      { $unwind: '$routine_info' },
       {
         $project: {
           meal: 0,
