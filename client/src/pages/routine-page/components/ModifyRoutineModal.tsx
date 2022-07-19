@@ -57,10 +57,11 @@ const ModifyRoutineModal = ({
     const routineList = [...routine.routine_list];
 
     routineList[routine.exerciseIndex] = {
-      name: data.name || exerciseModify?.name || '',
-      count: data.count || Number(exerciseModify?.count) || '',
-      set: data.set || Number(exerciseModify?.set) || '',
-      weight: data.weight || Number(exerciseModify?.weight) || '',
+      name: data.name || exerciseModify?.name || undefined,
+      count: Number(data.count) || Number(exerciseModify?.count) || undefined,
+      set: Number(data.set) || Number(exerciseModify?.set) || undefined,
+      weight:
+        Number(data.weight) || Number(exerciseModify?.weight) || undefined,
     };
     const temp = { ...routine, routine_list: routineList };
 
