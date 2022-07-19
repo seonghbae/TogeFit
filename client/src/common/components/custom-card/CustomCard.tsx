@@ -9,10 +9,11 @@ interface CustomCardProps {
   imgUrl: string;
   content: string;
   tagList: Array<tagType>;
+  onClick: () => void;
 }
 
-const CustomCard = ({ imgUrl, content, tagList }: CustomCardProps) => (
-  <SC.Wrapper>
+const CustomCard = ({ imgUrl, content, tagList, onClick }: CustomCardProps) => (
+  <SC.Wrapper onClick={onClick}>
     <SC.ArticleImg src={imgUrl} />
     <SC.Article>
       <SC.ArticleContent>{content}</SC.ArticleContent>

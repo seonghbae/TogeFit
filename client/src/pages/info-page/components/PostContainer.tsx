@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 import CustomCard from 'common/components/custom-card/CustomCard';
 import Loading from 'common/components/loading';
@@ -21,6 +21,7 @@ const PostContainer = () => {
     setIsOpen,
     setReqNumber,
   } = useArticle<PostResponse>('post');
+  const [articleOpen, setArticleOpen] = useState(false);
 
   const observer = useRef<IntersectionObserver>();
   const lastArticleRef = useCallback(
@@ -46,9 +47,13 @@ const PostContainer = () => {
     [isLoading, hasMore]
   );
 
-  const handleClick = () => {
+  const handleComfirm = () => {
     setIsOpen(false);
     navigate('/');
+  };
+
+  const articleModalOpen = () => {
+    setArticleOpen(true);
   };
 
   return (
@@ -63,6 +68,7 @@ const PostContainer = () => {
                   imgUrl={article.post_image[0]}
                   content={article.contents}
                   tagList={article.tag_list}
+                  onClick={articleModalOpen}
                 />
               </div>
             );
@@ -73,14 +79,15 @@ const PostContainer = () => {
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
+              onClick={articleModalOpen}
             />
           );
         })}
         {isOpen && (
-          <AlertModal message={errorMessage} handleConfirm={handleClick} />
+          <AlertModal message={errorMessage} handleConfirm={handleComfirm} />
         )}
-        {true && <ArticleModal />}
       </SC.ContainerSection>
+      {(true || articleOpen) && <ArticleModal />}
       {isLoading && <Loading />}
     </>
   );
