@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.6);
   z-index: 9998;
 `;
 
@@ -17,7 +17,7 @@ export const Modal = styled.div`
   top: 50%;
   left: 50%;
   width: 60%;
-  max-width: 1000px;
+  max-width: 1200px;
   height: 70%;
   padding: 1rem;
   transform: translate(-50%, -50%);
@@ -53,10 +53,12 @@ export const ArticleImg = styled.img`
 export const CarouselContainer = styled.div`
   display: inline-block;
   width: 50%;
+  margin: auto;
 
-  /* > div {
-    height: 95%;
-  } */
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    margin-top: 1rem;
+  }
 `;
 
 export const Article = styled.article`
@@ -79,6 +81,11 @@ export const Article = styled.article`
 export const ArticleContent = styled.div`
   font-size: 1.2rem;
   line-height: 140%;
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    margin-top: 2rem;
+  }
 `;
 
 export const CommentContainer = styled.div`

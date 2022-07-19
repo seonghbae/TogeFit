@@ -3,8 +3,23 @@ import styled from 'styled-components';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const CarouselImg = styled.img`
-  height: 100%;
+import ArrowButton from 'common/components/arrow-button/ArrowButton';
+
+const Wrapper = styled.div`
+  .slick-prev:before,
+  .slick-next:before {
+    color: #fff;
+  }
+
+  .slick-prev {
+    left: 5px;
+    z-index: 9999;
+  }
+
+  .slick-next {
+    right: 5px;
+    z-index: 9999;
+  }
 `;
 
 interface CarouselProps {
@@ -20,10 +35,12 @@ const ImageCarousel = ({ imgUrl }: CarouselProps) => {
     slidesToScroll: 1,
     adaptiveHeight: true,
     draggable: true,
+    nextArrow: <ArrowButton />,
+    prevArrow: <ArrowButton />,
   };
 
   return (
-    <div>
+    <Wrapper>
       <Slider {...setting}>
         {imgUrl.map((url) => (
           <div key={Math.random()}>
@@ -31,7 +48,7 @@ const ImageCarousel = ({ imgUrl }: CarouselProps) => {
           </div>
         ))}
       </Slider>
-    </div>
+    </Wrapper>
   );
 };
 
