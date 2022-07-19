@@ -8,17 +8,17 @@ interface IResult {
   data: IMealList[];
 }
 
-const useMealAdd = () => {
+const useMealUpdate = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
 
-  const addMeal = useCallback(
-    (data: { mealArticleId: string; meals: IMeal[] }) => {
+  const updateMeal = useCallback(
+    (data: { mealListId: string; meals: IMeal[] }) => {
       setLoading(true);
       customAxios
-        .post(`/api/meal/one`, data, { withCredentials: true })
+        .patch(`/api/meal/one`, data, { withCredentials: true })
         .then((response) => {
           setResult({ status: response.status, data: response.data });
           setError('');
@@ -41,7 +41,7 @@ const useMealAdd = () => {
   );
 
   return {
-    addMeal,
+    updateMeal,
     result,
     isLoading,
     error,
@@ -49,4 +49,4 @@ const useMealAdd = () => {
   };
 };
 
-export default useMealAdd;
+export default useMealUpdate;

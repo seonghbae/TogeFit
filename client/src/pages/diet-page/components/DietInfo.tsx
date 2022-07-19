@@ -33,7 +33,7 @@ const DietInfo = () => {
           <Meal
             key={`식사${index + 1}`}
             mealName={`식사${index + 1}`}
-            mealList={meal.meal_list}
+            mealList={meal}
             food={food}
           />
         ))}

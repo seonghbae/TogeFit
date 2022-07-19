@@ -1,49 +1,67 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
+import { useRecoilValue } from 'recoil';
+import { dateObjectAtom } from 'recoil/infoState';
 import { customAxios } from 'common/api';
 import { getUserId } from 'common/utils/getUserId';
-import { ArticleResponse, IDietList } from 'types/interfaces';
+import { ArticleResponse, IDiet } from 'types/interfaces';
 
 const useDietList = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [userDietList, setUserDietList] = useState<IDietList>();
+  const [userDietList, setUserDietList] = useState<IDiet[]>([]);
   const [reqNumber, setReqNumber] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const standardDate = useRecoilValue(dateObjectAtom);
   const userId = getUserId();
-  const limit = 20;
+  const limit = 5;
 
-  const getDietList = useCallback(() => {
-    setLoading(true);
-    customAxios
-      .get(
-        `/api/meal/user?userId=${userId}&limit=${limit}&reqNumber=${reqNumber}`
-      )
-      .then((response) => {
-        setUserDietList({ status: response.status, data: response.data });
-        setError('');
-        setShowError(false);
-      })
-      .catch((err) => {
-        if (axios.isAxiosError(err)) {
-          const responseError = err as AxiosError<ArticleResponse>;
-          if (responseError && responseError.response) {
-            setError(responseError.response.data.message);
-            setShowError(true);
+  useEffect(() => {
+    setUserDietList([]);
+    setReqNumber(0);
+    setHasMore(false);
+  }, [standardDate]);
+
+  useEffect(() => {
+    const getDietList = () => {
+      setLoading(true);
+      customAxios
+        .get(
+          `/api/meal/user?userId=${userId}&limit=${limit}&reqNumber=${reqNumber}`
+        )
+        .then((response) => {
+          setUserDietList((previousArticle) => [
+            ...previousArticle,
+            ...response.data,
+          ]);
+          setHasMore(response.data.length > 0);
+          setError('');
+          setShowError(false);
+        })
+        .catch((err) => {
+          if (axios.isAxiosError(err)) {
+            const responseError = err as AxiosError<ArticleResponse>;
+            if (responseError && responseError.response) {
+              setError(responseError.response.data.message);
+              setShowError(true);
+            }
           }
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    getDietList();
+  }, [standardDate, userId, reqNumber]);
 
   return {
-    getDietList,
     userDietList,
     isLoading,
     error,
     showError,
+    setReqNumber,
+    hasMore,
   };
 };
 

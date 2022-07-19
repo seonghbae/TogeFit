@@ -1,17 +1,18 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import Slider from 'react-slick';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import React from 'react';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
 import { isCursorLeftX } from 'common/utils/getElementLocationInfo';
 import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
 import { IMeal } from 'types/interfaces';
-import { useRecoilState } from 'recoil';
+import foodUpdateState from '../states/foodUpdateState';
 
 import * as SC from './FoodCarouselStyle';
 
@@ -116,6 +117,7 @@ const FoodCarousel = ({
     ],
   };
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
+  const [foodUpdate, setFoodUpdate] = useRecoilState(foodUpdateState);
 
   const dragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -190,6 +192,11 @@ const FoodCarousel = ({
     if (setModalView) setModalView(true);
   };
 
+  const handleClick = (item: string | number | null) => {
+    setFoodUpdate(item);
+    if (setModalView) setModalView(true);
+  };
+
   return (
     <SC.CarouselWrapper width={width} className="CustomCarousel">
       <Slider {...settings}>
@@ -205,6 +212,7 @@ const FoodCarousel = ({
               onDragEnd={dragEnd}
               onDrop={dragDrop}
               className="slide-element"
+              onClick={() => handleClick(item)}
             >
               <h3>{item}</h3>
             </SC.Slide>

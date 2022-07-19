@@ -1,4 +1,5 @@
-import { MouseEventHandler, useEffect } from 'react';
+/* eslint-disable no-underscore-dangle */
+import { MouseEventHandler, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import useFood from '../hooks/useFood';
@@ -9,13 +10,36 @@ import * as SC from './DietListStyle';
 
 const DietList = () => {
   const { food, getFood } = useFood();
-  const { userDietList, getDietList } = useDietList();
+  const { userDietList, isLoading, setReqNumber, hasMore } = useDietList();
   const [dietAdd, setDietAdd] = useRecoilState(dietAddState);
   const navigate = useNavigate();
 
+  const observer = useRef<IntersectionObserver>();
+  const lastArticleRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (isLoading) {
+        return;
+      }
+
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+
+      observer.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && hasMore) {
+          setReqNumber((prevPageNumber) => prevPageNumber + 1);
+        }
+      });
+
+      if (node) {
+        observer.current.observe(node);
+      }
+    },
+    [isLoading, hasMore]
+  );
+
   useEffect(() => {
     getFood();
-    getDietList();
   }, []);
 
   const handleAddMeal: MouseEventHandler<HTMLButtonElement> = () => {
@@ -31,9 +55,22 @@ const DietList = () => {
           +
         </button>
       </SC.ButtonWrapper>
-      {food?.status === 200 && userDietList?.status === 200 && (
-        <ChartList food={food} dietList={userDietList} />
-      )}
+      <SC.ChartListContainer>
+        {food?.status === 200 &&
+          // userDietList?.status === 200 &&
+          userDietList.map((dietItem, index) => {
+            if (userDietList.length - 2 === index) {
+              return (
+                <div key={dietItem._id} ref={lastArticleRef}>
+                  <ChartList food={food} dietItem={dietItem} />
+                </div>
+              );
+            }
+            return (
+              <ChartList key={dietItem._id} food={food} dietItem={dietItem} />
+            );
+          })}
+      </SC.ChartListContainer>
     </SC.DietListContainer>
   );
 };

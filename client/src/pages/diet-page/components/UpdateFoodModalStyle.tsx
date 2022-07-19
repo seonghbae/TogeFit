@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const MealWrapper = styled.div<{ view: boolean }>`
+export const FoodContainer = styled.div<{ view: boolean }>`
   visibility: ${(props) => (props.view ? '' : 'hidden')};
   position: fixed;
   display: flex;

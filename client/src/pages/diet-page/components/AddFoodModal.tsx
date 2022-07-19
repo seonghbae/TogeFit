@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil';
 import { IFood } from 'types/interfaces';
 import foodListState from '../states/foodListState';
 import useFoodAdd from '../hooks/useFoodAdd';
-import * as SC from './FoodModalStyle';
+import * as SC from './AddFoodModalStyle';
 
 interface IProps {
   isOpen: boolean;
