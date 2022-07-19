@@ -1,7 +1,9 @@
 import { PostResponse } from 'types/interfaces';
 import { MutableRefObject, useRef } from 'react';
+
 import * as SC from './style';
 import ImageCarousel from './components/ImageCarousel';
+import MealList from './components/MealList';
 
 interface ArticleProps {
   post: PostResponse | undefined;
@@ -38,6 +40,7 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
                 <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
               ))}
             </SC.TagContainer>
+            <MealList mealList={post.meal_info} />
             {/* 아래 댓글 연결 필요 */}
             <SC.DivideLine />
             <SC.CommentContainer>

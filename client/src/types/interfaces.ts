@@ -128,7 +128,7 @@ interface PostResponse {
   tag_list: Array<tagType>;
   like: number;
   comments: Array<comment>;
-  meal_info: Array<IMealList>;
+  meal_info: Array<IMeal[]>;
   routine_info: Array<IRoutinesInfo>;
   message: string;
 }
