@@ -27,6 +27,9 @@ const UserSchema = new Schema(
       default: [],
       required: true,
     },
+    refresh_token: {
+      type: String,
+    },
   },
   {
     collection: 'users',

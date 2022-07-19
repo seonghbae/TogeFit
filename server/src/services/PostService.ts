@@ -16,8 +16,8 @@ interface ErrorWithStatus {
 class PostService {
   constructor(private postModel: PostModel) {}
 
-  async getAllPost() {
-    const postListAll = await this.postModel.findAll();
+  async getAllPost(conditions: ConditionInfo) {
+    const postListAll = await this.postModel.findAll(conditions);
     return postListAll;
   }
 
@@ -44,6 +44,11 @@ class PostService {
   async getDateList(userId: string, year: number, month: number) {
     const dateList = await this.postModel.findByMonth(userId, year, month);
     return dateList;
+  }
+
+  async searchPost(tag: string, conditions: ConditionInfo) {
+    const postList = await this.postModel.searchTag(tag, conditions);
+    return postList;
   }
 
   async addPost(postInfo: PostInfo) {

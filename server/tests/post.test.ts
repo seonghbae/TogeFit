@@ -1,10 +1,10 @@
 import * as db from './utils/db';
 import { postService } from '../src/services';
-import { TagInfo } from '../src/db/models/PostModel';
+import { CommentInfo } from '../src/db/models/PostModel';
 
-let posts = [];
 let tags = [{ tag: 'tag' }];
 let postId: string = '';
+let commentId: string = '';
 
 beforeAll(async () => {
   await db.connect();
@@ -17,7 +17,6 @@ beforeAll(async () => {
       post_image: ['test.png'],
       tag_list: tags,
     });
-    posts.push(post);
     postId = post._id.toString();
   }
 
@@ -29,16 +28,19 @@ beforeAll(async () => {
       post_image: ['test.png'],
       tag_list: tags,
     });
-    posts.push(post);
   }
 });
 afterAll(async () => await db.close());
 
 describe('게시글 불러오기 TEST', () => {
   test('전체 게시글 불러오기 성공', async () => {
-    const postList = await postService.getAllPost();
+    const conditions = {
+      limit: 5,
+      reqNumber: 0,
+    };
+    const postList = await postService.getAllPost(conditions);
     expect(Array.isArray(postList)).toBe(true);
-    expect(posts.length).toBe(postList.length);
+    expect(postList.length).toBeLessThanOrEqual(conditions.limit);
   });
 
   test('ObjectId로 한 개의 게시글 불러오기 성공', async () => {
@@ -190,5 +192,101 @@ describe('좋아요 API TEST', () => {
     await expect(postService.updateLike(failPostId)).rejects.toThrow(
       '해당 글을 찾지 못했습니다.'
     );
+  });
+});
+
+describe('댓글 등록 TEST', () => {
+  test('등록 성공', async () => {
+    const data = {
+      author: 'user123',
+      content: '안녕하세요!',
+    };
+
+    const result = await postService.addComment(postId, data);
+
+    // 등록된 내용 확인
+    const added: any = result!.comments.at(-1);
+
+    commentId = added._id.toString();
+
+    expect(added.author).toBe(data.author);
+    expect(added.content).toBe(data.content);
+  });
+
+  test('등록 실패 - 유효하지 않은 게시글 ID', async () => {
+    const failPostId = '62cb8bdea66d590b2d4d538d';
+    const data = {
+      author: 'user123',
+      content: '안녕하세요!',
+    };
+
+    await expect(postService.addComment(failPostId, data)).rejects.toThrow(
+      '해당 글을 찾지 못했습니다.'
+    );
+  });
+});
+
+describe('댓글 수정 TEST', () => {
+  test('수정 성공', async () => {
+    const userId = 'user123';
+    const content = '좋아요';
+
+    const result = await postService.updateComment(commentId, userId, content);
+
+    // 수정된 내용 확인
+    for (const comment of result!.comments) {
+      if ((comment as any)._id === commentId) {
+        expect(comment.author).toBe(userId);
+        expect(comment.content).toBe(content);
+      }
+    }
+  });
+
+  test('수정 실패 - 유효하지 않은 댓글 ID', async () => {
+    const failCommentId = '62cb8bdea66d590b2d4d538d';
+    const userId = 'user123';
+    const content = '멋져요';
+
+    await expect(
+      postService.updateComment(failCommentId, userId, content)
+    ).rejects.toThrow('해당 댓글을 찾지 못했습니다.');
+  });
+
+  test('수정 실패 - 작성자가 아닌 다른이의 수정 요청', async () => {
+    const userId = 'fail123';
+    const content = '멋져요';
+
+    await expect(
+      postService.updateComment(commentId, userId, content)
+    ).rejects.toThrow('작성자만 수정할 수 있습니다.');
+  });
+});
+
+describe('댓글 삭제 TEST', () => {
+  test('삭제 실패 - 유효하지 않은 댓글 ID', async () => {
+    const failCommentId = '62cb8bdea66d590b2d4d538d';
+    const userId = 'user123';
+
+    await expect(
+      postService.deleteComment(userId, failCommentId)
+    ).rejects.toThrow('해당 댓글을 찾지 못했습니다.');
+  });
+
+  test('삭제 실패 - 작성자가 아닌 다른이의 삭제 요청', async () => {
+    const userId = 'fail123';
+
+    await expect(postService.deleteComment(userId, commentId)).rejects.toThrow(
+      '작성자만 삭제할 수 있습니다.'
+    );
+  });
+
+  test('삭제 성공', async () => {
+    const userId = 'user123';
+    const result = await postService.deleteComment(userId, commentId);
+
+    // 삭제 결과 확인
+    for (const comment of result!.comments) {
+      expect((comment as any)._id).not.toBe(commentId);
+    }
   });
 });

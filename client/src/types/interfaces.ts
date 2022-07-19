@@ -1,3 +1,7 @@
+interface IError {
+  message: string;
+}
+
 interface FormInputType {
   id: string;
   password: string;
@@ -10,9 +14,9 @@ interface RegisterInputType extends FormInputType {
 }
 interface IRoutinesExerciseInfo {
   name: string;
-  weight?: string;
-  set?: string;
-  count?: string;
+  weight?: number;
+  set?: number;
+  count?: number;
   _id?: string;
 }
 interface IRoutinesInfo {
@@ -149,4 +153,5 @@ export type {
   IBoardList,
   IComment,
   ITag,
+  IError,
 };
