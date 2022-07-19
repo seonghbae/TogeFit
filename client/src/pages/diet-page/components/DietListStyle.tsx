@@ -19,3 +19,14 @@ export const ButtonWrapper = styled.div`
     font-size: 2rem;
   }
 `;
+
+export const ChartListContainer = styled.div`
+  border: 1px solid ${(props) => props.theme.pointColors.black};
+  margin: 0 5% 5% 5%;
+  height: 80%;
+  overflow: scroll;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
