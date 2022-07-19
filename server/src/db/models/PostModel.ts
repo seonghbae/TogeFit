@@ -78,11 +78,11 @@ export class PostModel {
       },
     ]);
 
-    if (!post[0].meal_info) {
+    if (post[0] && !post[0].meal_info) {
       post[0].meal_info = [];
     }
 
-    if (!post[0].routine_info) {
+    if (post[0] && !post[0].routine_info) {
       post[0].routine_info = [];
     }
 
