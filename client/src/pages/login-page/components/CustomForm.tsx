@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { RegisterInputType } from 'types/interfaces';
+import { FormInputType, RegisterInputType } from 'types/interfaces';
 import { useForm } from 'react-hook-form';
 import StyledForm from './CustomFormStyle';
 
 interface FormProps {
   children?: React.ReactNode;
-  onSubmit: (data: RegisterInputType) => void;
+  onSubmit: (data: FormInputType) => void;
   header?: string;
   registerMode?: boolean;
   isDisabled?: boolean;
@@ -15,8 +15,6 @@ interface FormProps {
 const CustomForm: React.FC<FormProps> = ({
   children,
   onSubmit,
-  header,
-  registerMode,
   isDisabled,
 }) => {
   const {
@@ -24,7 +22,7 @@ const CustomForm: React.FC<FormProps> = ({
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<RegisterInputType>({ mode: 'onChange' });
+  } = useForm<FormInputType>({ mode: 'onChange' });
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -65,37 +63,6 @@ const CustomForm: React.FC<FormProps> = ({
           <p>비밀번호를 입력해주세요.</p>
         )}
       </div>
-      {registerMode && (
-        <>
-          <div>
-            <label htmlFor="nickName">
-              Password Check<span>*</span>
-            </label>
-            <input
-              id="password_check"
-              type="password"
-              {...register('password_check', {
-                validate: (value) => value === watch('password'),
-              })}
-              disabled={isDisabled}
-            />
-            {errors.password_check &&
-              errors.password_check.type === 'validate' && (
-                <p>비밀번호가 일치하지 않습니다.</p>
-              )}
-          </div>
-          <div>
-            <label htmlFor="nickName">닉네임</label>
-            <input
-              id="nickName"
-              type="text"
-              {...register('nickName')}
-              placeholder="미 입력시 랜덤으로 주어집니다."
-              disabled={isDisabled}
-            />
-          </div>
-        </>
-      )}
       {children}
     </StyledForm>
   );
