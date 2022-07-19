@@ -58,6 +58,7 @@ export class PostModel {
           as: 'meal_info',
         },
       },
+      { $set: { meal_info: '$meal_info.meals.meal_list' } },
       {
         $lookup: {
           from: 'routines',
@@ -66,6 +67,9 @@ export class PostModel {
           as: 'routine_info',
         },
       },
+      { $set: { routine_info: '$routine_info.routines' } },
+      { $unwind: { path: '$meal_info', preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: '$routine_info', preserveNullAndEmptyArrays: true } },
       {
         $project: {
           meal: 0,
@@ -73,6 +77,14 @@ export class PostModel {
         },
       },
     ]);
+
+    if (post[0] && !post[0].meal_info) {
+      post[0].meal_info = [];
+    }
+
+    if (post[0] && !post[0].routine_info) {
+      post[0].routine_info = [];
+    }
 
     return post[0];
   }
