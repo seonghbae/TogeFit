@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
 import { getUserId } from 'common/utils/getUserId';
-import { ArticleResponse, IDietList } from 'types/interfaces';
+import { PostResponse, IDietList } from 'types/interfaces';
 
 const useDietList = () => {
   const [error, setError] = useState<Error['message']>('');
@@ -26,7 +26,7 @@ const useDietList = () => {
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
-          const responseError = err as AxiosError<ArticleResponse>;
+          const responseError = err as AxiosError<PostResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
             setShowError(true);

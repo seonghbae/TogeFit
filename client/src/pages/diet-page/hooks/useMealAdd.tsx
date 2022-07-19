@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IMeal, IMealList } from 'types/interfaces';
+import { PostResponse, IMeal, IMealList } from 'types/interfaces';
 
 interface IResult {
   status: number;
@@ -26,7 +26,7 @@ const useMealAdd = () => {
         })
         .catch((err) => {
           if (axios.isAxiosError(err)) {
-            const responseError = err as AxiosError<ArticleResponse>;
+            const responseError = err as AxiosError<PostResponse>;
             if (responseError && responseError.response) {
               setError(responseError.response.data.message);
               setShowError(true);
