@@ -1,10 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import CustomCard from 'common/components/custom-card/CustomCard';
-import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef } from 'react';
+
+import CustomCard from 'common/components/custom-card/CustomCard';
 import Loading from 'common/components/loading';
+import { AlertModal, ArticleModal } from 'common/components';
 import { PostResponse } from 'types/interfaces';
+
 import * as SC from './PostContainerStyle';
 import useArticle from '../hook/useArticle';
 
@@ -74,7 +76,10 @@ const PostContainer = () => {
             />
           );
         })}
-        {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
+        {isOpen && (
+          <AlertModal message={errorMessage} handleConfirm={handleClick} />
+        )}
+        {true && <ArticleModal />}
       </SC.ContainerSection>
       {isLoading && <Loading />}
     </>
