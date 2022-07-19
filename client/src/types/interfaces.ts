@@ -7,10 +7,12 @@ interface FormInputType {
   password: string;
 }
 
-interface RegisterInputType extends FormInputType {
-  nickName: string;
+interface RegisterInputType {
+  name: string;
+  nickname: string;
+  userId: string;
+  password: string;
   password_check?: string;
-  emailAuthNumber: string;
 }
 interface IRoutinesExerciseInfo {
   name: string;
