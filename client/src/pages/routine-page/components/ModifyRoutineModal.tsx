@@ -83,8 +83,8 @@ const ModifyRoutineModal = ({
         _id: cachedData._id,
       };
     }
-    console.log(sendData);
-    // modifyExercise(sendData);
+
+    modifyExercise(sendData);
 
     setRoutines(routinesTemp);
 
