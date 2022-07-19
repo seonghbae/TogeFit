@@ -1,23 +1,25 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IMeal, IDiet } from 'types/interfaces';
+import { ArticleResponse } from 'types/interfaces';
 
 interface IResult {
   status: number;
-  data: IDiet[];
+  data: {
+    deletedCount: number;
+  };
 }
 
-const useDietAdd = () => {
+const useDietDelete = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
 
-  const addDiet = useCallback((data: { meals: IMeal[][] }) => {
+  const deleteDiet = useCallback((data: { mealArticleId: string }) => {
     setLoading(true);
     customAxios
-      .post(`/api/meal/register`, data, { withCredentials: true })
+      .delete(`/api/meal`, { data, withCredentials: true })
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');
@@ -38,7 +40,7 @@ const useDietAdd = () => {
   }, []);
 
   return {
-    addDiet,
+    deleteDiet,
     result,
     isLoading,
     error,
@@ -46,4 +48,4 @@ const useDietAdd = () => {
   };
 };
 
-export default useDietAdd;
+export default useDietDelete;

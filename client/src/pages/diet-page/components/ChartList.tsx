@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { MouseEventHandler } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -5,6 +6,7 @@ import { Calorie } from 'common/components';
 import { ICalorieProps, IFoodList, IDietList } from 'types/interfaces';
 import dietState from '../states/dietState';
 import dietIdState from '../states/dietIdState';
+import useDietDelete from '../hooks/useDietDelete';
 import * as SC from './ChartListStyle';
 
 export const ChartList = ({
@@ -16,6 +18,7 @@ export const ChartList = ({
 }) => {
   const [diet, setDiet] = useRecoilState(dietState);
   const [dietId, setDietId] = useRecoilState(dietIdState);
+  const { deleteDiet } = useDietDelete();
   const navigate = useNavigate();
 
   const init: ICalorieProps = {
@@ -61,13 +64,13 @@ export const ChartList = ({
 
         const handleRead: MouseEventHandler<HTMLButtonElement> = () => {
           setDiet(dietItem);
-          // eslint-disable-next-line no-underscore-dangle
           setDietId(dietItem._id);
           navigate('/diet/info');
         };
 
         const handleDelete: MouseEventHandler<HTMLButtonElement> = () => {
-          alert('Delete');
+          deleteDiet({ mealArticleId: dietItem._id });
+          navigate('/diet');
         };
 
         const date = new Date(dietItem.createdAt);

@@ -74,7 +74,7 @@ interface IFood {
   fat: number;
   quantity: number;
   calories: number;
-  id: string;
+  _id: string;
 }
 
 interface IFoodList {
@@ -89,6 +89,7 @@ interface IMeal {
 
 interface IMealList {
   meal_list: IMeal[];
+  _id: string;
 }
 
 interface IDiet {
