@@ -47,6 +47,10 @@ class PostService {
   }
 
   async searchPost(tag: string, conditions: ConditionInfo) {
+    if (conditions.limit < 0 || conditions.reqNumber < 0) {
+      throw new Error('잘못된 조건입니다.');
+    }
+
     const postList = await this.postModel.searchTag(tag, conditions);
     return postList;
   }

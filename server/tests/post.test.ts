@@ -195,6 +195,66 @@ describe('좋아요 API TEST', () => {
   });
 });
 
+describe('게시글 검색 TEST', () => {
+  (async function () {
+    for (let i = 1; i <= 10; i++) {
+      await postService.addPost({
+        userId: 'test123',
+        contents: 'test contents',
+        tag_list: [{ tag: '하체' }],
+      });
+    }
+  })();
+
+  test('검색 성공 - 검색 키워드가 없을 때 전체 반환 (무한스크롤)', async () => {
+    const conditions = {
+      limit: 5,
+      reqNumber: 0,
+    };
+    const searched = await postService.searchPost('', conditions);
+
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+  });
+
+  test('검색 성공 - 태그에 포함되는 검색 키워드', async () => {
+    const conditions = {
+      limit: 5,
+      reqNumber: 0,
+    };
+    let searched = await postService.searchPost('하', conditions);
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+
+    searched = await postService.searchPost('체', conditions);
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+
+    searched = await postService.searchPost('하체', conditions);
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+  });
+
+  test('검색 실패 - 잘못된 조건', async () => {
+    let conditions = {
+      limit: -5,
+      reqNumber: 0,
+    };
+
+    await expect(postService.searchPost('', conditions)).rejects.toThrow(
+      '잘못된 조건입니다.'
+    );
+
+    conditions = {
+      limit: 5,
+      reqNumber: -1,
+    };
+    await expect(postService.searchPost('', conditions)).rejects.toThrow(
+      '잘못된 조건입니다.'
+    );
+  });
+});
+
 describe('댓글 등록 TEST', () => {
   test('등록 성공', async () => {
     const data = {
