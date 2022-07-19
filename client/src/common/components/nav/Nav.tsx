@@ -8,6 +8,7 @@ const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const [userId, setUserId] = useState(getUserId());
+  const empty = '';
 
   useEffect(() => {
     setUserId(getUserId());
@@ -17,7 +18,9 @@ const Nav = () => {
     setIsOpen((prev) => !prev);
   };
 
-  return (
+  return location.pathname === '/' ? (
+    <SC.EmptyDiv>{empty}</SC.EmptyDiv>
+  ) : (
     <SC.NavWrapper>
       <SC.NavBurger isOpen={isOpen} onClick={handleClick} />
       <Sidebar isOpen={isOpen} userId={userId} handleClick={handleClick} />
