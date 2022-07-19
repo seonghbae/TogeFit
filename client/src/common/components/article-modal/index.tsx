@@ -3,6 +3,7 @@ import { MutableRefObject, useRef } from 'react';
 
 import * as SC from './style';
 import ImageCarousel from './components/ImageCarousel';
+import RoutineList from './components/RoutineList';
 import MealList from './components/MealList';
 
 interface ArticleProps {
@@ -40,9 +41,20 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
                 <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
               ))}
             </SC.TagContainer>
-            <MealList mealList={post.meal_info} />
-            {/* 아래 댓글 연결 필요 */}
             <SC.DivideLine />
+            {post.meal_info.length !== 0 && (
+              <>
+                <MealList mealList={post.meal_info} />
+                <SC.DivideLine />
+              </>
+            )}
+            {post.routine_info.length !== 0 && (
+              <>
+                <RoutineList routineList={post.routine_info} />
+                <SC.DivideLine />
+              </>
+            )}
+            {/* 아래 댓글 연결 필요 */}
             <SC.CommentContainer>
               <h3>Comments</h3>
               <li>안녕하세요!</li>

@@ -22,7 +22,9 @@ export const FoodContainer = styled.div`
   }
 `;
 
-export const MealName = styled.h3``;
+export const MealName = styled.h3`
+  margin: 0;
+`;
 
 export const FoodName = styled.h4`
   margin: 0;

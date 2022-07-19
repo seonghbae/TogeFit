@@ -30,7 +30,7 @@ const useArticle = <T>(apiLink: string) => {
         const response = await customAxios.get(
           `/api/${apiLink}/user?userId=${userId}&year=${
             standardDate.year
-          }&month=${standardDate.month + 1}&limit=6&reqNumber=6`
+          }&month=${standardDate.month + 1}&limit=6&reqNumber=${reqNumber}`
         );
         setArticleList((previousArticle) => [
           ...previousArticle,
@@ -55,7 +55,6 @@ const useArticle = <T>(apiLink: string) => {
     setLoading(true);
     try {
       const response = await customAxios.get(`/api/post/article/${articleId}`);
-      console.log(response.data);
       setPost(response.data);
     } catch (err) {
       console.log(err);

@@ -16,7 +16,7 @@ const MealList = ({ mealList }: MealListProps) => {
     <SC.Wrapper>
       {mealData.map((meal, index) => (
         <SC.MealContainer key={nanoid()}>
-          식사{index + 1}
+          <SC.MealName>식사{index + 1}</SC.MealName>
           <div>
             {meal.map((data) => (
               <SC.FoodContainer key={nanoid()}>
