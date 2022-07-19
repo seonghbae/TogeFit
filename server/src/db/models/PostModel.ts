@@ -53,41 +53,23 @@ export class PostModel {
       {
         $lookup: {
           from: 'meals',
-          let: { meal: '$meal' },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ['$_id', '$$meal'],
-                },
-              },
-            },
-            { $project: { _id: 0, meals: '$meals.meal_list' } },
-          ],
+          localField: 'meal',
+          foreignField: '_id',
           as: 'meal_info',
         },
       },
-      { $set: { meal_info: '$meal_info.meals' } },
+      { $set: { meal_info: '$meal_info.meals.meal_list' } },
       {
         $lookup: {
           from: 'routines',
-          let: { routine: '$routine' },
-          pipeline: [
-            {
-              $match: {
-                $expr: {
-                  $eq: ['$_id', '$$routine'],
-                },
-              },
-            },
-            { $project: { _id: 0, routines: 1 } },
-          ],
+          localField: 'routine',
+          foreignField: '_id',
           as: 'routine_info',
         },
       },
       { $set: { routine_info: '$routine_info.routines' } },
-      { $unwind: '$meal_info' },
-      { $unwind: '$routine_info' },
+      { $unwind: { path: '$meal_info', preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: '$routine_info', preserveNullAndEmptyArrays: true } },
       {
         $project: {
           meal: 0,
