@@ -43,24 +43,6 @@ type tagType = {
   _id: string;
 };
 
-interface PostResponse {
-  _id: string;
-  userId: string;
-  contents: string;
-  post_image: Array<string>;
-  is_open: boolean;
-  tag_list: Array<tagType>;
-  like: number;
-  comments: Array<comment>;
-  meal: string;
-  routine: string;
-  message: string;
-}
-
-interface ArticleErrResponse {
-  reason: string;
-}
-
 interface ICalorieProps {
   names: Array<{ name: string; value: number }>;
   carbohydrate: number;
@@ -135,6 +117,24 @@ interface IBoard {
 
 interface IBoardList {
   board: IBoard[];
+}
+
+interface PostResponse {
+  _id: string;
+  userId: string;
+  contents: string;
+  post_image: Array<string>;
+  is_open: boolean;
+  tag_list: Array<tagType>;
+  like: number;
+  comments: Array<comment>;
+  meal_info: Array<IMealList>;
+  routine_info: Array<IRoutinesInfo>;
+  message: string;
+}
+
+interface ArticleErrResponse {
+  reason: string;
 }
 
 export type {
