@@ -8,7 +8,7 @@ const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const [userId, setUserId] = useState(getUserId());
-  const empty = '';
+  const empty = undefined;
 
   useEffect(() => {
     setUserId(getUserId());
