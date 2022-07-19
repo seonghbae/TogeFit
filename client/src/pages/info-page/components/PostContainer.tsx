@@ -18,8 +18,10 @@ const PostContainer = () => {
     errorMessage,
     isOpen,
     hasMore,
+    post,
     setIsOpen,
     setReqNumber,
+    getArticle,
   } = useArticle<PostResponse>('post');
   const [articleOpen, setArticleOpen] = useState(false);
 
@@ -52,8 +54,9 @@ const PostContainer = () => {
     navigate('/');
   };
 
-  const articleModalOpen = () => {
+  const articleModalOpen = (articleId: string | undefined) => {
     setArticleOpen(true);
+    getArticle(articleId);
   };
 
   return (
@@ -69,6 +72,7 @@ const PostContainer = () => {
                   content={article.contents}
                   tagList={article.tag_list}
                   onClick={articleModalOpen}
+                  id={article._id}
                 />
               </div>
             );
@@ -80,6 +84,7 @@ const PostContainer = () => {
               content={article.contents}
               tagList={article.tag_list}
               onClick={articleModalOpen}
+              id={article._id}
             />
           );
         })}
@@ -87,7 +92,9 @@ const PostContainer = () => {
           <AlertModal message={errorMessage} handleConfirm={handleComfirm} />
         )}
       </SC.ContainerSection>
-      {(true || articleOpen) && <ArticleModal />}
+      {(false || articleOpen) && (
+        <ArticleModal post={post} closeModal={setArticleOpen} />
+      )}
       {isLoading && <Loading />}
     </>
   );

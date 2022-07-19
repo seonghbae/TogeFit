@@ -1,33 +1,41 @@
 import { PostResponse } from 'types/interfaces';
+import { MutableRefObject, useRef } from 'react';
 import * as SC from './style';
 
 interface ArticleProps {
   post: PostResponse | undefined;
+  closeModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ArticleModal = ({ post }: ArticleProps) => {
-  const a = 10;
+type ClickEvent =
+  | React.MouseEvent<HTMLDivElement, MouseEvent>
+  | React.MouseEvent<SVGSVGElement, MouseEvent>;
+
+const ArticleModal = ({ post, closeModal }: ArticleProps) => {
+  const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
+
+  const handleClose = (e: ClickEvent) => {
+    if (wrapperRef.current === e.target || e.target instanceof SVGSVGElement) {
+      closeModal(false);
+    }
+  };
 
   return (
-    <SC.Wrapper>
+    <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
         <SC.Modal>게시글이 존재하지 않습니다!</SC.Modal>
       ) : (
         <SC.Modal>
-          <SC.CloseIcon />
-          <SC.ArticleImg src="https://team-16-s3.s3.ap-northeast-2.amazonaws.com/mREP5nAR9.jpeg" />
+          <SC.CloseIcon onClick={handleClose} />
+          <SC.ArticleImg src={post.post_image[0]} />
           <SC.Article>
-            <SC.ArticleContent>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius sed
-              non, dolores similique corporis a id perspiciatis iure obcaecati
-              atque ducimus corrupti, facilis, iste sunt ratione optio molestias
-              aliquid consequuntur.
-            </SC.ArticleContent>
+            <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
-              <SC.Tag>#lorem10</SC.Tag>
-              <SC.Tag>#lorem11</SC.Tag>
-              <SC.Tag>#lorem12</SC.Tag>
+              {post.tag_list.map((tagObject) => (
+                <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
+              ))}
             </SC.TagContainer>
+            {/* 아래 댓글 연결 필요 */}
             <SC.CommentContainer>
               <h3>Comments</h3>
               <li>안녕하세요!</li>

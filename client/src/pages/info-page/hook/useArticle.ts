@@ -14,6 +14,7 @@ const useArticle = <T>(apiLink: string) => {
   const [isOpen, setIsOpen] = useState(false);
   const [reqNumber, setReqNumber] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+  const [post, setPost] = useState<T>();
   const { userId } = useParams();
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const useArticle = <T>(apiLink: string) => {
         const response = await customAxios.get(
           `/api/${apiLink}/user?userId=${userId}&year=${
             standardDate.year
-          }&month=${standardDate.month + 1}&limit=6&reqNumber=${reqNumber}`
+          }&month=${standardDate.month + 1}&limit=6&reqNumber=6`
         );
         setArticleList((previousArticle) => [
           ...previousArticle,
@@ -50,14 +51,28 @@ const useArticle = <T>(apiLink: string) => {
     getArticle();
   }, [standardDate, userId, reqNumber]);
 
+  const getArticle = async (articleId: string | undefined) => {
+    setLoading(true);
+    try {
+      const response = await customAxios.get(`/api/post/article/${articleId}`);
+      console.log(response.data);
+      setPost(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
   return {
     isLoading,
     articleList,
     errorMessage,
     isOpen,
     hasMore,
+    post,
     setIsOpen,
     setReqNumber,
+    getArticle,
   };
 };
 
