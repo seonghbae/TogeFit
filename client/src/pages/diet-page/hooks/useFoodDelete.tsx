@@ -1,17 +1,24 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
-import { ArticleResponse, IFood, IFoodList } from 'types/interfaces';
+import { ArticleResponse } from 'types/interfaces';
 
-const useFoodAdd = () => {
+interface IResult {
+  status: number;
+  data: {
+    deletedCount: number;
+  };
+}
+
+const useFoodDelete = () => {
   const [error, setError] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
-  const [result, setResult] = useState<IFoodList>();
-  const addFood = useCallback((data: IFood) => {
+  const [result, setResult] = useState<IResult>();
+  const deleteFood = useCallback((data: { foodId: string }) => {
     setLoading(true);
     customAxios
-      .post(`/api/food/register`, data)
+      .delete(`/api/food`, { data })
       .then((response) => {
         setResult({ status: response.status, data: response.data });
         setError('');
@@ -32,7 +39,7 @@ const useFoodAdd = () => {
   }, []);
 
   return {
-    addFood,
+    deleteFood,
     result,
     isLoading,
     error,
@@ -40,4 +47,4 @@ const useFoodAdd = () => {
   };
 };
 
-export default useFoodAdd;
+export default useFoodDelete;
