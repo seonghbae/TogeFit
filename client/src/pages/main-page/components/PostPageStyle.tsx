@@ -19,6 +19,7 @@ export const FormWrapper = styled.form`
   height: 60%;
   width: 100%;
   row-gap: 1.5rem;
+  font-size: 1.3rem;
 
   h2 {
     margin-top: 25rem;
@@ -41,4 +42,17 @@ export const InputContainer = styled.div`
 export const RadioBoxContainer = styled.div`
   display: flex;
   flex-direction: row;
+`;
+
+export const HiddenInput = styled.input`
+  display: none;
+`;
+
+export const TagWrongWrapper = styled.div`
+  color: red;
+  font-size: 13px;
+`;
+
+export const TagExampleWrapper = styled.div`
+  font-size: 14px;
 `;

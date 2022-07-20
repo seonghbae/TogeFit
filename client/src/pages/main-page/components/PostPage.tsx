@@ -4,6 +4,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { getUserId } from 'common/utils/getUserId';
 import dietState from 'pages/diet-page/states/dietState';
@@ -49,6 +50,7 @@ const PostPage = () => {
   const [isMealOpen, setIsMealOpen] = useState(false);
   const [isRoutineOpen, setIsRoutineOpen] = useState(false);
   const { addPost } = usePostAdd();
+  const navigate = useNavigate();
 
   const getDate = (createdAt: string) => {
     const date = new Date(createdAt);
@@ -113,10 +115,12 @@ const PostPage = () => {
     setValue('routine', e.target.value);
   };
 
+  const handleIsTagWrong = () => {
+    setIsTagWrong(false);
+  };
+
   const onSubmit: SubmitHandler<IPost> = (data) => {
-    if (tagValidation(data.tag_list)) {
-      setIsTagWrong(false);
-    } else {
+    if (!tagValidation(data.tag_list)) {
       setIsTagWrong(true);
       return;
     }
@@ -148,6 +152,7 @@ const PostPage = () => {
       routine_list: [],
       _id: '',
     });
+    navigate('/');
   };
 
   return (
@@ -177,7 +182,7 @@ const PostPage = () => {
             }
             readOnly
           />
-          <input
+          <SC.HiddenInput
             {...register('meal', { onChange: handleMealChange })}
             type="text"
             value={food._id}
@@ -199,18 +204,25 @@ const PostPage = () => {
             }
             readOnly
           />
-          <input
+          <SC.HiddenInput
             {...register('routine', { onChange: handleRoutineChange })}
             type="text"
             value={routine._id}
           />
           <label htmlFor="tag_list">태그 선택</label>
+          <SC.TagExampleWrapper>
+            예시 : 운동,식단 혹은 산책,공원 등
+          </SC.TagExampleWrapper>
           <input
-            {...register('tag_list')}
+            {...register('tag_list', { onChange: handleIsTagWrong })}
             type="text"
             placeholder="a,b,c 형식으로 태그를 입력해주세요."
           />
-          {isTagWrong && <div>a,b,c 형식으로 태그를 입력해주세요.</div>}
+          {isTagWrong && (
+            <SC.TagWrongWrapper>
+              a,b,c 형식으로 태그를 입력해주세요.
+            </SC.TagWrongWrapper>
+          )}
           <label htmlFor="post_image">이미지 선택</label>
           <input {...register('post_image')} type="file" accept="image/*" />
           <label htmlFor="is_open">게시글 공개 여부</label>
