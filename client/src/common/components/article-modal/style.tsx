@@ -22,7 +22,7 @@ export const Modal = styled.div`
   transform: translate(-50%, -50%);
   background-color: #fff;
   z-index: 9999;
-
+  height: 90vh;
   @media only screen and (max-width: 768px) {
     flex-direction: column;
     height: auto;
@@ -67,7 +67,7 @@ export const Article = styled.article`
   margin-left: 1rem;
   justify-content: center;
   flex-direction: column;
-  height: 90vh;
+  height: 80vh;
 
   & > div + div {
     margin-top: 2rem;
