@@ -24,16 +24,17 @@ const useModify = () => {
   const [isSend, setIsSend] = useState<boolean>(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const modifyRequest = useCallback((formData: IUserInfoModify) => {
+  const modifyRequest = useCallback((formData: FormData) => {
     setLoading(true);
     customAxios
       .patch(`/api/user`, formData)
       .then((res) => {
+        console.log(res);
         setError(undefined);
         setShowError(false);
         setIsSuccess(true);
-        alert('성공적으로 수정되었습니다.');
-        window.location.href = '/';
+        // alert('성공적으로 수정되었습니다.');
+        // window.location.href = '/';
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {

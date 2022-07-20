@@ -31,7 +31,15 @@ const RegisterForm: React.FC = () => {
   const [isSubmit, setIsSubmit] = useState(false);
 
   const onSubmit = (data: IUserInfoModify) => {
-    modifyRequest(data);
+    const formData = new FormData();
+
+    formData.append('profile_image', data.profile_image[0]);
+    formData.append('name', data.name);
+    formData.append('nickname', data.nickname);
+    formData.append('currentPassword', data.currentPassword);
+    formData.append('password', data.password);
+
+    modifyRequest(formData);
     setIsSubmit(true);
   };
 
@@ -45,6 +53,15 @@ const RegisterForm: React.FC = () => {
   return (
     <>
       <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>
+        <div>
+          <label htmlFor="profile_image">프로필 사진</label>
+          <input
+            id="profile_image"
+            type="file"
+            accept="image/*"
+            {...register('profile_image')}
+          />
+        </div>
         <div>
           <label htmlFor="password">Password</label>
           <input

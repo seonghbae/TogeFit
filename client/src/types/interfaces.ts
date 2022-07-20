@@ -8,7 +8,7 @@ interface FormInputType {
 }
 
 interface IUserInfoModify {
-  profile_image: string;
+  profile_image: any;
   name: string;
   nickname: string;
   currentPassword: string;
