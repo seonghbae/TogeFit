@@ -1,18 +1,33 @@
 import { nanoid } from 'nanoid';
-import { IDiet } from 'types/interfaces';
+import { IDiet, ModalCloseEvent } from 'types/interfaces';
+import useFood from 'pages/diet-page/hooks/useFood';
+import { MutableRefObject, useEffect, useRef } from 'react';
 import * as SC from './style';
 
 interface MealModalProps {
   post: IDiet;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const MealModal = ({ post }: MealModalProps) => {
+const MealModal = ({ post, setOpen }: MealModalProps) => {
+  const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
   const { meals } = post;
+  const { food, getFood } = useFood();
+
+  useEffect(() => {
+    getFood();
+  }, []);
+
+  const handleClose = (e: ModalCloseEvent) => {
+    if (e.target === wrapperRef.current || e.target instanceof SVGElement) {
+      setOpen(false);
+    }
+  };
 
   return (
-    <SC.Wrapper>
+    <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       <SC.Modal>
-        <SC.CloseIcon />
+        <SC.CloseIcon onClick={handleClose} />
         {meals.map((mealList, index) => (
           <SC.MealContainer key={nanoid()}>
             <SC.MealName>{`식사 ${index + 1}`}</SC.MealName>

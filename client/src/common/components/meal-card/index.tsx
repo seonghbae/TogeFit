@@ -47,7 +47,7 @@ const MealCard = ({ data }: MealCardProps) => {
           <SC.GoDetail onClick={modalOpen}>상세보기</SC.GoDetail>
         </div>
       </SC.Wrapper>
-      {isOpen && <MealModal post={data.rawData} />}
+      {isOpen && <MealModal post={data.rawData} setOpen={setOpen} />}
     </>
   );
 };
