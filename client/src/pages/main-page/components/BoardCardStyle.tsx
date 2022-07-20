@@ -34,7 +34,7 @@ export const ArticleContent = styled.h1`
 
 export const TagContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, auto));
+  grid-template-columns: repeat(auto-fill, minmax(80px, auto));
   grid-gap: 10px;
 `;
 

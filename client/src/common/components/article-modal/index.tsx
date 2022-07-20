@@ -54,7 +54,6 @@ const ArticleModal = ({
   };
 
   useEffect(() => {
-    console.log(result?.status);
     if (result?.status === 201 && getArticle) {
       getArticle(articleId);
       resetField('content');
