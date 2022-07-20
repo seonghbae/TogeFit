@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { IDiet, ICalorieProps, IFoodList } from 'types/interfaces';
 
 const init: ICalorieProps = {
@@ -39,7 +40,7 @@ const reduceMeal = (dietList?: IDiet[], food?: IFoodList) =>
       },
       init
     );
-    return { reducedMealList, date: dietItem.createdAt };
+    return { reducedMealList, date: dietItem.createdAt, rawData: dietItem };
   });
 
 export default reduceMeal;
