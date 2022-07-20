@@ -6,6 +6,7 @@ import LoginPage from './login-page';
 import MainPage from './main-page';
 import { PostPage } from './main-page/components';
 import RegisterPage from './register-page';
+import InfoModifyPage from './info-modify-page/InfoModifyPage';
 
 export {
   RoutinePage,
@@ -15,5 +16,6 @@ export {
   LoginPage,
   MainPage,
   RegisterPage,
+  InfoModifyPage,
   PostPage,
 };

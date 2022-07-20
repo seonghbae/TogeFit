@@ -6,6 +6,10 @@ export const Wrapper = styled.div`
   padding: 2%;
   margin-bottom: 1rem;
   background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  :hover {
+    background-color: rgba(255, 255, 255, 0.726);
+  }
   cursor: pointer;
 `;
 

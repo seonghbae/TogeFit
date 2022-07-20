@@ -15,6 +15,7 @@ import {
   LoginPage,
   MainPage,
   RegisterPage,
+  InfoModifyPage,
   PostPage,
 } from './pages';
 
@@ -26,6 +27,7 @@ const App = () => (
         <Route path="/" element={<MainPage />} />
         <Route path="/routine/add" element={<AddRoutinePage />} />
         <Route path="/routine" element={<RoutinePage />} />
+        <Route path="/modify" element={<InfoModifyPage />} />
         <Route path="/info/*" element={<InfoPage />} />
         <Route path="/diet/*" element={<DietPage />} />
         <Route path="/login" element={<LoginPage />} />

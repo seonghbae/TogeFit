@@ -5,6 +5,8 @@ import { getUserId } from 'common/utils/getUserId';
 import { Dumbbell } from 'styled-icons/fa-solid';
 import { SpoonKnife, Pencil } from 'styled-icons/icomoon';
 import { Article } from 'styled-icons/material-rounded';
+import { InfoCircleFill } from 'styled-icons/bootstrap';
+
 import { Logout, Login } from 'styled-icons/material-twotone';
 import { AlertModal } from 'common/components';
 import useLogoutRequest from 'common/components/nav/hook/useLogoutRequest';
@@ -35,33 +37,46 @@ const UserInfo = () => {
     <>
       <SC.UserInfo>
         {userId ? (
-          <SC.UserProfile>
-            <SC.ProfileImg src={profileImg} />
-            <SC.UserName>{nickName}</SC.UserName>
-          </SC.UserProfile>
+          <>
+            <SC.PrifileImgDiv>
+              <SC.ProfileImg src={profileImg} />
+            </SC.PrifileImgDiv>
+            <SC.UserProfile>
+              <SC.UserName>
+                {nickName}님 <br />
+                안녕하세요!
+              </SC.UserName>
+            </SC.UserProfile>
+            <Link to="/modify">
+              <SC.PageLink>
+                <InfoCircleFill />내 정보
+              </SC.PageLink>
+            </Link>
+            <Link to={`/info/exercise/${userId}`}>
+              <SC.PageLink>
+                <Article />내 게시글
+              </SC.PageLink>
+            </Link>
+            <Link to="/routine">
+              <SC.PageLink>
+                <Dumbbell />
+                개인 루틴
+              </SC.PageLink>
+            </Link>
+            <Link to="/diet">
+              <SC.PageLink>
+                <SpoonKnife />
+                식단
+              </SC.PageLink>
+            </Link>
+          </>
         ) : (
           <SC.UserProfile>
             <SC.UserIcon />
             <SC.UserName>GUEST</SC.UserName>
           </SC.UserProfile>
         )}
-        <Link to={`/info/exercise/${userId}`}>
-          <SC.PageLink>
-            <Article />내 정보
-          </SC.PageLink>
-        </Link>
-        <Link to="/routine">
-          <SC.PageLink>
-            <Dumbbell />
-            개인 루틴
-          </SC.PageLink>
-        </Link>
-        <Link to="/diet">
-          <SC.PageLink>
-            <SpoonKnife />
-            식단
-          </SC.PageLink>
-        </Link>
+
         {userId ? (
           <>
             <Link to="/post">
