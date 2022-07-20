@@ -78,7 +78,7 @@ export const Article = styled.article`
 `;
 
 export const ArticleContent = styled.div`
-  font-size: 1.2rem;
+  font-size: 2rem;
   line-height: 140%;
 
   @media only screen and (max-width: 768px) {
@@ -99,7 +99,7 @@ export const CommentInput = styled.input`
   font-size: 1rem;
   padding: 0.5rem 0.8rem;
   border-bottom: 3px solid gray;
-
+  padding-right: 4rem;
   &:focus {
     border-bottom: 3px solid ${(props) => props.theme.pointColors.lightGreen};
   }
@@ -107,18 +107,30 @@ export const CommentInput = styled.input`
 
 export const DivideLine = styled.div`
   width: 100%;
-  border: 0.2px solid #000;
+  border: 0.2px solid rgba(0, 0, 0, 0.2);
 `;
 
 export const SubmitButton = styled.button`
   padding: 5px 10px;
   margin-top: 10px;
-  border: 1px solid ${(props) => props.theme.pointColors.lightGreen};
-  border-radius: 20px;
-  font-size: 1.1rem;
+  font-size: 1rem;
+  position: absolute;
+  min-width: 4rem;
+  top: 35%;
+  left: 80%;
+  :hover {
+    border: 1px solid ${(props) => props.theme.pointColors.lightGreen};
+    border-radius: 20px;
+  }
+`;
+
+export const CommentInputWrapper = styled.div`
+  display: flex;
+  position: relative;
 `;
 
 export const TagContainer = styled.div`
+  font-size: 0.8rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, auto));
   grid-gap: 10px;

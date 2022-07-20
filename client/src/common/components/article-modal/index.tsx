@@ -56,19 +56,18 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
               </>
             )}
             {post.routine_info.length !== 0 && (
-              <>
-                <RoutineList routineList={post.routine_info} />
-                <SC.DivideLine />
-              </>
+              <RoutineList routineList={post.routine_info} />
             )}
             {/* 아래 댓글 연결 필요 */}
             <SC.CommentContainer>
+              <SC.CommentInputWrapper>
+                <SC.CommentInput placeholder="댓글을 입력하세요." type="text" />
+                <SC.SubmitButton type="submit">입력</SC.SubmitButton>
+              </SC.CommentInputWrapper>
               <h3>Comments</h3>
               <li>안녕하세요!</li>
               <li>안녕하세요!</li>
               <li>안녕하세요!</li>
-              <SC.CommentInput placeholder="댓글을 입력하세요." type="text" />
-              <SC.SubmitButton type="submit">입력</SC.SubmitButton>
             </SC.CommentContainer>
           </SC.Article>
         </SC.Modal>
