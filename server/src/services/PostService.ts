@@ -42,6 +42,10 @@ class PostService {
   }
 
   async getDateList(userId: string, year: number, month: number) {
+    if (!(month >= 1 && month <= 12)) {
+      throw new Error('월의 범위는 1~12입니다.');
+    }
+
     const dateList = await this.postModel.findByMonth(userId, year, month);
     return dateList;
   }
