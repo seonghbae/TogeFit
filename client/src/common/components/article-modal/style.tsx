@@ -51,7 +51,7 @@ export const ArticleImg = styled.img`
 
 export const CarouselContainer = styled.div`
   display: inline-block;
-  width: 45vw;
+  width: 50%;
   margin: auto;
   margin-right: 1rem;
 
@@ -63,10 +63,11 @@ export const CarouselContainer = styled.div`
 
 export const Article = styled.article`
   display: flex;
-  width: 40vw;
+  flex-grow: 1;
   margin-left: 1rem;
   justify-content: center;
   flex-direction: column;
+  height: 90vh;
 
   & > div + div {
     margin-top: 2rem;
@@ -121,10 +122,11 @@ export const SubmitButton = styled.button`
   right: 0%;
 `;
 
-export const CommentWrapper = styled.ul`
+export const CommentWrapper = styled.div`
   padding-left: 0;
   margin-left: 0;
   overflow: scroll;
+  height: 30vh;
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
@@ -148,9 +150,10 @@ export const CommentAuthorWrapper = styled.p`
 export const CommentContent = styled.p`
   font-size: 1rem;
   width: 80%;
+  word-break: break-all;
 `;
 
-export const CommentInputWrapper = styled.div`
+export const CommentInputWrapper = styled.form`
   display: flex;
   position: relative;
 `;

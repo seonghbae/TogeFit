@@ -6,7 +6,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 
 import { IBoard, PostResponse } from 'types/interfaces';
 import { ArticleModal, Loading, AlertModal as Modal } from 'common/components';
-import useArticle from 'pages/info-page/hook/useArticle';
 import { BoardCard } from '.';
 
 import useBoardList from '../hook/useBoardList';
@@ -15,6 +14,7 @@ import useSearchBoardList from '../hook/useSearchBoardList';
 import { searchQueryState } from '../states';
 
 import * as SC from './BoardContainerStyle';
+import useBoardInfo from '../hook/useBoardInfo';
 
 const BoardContainer = () => {
   const navigate = useNavigate();
@@ -29,7 +29,8 @@ const BoardContainer = () => {
     post,
     setIsOpen: setIsPostOpen,
     getArticle,
-  } = useArticle<PostResponse>('post');
+    articleId,
+  } = useBoardInfo<PostResponse>('post');
 
   const {
     isLoading,
@@ -40,6 +41,7 @@ const BoardContainer = () => {
     setIsOpen,
     setReqNumber,
   } = useBoardList();
+
   const {
     isSearchLoading,
     searchBoardList,
@@ -103,9 +105,9 @@ const BoardContainer = () => {
     navigate('/');
   };
 
-  const articleModalOpen = (articleId: string | undefined) => {
+  const articleModalOpen = (id: string | undefined) => {
     setArticleOpen(true);
-    getArticle(articleId);
+    getArticle(id);
   };
 
   const boardLayout = (boardData: IBoard[], isSearch: boolean) =>
@@ -147,7 +149,14 @@ const BoardContainer = () => {
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>
       {isLoading && <Loading />}
-      {articleOpen && <ArticleModal post={post} modalState={setArticleOpen} />}
+      {articleOpen && (
+        <ArticleModal
+          post={post}
+          modalState={setArticleOpen}
+          articleId={articleId}
+          getArticle={getArticle}
+        />
+      )}
     </>
   );
 };

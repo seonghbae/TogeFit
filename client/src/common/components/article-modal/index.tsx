@@ -1,23 +1,40 @@
 /* eslint-disable no-underscore-dangle */
 import { PostResponse } from 'types/interfaces';
-import { MutableRefObject, useRef } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 import * as SC from './style';
 import ImageCarousel from './components/ImageCarousel';
 import RoutineList from './components/RoutineList';
 import MealList from './components/MealList';
+import useComment from './hooks/useComment';
 
 interface ArticleProps {
   post: PostResponse | undefined;
   modalState: React.Dispatch<React.SetStateAction<boolean>>;
+  articleId?: string;
+  getArticle?: (id: string | undefined) => Promise<void>;
 }
 
 type ClickEvent =
   | React.MouseEvent<HTMLDivElement, MouseEvent>
   | React.MouseEvent<SVGSVGElement, MouseEvent>;
 
-const ArticleModal = ({ post, modalState }: ArticleProps) => {
+const ArticleModal = ({
+  post,
+  modalState,
+  articleId,
+  getArticle,
+}: ArticleProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const { addComment, result } = useComment();
+
+  const {
+    register,
+    handleSubmit,
+    resetField,
+    formState: { errors },
+  } = useForm<{ content: string }>();
 
   const handleClose = (e: ClickEvent) => {
     if (
@@ -27,6 +44,22 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
       modalState(false);
     }
   };
+
+  const onSubmit: SubmitHandler<any> = (data) => {
+    const postData = {
+      postId: articleId,
+      content: data.content,
+    };
+    addComment(postData);
+  };
+
+  useEffect(() => {
+    console.log(result?.status);
+    if (result?.status === 201 && getArticle) {
+      getArticle(articleId);
+      resetField('content');
+    }
+  }, [result]);
 
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
@@ -61,8 +94,12 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
             )}
             {/* 아래 댓글 연결 필요 */}
             <SC.CommentContainer>
-              <SC.CommentInputWrapper>
-                <SC.CommentInput placeholder="댓글을 입력하세요." type="text" />
+              <SC.CommentInputWrapper onSubmit={handleSubmit(onSubmit)}>
+                <SC.CommentInput
+                  placeholder="댓글을 입력하세요."
+                  type="text"
+                  {...register('content', { required: true, maxLength: 400 })}
+                />
                 <SC.SubmitButton type="submit">입력</SC.SubmitButton>
               </SC.CommentInputWrapper>
               <SC.CommentWrapper>
