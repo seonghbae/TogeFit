@@ -6,7 +6,6 @@ export const UserInfo = styled.nav`
   flex-direction: column;
   position: fixed;
   width: 20rem;
-  height: 35%;
   margin: 10rem 0;
   background-color: #fff;
   align-items: center;
@@ -18,17 +17,27 @@ export const UserInfo = styled.nav`
 export const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 70%;
+  justify-content: center;
+  width: 50%;
+  margin: 1rem 0;
 `;
 
 export const ProfileImg = styled.img`
-  width: 50%;
+  width: 100%;
+  height: 100%;
   min-width: 80px;
-  height: auto;
+  object-fit: cover;
+`;
+export const PrifileImgDiv = styled.div`
+  overflow: hidden;
+  position: absolute;
+  top: -50%;
+
+  width: 100%;
+  height: 40%;
+  border-radius: 1rem;
   background-color: ${(props) => props.theme.pointColors.beige};
   border: 0.5rem solid ${(props) => props.theme.pointColors.beige};
-  border-radius: 100%;
 `;
 
 export const UserIcon = styled(UserCircle)`
@@ -39,12 +48,17 @@ export const UserIcon = styled(UserCircle)`
 
 export const UserName = styled.span`
   font-size: 1.5rem;
+  word-break: break-all;
+  width: 8rem;
+  text-align: center;
 `;
 
 export const PageLink = styled.div`
   font-size: 1.5rem;
   display: flex;
   align-items: center;
+  margin: 0.5rem 0;
+  border-bottom: 3px solid #fff;
 
   :hover {
     border-bottom: 3px solid ${(props) => props.theme.pointColors.orange};
