@@ -12,8 +12,6 @@ import { nanoid } from 'nanoid';
 import { JandiType } from 'recoil/infoState';
 import * as SC from './ExerciseJandiStyle';
 
-
-
 interface JandiProps {
   jandiList: JandiType[];
   children?: JSX.Element;
@@ -24,20 +22,18 @@ const ExerciseJandi = ({ jandiList, children }: JandiProps) => (
     <SC.DaySpan>Sun</SC.DaySpan>
     <SC.DaySpan sat>Sat</SC.DaySpan>
     <SC.JandiContainer>
-        {/* <SC.JandiItem key={Math.random()} active={jandi.isActive} /> */}
-
-        {jandiList.map((jandi) =>
-          jandi.isNow ? (
-            jandi.isActive ? (
-              <YesDumbbell size="30px" color="green" />
-            ) : (
-              <NoDumbbell size="30px" color="" />
-            )
+      {jandiList.map((jandi) =>
+        jandi.isNow ? (
+          jandi.isActive ? (
+            <YesDumbbell size="30px" color="green" />
           ) : (
-            <div key={Math.random()} />
+            <NoDumbbell size="30px" color="" />
           )
-        )}
-      </SC.JandiContainer>
+        ) : (
+          <div key={nanoid()} />
+        )
+      )}
+    </SC.JandiContainer>
   </SC.Wrapper>
 );
 export default ExerciseJandi;

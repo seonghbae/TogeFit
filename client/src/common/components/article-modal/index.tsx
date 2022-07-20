@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { PostResponse, ModalCloseEvent } from 'types/interfaces';
 import { MutableRefObject, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
