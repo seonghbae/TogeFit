@@ -4,6 +4,7 @@ import InfoPage from './info-page';
 import DietPage from './diet-page';
 import LoginPage from './login-page';
 import MainPage from './main-page';
+import { PostPage } from './main-page/components';
 import RegisterPage from './register-page';
 
 export {
@@ -14,4 +15,5 @@ export {
   LoginPage,
   MainPage,
   RegisterPage,
+  PostPage,
 };

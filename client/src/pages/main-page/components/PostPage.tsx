@@ -15,7 +15,7 @@ import RoutineModal from './RoutineModal';
 import usePostAdd from '../hook/usePostAdd';
 import useMeal from '../hook/useMeal';
 
-import * as SC from './AddPostStyle';
+import * as SC from './PostPageStyle';
 
 interface IPost {
   contents: string;
@@ -26,7 +26,7 @@ interface IPost {
   post_image: FileList;
 }
 
-const AddPost = () => {
+const PostPage = () => {
   const [mealList, setMealList] = useState<Array<string | number | null>>([]);
   const [routines, setRoutines] = useState<Array<string | number | null>>([]);
   const [isTagWrong, setIsTagWrong] = useState<boolean>(false);
@@ -244,4 +244,4 @@ const AddPost = () => {
   );
 };
 
-export default AddPost;
+export default PostPage;

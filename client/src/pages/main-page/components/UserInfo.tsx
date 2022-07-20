@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { customAxios } from 'common/api';
 import { getUserId } from 'common/utils/getUserId';
 import { Dumbbell } from 'styled-icons/fa-solid';
-import { SpoonKnife } from 'styled-icons/icomoon';
+import { SpoonKnife, Pencil } from 'styled-icons/icomoon';
 import { Article } from 'styled-icons/material-rounded';
 import { Logout, Login } from 'styled-icons/material-twotone';
 import { AlertModal } from 'common/components';
@@ -63,12 +63,20 @@ const UserInfo = () => {
           </SC.PageLink>
         </Link>
         {userId ? (
-          <button type="button" onClick={requestLogout}>
-            <SC.PageLink>
-              <Logout />
-              로그아웃
-            </SC.PageLink>
-          </button>
+          <>
+            <Link to="/post">
+              <SC.PageLink>
+                <Pencil />
+                글쓰기
+              </SC.PageLink>
+            </Link>
+            <button type="button" onClick={requestLogout}>
+              <SC.PageLink>
+                <Logout />
+                로그아웃
+              </SC.PageLink>
+            </button>
+          </>
         ) : (
           <Link to="/login">
             <SC.PageLink>

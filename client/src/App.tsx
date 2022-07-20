@@ -15,6 +15,7 @@ import {
   LoginPage,
   MainPage,
   RegisterPage,
+  PostPage,
 } from './pages';
 
 const App = () => (
@@ -29,6 +30,7 @@ const App = () => (
         <Route path="/diet/*" element={<DietPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/post" element={<PostPage />} />
         <Route path="*" element={<div>error!</div>} />
       </Routes>
     </RecoilRoot>
