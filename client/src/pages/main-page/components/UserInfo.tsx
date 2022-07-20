@@ -5,6 +5,8 @@ import { getUserId } from 'common/utils/getUserId';
 import { Dumbbell } from 'styled-icons/fa-solid';
 import { SpoonKnife } from 'styled-icons/icomoon';
 import { Article } from 'styled-icons/material-rounded';
+import { InfoCircleFill } from 'styled-icons/bootstrap';
+
 import { Logout, Login } from 'styled-icons/material-twotone';
 import { AlertModal } from 'common/components';
 import useLogoutRequest from 'common/components/nav/hook/useLogoutRequest';
@@ -45,9 +47,14 @@ const UserInfo = () => {
                 안녕하세요!
               </SC.UserName>
             </SC.UserProfile>
+            <Link to="/modify">
+              <SC.PageLink>
+                <InfoCircleFill />내 정보
+              </SC.PageLink>
+            </Link>
             <Link to={`/info/exercise/${userId}`}>
               <SC.PageLink>
-                <Article />내 정보
+                <Article />내 게시글
               </SC.PageLink>
             </Link>
             <Link to="/routine">

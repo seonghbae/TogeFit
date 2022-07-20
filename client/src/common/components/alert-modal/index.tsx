@@ -43,7 +43,9 @@ const Modal = ({
         <SC.ModalMessage>{message}</SC.ModalMessage>
         {children}
         <SC.ButtonContainer>
-          <SC.Button onClick={handleConfirm}>확인</SC.Button>
+          <SC.Button type="submit" onClick={handleConfirm}>
+            확인
+          </SC.Button>
           {handleCancel && <SC.Button onClick={handleCancel}>취소</SC.Button>}
         </SC.ButtonContainer>
       </SC.Modal>
