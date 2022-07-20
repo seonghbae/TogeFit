@@ -2,7 +2,9 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
-  overflow-x: scroll;
+  /* overflow: scroll;
+  overflow: auto;
+  white-space: nowrap; */
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }

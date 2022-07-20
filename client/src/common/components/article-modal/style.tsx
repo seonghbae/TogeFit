@@ -80,9 +80,9 @@ export const Article = styled.article`
 `;
 
 export const ArticleContent = styled.div`
-  font-size: 2rem;
+  font-size: 1.2rem;
   line-height: 140%;
-
+  height: 70vh;
   @media only screen and (max-width: 768px) {
     width: 100%;
     margin-top: 2rem;
@@ -97,7 +97,6 @@ export const CommentContainer = styled.div`
 
 export const CommentInput = styled.input`
   width: 100%;
-  margin-top: 2rem;
   font-size: 1rem;
   padding: 0.5rem 0.8rem;
   border-bottom: 3px solid gray;
@@ -114,11 +113,10 @@ export const DivideLine = styled.div`
 
 export const SubmitButton = styled.button`
   padding: 5px 10px;
-  margin-top: 10px;
   font-size: 1rem;
   position: absolute;
   min-width: 4rem;
-  top: 35%;
+  top: 0%;
   right: 0%;
 `;
 
@@ -126,7 +124,7 @@ export const CommentWrapper = styled.div`
   padding-left: 0;
   margin-left: 0;
   overflow: scroll;
-  height: 30vh;
+  height: 20vh;
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
