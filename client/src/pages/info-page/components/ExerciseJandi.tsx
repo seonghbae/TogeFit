@@ -1,8 +1,10 @@
-import getPadString from 'common/utils/getPadString';
 import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from 'styled-icons/material-outlined';
+import { nanoid } from 'nanoid';
+
+import getPadString from 'common/utils/getPadString';
 import * as SC from './ExerciseJandiStyle';
 import useJandi from '../hook/useJandi';
 
@@ -29,9 +31,9 @@ const ExerciseJandi = () => {
       <SC.JandiContainer>
         {jandiList.map((jandi) =>
           jandi.isNow ? (
-            <SC.JandiItem key={Math.random()} active={jandi.isActive} />
+            <SC.JandiItem key={nanoid()} active={jandi.isActive} />
           ) : (
-            <div key={Math.random()} />
+            <div key={nanoid()} />
           )
         )}
       </SC.JandiContainer>

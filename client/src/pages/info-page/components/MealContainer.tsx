@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef, useEffect } from 'react';
+import { nanoid } from 'nanoid';
 
 import { IDiet } from 'types/interfaces';
 
@@ -68,11 +69,11 @@ const MealContainer = () => {
           if (reducedMealList.length === index + 2) {
             return (
               <div ref={lastArticleRef}>
-                <MealCard key={Math.random()} data={meal} />
+                <MealCard key={nanoid()} data={meal} />
               </div>
             );
           }
-          return <MealCard key={Math.random()} data={meal} />;
+          return <MealCard key={nanoid()} data={meal} />;
         })}
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>

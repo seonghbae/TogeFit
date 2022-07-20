@@ -1,5 +1,6 @@
 import { PostResponse } from 'types/interfaces';
 import { MutableRefObject, useRef } from 'react';
+import { nanoid } from 'nanoid';
 
 import * as SC from './style';
 import ImageCarousel from './components/ImageCarousel';
@@ -38,7 +39,7 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
               {post.tag_list.map((tagObject) => (
-                <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
+                <SC.Tag key={nanoid()}>{`#${tagObject.tag}`}</SC.Tag>
               ))}
             </SC.TagContainer>
             <SC.DivideLine />
