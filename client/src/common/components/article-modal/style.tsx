@@ -62,7 +62,7 @@ export const CarouselContainer = styled.div`
 
 export const Article = styled.article`
   display: flex;
-  width: 50%;
+  width: 100%;
   margin-left: 1rem;
   justify-content: center;
   flex-direction: column;

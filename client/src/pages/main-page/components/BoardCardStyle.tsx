@@ -3,9 +3,10 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
   display: flex;
   width: 100%;
-  height: 25rem;
+  padding: 2%;
   margin-bottom: 1rem;
   background-color: #fff;
+  cursor: pointer;
 `;
 
 export const ArticleImg = styled.img`

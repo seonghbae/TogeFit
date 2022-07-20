@@ -34,9 +34,13 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
       ) : (
         <SC.Modal>
           <SC.CloseIcon className="close-area" onClick={handleClose} />
-          <SC.CarouselContainer>
-            <ImageCarousel imgUrl={post.post_image} />
-          </SC.CarouselContainer>
+          {post.post_image.length !== 0 ? (
+            <SC.CarouselContainer>
+              <ImageCarousel imgUrl={post.post_image} />
+            </SC.CarouselContainer>
+          ) : (
+            ''
+          )}
           <SC.Article>
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>

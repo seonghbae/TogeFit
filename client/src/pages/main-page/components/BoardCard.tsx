@@ -27,7 +27,8 @@ const BoardCard = ({
 
   return (
     <SC.Wrapper onClick={handleClick}>
-      <SC.ArticleImg src={imgUrl} />
+      {imgUrl ? <SC.ArticleImg src={imgUrl} /> : ''}
+
       <SC.Article>
         <SC.ArticleContent>{content}</SC.ArticleContent>
         <SC.TagContainer>
