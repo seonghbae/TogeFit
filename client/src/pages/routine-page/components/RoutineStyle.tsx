@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
   position: relative;
   justify-content: space-between;
   padding-bottom: 2%;
-  border-bottom: 0.5px solid;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
   margin-bottom: 3rem;
 `;
 

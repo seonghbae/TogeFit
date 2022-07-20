@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div``;
+export const Wrapper = styled.div`
+  display: flex;
+  /* overflow: scroll;
+  overflow: auto;
+  white-space: nowrap; */
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+`;
 
 export const MealContainer = styled.div`
   display: flex;
@@ -11,14 +19,18 @@ export const MealContainer = styled.div`
     padding-top: 10px;
   }
 
-  + div {
-    margin-top: 10px;
+  & + & {
+    margin-top: 0px;
+    margin-left: 1rem;
   }
 `;
-
+export const FoodWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 export const FoodContainer = styled.div`
   + div {
-    margin-left: 10px;
+    margin-top: 1rem;
   }
 `;
 
