@@ -1,5 +1,17 @@
 import { Exercise } from '../services/RoutineService';
 
+export const getCurrentAndNextMonth = (year: number, month: number) => {
+  const currentYear = year;
+  const currentMonth = month;
+  let nextYear = month + 1 > 12 ? year + 1 : year;
+  let nextMonth = month + 1 > 12 ? 1 : month + 1;
+
+  const current = { year: currentYear, month: currentMonth };
+  const next = { year: nextYear, month: nextMonth };
+
+  return { current, next };
+};
+
 export const getTagList = (tagList: string) => {
   const newTagList = tagList.split(',');
   const appendTagKeyList = newTagList.map((tagName: string) => {
