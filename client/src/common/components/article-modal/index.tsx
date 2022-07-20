@@ -1,4 +1,4 @@
-import { PostResponse } from 'types/interfaces';
+import { PostResponse, ModalCloseEvent } from 'types/interfaces';
 import { MutableRefObject, useRef } from 'react';
 import { nanoid } from 'nanoid';
 
@@ -12,15 +12,11 @@ interface ArticleProps {
   modalState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-type ClickEvent =
-  | React.MouseEvent<HTMLDivElement, MouseEvent>
-  | React.MouseEvent<SVGSVGElement, MouseEvent>;
-
 const ArticleModal = ({ post, modalState }: ArticleProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
 
-  const handleClose = (e: ClickEvent) => {
-    if (wrapperRef.current === e.target || e.target instanceof SVGSVGElement) {
+  const handleClose = (e: ModalCloseEvent) => {
+    if (wrapperRef.current === e.target || e.target instanceof SVGElement) {
       modalState(false);
     }
   };
