@@ -64,7 +64,8 @@ const MealContainer = () => {
 
   return (
     <>
-      <SC.ContainerSection>
+      <SC.ContainerSection isGrid={reducedMealList?.length !== 0}>
+        {reducedMealList?.length === 0 && <h1>게시글이 존재하지 않습니다.</h1>}
         {reducedMealList?.map((meal, index) => {
           if (reducedMealList.length === index + 2) {
             return (

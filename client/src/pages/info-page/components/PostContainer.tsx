@@ -62,7 +62,8 @@ const PostContainer = () => {
 
   return (
     <>
-      <SC.ContainerSection>
+      <SC.ContainerSection isGrid={articleList.length !== 0}>
+        {articleList.length === 0 && <h1>게시글이 존재하지 않습니다.</h1>}
         {articleList.map((article, index) => {
           if (articleList.length === index + 2) {
             return (
