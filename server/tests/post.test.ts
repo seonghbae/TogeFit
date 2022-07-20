@@ -99,8 +99,20 @@ describe('게시글 불러오기 TEST', () => {
     const userId = 'test';
     const year = Number(new Date().getFullYear());
     const month = 18;
-    const postList = await postService.getDateList(userId, year, month);
-    expect(postList.length).toBe(0);
+
+    await expect(postService.getDateList(userId, year, month)).rejects.toThrow(
+      '월의 범위는 1~12입니다.'
+    );
+  });
+
+  test('게시글 쓴 날짜 가져오기(잔디 API) 실패 - 연도에 이상한 값을 넣을 경우', async () => {
+    const userId = 'test';
+    const year = 1231231;
+    const month = 7;
+
+    await expect(
+      postService.getDateList(userId, year, month)
+    ).rejects.toThrow();
   });
 });
 
