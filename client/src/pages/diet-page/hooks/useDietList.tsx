@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useRecoilValue } from 'recoil';
 import { dateObjectAtom } from 'recoil/infoState';
@@ -28,7 +28,9 @@ const useDietList = () => {
       setLoading(true);
       customAxios
         .get(
-          `/api/meal/user?userId=${userId}&limit=${limit}&reqNumber=${reqNumber}`
+          `/api/meal/user?userId=${userId}&year=${standardDate.year}&month=${
+            standardDate.month + 1
+          }&limit=${limit}&reqNumber=${reqNumber}`
         )
         .then((response) => {
           setUserDietList((previousArticle) => [
@@ -43,7 +45,7 @@ const useDietList = () => {
           if (axios.isAxiosError(err)) {
             const responseError = err as AxiosError<PostResponse>;
             if (responseError && responseError.response) {
-              setError(responseError.response.data.message);
+              setError(responseError.response.data.reason);
               setShowError(true);
             }
           }
