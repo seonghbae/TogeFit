@@ -6,7 +6,7 @@ export const UserInfo = styled.nav`
   flex-direction: column;
   position: fixed;
   width: 20rem;
-  margin: 10rem 0;
+  /* margin: rem 0; */
   background-color: #fff;
   align-items: center;
   justify-content: space-around;
