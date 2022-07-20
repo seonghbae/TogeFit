@@ -17,14 +17,14 @@ const MealList = ({ mealList }: MealListProps) => {
       {mealData.map((meal, index) => (
         <SC.MealContainer key={nanoid()}>
           <SC.MealName>식사{index + 1}</SC.MealName>
-          <div>
+          <SC.FoodWrapper>
             {meal.map((data) => (
               <SC.FoodContainer key={nanoid()}>
                 <SC.FoodName>{data[0]}</SC.FoodName>
                 <SC.FoodQuantity>{data[1]}</SC.FoodQuantity>
               </SC.FoodContainer>
             ))}
-          </div>
+          </SC.FoodWrapper>
         </SC.MealContainer>
       ))}
     </SC.Wrapper>
