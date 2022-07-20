@@ -170,3 +170,14 @@ export const Tag = styled.span`
   border-radius: 25px;
   text-align: center;
 `;
+
+export const ButtonContainer = styled.div`
+  position: absolute;
+  top: 3.5%;
+  right: 6%;
+
+  > button {
+    font-size: 1.2rem;
+    border: 1rem;
+  }
+`;

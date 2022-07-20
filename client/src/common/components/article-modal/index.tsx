@@ -67,6 +67,10 @@ const ArticleModal = ({
         <SC.Modal>게시글이 존재하지 않습니다!</SC.Modal>
       ) : (
         <SC.Modal>
+          <SC.ButtonContainer>
+            <button type="button">수정</button>
+            <button type="button">삭제</button>
+          </SC.ButtonContainer>
           <SC.CloseIcon className="close-area" onClick={handleClose} />
           {post.post_image.length !== 0 ? (
             <SC.CarouselContainer>
