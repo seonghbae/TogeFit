@@ -44,3 +44,7 @@ export const LoginButton = styled.button`
   border-radius: 2rem;
   font-size: 1.2rem;
 `;
+
+export const EmptyDiv = styled.div`
+  height: 0;
+`;
