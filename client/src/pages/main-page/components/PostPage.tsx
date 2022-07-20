@@ -167,7 +167,7 @@ const PostPage = () => {
         <h2>게시글 작성</h2>
         <SC.InputContainer>
           <label htmlFor="contents">게시글 내용</label>
-          <textarea
+          <SC.TextareaWrapper
             {...register('contents')}
             placeholder="내용을 입력해주세요."
           />
@@ -219,7 +219,7 @@ const PostPage = () => {
           <SC.TagExampleWrapper>
             예시 : 운동,식단 혹은 산책,공원 등
           </SC.TagExampleWrapper>
-          <input
+          <SC.InputWrapper
             {...register('tag_list', { onChange: handleIsTagWrong })}
             type="text"
             placeholder="a,b,c 형식으로 태그를 입력해주세요."
