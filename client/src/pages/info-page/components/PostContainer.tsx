@@ -1,10 +1,12 @@
 /* eslint-disable no-underscore-dangle */
-import CustomCard from 'common/components/custom-card/CustomCard';
-import Modal from 'common/components/alert-modal';
 import { useNavigate } from 'react-router-dom';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
+
+import CustomCard from 'common/components/custom-card/CustomCard';
 import Loading from 'common/components/loading';
+import { AlertModal, ArticleModal } from 'common/components';
 import { PostResponse } from 'types/interfaces';
+
 import * as SC from './PostContainerStyle';
 import useArticle from '../hook/useArticle';
 
@@ -16,9 +18,12 @@ const PostContainer = () => {
     errorMessage,
     isOpen,
     hasMore,
+    post,
     setIsOpen,
     setReqNumber,
+    getArticle,
   } = useArticle<PostResponse>('post');
+  const [articleOpen, setArticleOpen] = useState(false);
 
   const observer = useRef<IntersectionObserver>();
   const lastArticleRef = useCallback(
@@ -44,9 +49,14 @@ const PostContainer = () => {
     [isLoading, hasMore]
   );
 
-  const handleClick = () => {
+  const handleComfirm = () => {
     setIsOpen(false);
     navigate('/');
+  };
+
+  const articleModalOpen = (articleId: string | undefined) => {
+    setArticleOpen(true);
+    getArticle(articleId);
   };
 
   return (
@@ -61,6 +71,8 @@ const PostContainer = () => {
                   imgUrl={article.post_image[0]}
                   content={article.contents}
                   tagList={article.tag_list}
+                  onClick={articleModalOpen}
+                  id={article._id}
                 />
               </div>
             );
@@ -71,11 +83,16 @@ const PostContainer = () => {
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
+              onClick={articleModalOpen}
+              id={article._id}
             />
           );
         })}
-        {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
+        {isOpen && (
+          <AlertModal message={errorMessage} handleConfirm={handleComfirm} />
+        )}
       </SC.ContainerSection>
+      {articleOpen && <ArticleModal post={post} modalState={setArticleOpen} />}
       {isLoading && <Loading />}
     </>
   );

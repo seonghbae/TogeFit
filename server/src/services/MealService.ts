@@ -5,6 +5,7 @@ import {
   MealInfo,
   MealArrayInfo,
   ConditionInfo,
+  DateInfo,
 } from '../db';
 
 interface ErrorWithStatus {
@@ -21,9 +22,17 @@ class MealService {
     return mealArticleListAll;
   }
 
-  async getMealArticleListByUserId(userId: string, conditions: ConditionInfo) {
+  async getMealArticleListByUserId(
+    userId: string,
+    date: DateInfo,
+    conditions: ConditionInfo
+  ) {
+    if (date.month < 1 || date.month > 12) {
+      throw new Error('월의 범위는 1~12입니다.');
+    }
     const mealArticleList = await this.mealModel.findArticlesByUserId(
       userId,
+      date,
       conditions
     );
     return mealArticleList;

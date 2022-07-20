@@ -14,6 +14,7 @@ const useArticle = <T>(apiLink: string) => {
   const [isOpen, setIsOpen] = useState(false);
   const [reqNumber, setReqNumber] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+  const [post, setPost] = useState<T>();
   const { userId } = useParams();
 
   useEffect(() => {
@@ -50,14 +51,27 @@ const useArticle = <T>(apiLink: string) => {
     getArticle();
   }, [standardDate, userId, reqNumber]);
 
+  const getArticle = async (articleId: string | undefined) => {
+    setLoading(true);
+    try {
+      const response = await customAxios.get(`/api/post/article/${articleId}`);
+      setPost(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
+
   return {
     isLoading,
     articleList,
     errorMessage,
     isOpen,
     hasMore,
+    post,
     setIsOpen,
     setReqNumber,
+    getArticle,
   };
 };
 
