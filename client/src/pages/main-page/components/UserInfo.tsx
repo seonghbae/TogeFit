@@ -45,9 +45,14 @@ const UserInfo = () => {
                 안녕하세요!
               </SC.UserName>
             </SC.UserProfile>
-            <Link to={`/info/exercise/${userId}`}>
+            <Link to="/modify">
               <SC.PageLink>
                 <Article />내 정보
+              </SC.PageLink>
+            </Link>
+            <Link to={`/info/exercise/${userId}`}>
+              <SC.PageLink>
+                <Article />내 게시글
               </SC.PageLink>
             </Link>
             <Link to="/routine">
