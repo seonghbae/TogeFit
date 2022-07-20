@@ -64,7 +64,7 @@ describe('게시글 불러오기 TEST', () => {
   test('게시글 가져오기(페이지네이션) 성공', async () => {
     const userId = 'test';
     const date = {
-      year: new Date().getFullYear().toString(),
+      year: new Date().getFullYear(),
       month: Number(new Date().getMonth()) + 1,
     };
     const conditions = { limit: 5, reqNumber: 0 };
@@ -78,7 +78,7 @@ describe('게시글 불러오기 TEST', () => {
 
   test('게시글 가져오기(페이지네이션) 실패 - 월의 범위(1~12)를 벗어난 경우', async () => {
     const userId = 'test';
-    const date = { year: '2022', month: 17 };
+    const date = { year: 2022, month: 17 };
     const conditions = { limit: 5, reqNumber: 0 };
     await expect(
       postService.getPostListByDate(userId, date, conditions)
@@ -99,8 +99,20 @@ describe('게시글 불러오기 TEST', () => {
     const userId = 'test';
     const year = Number(new Date().getFullYear());
     const month = 18;
-    const postList = await postService.getDateList(userId, year, month);
-    expect(postList.length).toBe(0);
+
+    await expect(postService.getDateList(userId, year, month)).rejects.toThrow(
+      '월의 범위는 1~12입니다.'
+    );
+  });
+
+  test('게시글 쓴 날짜 가져오기(잔디 API) 실패 - 연도에 이상한 값을 넣을 경우', async () => {
+    const userId = 'test';
+    const year = 1231231;
+    const month = 7;
+
+    await expect(
+      postService.getDateList(userId, year, month)
+    ).rejects.toThrow();
   });
 });
 
@@ -191,6 +203,66 @@ describe('좋아요 API TEST', () => {
     const failPostId = '62cb8bdea66d590b2d4d538d';
     await expect(postService.updateLike(failPostId)).rejects.toThrow(
       '해당 글을 찾지 못했습니다.'
+    );
+  });
+});
+
+describe('게시글 검색 TEST', () => {
+  (async function () {
+    for (let i = 1; i <= 10; i++) {
+      await postService.addPost({
+        userId: 'test123',
+        contents: 'test contents',
+        tag_list: [{ tag: '하체' }],
+      });
+    }
+  })();
+
+  test('검색 성공 - 검색 키워드가 없을 때 전체 반환 (무한스크롤)', async () => {
+    const conditions = {
+      limit: 5,
+      reqNumber: 0,
+    };
+    const searched = await postService.searchPost('', conditions);
+
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+  });
+
+  test('검색 성공 - 태그에 포함되는 검색 키워드', async () => {
+    const conditions = {
+      limit: 5,
+      reqNumber: 0,
+    };
+    let searched = await postService.searchPost('하', conditions);
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+
+    searched = await postService.searchPost('체', conditions);
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+
+    searched = await postService.searchPost('하체', conditions);
+    expect(searched).not.toBeNull();
+    expect(searched.length).toBeLessThanOrEqual(conditions.limit);
+  });
+
+  test('검색 실패 - 잘못된 조건', async () => {
+    let conditions = {
+      limit: -5,
+      reqNumber: 0,
+    };
+
+    await expect(postService.searchPost('', conditions)).rejects.toThrow(
+      '잘못된 조건입니다.'
+    );
+
+    conditions = {
+      limit: 5,
+      reqNumber: -1,
+    };
+    await expect(postService.searchPost('', conditions)).rejects.toThrow(
+      '잘못된 조건입니다.'
     );
   });
 });

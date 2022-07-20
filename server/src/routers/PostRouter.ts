@@ -81,7 +81,7 @@ postRouter.get('/user', async (req, res, next) => {
     }
 
     const date = {
-      year: year as string,
+      year: parseInt(year as string),
       month: parseInt(month as string),
     };
     const conditions = {
@@ -136,17 +136,21 @@ postRouter.get('/grass', async (req, res, next) => {
       throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
-    if (!req.query.year || !req.query.month) {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = today.getMonth() + 1;
-      const dateList = await postService.getDateList(userId, year, month);
-      res.status(200).json(dateList);
-      return;
+    let year = req.query.year as string | number;
+    let month = req.query.month as string | number;
+    const today = new Date();
+
+    if (!year) {
+      year = today.getFullYear();
+    } else {
+      year = Number(year);
     }
 
-    const year = Number(req.query.year);
-    const month = Number(req.query.month);
+    if (!month) {
+      month = today.getMonth() + 1;
+    } else {
+      month = Number(month);
+    }
     const dateList = await postService.getDateList(userId, year, month);
     res.status(200).json(dateList);
   } catch (error) {

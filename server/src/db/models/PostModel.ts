@@ -1,4 +1,5 @@
 import mongoose, { model } from 'mongoose';
+import { getCurrentAndNextMonth } from '../../utils';
 import { PostSchema } from '../schemas/PostSchema';
 
 const Post = model('posts', PostSchema);
@@ -28,7 +29,7 @@ export interface CommentInfo {
 }
 
 export interface DateInfo {
-  year: string;
+  year: number;
   month: number;
 }
 
@@ -95,17 +96,15 @@ export class PostModel {
   }
 
   async findByDate(userId: string, date: DateInfo, conditions: ConditionInfo) {
-    const currentMonth =
-      date.month < 10 ? '0' + date.month : String(date.month);
-    const nextMonth = date.month + 1 > 12 ? String(1) : String(date.month + 1);
+    const { current, next } = getCurrentAndNextMonth(date.year, date.month);
 
     const filter = {
       $and: [
         { userId: userId },
         {
           createdAt: {
-            $gte: new Date(`${date.year}-${currentMonth}-01`).toISOString(),
-            $lt: new Date(`${date.year}-${nextMonth}-01`).toISOString(),
+            $gte: new Date(`${current.year}-${current.month}-01`).toISOString(),
+            $lt: new Date(`${next.year}-${next.month}-01`).toISOString(),
           },
         },
       ],
@@ -132,17 +131,21 @@ export class PostModel {
   }
 
   async findByMonth(userId: string, year: number, month: number) {
-    const list = await Post.find({
+    const { current, next } = getCurrentAndNextMonth(year, month);
+
+    const filter = {
       $and: [
-        { userId },
+        { userId: userId },
         {
           createdAt: {
-            $gte: new Date(year, month - 1, 1),
-            $lt: new Date(year, month - 1, 32),
+            $gte: new Date(`${current.year}-${current.month}-01`).toISOString(),
+            $lt: new Date(`${next.year}-${next.month}-01`).toISOString(),
           },
         },
       ],
-    }).sort({ createdAt: 1 });
+    };
+
+    const list = await Post.find(filter).sort({ createdAt: 1 });
     const dateList = list.map((e) => {
       return e.createdAt?.getDate();
     });
