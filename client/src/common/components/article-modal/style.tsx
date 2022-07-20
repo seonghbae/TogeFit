@@ -16,7 +16,7 @@ export const Modal = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 60%;
+  width: 80%;
   max-width: 1200px;
   padding: 4rem 2rem;
   transform: translate(-50%, -50%);
@@ -39,7 +39,7 @@ export const CloseIcon = styled(Close)`
 `;
 
 export const ArticleImg = styled.img`
-  width: 50%;
+  width: 80%;
   object-fit: cover;
   aspect-ratio: 1 / 1;
 
@@ -51,8 +51,9 @@ export const ArticleImg = styled.img`
 
 export const CarouselContainer = styled.div`
   display: inline-block;
-  width: 50%;
+  width: 45vw;
   margin: auto;
+  margin-right: 1rem;
 
   @media only screen and (max-width: 768px) {
     width: 100%;
@@ -117,11 +118,38 @@ export const SubmitButton = styled.button`
   position: absolute;
   min-width: 4rem;
   top: 35%;
-  left: 80%;
-  :hover {
-    border: 1px solid ${(props) => props.theme.pointColors.lightGreen};
-    border-radius: 20px;
+  right: 0%;
+`;
+
+export const CommentWrapper = styled.ul`
+  padding-left: 0;
+  margin-left: 0;
+  overflow: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
   }
+  li {
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+    :hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+  }
+`;
+
+export const CommentEleWrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+export const CommentAuthorWrapper = styled.p`
+  font-size: 1.1rem;
+  font-weight: 1000;
+`;
+
+export const CommentContent = styled.p`
+  font-size: 1rem;
+  width: 80%;
 `;
 
 export const CommentInputWrapper = styled.div`

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { PostResponse } from 'types/interfaces';
 import { MutableRefObject, useRef } from 'react';
 
@@ -64,10 +65,18 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
                 <SC.CommentInput placeholder="댓글을 입력하세요." type="text" />
                 <SC.SubmitButton type="submit">입력</SC.SubmitButton>
               </SC.CommentInputWrapper>
-              <h3>Comments</h3>
-              <li>안녕하세요!</li>
-              <li>안녕하세요!</li>
-              <li>안녕하세요!</li>
+              <SC.CommentWrapper>
+                {post.comments.map((comment) => (
+                  <li key={comment._id}>
+                    <SC.CommentEleWrapper>
+                      <SC.CommentAuthorWrapper>
+                        {comment.author}
+                      </SC.CommentAuthorWrapper>
+                      <SC.CommentContent>{comment.content}</SC.CommentContent>
+                    </SC.CommentEleWrapper>
+                  </li>
+                ))}
+              </SC.CommentWrapper>
             </SC.CommentContainer>
           </SC.Article>
         </SC.Modal>

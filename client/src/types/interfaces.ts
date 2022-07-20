@@ -36,6 +36,8 @@ interface IRoutines {
 type comment = {
   content: string;
   author: string;
+  _id: string;
+  updatedAt: string;
 };
 
 type tagType = {
