@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef, useEffect } from 'react';
 import { nanoid } from 'nanoid';

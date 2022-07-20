@@ -1,4 +1,4 @@
-import { ICalorieProps } from 'types/interfaces';
+import { ICalorieProps, IDiet } from 'types/interfaces';
 import CalorieChart from 'common/components/calorie-chart/CalorieChart';
 import getPadString from 'common/utils/getPadString';
 import * as SC from './style';
@@ -6,6 +6,7 @@ import * as SC from './style';
 interface DataTypes {
   reducedMealList: ICalorieProps;
   date: string;
+  rawData: IDiet;
 }
 
 interface MealCardProps {
@@ -17,6 +18,7 @@ const getFixedKcal = (nutrition: number) => nutrition.toFixed(2);
 const MealCard = ({ data }: MealCardProps) => {
   const { carbohydrate, protein, fat, names } = data.reducedMealList;
   const createdDate = new Date(data.date);
+  console.log(data.rawData);
 
   return (
     <SC.Wrapper>
