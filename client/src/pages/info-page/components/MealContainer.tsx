@@ -68,8 +68,8 @@ const MealContainer = () => {
         {reducedMealList?.map((meal, index) => {
           if (reducedMealList.length === index + 2) {
             return (
-              <div ref={lastArticleRef}>
-                <MealCard key={nanoid()} data={meal} />
+              <div ref={lastArticleRef} key={nanoid()}>
+                <MealCard data={meal} />
               </div>
             );
           }
