@@ -63,7 +63,7 @@ export const CarouselContainer = styled.div`
 
 export const Article = styled.article`
   display: flex;
-  width: 100%;
+  width: 40vw;
   margin-left: 1rem;
   justify-content: center;
   flex-direction: column;
@@ -129,8 +129,6 @@ export const CommentWrapper = styled.ul`
     display: none; /* Chrome, Safari, Opera*/
   }
   li {
-    margin-top: 1rem;
-    margin-bottom: 1.5rem;
     :hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
