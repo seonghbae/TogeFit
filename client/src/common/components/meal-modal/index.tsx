@@ -2,7 +2,9 @@ import { nanoid } from 'nanoid';
 import { IDiet, ModalCloseEvent } from 'types/interfaces';
 import useFood from 'pages/diet-page/hooks/useFood';
 import { MutableRefObject, useEffect, useRef } from 'react';
+import CalorieChart from '../calorie-chart/CalorieChart';
 import * as SC from './style';
+import getMealData from './util/getMealData';
 
 interface MealModalProps {
   post: IDiet;
@@ -11,6 +13,7 @@ interface MealModalProps {
 
 const MealModal = ({ post, setOpen }: MealModalProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
+  const iconRef = useRef() as MutableRefObject<SVGSVGElement>;
   const { meals } = post;
   const { food, getFood } = useFood();
 
@@ -19,7 +22,7 @@ const MealModal = ({ post, setOpen }: MealModalProps) => {
   }, []);
 
   const handleClose = (e: ModalCloseEvent) => {
-    if (e.target === wrapperRef.current || e.target instanceof SVGElement) {
+    if (e.target === wrapperRef.current || e.target === iconRef.current) {
       setOpen(false);
     }
   };
@@ -27,7 +30,7 @@ const MealModal = ({ post, setOpen }: MealModalProps) => {
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       <SC.Modal>
-        <SC.CloseIcon onClick={handleClose} />
+        <SC.CloseIcon onClick={handleClose} ref={iconRef} />
         {meals.map((mealList, index) => (
           <SC.MealContainer key={nanoid()}>
             <SC.MealName>{`식사 ${index + 1}`}</SC.MealName>
@@ -37,6 +40,7 @@ const MealModal = ({ post, setOpen }: MealModalProps) => {
                 <SC.FoodQuantity>{`${meal.quantity}g`}</SC.FoodQuantity>
               </SC.FoodContainer>
             ))}
+            <CalorieChart foods={getMealData(food, mealList.meal_list)} />
           </SC.MealContainer>
         ))}
       </SC.Modal>

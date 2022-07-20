@@ -139,7 +139,8 @@ interface ArticleErrResponse {
 
 export type ModalCloseEvent =
   | React.MouseEvent<HTMLDivElement, MouseEvent>
-  | React.MouseEvent<SVGElement, MouseEvent>;
+  | React.MouseEvent<SVGElement, MouseEvent>
+  | React.MouseEvent<HTMLButtonElement, MouseEvent>;
 
 export type {
   FormInputType,
