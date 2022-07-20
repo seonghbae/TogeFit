@@ -17,7 +17,7 @@ const useLogoutRequest = () => {
   const requestLogout = () => {
     setLoading(true);
     customAxios
-      .get<LogoutResponse>('/api/user/logout')
+      .get<LogoutResponse>('/api/user/logout', { withCredentials: true })
       .then((response) => {
         setResponseMsg(response.data.result);
         setModalOpen(true);
