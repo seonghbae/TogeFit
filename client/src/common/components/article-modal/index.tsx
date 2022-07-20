@@ -82,15 +82,17 @@ const ArticleModal = ({
                 <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
               ))}
             </SC.TagContainer>
-            <SC.DivideLine />
             {post.meal_info.length !== 0 && (
               <>
-                <MealList mealList={post.meal_info} />
                 <SC.DivideLine />
+                <MealList mealList={post.meal_info} />
               </>
             )}
             {post.routine_info.length !== 0 && (
-              <RoutineList routineList={post.routine_info} />
+              <>
+                <SC.DivideLine />
+                <RoutineList routineList={post.routine_info} />
+              </>
             )}
             {/* 아래 댓글 연결 필요 */}
             <SC.CommentContainer>
