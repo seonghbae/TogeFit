@@ -62,6 +62,7 @@ const useDietList = () => {
     showError,
     setReqNumber,
     hasMore,
+    setShowError,
   };
 };
 
