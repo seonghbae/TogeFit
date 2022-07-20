@@ -63,15 +63,14 @@ const DietList = () => {
 
   return (
     <SC.DietListContainer>
-      <div>dietList</div>
-      <SC.ButtonWrapper>
+      <SC.Header>
+        <div>식단 목록</div>
         <button type="button" onClick={handleAddMeal}>
           +
         </button>
-      </SC.ButtonWrapper>
+      </SC.Header>
       <SC.ChartListContainer>
         {food?.status === 200 &&
-          // userDietList?.status === 200 &&
           userDietList.map((dietItem, index) => {
             if (userDietList.length - 2 === index) {
               return (
