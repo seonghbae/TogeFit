@@ -81,8 +81,29 @@ const PostPage = () => {
     }
   }, [result]);
 
+  const clearPage = () => {
+    resetField('contents');
+    resetField('meal');
+    resetField('routine');
+    resetField('tag_list');
+    resetField('is_open');
+    resetField('post_image');
+    setFood({
+      userId: '',
+      meals: [],
+      createdAt: '',
+      _id: '',
+    });
+    setRoutine({
+      routine_name: '',
+      routine_list: [],
+      _id: '',
+    });
+    navigate('/');
+  };
+
   const handleCancel = () => {
-    //
+    clearPage();
   };
 
   const tagValidation = (tagList: string) => {
@@ -126,7 +147,9 @@ const PostPage = () => {
     }
 
     const formData = new FormData();
-    formData.append('post_image', data.post_image[0]);
+    for (let i = 0; i < data.post_image.length; i += 1) {
+      formData.append('post_image', data.post_image[i]);
+    }
     formData.append('contents', data.contents);
     formData.append('meal', food._id);
     formData.append('routine', routine._id);
@@ -135,24 +158,7 @@ const PostPage = () => {
     setValue('meal', food._id);
     setValue('routine', routine._id);
     addPost(formData);
-    resetField('contents');
-    resetField('meal');
-    resetField('routine');
-    resetField('tag_list');
-    resetField('is_open');
-    resetField('post_image');
-    setFood({
-      userId: '',
-      meals: [],
-      createdAt: '',
-      _id: '',
-    });
-    setRoutine({
-      routine_name: '',
-      routine_list: [],
-      _id: '',
-    });
-    navigate('/');
+    clearPage();
   };
 
   return (
@@ -224,7 +230,12 @@ const PostPage = () => {
             </SC.TagWrongWrapper>
           )}
           <label htmlFor="post_image">이미지 선택</label>
-          <input {...register('post_image')} type="file" accept="image/*" />
+          <input
+            {...register('post_image')}
+            type="file"
+            accept="image/*"
+            multiple
+          />
           <label htmlFor="is_open">게시글 공개 여부</label>
           <SC.RadioBoxContainer>
             <input {...register('is_open')} type="radio" value="공개" checked />
