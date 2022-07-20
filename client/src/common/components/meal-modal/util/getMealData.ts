@@ -34,4 +34,5 @@ const getMealData = (
 
   return nutrient.map((element) => ({ name: element[0], value: element[1] }));
 };
+
 export default getMealData;

@@ -16,8 +16,8 @@ export const Modal = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 40%;
-  max-width: 800px;
+  width: 60%;
+  max-width: 850px;
   padding: 4rem 2rem;
   transform: translate(-50%, -50%);
   background-color: #fff;
@@ -34,30 +34,36 @@ export const CloseIcon = styled(Close)`
   position: absolute;
   top: 3%;
   right: 3%;
+  padding: 0;
   width: 1.8rem;
   cursor: pointer;
 `;
 
 export const MealContainer = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
+  align-items: start;
 
   & + & {
     margin-top: 2rem;
   }
+
+  > div {
+    display: flex;
+  }
 `;
 
-export const MealName = styled.h3`
+export const MealName = styled.h1`
   margin: 0;
-  padding-bottom: 5px;
-  border-bottom: 1px solid ${(props) => props.theme.pointColors.orange};
+  padding: 0 3px 5px 3px;
+  border-bottom: 3px solid ${(props) => props.theme.pointColors.orange};
 `;
 
 export const FoodContainer = styled.div`
-  margin-left: 10px;
+  margin-left: 20px;
 `;
 
-export const FoodName = styled.h4`
+export const FoodName = styled.h3`
   margin: 0;
 `;
 

@@ -33,13 +33,15 @@ const MealModal = ({ post, setOpen }: MealModalProps) => {
         <SC.CloseIcon onClick={handleClose} ref={iconRef} />
         {meals.map((mealList, index) => (
           <SC.MealContainer key={nanoid()}>
-            <SC.MealName>{`식사 ${index + 1}`}</SC.MealName>
-            {mealList.meal_list.map((meal) => (
-              <SC.FoodContainer key={nanoid()}>
-                <SC.FoodName>{meal.foodName}</SC.FoodName>
-                <SC.FoodQuantity>{`${meal.quantity}g`}</SC.FoodQuantity>
-              </SC.FoodContainer>
-            ))}
+            <div>
+              <SC.MealName>{`식사 ${index + 1}`}</SC.MealName>
+              {mealList.meal_list.map((meal) => (
+                <SC.FoodContainer key={nanoid()}>
+                  <SC.FoodName>{meal.foodName}</SC.FoodName>
+                  <SC.FoodQuantity>{`${meal.quantity}g`}</SC.FoodQuantity>
+                </SC.FoodContainer>
+              ))}
+            </div>
             <CalorieChart foods={getMealData(food, mealList.meal_list)} />
           </SC.MealContainer>
         ))}
