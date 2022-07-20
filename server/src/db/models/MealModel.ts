@@ -1,6 +1,6 @@
 import { model } from 'mongoose';
 import { MealArticleSchema } from '../schemas/MealSchema';
-import { ConditionInfo } from './PostModel';
+import { ConditionInfo, DateInfo } from './PostModel';
 const Meal = model('meals', MealArticleSchema);
 
 export interface MealInfo {
@@ -28,8 +28,28 @@ export class MealModel {
     return mealArticle;
   }
 
-  async findArticlesByUserId(userId: string, conditions: ConditionInfo) {
-    const mealArticle = await Meal.find({ userId })
+  async findArticlesByUserId(
+    userId: string,
+    date: DateInfo,
+    conditions: ConditionInfo
+  ) {
+    const currentMonth =
+      date.month < 10 ? '0' + date.month : String(date.month);
+    const nextMonth = date.month + 1 > 12 ? String(1) : String(date.month + 1);
+
+    const filter = {
+      $and: [
+        { userId: userId },
+        {
+          createdAt: {
+            $gte: new Date(`${date.year}-${currentMonth}-01`).toISOString(),
+            $lt: new Date(`${date.year}-${nextMonth}-01`).toISOString(),
+          },
+        },
+      ],
+    };
+
+    const mealArticle = await Meal.find(filter)
       .skip(conditions.reqNumber * conditions.limit)
       .sort({ _id: -1 })
       .limit(conditions.limit);

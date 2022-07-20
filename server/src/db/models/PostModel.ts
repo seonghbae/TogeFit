@@ -137,8 +137,8 @@ export class PostModel {
         { userId },
         {
           createdAt: {
-            $gte: new Date(year, month - 1, 1),
-            $lt: new Date(year, month - 1, 32),
+            $gt: new Date(year, month - 1),
+            $lt: new Date(year, month),
           },
         },
       ],
