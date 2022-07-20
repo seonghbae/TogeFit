@@ -43,13 +43,25 @@ export const MealContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: start;
+  position: relative;
 
   & + & {
     margin-top: 2rem;
   }
 
-  > div {
+  > div:first-child {
     display: flex;
+  }
+`;
+
+export const NutrientContainer = styled.div`
+  position: absolute;
+  top: 60px;
+
+  > li {
+    font-size: 1.1rem;
+    text-align: start;
+    margin-top: 5px;
   }
 `;
 

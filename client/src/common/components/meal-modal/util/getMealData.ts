@@ -7,10 +7,7 @@ const initValue = {
   지방: 0,
 };
 
-const getMealData = (
-  foodList: IFoodList,
-  mealList: IMeal[]
-): Array<{ name: string; value: number }> => {
+export const getNutrient = (foodList: IFoodList, mealList: IMeal[]) => {
   const reducedData = mealList.reduce((acc, meal) => {
     const foodData: IFood | undefined = foodList.data.find(
       (food) => food.name === meal.foodName
@@ -32,7 +29,16 @@ const getMealData = (
 
   const nutrient = Object.entries(reducedData);
 
-  return nutrient.map((element) => ({ name: element[0], value: element[1] }));
+  return nutrient;
 };
+
+const getMealData = (
+  foodList: IFoodList,
+  mealList: IMeal[]
+): Array<{ name: string; value: number }> =>
+  getNutrient(foodList, mealList).map((element) => ({
+    name: element[0],
+    value: element[1],
+  }));
 
 export default getMealData;

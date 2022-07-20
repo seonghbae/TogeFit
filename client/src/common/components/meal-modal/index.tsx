@@ -4,12 +4,14 @@ import useFood from 'pages/diet-page/hooks/useFood';
 import { MutableRefObject, useEffect, useRef } from 'react';
 import CalorieChart from '../calorie-chart/CalorieChart';
 import * as SC from './style';
-import getMealData from './util/getMealData';
+import getMealData, { getNutrient } from './util/getMealData';
 
 interface MealModalProps {
   post: IDiet;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
+const getFixedKcal = (nutrition: number) => nutrition.toFixed(2);
 
 const MealModal = ({ post, setOpen }: MealModalProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
@@ -42,6 +44,13 @@ const MealModal = ({ post, setOpen }: MealModalProps) => {
                 </SC.FoodContainer>
               ))}
             </div>
+            <SC.NutrientContainer>
+              {getNutrient(food, mealList.meal_list).map(([name, value]) => (
+                <li key={nanoid()}>{`총 ${name}: ${getFixedKcal(
+                  value
+                )}kcal`}</li>
+              ))}
+            </SC.NutrientContainer>
             <CalorieChart foods={getMealData(food, mealList.meal_list)} />
           </SC.MealContainer>
         ))}
