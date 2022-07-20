@@ -4,7 +4,7 @@ import { useRecoilValue } from 'recoil';
 import { dateObjectAtom } from 'recoil/infoState';
 import { customAxios } from 'common/api';
 import { getUserId } from 'common/utils/getUserId';
-import { PostResponse, IDiet } from 'types/interfaces';
+import { ArticleErrResponse, IDiet } from 'types/interfaces';
 
 const useDietList = () => {
   const [error, setError] = useState<Error['message']>('');
@@ -43,7 +43,7 @@ const useDietList = () => {
         })
         .catch((err) => {
           if (axios.isAxiosError(err)) {
-            const responseError = err as AxiosError<PostResponse>;
+            const responseError = err as AxiosError<ArticleErrResponse>;
             if (responseError && responseError.response) {
               setError(responseError.response.data.reason);
               setShowError(true);
