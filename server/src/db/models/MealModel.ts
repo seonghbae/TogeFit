@@ -1,6 +1,7 @@
 import { model } from 'mongoose';
 import { MealArticleSchema } from '../schemas/MealSchema';
 import { ConditionInfo, DateInfo } from './PostModel';
+import { getCurrentAndNextMonth } from '../../utils';
 const Meal = model('meals', MealArticleSchema);
 
 export interface MealInfo {
@@ -33,17 +34,15 @@ export class MealModel {
     date: DateInfo,
     conditions: ConditionInfo
   ) {
-    const currentMonth =
-      date.month < 10 ? '0' + date.month : String(date.month);
-    const nextMonth = date.month + 1 > 12 ? String(1) : String(date.month + 1);
+    const { current, next } = getCurrentAndNextMonth(date.year, date.month);
 
     const filter = {
       $and: [
         { userId: userId },
         {
           createdAt: {
-            $gte: new Date(`${date.year}-${currentMonth}-01`).toISOString(),
-            $lt: new Date(`${date.year}-${nextMonth}-01`).toISOString(),
+            $gte: new Date(`${current.year}-${current.month}-01`).toISOString(),
+            $lt: new Date(`${next.year}-${next.month}-01`).toISOString(),
           },
         },
       ],

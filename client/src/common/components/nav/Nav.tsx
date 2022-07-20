@@ -18,24 +18,29 @@ const Nav = () => {
     setIsOpen((prev) => !prev);
   };
 
-  return location.pathname === '/' ? (
-    <SC.EmptyDiv>{empty}</SC.EmptyDiv>
-  ) : (
+  const infoBtn = () =>
+    userId ? (
+      <Link to={`/info/exercise/${userId}`}>
+        <SC.UserIcon />
+      </Link>
+    ) : (
+      <Link to="/login">
+        <SC.LoginButton>Sign in</SC.LoginButton>
+      </Link>
+    );
+
+  return (
     <SC.NavWrapper>
-      <SC.NavBurger isOpen={isOpen} onClick={handleClick} />
-      <Sidebar isOpen={isOpen} userId={userId} handleClick={handleClick} />
+      {location.pathname !== '/' ? (
+        <SC.NavBurger isOpen={isOpen} onClick={handleClick} />
+      ) : null}
+      {location.pathname !== '/' ? (
+        <Sidebar isOpen={isOpen} userId={userId} handleClick={handleClick} />
+      ) : null}
       <Link to="/">
         <SC.Title>HealthCare for you</SC.Title>
       </Link>
-      {userId ? (
-        <Link to={`/info/exercise/${userId}`}>
-          <SC.UserIcon />
-        </Link>
-      ) : (
-        <Link to="/login">
-          <SC.LoginButton>Sign in</SC.LoginButton>
-        </Link>
-      )}
+      {location.pathname === '/' ? null : infoBtn()}
     </SC.NavWrapper>
   );
 };

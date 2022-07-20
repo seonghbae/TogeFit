@@ -442,10 +442,16 @@ describe('식단 리스트 가져오기 TEST', () => {
     const limit = 5;
     const reqNumber = 0;
 
+    const date = {
+      year: 2022,
+      month: 7,
+    };
+
     const conditions = { limit, reqNumber };
 
     const mealArticleList = await mealService.getMealArticleListByUserId(
       userId as string,
+      date,
       conditions
     );
 
