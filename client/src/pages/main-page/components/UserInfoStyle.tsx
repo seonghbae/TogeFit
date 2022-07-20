@@ -37,7 +37,8 @@ export const PrifileImgDiv = styled.div`
   height: 40%;
   border-radius: 1rem;
   background-color: ${(props) => props.theme.pointColors.beige};
-  border: 0.5rem solid ${(props) => props.theme.pointColors.beige};
+
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 `;
 
 export const UserIcon = styled(UserCircle)`
