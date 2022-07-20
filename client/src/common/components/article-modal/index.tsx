@@ -19,7 +19,7 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
 
   const handleClose = (e: ClickEvent) => {
-    if (wrapperRef.current === e.target || e.target instanceof SVGSVGElement) {
+    if (e.currentTarget.closest('.close-btn')) {
       modalState(false);
     }
   };
@@ -30,7 +30,7 @@ const ArticleModal = ({ post, modalState }: ArticleProps) => {
         <SC.Modal>게시글이 존재하지 않습니다!</SC.Modal>
       ) : (
         <SC.Modal>
-          <SC.CloseIcon onClick={handleClose} />
+          <SC.CloseIcon className="close-btn" onClick={handleClose} />
           <SC.CarouselContainer>
             <ImageCarousel imgUrl={post.post_image} />
           </SC.CarouselContainer>
