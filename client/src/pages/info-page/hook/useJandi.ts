@@ -85,6 +85,7 @@ const useJandi = () => {
     useRecoilState<Array<JandiType>>(jandiListAtom);
   const [dateObject, setDateObject] =
     useRecoilState<DateObject>(dateObjectAtom);
+  const nowDate = new Date();
 
   const userId = useMemo(() => pathname.split('/').at(-1), [pathname]);
 
@@ -92,11 +93,15 @@ const useJandi = () => {
     setDateObject((prevDate) => moveDate(prevDate, type));
   };
 
+  const resetDate = () => {
+    setDateObject({ year: nowDate.getFullYear(), month: nowDate.getMonth() });
+  };
+
   useEffect(() => {
     calculateCalendar(dateObject, setJandiList, userId);
   }, [dateObject]);
 
-  return { dateObject, jandiList, changeDate };
+  return { dateObject, jandiList, changeDate, resetDate };
 };
 
 export default useJandi;

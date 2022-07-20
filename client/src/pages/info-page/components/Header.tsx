@@ -16,7 +16,7 @@ const Header = () => {
   const [nickName, setNickName] = useState('');
   const [profileImg, setProfileImg] = useState('');
 
-  const { dateObject, jandiList, changeDate } = useJandi();
+  const { dateObject, jandiList, changeDate, resetDate } = useJandi();
 
   useEffect(() => {
     async function getRequest() {
@@ -28,6 +28,10 @@ const Header = () => {
     getRequest();
   }, [userId]);
 
+  const handleReset = () => {
+    resetDate();
+  };
+
   return (
     <SC.InfoHeader>
       <SC.ProfileImg src={profileImg} />
@@ -35,10 +39,13 @@ const Header = () => {
         <SC.NameNavContainer>
           <SC.UserName>{nickName}</SC.UserName>
           <SC.Nav>
-            <Link to={`${DEFAULT_PATH}/exercise/${userId}`}>
+            <Link
+              to={`${DEFAULT_PATH}/exercise/${userId}`}
+              onClick={handleReset}
+            >
               <SC.Li active={path === 'exercise'}>운동</SC.Li>
             </Link>
-            <Link to={`${DEFAULT_PATH}/meal/${userId}`}>
+            <Link to={`${DEFAULT_PATH}/meal/${userId}`} onClick={handleReset}>
               <SC.Li active={path === 'meal'}>식단</SC.Li>
             </Link>
           </SC.Nav>
