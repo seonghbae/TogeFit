@@ -74,4 +74,8 @@ export const Li = styled.li<LiProps>`
 export const JandiContainer = styled.div`
   width: 100%;
   height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

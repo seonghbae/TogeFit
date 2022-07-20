@@ -23,20 +23,6 @@ export const DaySpan = styled.span<{ sat?: boolean }>`
     `}
 `;
 
-export const Title = styled.h3`
-  display: flex;
-  grid-column-start: 1;
-  grid-column-end: 8;
-  margin: 0;
-  align-items: center;
-
-  > svg {
-    width: 50px;
-    cursor: pointer;
-    vertical-align: middle;
-  }
-`;
-
 export const JandiContainer = styled.div`
   grid-row-start: 3;
   grid-row-end: 9;

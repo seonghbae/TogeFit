@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { customAxios } from 'common/api';
 import * as SC from './HeaderStyle';
 import ExerciseJandi from './ExerciseJandi';
+import useJandi from '../hook/useJandi';
+import DateInfo from './DateInfo';
 
 const Header = () => {
   const DEFAULT_PATH = '/info';
@@ -13,6 +15,8 @@ const Header = () => {
 
   const [nickName, setNickName] = useState('');
   const [profileImg, setProfileImg] = useState('');
+
+  const { dateObject, jandiList, changeDate } = useJandi();
 
   useEffect(() => {
     async function getRequest() {
@@ -40,7 +44,21 @@ const Header = () => {
           </SC.Nav>
         </SC.NameNavContainer>
         <SC.JandiContainer>
-          {path === 'exercise' && <ExerciseJandi />}
+          {path === 'exercise' && (
+            <ExerciseJandi jandiList={jandiList}>
+              <DateInfo dateObject={dateObject} changeDate={changeDate} />
+            </ExerciseJandi>
+          )}
+          {path === 'meal' && (
+            <>
+              <h2>년월 설정</h2>
+              <DateInfo
+                dateObject={dateObject}
+                changeDate={changeDate}
+                fontSize={24}
+              />
+            </>
+          )}
         </SC.JandiContainer>
       </SC.InfoContainer>
     </SC.InfoHeader>
