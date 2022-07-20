@@ -81,7 +81,7 @@ postRouter.get('/user', async (req, res, next) => {
     }
 
     const date = {
-      year: year as string,
+      year: parseInt(year as string),
       month: parseInt(month as string),
     };
     const conditions = {

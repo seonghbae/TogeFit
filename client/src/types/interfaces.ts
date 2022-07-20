@@ -7,6 +7,15 @@ interface FormInputType {
   password: string;
 }
 
+interface IUserInfoModify {
+  profile_image: any;
+  name: string;
+  nickname: string;
+  currentPassword: string;
+  password: string;
+  password_check?: string;
+}
+
 interface RegisterInputType {
   name: string;
   nickname: string;
@@ -36,6 +45,8 @@ interface IRoutines {
 type comment = {
   content: string;
   author: string;
+  _id: string;
+  updatedAt: string;
 };
 
 type tagType = {
@@ -162,4 +173,5 @@ export type {
   IComment,
   ITag,
   IError,
+  IUserInfoModify,
 };

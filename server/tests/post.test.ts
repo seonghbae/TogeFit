@@ -64,7 +64,7 @@ describe('게시글 불러오기 TEST', () => {
   test('게시글 가져오기(페이지네이션) 성공', async () => {
     const userId = 'test';
     const date = {
-      year: new Date().getFullYear().toString(),
+      year: new Date().getFullYear(),
       month: Number(new Date().getMonth()) + 1,
     };
     const conditions = { limit: 5, reqNumber: 0 };
@@ -78,7 +78,7 @@ describe('게시글 불러오기 TEST', () => {
 
   test('게시글 가져오기(페이지네이션) 실패 - 월의 범위(1~12)를 벗어난 경우', async () => {
     const userId = 'test';
-    const date = { year: '2022', month: 17 };
+    const date = { year: 2022, month: 17 };
     const conditions = { limit: 5, reqNumber: 0 };
     await expect(
       postService.getPostListByDate(userId, date, conditions)
