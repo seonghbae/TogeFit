@@ -1,25 +1,35 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-underscore-dangle */
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
-import Modal from 'common/components/alert-modal';
-import Loading from 'common/components/loading';
-import { IBoard } from 'types/interfaces';
+import { IBoard, PostResponse } from 'types/interfaces';
+import { ArticleModal, Loading, AlertModal as Modal } from 'common/components';
+import useArticle from 'pages/info-page/hook/useArticle';
 import { BoardCard } from '.';
 
 import useBoardList from '../hook/useBoardList';
+import useSearchBoardList from '../hook/useSearchBoardList';
+
+import { searchQueryState } from '../states';
 
 import * as SC from './BoardContainerStyle';
 
-import { searchQueryState } from '../states';
-import useSearchBoardList from '../hook/useSearchBoardList';
-
 const BoardContainer = () => {
   const navigate = useNavigate();
-
+  const [articleOpen, setArticleOpen] = useState(false);
   const searchQuery = useRecoilValue(searchQueryState);
+
+  const {
+    isLoading: isPostLoading,
+    articleList,
+    errorMessage: errorPostMessage,
+    isOpen: isPostOpen,
+    post,
+    setIsOpen: setIsPostOpen,
+    getArticle,
+  } = useArticle<PostResponse>('post');
 
   const {
     isLoading,
@@ -93,6 +103,11 @@ const BoardContainer = () => {
     navigate('/');
   };
 
+  const articleModalOpen = (articleId: string | undefined) => {
+    setArticleOpen(true);
+    getArticle(articleId);
+  };
+
   const boardLayout = (boardData: IBoard[], isSearch: boolean) =>
     boardData.map((article, index) => {
       if (boardData.length === index + 2) {
@@ -105,6 +120,8 @@ const BoardContainer = () => {
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
+              onClick={articleModalOpen}
+              id={article._id}
             />
           </div>
         );
@@ -115,6 +132,8 @@ const BoardContainer = () => {
           imgUrl={article.post_image[0]}
           content={article.contents}
           tagList={article.tag_list}
+          onClick={articleModalOpen}
+          id={article._id}
         />
       );
     });
@@ -128,6 +147,7 @@ const BoardContainer = () => {
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>
       {isLoading && <Loading />}
+      {articleOpen && <ArticleModal post={post} modalState={setArticleOpen} />}
     </>
   );
 };
