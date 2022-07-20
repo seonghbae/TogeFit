@@ -3,6 +3,7 @@ import { MouseEventHandler, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import Modal from 'common/components/alert-modal';
+import Loading from 'common/components/loading';
 import useFood from '../hooks/useFood';
 import useDietList from '../hooks/useDietList';
 import dietAddState from '../states/dietAddState';
@@ -85,6 +86,7 @@ const DietList = () => {
           })}
       </SC.ChartListContainer>
       {showError && <Modal message={error} handleConfirm={handleClick} />}
+      {isLoading && <Loading />}
     </SC.DietListContainer>
   );
 };
