@@ -5,7 +5,9 @@ export const AddPostContainer = styled.div`
   background-color: #fff;
   margin: 0 20%;
   height: 100vh;
-  width: 90% input, textarea {
+  width: 90%;
+  > input,
+  textarea {
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   }
 `;
