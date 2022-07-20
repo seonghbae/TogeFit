@@ -1,12 +1,12 @@
 import * as SC from './InfoModifyPageStyle';
-import RegisterForm from './components/InfoModifyPageForm';
+import InfoModifyPageForm from './components/InfoModifyPageForm';
 
 const InfoModifyPage: React.FC = () => {
   console.log('test');
   return (
     <SC.Wrapper>
       <div>
-        <RegisterForm />
+        <InfoModifyPageForm />
       </div>
     </SC.Wrapper>
   );
