@@ -15,6 +15,8 @@ export const UserInfo = styled.nav`
 `;
 
 export const UserProfile = styled.div`
+  margin-top: 12rem;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,12 +32,11 @@ export const ProfileImg = styled.img`
 `;
 export const PrifileImgDiv = styled.div`
   overflow: hidden;
-  position: absolute;
-  top: -50%;
-
-  width: 100%;
-  height: 40%;
-  border-radius: 1rem;
+  top: 1rem;
+  margin: 1rem 0;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100%;
   background-color: ${(props) => props.theme.pointColors.beige};
 
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
