@@ -6,7 +6,8 @@ const Post = model('posts', PostSchema);
 
 export interface CommentInfo {
   content: string;
-  author: string;
+  userId: string;
+  nickname: string;
 }
 
 export interface TagInfo {
@@ -21,11 +22,6 @@ export interface PostInfo {
   tag_list?: TagInfo[];
   meal?: string;
   routine?: string;
-}
-
-export interface CommentInfo {
-  author: string;
-  content: string;
 }
 
 export interface DateInfo {
