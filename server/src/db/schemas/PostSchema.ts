@@ -6,7 +6,11 @@ const CommentSchema = new Schema(
       type: String,
       required: true,
     },
-    author: {
+    userId: {
+      type: String,
+      required: true,
+    },
+    nickname: {
       type: String,
       required: true,
     },
@@ -25,6 +29,10 @@ const TagSchema = new Schema({
 const PostSchema = new Schema(
   {
     userId: {
+      type: String,
+      required: true,
+    },
+    nickname: {
       type: String,
       required: true,
     },
