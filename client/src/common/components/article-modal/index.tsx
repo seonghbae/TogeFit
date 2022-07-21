@@ -69,7 +69,7 @@ const ArticleModal = ({
       setPostItem(post);
     }
     modalState(false);
-    navigate('/post');
+    navigate('/board-modify');
   };
 
   const handleDelete = () => {

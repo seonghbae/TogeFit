@@ -20,6 +20,8 @@ const PostForm = () => {
   const [tagList, setTagList] = useState<Array<string>>([]);
   const [tag, setTag] = useState('');
   const [meal, setMeal] = useState('');
+  const [isPostUpdate, setIsPostUpdate] = useRecoilState(isPostUpdateState);
+  const [postItem, setPostItem] = useRecoilState(postState);
 
   const [dietList, setdietList] = useState<IDietList>();
   const [routines, setRoutines] = useState<IRoutinesInfo[]>();
@@ -52,6 +54,30 @@ const PostForm = () => {
     }
   }, [userId]);
 
+  const modifyBoardData = (data: IBoardPost) => {
+    const postData = {
+      ...data,
+      tag_list: tagList.join(','),
+      post_image: data.post_image[0],
+    };
+    const formData = new FormData();
+
+    formData.append('post_image', data.post_image[0]);
+    formData.append('userId', data.userId);
+    formData.append('contents', data.contents);
+    formData.append('is_open', 'true');
+    formData.append('tag_list', tagList.join(','));
+
+    if (data.meal) formData.append('meal', data.meal);
+    if (data.routine) formData.append('routine', data.routine);
+
+    customAxios.patch(`/api/post/${postItem._id}`, formData).then((res) => {
+      if (res.status === 201) {
+        window.location.href = '/';
+      }
+    });
+  };
+
   const postBoardData = (data: IBoardPost) => {
     const postData = {
       ...data,
@@ -75,7 +101,8 @@ const PostForm = () => {
     });
   };
 
-  const onSubmit = (data: IBoardPost) => postBoardData(data);
+  const onSubmit = (data: IBoardPost) =>
+    isPostUpdate ? modifyBoardData(data) : postBoardData(data);
 
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -90,6 +117,23 @@ const PostForm = () => {
     return targetDate.getDate() === date.getDate();
     // return targetDate.getDate() === 15;
   };
+
+  useEffect(() => {
+    console.log(isPostUpdate);
+    if (isPostUpdate) {
+      setValue('contents', postItem.contents);
+      setTagList(Object.values(postItem.tag_list).map((item) => item.tag));
+      console.log(postItem.routine_info);
+      if (postItem.routine_info) {
+        console.log(postItem.routine_info);
+
+        // setValue('routine', postItem);
+      }
+    } else {
+      setValue('contents', '');
+      setTagList([]);
+    }
+  }, []);
 
   return (
     <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -169,7 +213,7 @@ const PostForm = () => {
       </div>
 
       <SC.RegisterButton type="submit" ref={buttonRef}>
-        작성하기
+        {isPostUpdate ? '수정하기' : '작성하기'}
       </SC.RegisterButton>
     </SC.StyledForm>
   );

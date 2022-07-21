@@ -7,9 +7,11 @@ import MainPage from './main-page';
 import PostPage from './post-page';
 import RegisterPage from './register-page';
 import InfoModifyPage from './info-modify-page/InfoModifyPage';
+import BoardModifyPage from './board-modify-page/BoardModifyPage';
 
 export {
   RoutinePage,
+  BoardModifyPage,
   InfoPage,
   AddRoutinePage,
   DietPage,

@@ -17,6 +17,7 @@ import {
   RegisterPage,
   InfoModifyPage,
   PostPage,
+  BoardModifyPage,
 } from './pages';
 
 const App = () => (
@@ -33,6 +34,7 @@ const App = () => (
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/post" element={<PostPage />} />
+        <Route path="/board-modify" element={<BoardModifyPage />} />
         <Route path="*" element={<div>error!</div>} />
       </Routes>
     </RecoilRoot>

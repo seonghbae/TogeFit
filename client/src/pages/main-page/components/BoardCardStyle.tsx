@@ -89,4 +89,6 @@ export const Tag = styled.span`
   border: 1px solid ${(props) => props.theme.pointColors.lightGreen};
   border-radius: 25px;
   text-align: center;
+  overflow: hidden;
+  padding-right: 1rem;
 `;
