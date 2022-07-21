@@ -115,7 +115,7 @@ export const StyledForm = styled.form`
     margin-bottom: 3.2rem;
   }
 
-  & p {
+  & > div > p {
     color: red;
     font-size: 1.2rem;
     border: 1rem 0;
@@ -135,5 +135,17 @@ export const WithdrawalButton = styled.button`
   &:hover {
     background-color: #eb5353;
     color: #fff;
+  }
+`;
+
+export const PasswordInput = styled.input`
+  width: 100%;
+  padding: 8px 15px;
+  border-bottom: 3px solid gray;
+  font-size: 1rem;
+  text-align: center;
+
+  :focus {
+    border-bottom: 3px solid ${(props) => props.theme.pointColors.lightGreen};
   }
 `;
