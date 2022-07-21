@@ -171,75 +171,80 @@ const ArticleModal = ({
                 <SC.SubmitButton type="submit">입력</SC.SubmitButton>
               </SC.CommentInputWrapper>
               <SC.CommentWrapper>
-                {post.comments.map((comment, i) => (
-                  <li key={comment._id}>
-                    <SC.CommentEleWrapper
-                      data-id={comment._id}
-                      className="comment-div"
-                    >
-                      <SC.CommentAuthorWrapper>
-                        {comment.author}
-                      </SC.CommentAuthorWrapper>
-                      {commentModiTarget === comment._id ? (
-                        <SC.CommentModiInput
-                          type="text"
-                          value={modiComment}
-                          onChange={(e) => setModiComment(e.target.value)}
-                        />
-                      ) : (
-                        <SC.CommentContent>{comment.content}</SC.CommentContent>
-                      )}
-
-                      {comment.author === localUserId ? (
-                        commentModiTarget === comment._id ? (
-                          <SC.CommentButtonDiv>
-                            <button
-                              type="button"
-                              onClick={() => handleCommentModifyConfirm()}
-                            >
-                              <CheckmarkOutline color="#000" width="1.4rem" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleCommentModifyCancel()}
-                            >
-                              <Cross color="#000" width="1.4rem" />
-                            </button>
-                          </SC.CommentButtonDiv>
+                {post.comments
+                  .slice(0)
+                  .reverse()
+                  .map((comment, i) => (
+                    <li key={comment._id}>
+                      <SC.CommentEleWrapper
+                        data-id={comment._id}
+                        className="comment-div"
+                      >
+                        <SC.CommentAuthorWrapper>
+                          {comment.author}
+                        </SC.CommentAuthorWrapper>
+                        {commentModiTarget === comment._id ? (
+                          <SC.CommentModiInput
+                            type="text"
+                            value={modiComment}
+                            onChange={(e) => setModiComment(e.target.value)}
+                          />
                         ) : (
-                          <SC.CommentButtonDiv>
-                            <SC.CommentDateWrapper>
-                              {parseDate(comment.updatedAt)}
-                            </SC.CommentDateWrapper>
-                            <button
-                              type="button"
-                              onClick={() =>
-                                handleCommentModify(
-                                  comment._id,
-                                  comment.content
-                                )
-                              }
-                            >
-                              <Pencil color="#000" width="1.4rem" />
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => handleCommentDelete(comment._id)}
-                            >
-                              <Trash color="#000" width="1.4rem" />
-                            </button>
-                          </SC.CommentButtonDiv>
-                        )
-                      ) : (
-                        <SC.CommentDateWrapper>
-                          {comment.updatedAt
-                            .replace(/\..*$/, '')
-                            .replace(/[T]/g, ' ')}
-                        </SC.CommentDateWrapper>
-                      )}
-                    </SC.CommentEleWrapper>
-                  </li>
-                ))}
+                          <SC.CommentContent>
+                            {comment.content}
+                          </SC.CommentContent>
+                        )}
+
+                        {comment.author === localUserId ? (
+                          commentModiTarget === comment._id ? (
+                            <SC.CommentButtonDiv>
+                              <button
+                                type="button"
+                                onClick={() => handleCommentModifyConfirm()}
+                              >
+                                <CheckmarkOutline color="#000" width="1.4rem" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleCommentModifyCancel()}
+                              >
+                                <Cross color="#000" width="1.4rem" />
+                              </button>
+                            </SC.CommentButtonDiv>
+                          ) : (
+                            <SC.CommentButtonDiv>
+                              <SC.CommentDateWrapper>
+                                {parseDate(comment.updatedAt)}
+                              </SC.CommentDateWrapper>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleCommentModify(
+                                    comment._id,
+                                    comment.content
+                                  )
+                                }
+                              >
+                                <Pencil color="#000" width="1.4rem" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => handleCommentDelete(comment._id)}
+                              >
+                                <Trash color="#000" width="1.4rem" />
+                              </button>
+                            </SC.CommentButtonDiv>
+                          )
+                        ) : (
+                          <SC.CommentDateWrapper>
+                            {comment.updatedAt
+                              .replace(/\..*$/, '')
+                              .replace(/[T]/g, ' ')}
+                          </SC.CommentDateWrapper>
+                        )}
+                      </SC.CommentEleWrapper>
+                    </li>
+                  ))}
               </SC.CommentWrapper>
             </SC.CommentContainer>
           </SC.Article>
