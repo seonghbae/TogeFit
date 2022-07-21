@@ -50,7 +50,10 @@ export class PostModel {
 
   async findById(id: string) {
     const post = await Post.aggregate([
+      // 1. id로 해당 데이터 검색
       { $match: { _id: new mongoose.Types.ObjectId(id) } },
+
+      // 2. meal object ID로 meal 데이터 찾기
       {
         $lookup: {
           from: 'meals',
@@ -59,7 +62,13 @@ export class PostModel {
           as: 'meal_info',
         },
       },
+      { $addFields: { meal_createdAt: '$meal_info.createdAt' } },
+      {
+        $unwind: { path: '$meal_createdAt', preserveNullAndEmptyArrays: true },
+      },
       { $set: { meal_info: '$meal_info.meals.meal_list' } },
+
+      // 3. routine object ID로 routine 데이터 찾기
       {
         $lookup: {
           from: 'routines',
@@ -71,6 +80,8 @@ export class PostModel {
       { $set: { routine_info: '$routine_info.routines' } },
       { $unwind: { path: '$meal_info', preserveNullAndEmptyArrays: true } },
       { $unwind: { path: '$routine_info', preserveNullAndEmptyArrays: true } },
+
+      // 4. meal object ID, routine object ID가 필요 없으므로 표시하지 않음.
       {
         $project: {
           meal: 0,
@@ -79,6 +90,7 @@ export class PostModel {
       },
     ]);
 
+    // meal, routine 데이터를 찾지 못하는 경우 빈 배열 반환
     if (post[0] && !post[0].meal_info) {
       post[0].meal_info = [];
     }
