@@ -52,9 +52,7 @@ const Modal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: Iprops) => {
           <input
             type="text"
             {...register('name', { required: true })}
-            // eslint-disable-next-line react/jsx-curly-brace-presence
-            unselectable={'on'}
-            // value={dragTarget !== null ? dragTarget : ''}
+            unselectable="on"
           />
         </div>
         <div>
