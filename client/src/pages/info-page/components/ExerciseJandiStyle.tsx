@@ -1,11 +1,10 @@
 import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: 80%;
-  height: 100%;
+  width: 70%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: 1fr 1fr repeat(6, 1fr);
+  grid-template-rows: 1fr 0.5fr repeat(6, auto);
   place-items: center center;
 `;
 

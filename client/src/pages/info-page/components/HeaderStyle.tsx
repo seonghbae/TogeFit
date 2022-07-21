@@ -7,17 +7,17 @@ interface LiProps {
 export const InfoHeader = styled.header`
   position: relative;
   width: 70%;
-  height: 30rem;
   margin-top: 50px;
   margin-bottom: 50px;
   border-radius: 4rem;
   background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 `;
 
 export const ProfileDiv = styled.div`
   position: absolute;
-  width: 10rem;
-  height: 10rem;
+  width: 16rem;
+  height: 16rem;
   min-width: 150px;
   margin: 10px;
   top: 0%;
@@ -38,7 +38,7 @@ export const InfoContainer = styled.div`
   display: flex;
   width: 60%;
   height: 100%;
-  margin: 0 5rem 0 auto;
+  margin: 3rem 5rem 3rem auto;
   justify-content: center;
   flex-direction: column;
 `;
@@ -79,8 +79,8 @@ export const Li = styled.li<LiProps>`
 `;
 
 export const JandiContainer = styled.div`
-  width: 100%;
-  height: 60%;
+  /* width: 100%;
+  height: 60%; */
   display: flex;
   justify-content: center;
   align-items: center;
