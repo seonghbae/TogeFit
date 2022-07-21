@@ -139,9 +139,7 @@ const ArticleModal = ({
     }
 
     const newTimer = setTimeout(() => {
-      customAxios
-        .post('/api/post/like', { postId: id })
-        .then((res) => console.log(res));
+      customAxios.post('/api/post/like', { postId: id });
     }, 500);
 
     setDebounceTimer(newTimer);
