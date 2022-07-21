@@ -18,7 +18,7 @@ export const Modal = styled.div`
   left: 50%;
   width: 80%;
   max-width: 1200px;
-  padding: 4rem 2rem;
+  padding: 2rem 1rem;
   transform: translate(-50%, -50%);
   background-color: #fff;
   z-index: 9999;
