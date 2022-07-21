@@ -36,9 +36,7 @@ const BoardCard = ({
       <SC.Article>
         <SC.AuthorContent>
           {author}
-          <SC.DateContent>
-            {updateAt.replace(/\..*$/, '').replace(/[T]/g, ' ')}
-          </SC.DateContent>
+          <SC.DateContent>{updateAt.slice(0, 10)}</SC.DateContent>
         </SC.AuthorContent>
 
         <SC.ArticleContent>{content}</SC.ArticleContent>

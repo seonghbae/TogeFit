@@ -116,6 +116,17 @@ const ArticleModal = ({
       .catch((err) => alert(err));
   };
 
+  const parseDate = (dateString: string) => {
+    const date = new Date(dateString);
+
+    return `${date.getFullYear()}-${String(date.getMonth()).padStart(
+      2,
+      '0'
+    )}-${String(date.getDay()).padStart(2, '0')} ${String(
+      date.getHours()
+    ).padStart(2, '0')}:${date.getMinutes()}`;
+  };
+
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
@@ -198,9 +209,7 @@ const ArticleModal = ({
                         ) : (
                           <SC.CommentButtonDiv>
                             <SC.CommentDateWrapper>
-                              {comment.updatedAt
-                                .replace(/\..*$/, '')
-                                .replace(/[T]/g, ' ')}
+                              {parseDate(comment.updatedAt)}
                             </SC.CommentDateWrapper>
                             <button
                               type="button"
