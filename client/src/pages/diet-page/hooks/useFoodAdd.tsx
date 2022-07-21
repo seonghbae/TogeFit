@@ -4,7 +4,7 @@ import { customAxios } from 'common/api';
 import { ArticleErrResponse, IFood, IFoodList } from 'types/interfaces';
 
 const useFoodAdd = () => {
-  const [error, setError] = useState<Error['message']>('');
+  const [message, setMessage] = useState<Error['message']>('');
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IFoodList>();
@@ -13,20 +13,18 @@ const useFoodAdd = () => {
     customAxios
       .post(`/api/food/register`, data)
       .then((response) => {
-        setResult({ status: response.status, data: response.data });
-        setError('');
-        setShowError(false);
+        setMessage(response.data);
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
           const responseError = err as AxiosError<ArticleErrResponse>;
           if (responseError && responseError.response) {
-            setError(responseError.response.data.reason);
-            setShowError(true);
+            setMessage(responseError.response.data.reason);
           }
         }
       })
       .finally(() => {
+        setShowError(true);
         setLoading(false);
       });
   }, []);
@@ -35,8 +33,9 @@ const useFoodAdd = () => {
     addFood,
     result,
     isLoading,
-    error,
+    message,
     showError,
+    setShowError,
   };
 };
 
