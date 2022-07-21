@@ -54,7 +54,9 @@ const useArticle = <T>(apiLink: string) => {
   const getArticle = async (articleId: string | undefined) => {
     setLoading(true);
     try {
-      const response = await customAxios.get(`/api/post/article/${articleId}`);
+      const response = await customAxios.get(
+        `/api/${apiLink}/article/${articleId}`
+      );
       setPost(response.data);
     } catch (err) {
       console.log(err);

@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import * as SC from './CustomCardStyle';
 
 type tagType = {
@@ -31,7 +32,7 @@ const CustomCard = ({
         <SC.ArticleContent>{content}</SC.ArticleContent>
         <SC.TagContainer>
           {tagList.map((tagObject) => (
-            <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
+            <SC.Tag key={nanoid()}>{`#${tagObject.tag}`}</SC.Tag>
           ))}
         </SC.TagContainer>
       </SC.Article>

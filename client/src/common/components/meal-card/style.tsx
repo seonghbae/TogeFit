@@ -27,4 +27,15 @@ export const ListContainer = styled.ol`
 export const GoDetail = styled.button`
   display: block;
   margin-left: auto;
+  padding: 8px 13px;
+  border-radius: 20px;
+  background-color: ${(props) => props.theme.pointColors.orange};
+  color: #fff;
+  font-size: 1.2rem;
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out;
+
+  :hover {
+    opacity: 1;
+  }
 `;

@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef, useState } from 'react';
+import { nanoid } from 'nanoid';
 
 import CustomCard from 'common/components/custom-card/CustomCard';
 import Loading from 'common/components/loading';
@@ -61,13 +62,13 @@ const PostContainer = () => {
 
   return (
     <>
-      <SC.ContainerSection>
+      <SC.ContainerSection isGrid={articleList.length !== 0}>
+        {articleList.length === 0 && <h1>게시글이 존재하지 않습니다.</h1>}
         {articleList.map((article, index) => {
           if (articleList.length === index + 2) {
             return (
-              <div ref={lastArticleRef}>
+              <div ref={lastArticleRef} key={nanoid()}>
                 <CustomCard
-                  key={article._id}
                   imgUrl={article.post_image[0]}
                   content={article.contents}
                   tagList={article.tag_list}
@@ -79,7 +80,7 @@ const PostContainer = () => {
           }
           return (
             <CustomCard
-              key={article._id}
+              key={nanoid()}
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
