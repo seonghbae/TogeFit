@@ -104,17 +104,19 @@ class PostService {
     return updatedPost;
   }
 
-  async updateLike(postId: string) {
+  async updateLike(postId: string, mode: string) {
     const post = await this.postModel.findById(postId);
     if (!post) {
       throw new Error('해당 글을 찾지 못했습니다.');
     }
 
-    const currentLikeNumber = post.like;
-    const updatedPost = await this.postModel.updateLike(
-      postId,
-      currentLikeNumber
-    );
+    let nextLikeNumber = mode === 'plus' ? post.like + 1 : post.like - 1;
+
+    if (nextLikeNumber < 0) {
+      nextLikeNumber = 0;
+    }
+
+    const updatedPost = await this.postModel.updateLike(postId, nextLikeNumber);
 
     return updatedPost;
   }

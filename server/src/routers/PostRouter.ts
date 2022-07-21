@@ -219,14 +219,20 @@ postRouter.post('/like', loginRequired, async (req, res, next) => {
     // 유저의 liked 배열에 postId가 있는지 검사
     const isExistPostId = await userService.isExistPostId(userId, postId);
 
-    // 없다면 좋아요 + 1
+    let mode = 'plus';
+    // 있다면 좋아요 취소
     if (isExistPostId) {
-      throw new Error('이미 좋아요를 누른 게시글 입니다.');
+      mode = 'minus';
     }
 
-    const updatedPost = await postService.updateLike(postId);
+    // 없다면 좋아요 + 1
+    const updatedPost = await postService.updateLike(postId, mode);
 
-    const pushLike = await userService.pushPostIdInLikedArray(userId, postId);
+    const pushLike = await userService.manipulateLikedArray(
+      userId,
+      postId,
+      mode
+    );
 
     res.status(201).json(updatedPost);
     // 유저의 liked 배열에 postId 추가
