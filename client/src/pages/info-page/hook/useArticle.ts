@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
-import { customAxios } from 'common/api';
-import { dateObjectAtom } from 'recoil/infoState';
 import { useRecoilValue } from 'recoil';
 import axios, { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
+
+import { dateObjectAtom } from 'recoil/infoState';
+import { customAxios } from 'common/api';
+import loadingThrottle from 'common/utils/loadingThrottle';
 import { ArticleErrResponse } from 'types/interfaces';
 
 const useArticle = <T>(apiLink: string) => {
@@ -15,6 +17,7 @@ const useArticle = <T>(apiLink: string) => {
   const [reqNumber, setReqNumber] = useState(0);
   const [hasMore, setHasMore] = useState(false);
   const [post, setPost] = useState<T>();
+  const [id, setId] = useState<string>();
   const { userId } = useParams();
 
   useEffect(() => {
@@ -25,7 +28,6 @@ const useArticle = <T>(apiLink: string) => {
 
   useEffect(() => {
     async function getArticle() {
-      setLoading(true);
       try {
         const response = await customAxios.get(
           `/api/${apiLink}/user?userId=${userId}&year=${
@@ -46,13 +48,13 @@ const useArticle = <T>(apiLink: string) => {
           }
         }
       }
-      setLoading(false);
     }
-    getArticle();
+    loadingThrottle(1, getArticle, setLoading);
   }, [standardDate, userId, reqNumber]);
 
   const getArticle = async (articleId: string | undefined) => {
     setLoading(true);
+    setId(articleId);
     try {
       const response = await customAxios.get(
         `/api/${apiLink}/article/${articleId}`
@@ -71,6 +73,7 @@ const useArticle = <T>(apiLink: string) => {
     isOpen,
     hasMore,
     post,
+    id,
     setIsOpen,
     setReqNumber,
     getArticle,

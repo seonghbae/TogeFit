@@ -20,6 +20,7 @@ const PostContainer = () => {
     isOpen,
     hasMore,
     post,
+    id,
     setIsOpen,
     setReqNumber,
     getArticle,
@@ -93,7 +94,14 @@ const PostContainer = () => {
           <AlertModal message={errorMessage} handleConfirm={handleComfirm} />
         )}
       </SC.ContainerSection>
-      {articleOpen && <ArticleModal post={post} modalState={setArticleOpen} />}
+      {articleOpen && (
+        <ArticleModal
+          post={post}
+          modalState={setArticleOpen}
+          articleId={id}
+          getArticle={getArticle}
+        />
+      )}
       {isLoading && <Loading />}
     </>
   );

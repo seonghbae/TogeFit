@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { customAxios } from 'common/api';
 import axios, { AxiosError } from 'axios';
-
-import { IBoard, IError } from 'types/interfaces';
 import { useRecoilValue } from 'recoil';
+
+import { customAxios } from 'common/api';
+import loadingThrottle from 'common/utils/loadingThrottle';
+import { IBoard, IError } from 'types/interfaces';
 import searchQueryState from '../states/searchQueryState';
 
 const useSearchBoardList = () => {
@@ -16,7 +17,6 @@ const useSearchBoardList = () => {
   const tagName = useRecoilValue(searchQueryState);
 
   async function getSearchBoardList() {
-    setIsSearchLoading(true);
     try {
       const response = await customAxios.get(
         `/api/post/search?tagName=${tagName}&limit=5&reqNumber=${searchReqNumber}`
@@ -35,17 +35,16 @@ const useSearchBoardList = () => {
         }
       }
     }
-    setIsSearchLoading(false);
   }
 
   useEffect(() => {
     setSearchBoardList([]);
     setSearchReqNumber(0);
-    getSearchBoardList();
+    loadingThrottle(1, getSearchBoardList, setIsSearchLoading);
   }, [tagName]);
 
   useEffect(() => {
-    getSearchBoardList();
+    loadingThrottle(1.5, getSearchBoardList, setIsSearchLoading);
   }, [searchReqNumber]);
 
   return {
