@@ -1,8 +1,11 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { useRef, useState, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+import { AlertModal } from 'common/components';
 import Modal from 'common/components/alert-modal';
 import Loading from 'common/components/loading';
-import { useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { IUserInfoModify, RegisterInputType } from 'types/interfaces';
 
 import useModify from '../hook/useModify';
@@ -11,14 +14,16 @@ import * as SC from './InfoModifyPageFormStyle';
 
 const RegisterForm: React.FC = () => {
   const buttonRef = useRef() as React.MutableRefObject<HTMLButtonElement>;
+  const inputRef = useRef({ value: '' });
   const {
     modifyRequest,
     isSend,
     isLoading,
     isShowError,
     error,
-    isSuccess,
+    message,
     setShowError,
+    withdrawalRequest,
   } = useModify();
 
   const {
@@ -29,6 +34,8 @@ const RegisterForm: React.FC = () => {
   } = useForm<IUserInfoModify>({ mode: 'onChange' });
 
   const [isSubmit, setIsSubmit] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const onSubmit = (data: IUserInfoModify) => {
     const formData = new FormData();
@@ -46,9 +53,21 @@ const RegisterForm: React.FC = () => {
   const handleConfirm = () => {
     setIsSubmit(true);
   };
+
   const handleCancel = () => {
     setIsSubmit(false);
   };
+
+  const openUnregister = () => {
+    setModalOpen(true);
+  };
+
+  const memoizedWithdrawal = useCallback(() => {
+    if (inputRef.current.value === '') {
+      return;
+    }
+    withdrawalRequest(inputRef.current.value, setModalOpen);
+  }, [inputRef.current.value]);
 
   return (
     <>
@@ -137,7 +156,19 @@ const RegisterForm: React.FC = () => {
           </Modal>
         )}
 
-        {isShowError && <p>{error?.reason}</p>}
+        {isShowError && (
+          <AlertModal
+            message={message ? message.reason : ''}
+            handleConfirm={() => {
+              setShowError(false);
+              inputRef.current.value = '';
+              if (message?.result === 'success') {
+                localStorage.removeItem('userId');
+                navigate('/');
+              }
+            }}
+          />
+        )}
         <SC.RegisterButton
           type="button"
           isDisabled={isSend}
@@ -146,7 +177,25 @@ const RegisterForm: React.FC = () => {
         >
           수정하기
         </SC.RegisterButton>
+        <SC.WithdrawalButton type="button" onClick={openUnregister}>
+          회원 탈퇴
+        </SC.WithdrawalButton>
       </SC.StyledForm>
+      {isModalOpen && (
+        <AlertModal
+          message="탈퇴하시면 모든 정보가 사라집니다."
+          handleConfirm={memoizedWithdrawal}
+        >
+          <SC.PasswordInput
+            type="password"
+            placeholder="탈퇴하시려면 비밀번호를 입력해주세요."
+            defaultValue={inputRef.current.value}
+            onChange={({ target }) => {
+              inputRef.current.value = target.value;
+            }}
+          />
+        </AlertModal>
+      )}
       {isLoading && <Loading />}
     </>
   );
