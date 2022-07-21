@@ -6,6 +6,12 @@ export const Wrapper = styled.div`
   height: 350px;
   justify-content: center;
   align-items: center;
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+
+  :hover {
+    background-color: rgb(235, 235, 235);
+  }
 `;
 
 export const Date = styled.span`
@@ -17,6 +23,10 @@ export const Date = styled.span`
 export const ListContainer = styled.ol`
   > * {
     font-size: 1.1rem;
+  }
+
+  > li {
+    text-align: end;
   }
 
   > li + li {
