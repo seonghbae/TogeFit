@@ -4,13 +4,12 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { IRoutinesExerciseInfo } from 'types/interfaces';
 import useExcerciseModify from '../hooks/useExerciseModify';
 import { routinesState } from '../states';
 import exerciseModifyState from '../states/exerciseModifyState';
 import routineModifyState from '../states/routineModifyState';
-// isCancel, setIsCancel, open, setOpen, renderConfirmModal
 import * as SC from './ModifyRoutineModalStyle';
 
 interface Iprops {
@@ -32,9 +31,8 @@ const ModifyRoutineModal = ({
     resetField,
     formState: { errors },
   } = useForm<IRoutinesExerciseInfo>();
-  const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
-  const [exerciseModify, setExerciseModify] =
-    useRecoilState(exerciseModifyState);
+  const modifyRoutine = useRecoilValue(routineModifyState);
+  const exerciseModify = useRecoilValue(exerciseModifyState);
   const [routines, setRoutines] = useRecoilState(routinesState);
   const { modifyExercise, result } = useExcerciseModify();
 
@@ -91,9 +89,11 @@ const ModifyRoutineModal = ({
     setIsOpen(false);
   };
   useEffect(() => {
-    resetField('count', { defaultValue: exerciseModify?.count });
-    resetField('set', { defaultValue: exerciseModify?.set });
-    resetField('weight', { defaultValue: exerciseModify?.weight });
+    if (!exerciseModify) return;
+
+    resetField('count', { defaultValue: exerciseModify.count ?? 0 });
+    resetField('set', { defaultValue: exerciseModify.set ?? 0 });
+    resetField('weight', { defaultValue: exerciseModify.weight ?? 0 });
   }, [exerciseModify, isOpen]);
 
   return (
@@ -105,24 +105,9 @@ const ModifyRoutineModal = ({
           <input
             type="text"
             {...register('name', { required: true })}
-            // eslint-disable-next-line react/jsx-curly-brace-presence
-            unselectable={'on'}
+            unselectable="on"
             defaultValue={exerciseModify?.name}
-            // value={dragTarget !== null ? dragTarget : ''}
           />
-        </div>
-        <div>
-          <label htmlFor="count">개수</label>
-          <input
-            type="number"
-            {...register('count', { min: 0, pattern: /^[0-9]/g })}
-          />
-          {errors.count && errors.count.type === 'min' && (
-            <p>0 이상의 수를 입력하세요.</p>
-          )}
-          {errors.count && errors.count.type === 'pattern' && (
-            <p>숫자만 입력해주세요.</p>
-          )}
         </div>
         <div>
           <label htmlFor="set">세트</label>
@@ -134,6 +119,19 @@ const ModifyRoutineModal = ({
             <p>0 이상의 수를 입력하세요.</p>
           )}
           {errors.set && errors.set.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
+        </div>
+        <div>
+          <label htmlFor="count">개수</label>
+          <input
+            type="number"
+            {...register('count', { min: 0, pattern: /^[0-9]/g })}
+          />
+          {errors.count && errors.count.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.count && errors.count.type === 'pattern' && (
             <p>숫자만 입력해주세요.</p>
           )}
         </div>

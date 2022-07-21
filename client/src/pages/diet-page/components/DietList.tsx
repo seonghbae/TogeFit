@@ -67,7 +67,7 @@ const DietList = () => {
       <SC.Header>
         <div>식단 목록</div>
         <button type="button" onClick={handleAddMeal}>
-          +
+          식단 추가
         </button>
       </SC.Header>
       <SC.ChartListContainer>

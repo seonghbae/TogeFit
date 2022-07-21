@@ -29,7 +29,6 @@ const useRegister = () => {
     customAxios
       .post(`/api/user/register`, formData, { withCredentials: true })
       .then((res) => {
-        console.log('then', res.data);
         setError(undefined);
         setShowError(false);
         setIsSuccess(true);
@@ -37,10 +36,8 @@ const useRegister = () => {
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
-          console.log('catch', err);
           const responseError = err as ValidationResponse;
           if (responseError && responseError.response) {
-            console.log(responseError.response.data);
             setError({
               reason: responseError.response.data.reason,
               result: responseError.response.data.result,

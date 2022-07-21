@@ -78,10 +78,20 @@ const AddRoutinePage = () => {
     }
 
     addRoutine(postData);
+    setUserRoutine([
+      {
+        name: ROUTINE_INITIAL_MESSAGE,
+      },
+    ]);
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = (e) => {
     navigate('/routine');
+    setUserRoutine([
+      {
+        name: ROUTINE_INITIAL_MESSAGE,
+      },
+    ]);
   };
 
   return (

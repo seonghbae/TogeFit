@@ -19,9 +19,9 @@ const ExerciseJandi = ({ jandiList, children }: JandiProps) => (
       {jandiList.map((jandi) =>
         jandi.isNow ? (
           jandi.isActive ? (
-            <YesDumbbell size="30px" color="green" />
+            <YesDumbbell size="30px" color="green" key={nanoid()} />
           ) : (
-            <NoDumbbell size="30px" color="" />
+            <NoDumbbell size="30px" color="" key={nanoid()} />
           )
         ) : (
           <div key={nanoid()} />

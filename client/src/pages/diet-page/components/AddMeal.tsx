@@ -118,6 +118,7 @@ const AddMeal = () => {
 
     setMealList(init);
     navigate('/diet');
+    window.location.reload();
   };
 
   const handleCancel: MouseEventHandler<HTMLButtonElement> = () => {

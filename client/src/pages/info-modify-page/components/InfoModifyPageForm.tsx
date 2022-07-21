@@ -3,7 +3,6 @@ import { useRef, useState, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
-import { AlertModal } from 'common/components';
 import Modal from 'common/components/alert-modal';
 import Loading from 'common/components/loading';
 import { IUserInfoModify, RegisterInputType } from 'types/interfaces';
@@ -20,7 +19,6 @@ const RegisterForm: React.FC = () => {
     isSend,
     isLoading,
     isShowError,
-    error,
     message,
     setShowError,
     withdrawalRequest,
@@ -157,15 +155,15 @@ const RegisterForm: React.FC = () => {
         )}
 
         {isShowError && (
-          <AlertModal
+          <Modal
             message={message ? message.reason : ''}
             handleConfirm={() => {
               setShowError(false);
               inputRef.current.value = '';
               if (message?.result === 'success') {
                 localStorage.removeItem('userId');
-                navigate('/');
               }
+              navigate('/');
             }}
           />
         )}
@@ -182,7 +180,7 @@ const RegisterForm: React.FC = () => {
         </SC.WithdrawalButton>
       </SC.StyledForm>
       {isModalOpen && (
-        <AlertModal
+        <Modal
           message="탈퇴하시면 모든 정보가 사라집니다."
           handleConfirm={memoizedWithdrawal}
         >
@@ -194,7 +192,7 @@ const RegisterForm: React.FC = () => {
               inputRef.current.value = target.value;
             }}
           />
-        </AlertModal>
+        </Modal>
       )}
       {isLoading && <Loading />}
     </>
