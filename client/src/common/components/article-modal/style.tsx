@@ -84,7 +84,7 @@ export const Article = styled.article`
 export const ArticleContent = styled.div`
   font-size: 1.2rem;
   line-height: 140%;
-  max-height: 40vh;
+  max-height: 25vh;
   word-break: break-all;
   overflow-y: scroll;
   ::-webkit-scrollbar {
