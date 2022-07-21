@@ -210,7 +210,7 @@ const ArticleModal = ({
             ''
           )}
           <SC.Article>
-            <SC.AuthorContent>{post.userId}</SC.AuthorContent>
+            <SC.AuthorContent>{post.nickname}</SC.AuthorContent>
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
               {post.tag_list.map((tagObject) => (

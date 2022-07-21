@@ -111,6 +111,7 @@ interface IComment {
   createdAt: string;
 }
 interface IBoard {
+  nickname: string;
   _id: string;
   userId: string;
   contents: string;
@@ -134,6 +135,7 @@ interface PostResponse {
   _id: string;
   userId: string;
   contents: string;
+  nickname: string;
   post_image: Array<string>;
   is_open: boolean;
   tag_list: Array<tagType>;
@@ -148,6 +150,7 @@ interface PostResponse {
 }
 
 interface IBoardPost {
+  nickname: string;
   userId: string;
   contents: string;
   post_image: string[];

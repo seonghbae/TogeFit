@@ -121,7 +121,7 @@ const BoardContainer = () => {
             <BoardCard
               like={article.like}
               updateAt={article.updatedAt}
-              author={article.userId}
+              author={article.nickname}
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
@@ -135,7 +135,7 @@ const BoardContainer = () => {
         <BoardCard
           like={article.like}
           updateAt={article.updatedAt}
-          author={article.userId}
+          author={article.nickname}
           key={index}
           imgUrl={article.post_image[0]}
           content={article.contents}
