@@ -22,6 +22,7 @@ export const Wrapper = styled.div<{ view: boolean }>`
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-size: 2rem;
     p {
       color: rgb(255, 54, 54);
       font-size: smaller;
@@ -42,16 +43,26 @@ export const Wrapper = styled.div<{ view: boolean }>`
     margin: 0.5rem;
   }
 `;
+export const InputWrapper = styled.div`
+  display: flex;
+  width: 20vw;
+  justify-content: center;
+  input {
+    width: 60%;
+    font-size: 1.5rem;
+  }
+`;
 
 export const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   button {
+    font-size: 1.3rem;
     margin: 1rem;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    width: 3rem;
-    height: 2rem;
+    width: 5rem;
+    height: 2.5rem;
     color: #000000b2;
 
     border-radius: 1rem;

@@ -7,11 +7,8 @@ const wipeIn = keyframes`
   `;
 
 const wipeOut = keyframes`
-  from {
-    transform: translateX(20vw);
-  }
   to {
-    transform: translateX(0px);
+    transform: translateX(0vw);
   }
 `;
 

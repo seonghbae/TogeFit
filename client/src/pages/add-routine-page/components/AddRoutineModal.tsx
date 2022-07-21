@@ -69,7 +69,7 @@ const AddRoutineModal = ({
     <SC.Wrapper view={isOpen} onClick={handleCancel}>
       <form onSubmit={handleSubmit(onSubmit)} onClick={handleDivClick}>
         <h3>내 루틴에 추가하기</h3>
-        <div>
+        <SC.InputWrapper>
           <label htmlFor="name">이름</label>
           <input
             type="text"
@@ -78,8 +78,8 @@ const AddRoutineModal = ({
             unselectable={'on'}
             value={dragTarget !== null ? dragTarget : ''}
           />
-        </div>
-        <div>
+        </SC.InputWrapper>
+        <SC.InputWrapper>
           <label htmlFor="count">개수</label>
           <input
             type="number"
@@ -91,8 +91,8 @@ const AddRoutineModal = ({
           {errors.count && errors.count.type === 'pattern' && (
             <p>숫자만 입력해주세요.</p>
           )}
-        </div>
-        <div>
+        </SC.InputWrapper>
+        <SC.InputWrapper>
           <label htmlFor="set">세트</label>
           <input
             type="number"
@@ -104,8 +104,8 @@ const AddRoutineModal = ({
           {errors.set && errors.set.type === 'pattern' && (
             <p>숫자만 입력해주세요.</p>
           )}
-        </div>
-        <div>
+        </SC.InputWrapper>
+        <SC.InputWrapper>
           <label htmlFor="weight">무게</label>
           <input
             type="number"
@@ -117,7 +117,7 @@ const AddRoutineModal = ({
           {errors.weight && errors.weight.type === 'pattern' && (
             <p>숫자만 입력해주세요.</p>
           )}
-        </div>
+        </SC.InputWrapper>
         <SC.ButtonWrapper>
           <button type="submit">확인</button>
           <button type="button" onClick={handleCancel}>

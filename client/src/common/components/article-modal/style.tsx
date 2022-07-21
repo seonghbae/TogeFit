@@ -114,6 +114,14 @@ export const CommentContainer = styled.div`
   }
 `;
 
+export const HeaderWrapper = styled.div`
+  position: absolute;
+  transition: 250ms all cubic-bezier(0.075, 0.82, 0.165, 1);
+  :hover {
+    transform: scale(1.1);
+  }
+`;
+
 export const CommentInput = styled.input`
   width: 100%;
   font-size: 1rem;
@@ -202,6 +210,7 @@ export const CommentButtonDiv = styled.div`
 export const CommentInputWrapper = styled.form`
   display: flex;
   position: relative;
+  margin-left: 10%;
 `;
 
 export const TagContainer = styled.div`
