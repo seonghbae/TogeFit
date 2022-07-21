@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { customAxios } from 'common/api';
 import { getUserId } from 'common/utils/getUserId';
@@ -13,7 +13,7 @@ import useLogoutRequest from 'common/components/nav/hook/useLogoutRequest';
 import * as SC from './UserInfoStyle';
 
 const UserInfo = () => {
-  const userId = getUserId();
+  const userId = useMemo(() => getUserId(), []);
   const [nickName, setNickName] = useState('');
   const [profileImg, setProfileImg] = useState('');
   const { requestLogout, responseMsg, setModalOpen, isModalOpen } =
