@@ -13,7 +13,7 @@ const useFoodAdd = () => {
     customAxios
       .post(`/api/food/register`, data)
       .then((response) => {
-        setMessage(response.data);
+        setMessage('음식 등록에 성공하였습니다!');
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
