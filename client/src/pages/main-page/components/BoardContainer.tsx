@@ -119,6 +119,7 @@ const BoardContainer = () => {
             key={index}
           >
             <BoardCard
+              like={article.like}
               updateAt={article.updatedAt}
               author={article.userId}
               imgUrl={article.post_image[0]}
@@ -132,6 +133,7 @@ const BoardContainer = () => {
       }
       return (
         <BoardCard
+          like={article.like}
           updateAt={article.updatedAt}
           author={article.userId}
           key={index}
