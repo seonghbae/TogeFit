@@ -84,7 +84,7 @@ export const Article = styled.article`
 export const ArticleContent = styled.div`
   font-size: 1.2rem;
   line-height: 140%;
-  height: 40vh;
+  max-height: 40vh;
   word-break: break-all;
   overflow-y: scroll;
   ::-webkit-scrollbar {
@@ -209,7 +209,7 @@ export const TagContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, auto));
   grid-gap: 10px;
-  height: 10vh;
+  max-height: 10vh;
 
   overflow-y: scroll;
   ::-webkit-scrollbar {
