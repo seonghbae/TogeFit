@@ -127,13 +127,13 @@ const AddMeal = () => {
 
   return (
     <SC.AddMealContainer>
-      <div>식품 목록</div>
-      <SearchForm searchFunc={getSearchedFood} />
-      <SC.ButtonWrapper>
+      <SC.Header>
+        <div>식품 목록</div>
+        <SearchForm searchFunc={getSearchedFood} />
         <button type="button" onClick={handleAddFood}>
           +
         </button>
-      </SC.ButtonWrapper>
+      </SC.Header>
       <AddFoodModal
         isOpen={isFoodOpen}
         setIsOpen={setIsFoodOpen}
@@ -147,7 +147,7 @@ const AddMeal = () => {
         setIsCancel={setIsCancel}
         food={food}
       />
-      <div>
+      <SC.CarouselContainer>
         <FoodCarousel
           data={foodList}
           setData={setFoodList}
@@ -171,13 +171,15 @@ const AddMeal = () => {
           objCache={cache}
           setObjCache={setCache}
         />
-      </div>
-      <button type="button" onClick={handleAddMeal}>
-        확인
-      </button>
-      <button type="button" onClick={handleCancel}>
-        취소
-      </button>
+      </SC.CarouselContainer>
+      <SC.ButtonContainer>
+        <button type="button" onClick={handleAddMeal}>
+          확인
+        </button>
+        <button type="button" onClick={handleCancel}>
+          취소
+        </button>
+      </SC.ButtonContainer>
       <MealModal
         isOpen={isMealOpen}
         setIsOpen={setIsMealOpen}

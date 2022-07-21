@@ -22,12 +22,12 @@ const DietInfo = () => {
 
   return (
     <SC.DietInfoContainer>
-      <div>{`${date.getMonth() + 1}/${date.getDate()}`}</div>
-      <SC.ButtonWrapper>
+      <SC.Header>
+        <div>{`${date.getMonth() + 1}/${date.getDate()}`}</div>
         <button type="button" onClick={handleAddMeal}>
           +
         </button>
-      </SC.ButtonWrapper>
+      </SC.Header>
       {food?.status === 200 &&
         diet.meals.map((meal, index) => (
           <Meal
