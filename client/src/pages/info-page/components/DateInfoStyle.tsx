@@ -19,6 +19,7 @@ export const Title = styled.h3<{ fontSize?: number }>`
   }
 
   > button {
+    font-weight: bold;
     font-size: 1.2rem;
   }
 `;
