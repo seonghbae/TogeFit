@@ -21,7 +21,6 @@ const Modal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: Iprops) => {
   const {
     register,
     handleSubmit,
-    resetField,
     formState: { errors },
   } = useForm<IRoutinesExerciseInfo>();
 

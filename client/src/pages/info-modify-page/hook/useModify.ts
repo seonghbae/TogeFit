@@ -1,7 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { customAxios } from 'common/api';
 import { useCallback, useState } from 'react';
-import { IUserInfoModify, RegisterInputType } from 'types/interfaces';
 
 interface data {
   reason: string;
@@ -41,7 +40,6 @@ const useModify = () => {
         if (axios.isAxiosError(err)) {
           const responseError = err as ValidationResponse;
           if (responseError && responseError.response) {
-            console.log(responseError.response.data);
             setMessage({
               reason: responseError.response.data.reason,
               result: responseError.response.data.result,

@@ -35,7 +35,6 @@ const useSearchExercise = () => {
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
-          console.log('catch', err);
           const responseError = err as AxiosError<ValidationResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);
