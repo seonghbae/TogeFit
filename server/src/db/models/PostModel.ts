@@ -157,10 +157,20 @@ export class PostModel {
       ],
     };
 
+    // UTC 기준 + 9시간
     const list = await Post.find(filter).sort({ createdAt: 1 });
-    const dateList = list.map((e) => {
-      return e.createdAt?.getDate();
-    });
+    const dateList = list
+      .filter((e) => {
+        const createdAtTime = e.createdAt as Date;
+        const date = new Date(createdAtTime);
+        date.setTime(date.getTime() + 9 * 60 * 60 * 1000);
+        if (date.getMonth() + 1 == month) {
+          return date.getDate();
+        }
+      })
+      .map((e) => {
+        return e.createdAt?.getDate();
+      });
 
     return Array.from(new Set(dateList));
   }

@@ -12,6 +12,7 @@ interface CustomCardProps {
   tagList: Array<tagType>;
   id: string;
   onClick: (articleId: string | undefined) => void;
+  updateAt: string;
 }
 
 const CustomCard = ({
@@ -20,6 +21,7 @@ const CustomCard = ({
   tagList,
   id,
   onClick,
+  updateAt,
 }: CustomCardProps) => {
   const handleClick = () => {
     onClick(id);
@@ -27,8 +29,11 @@ const CustomCard = ({
 
   return (
     <SC.Wrapper onClick={handleClick}>
-      <SC.ArticleImg src={imgUrl} />
+      {imgUrl ? <SC.ArticleImg src={imgUrl} /> : ''}
       <SC.Article>
+        <SC.AuthorContent>
+          <SC.DateContent>{updateAt.slice(0, 10)}</SC.DateContent>
+        </SC.AuthorContent>
         <SC.ArticleContent>{content}</SC.ArticleContent>
         <SC.TagContainer>
           {tagList.map((tagObject) => (

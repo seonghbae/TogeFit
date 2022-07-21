@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const ContainerSection = styled.section<{ isGrid: boolean }>`
   width: 70%;
-  background-color: #fff;
   border-radius: 4rem;
   padding: 2rem;
   margin-bottom: 100px;

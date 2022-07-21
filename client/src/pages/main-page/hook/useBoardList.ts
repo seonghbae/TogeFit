@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
-import { customAxios } from 'common/api';
 import axios, { AxiosError } from 'axios';
 
+import loadingThrottle from 'common/utils/loadingThrottle';
+import { customAxios } from 'common/api';
 import { IBoard, IError } from 'types/interfaces';
 
 const useBoardList = () => {
@@ -14,7 +15,6 @@ const useBoardList = () => {
 
   useEffect(() => {
     async function getBoardList() {
-      setLoading(true);
       try {
         const response = await customAxios.get(
           `/api/post/all?limit=10&reqNumber=${reqNumber}`
@@ -30,9 +30,8 @@ const useBoardList = () => {
           }
         }
       }
-      setLoading(false);
     }
-    getBoardList();
+    loadingThrottle(1, getBoardList, setLoading);
   }, [reqNumber]);
 
   return {

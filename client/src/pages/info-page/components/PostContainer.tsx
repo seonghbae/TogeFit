@@ -20,6 +20,7 @@ const PostContainer = () => {
     isOpen,
     hasMore,
     post,
+    id,
     setIsOpen,
     setReqNumber,
     getArticle,
@@ -69,6 +70,7 @@ const PostContainer = () => {
             return (
               <div ref={lastArticleRef} key={nanoid()}>
                 <CustomCard
+                  updateAt={article.updatedAt}
                   imgUrl={article.post_image[0]}
                   content={article.contents}
                   tagList={article.tag_list}
@@ -81,6 +83,7 @@ const PostContainer = () => {
           return (
             <CustomCard
               key={nanoid()}
+              updateAt={article.updatedAt}
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
@@ -93,7 +96,14 @@ const PostContainer = () => {
           <AlertModal message={errorMessage} handleConfirm={handleComfirm} />
         )}
       </SC.ContainerSection>
-      {articleOpen && <ArticleModal post={post} modalState={setArticleOpen} />}
+      {articleOpen && (
+        <ArticleModal
+          post={post}
+          modalState={setArticleOpen}
+          articleId={id}
+          getArticle={getArticle}
+        />
+      )}
       {isLoading && <Loading />}
     </>
   );

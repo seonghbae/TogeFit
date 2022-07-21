@@ -1,12 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import getPadString from 'common/utils/getPadString';
-import {
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-} from 'styled-icons/material-outlined';
 import { Dumbbell as NoDumbbell } from 'styled-icons/fluentui-system-regular';
 import { Dumbbell as YesDumbbell } from 'styled-icons/fluentui-system-filled';
-
 import { nanoid } from 'nanoid';
 
 import { JandiType } from 'recoil/infoState';
