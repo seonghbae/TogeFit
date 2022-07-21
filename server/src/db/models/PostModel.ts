@@ -81,7 +81,6 @@ export class PostModel {
       {
         $project: {
           meal: 0,
-          routine: 0,
         },
       },
     ]);
