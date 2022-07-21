@@ -150,9 +150,27 @@ export const CommentAuthorWrapper = styled.p`
 `;
 
 export const CommentContent = styled.p`
+  padding-left: 1rem;
   font-size: 1rem;
   width: 80%;
   word-break: break-all;
+`;
+export const CommentModiInput = styled.input`
+  padding-left: 1rem;
+  font-size: 1rem;
+  width: 80%;
+  word-break: break-all;
+  border-bottom: 1px solid rgba(255, 255, 255);
+  :focus {
+    border-bottom: 1px solid rgba(0, 0, 0);
+  }
+`;
+
+export const CommentButtonDiv = styled.div`
+  display: flex;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  font-size: 1rem;
 `;
 
 export const CommentInputWrapper = styled.form`

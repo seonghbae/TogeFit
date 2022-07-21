@@ -1,20 +1,34 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import { PostResponse, ModalCloseEvent } from 'types/interfaces';
-import { MutableRefObject, useEffect, useRef } from 'react';
+import {
+  MouseEventHandler,
+  MutableRefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { nanoid } from 'nanoid';
 
-import { getUserId } from 'common/utils/getUserId';
 import isPostUpdateState from 'recoil/isPostUpdateState';
 import postState from 'recoil/postState';
-import * as SC from './style';
+import { Pencil, Trash } from 'styled-icons/boxicons-solid';
+import { CheckmarkOutline } from 'styled-icons/evaicons-outline';
+
+import { Cross } from 'styled-icons/entypo';
+import { getUserId } from 'common/utils/getUserId';
+import { customAxios } from 'common/api';
 import ImageCarousel from './components/ImageCarousel';
 import RoutineList from './components/RoutineList';
 import MealList from './components/MealList';
 import useComment from './hooks/useComment';
 import usePostDelete from './hooks/usePostDelete';
+
+import * as SC from './style';
 
 interface ArticleProps {
   post: PostResponse | undefined;
@@ -36,6 +50,9 @@ const ArticleModal = ({
   const [postItem, setPostItem] = useRecoilState(postState);
   const userId = getUserId();
   const navigate = useNavigate();
+  const [commentModiTarget, setCommentModiTarget] = useState('');
+  const [modiComment, setModiComment] = useState('');
+  const localUserId = useMemo(() => getUserId(), []);
 
   const {
     register,
@@ -82,6 +99,47 @@ const ArticleModal = ({
       resetField('content');
     }
   }, [result]);
+
+  const handleCommentModify = (id: string, content: string) => {
+    setCommentModiTarget(id);
+    setModiComment(content);
+  };
+
+  const handleCommentModifyConfirm = () => {
+    const postData = {
+      commentId: commentModiTarget,
+      content: modiComment,
+    };
+    customAxios
+      .patch('/api/post/comment/patch', postData)
+      .then((res) => {
+        if (res.status === 200 && getArticle) {
+          setCommentModiTarget('');
+          setModiComment('');
+          getArticle(articleId);
+        }
+      })
+      .catch((err) => alert(err));
+  };
+
+  const handleCommentModifyCancel = () => {
+    setCommentModiTarget('');
+    setModiComment('');
+  };
+
+  const handleCommentDelete = (id: string) => {
+    const data = {
+      commentId: id,
+    };
+    customAxios
+      .delete('/api/post/comment', { data })
+      .then((res) => {
+        if (res.status === 200 && getArticle) {
+          getArticle(articleId);
+        }
+      })
+      .catch((err) => alert(err));
+  };
 
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
@@ -136,13 +194,63 @@ const ArticleModal = ({
                 <SC.SubmitButton type="submit">입력</SC.SubmitButton>
               </SC.CommentInputWrapper>
               <SC.CommentWrapper>
-                {post.comments.map((comment) => (
+                {post.comments.map((comment, i) => (
                   <li key={comment._id}>
-                    <SC.CommentEleWrapper>
+                    <SC.CommentEleWrapper
+                      data-id={comment._id}
+                      className="comment-div"
+                    >
                       <SC.CommentAuthorWrapper>
                         {comment.author}
                       </SC.CommentAuthorWrapper>
-                      <SC.CommentContent>{comment.content}</SC.CommentContent>
+                      {commentModiTarget === comment._id ? (
+                        <SC.CommentModiInput
+                          type="text"
+                          value={modiComment}
+                          onChange={(e) => setModiComment(e.target.value)}
+                        />
+                      ) : (
+                        <SC.CommentContent>{comment.content}</SC.CommentContent>
+                      )}
+
+                      {comment.author === localUserId ? (
+                        commentModiTarget === comment._id ? (
+                          <SC.CommentButtonDiv>
+                            <button
+                              type="button"
+                              onClick={() => handleCommentModifyConfirm()}
+                            >
+                              <CheckmarkOutline color="#000" width="1.4rem" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleCommentModifyCancel()}
+                            >
+                              <Cross color="#000" width="1.4rem" />
+                            </button>
+                          </SC.CommentButtonDiv>
+                        ) : (
+                          <SC.CommentButtonDiv>
+                            <button
+                              type="button"
+                              onClick={() =>
+                                handleCommentModify(
+                                  comment._id,
+                                  comment.content
+                                )
+                              }
+                            >
+                              <Pencil color="#000" width="1.4rem" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => handleCommentDelete(comment._id)}
+                            >
+                              <Trash color="#000" width="1.4rem" />
+                            </button>
+                          </SC.CommentButtonDiv>
+                        )
+                      ) : null}
                     </SC.CommentEleWrapper>
                   </li>
                 ))}
