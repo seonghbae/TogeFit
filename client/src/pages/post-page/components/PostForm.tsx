@@ -3,11 +3,13 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { customAxios } from 'common/api';
+import { ArrowButton } from 'common/components';
 import Modal from 'common/components/alert-modal';
 import Loading from 'common/components/loading';
 import { getUserId } from 'common/utils/getUserId';
 import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Slider from 'react-slick';
 import { useRecoilState } from 'recoil';
 import isPostUpdateState from 'recoil/isPostUpdateState';
 import postState from 'recoil/postState';
@@ -20,11 +22,23 @@ const PostForm = () => {
   const [tagList, setTagList] = useState<Array<string>>([]);
   const [tag, setTag] = useState('');
   const [meal, setMeal] = useState('');
+  const [showImages, setShowImages] = useState<any>([]);
+  const [images, setImages] = useState<any>([]);
 
   const [dietList, setdietList] = useState<IDietList>();
   const [routines, setRoutines] = useState<IRoutinesInfo[]>();
   const userId = getUserId();
   const date = new Date();
+
+  const settings = {
+    dots: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    arrows: true,
+    nextArrow: <ArrowButton className="arrow-button" />,
+    prevArrow: <ArrowButton className="arrow-button" />,
+  };
 
   const {
     register,
@@ -60,7 +74,10 @@ const PostForm = () => {
     };
     const formData = new FormData();
 
-    formData.append('post_image', data.post_image[0]);
+    for (let i = 0; i < data.post_image.length; i += 1) {
+      formData.append('post_image', data.post_image[i]);
+    }
+
     formData.append('userId', data.userId);
     formData.append('contents', data.contents);
     formData.append('is_open', 'true');
@@ -90,18 +107,56 @@ const PostForm = () => {
     return targetDate.getDate() === date.getDate();
     // return targetDate.getDate() === 10;
   };
+  // 이미지 상대경로 저장
+  const handleAddImages = (event: any) => {
+    const imageLists = event.target.files;
+    console.log(event.target.files);
+    setImages((cur: any) => [...cur, event.target.files[0]]);
+    let imageUrlLists = [...showImages];
+
+    for (let i = 0; i < imageLists.length; i += 1) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      imageUrlLists.push(currentImageUrl);
+    }
+
+    if (imageUrlLists.length > 10) {
+      imageUrlLists = imageUrlLists.slice(0, 10);
+    }
+
+    setShowImages(imageUrlLists);
+  };
+  // X버튼 클릭 시 이미지 삭제
+  const handleDeleteImage = (id: string) => {
+    setShowImages(showImages.filter((_: any, index: string) => index !== id));
+    setImages((cur: any) => [
+      ...cur.filter((_: any, index: string) => index !== id),
+    ]);
+  };
 
   return (
     <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>
       <div>
         <label htmlFor="post_image">이미지 선택</label>
-        <input
-          {...register('post_image')}
-          type="file"
-          accept="image/*"
-          multiple
-        />
+        <label htmlFor="input-file" onChange={handleAddImages}>
+          <input
+            type="file"
+            id="input-file"
+            multiple
+            {...register('post_image')}
+          />
+        </label>
+        <Slider {...settings}>
+          {showImages.map((image: any, id: string) => (
+            <div key={id}>
+              <img src={image} alt={`${image}-${id}`} />
+              <button onClick={() => handleDeleteImage(id)} type="button">
+                삭제
+              </button>
+            </div>
+          ))}
+        </Slider>
       </div>
+
       <div>
         <label htmlFor="contents">
           글 내용<span>*</span>
