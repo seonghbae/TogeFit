@@ -172,6 +172,7 @@ postRouter.post(
       }
 
       const userId = req.currentUserId;
+      const nickname = req.currentUserNickname;
       const { contents, tag_list, is_open, meal, routine } = req.body;
       // 'a,b,c'로 태그를 받아와 배열로 만들어줌
       const newTagList = tag_list ? getTagList(tag_list) : [];
@@ -185,6 +186,7 @@ postRouter.post(
 
       const data = {
         userId,
+        nickname,
         contents,
         tag_list: newTagList,
         post_image: postImages,
@@ -364,9 +366,11 @@ postRouter.post('/comment', loginRequired, async (req, res, next) => {
     }
 
     const userId = req.currentUserId;
+    const nickname = req.currentUserNickname;
 
     const data = {
-      author: userId,
+      userId,
+      nickname,
       content,
     };
 

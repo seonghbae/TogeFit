@@ -144,7 +144,7 @@ class PostService {
       throw new Error('해당 댓글을 찾지 못했습니다.');
     }
 
-    if (comment.author !== userId) {
+    if (comment.userId !== userId) {
       const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
       error.status = 403;
       throw error;
@@ -165,7 +165,7 @@ class PostService {
       throw new Error('해당 댓글을 찾지 못했습니다.');
     }
 
-    if (comment.author !== userId) {
+    if (comment.userId !== userId) {
       const error: ErrorWithStatus = new Error('작성자만 삭제할 수 있습니다.');
       error.status = 403;
       throw error;

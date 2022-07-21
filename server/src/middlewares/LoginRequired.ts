@@ -32,6 +32,7 @@ async function loginRequired(req: Request, res: Response, next: NextFunction) {
         ignoreExpiration: true,
       });
       const userId = accessTokenDecoded.userId;
+      const nickname = accessTokenDecoded.nickname;
       const user = await userService.findByUserId(userId);
       const userRefreshToken = user?.refresh_token as string;
 
@@ -49,6 +50,7 @@ async function loginRequired(req: Request, res: Response, next: NextFunction) {
       });
 
       req.currentUserId = userId;
+      req.currentUserNickname = nickname;
       next();
     } else if (error.message == 'jwt expired') {
       //access token이 만료된 경우
@@ -56,6 +58,7 @@ async function loginRequired(req: Request, res: Response, next: NextFunction) {
         ignoreExpiration: true,
       });
       const userId = accessTokenDecoded.userId;
+      const nickname = accessTokenDecoded.nickname;
 
       const user = await userService.findByUserId(userId);
       const userRefreshToken = user?.refresh_token as string;
@@ -72,7 +75,7 @@ async function loginRequired(req: Request, res: Response, next: NextFunction) {
           });
           return;
         } else {
-          const accessToken = jwt.sign({ userId }, secretKey, {
+          const accessToken = jwt.sign({ userId, nickname }, secretKey, {
             expiresIn: '5m',
           });
           res.cookie('token', accessToken, {
@@ -81,6 +84,8 @@ async function loginRequired(req: Request, res: Response, next: NextFunction) {
           });
           console.log('access token 발급완료');
           req.currentUserId = userId;
+          req.currentUserNickname = nickname;
+
           next();
         }
       });
