@@ -60,12 +60,24 @@ const DateInfo = ({ dateObject, fontSize, changeDate }: DateProps) => {
           handleConfirm={handleConfirm}
           handleCancel={handleCancel}
         >
-          <input type="text" defaultValue={dateObject.year} ref={yearRef} />
-          <input
-            type="text"
-            defaultValue={dateObject.month + 1}
-            ref={monthRef}
-          />
+          <SC.InputContainer>
+            <SC.DateInput
+              type="number"
+              defaultValue={dateObject.year}
+              ref={yearRef}
+              placeholder="년도"
+              min="1970"
+              max="2050"
+            />
+            <SC.DateInput
+              type="number"
+              defaultValue={dateObject.month + 1}
+              ref={monthRef}
+              placeholder="월"
+              min="1"
+              max="12"
+            />
+          </SC.InputContainer>
         </AlertModal>
       )}
     </>
