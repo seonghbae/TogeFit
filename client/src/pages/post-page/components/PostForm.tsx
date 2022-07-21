@@ -8,6 +8,9 @@ import Loading from 'common/components/loading';
 import { getUserId } from 'common/utils/getUserId';
 import { KeyboardEventHandler, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useRecoilState } from 'recoil';
+import isPostUpdateState from 'recoil/isPostUpdateState';
+import postState from 'recoil/postState';
 import { IBoardPost, IDietList, IDiet, IRoutinesInfo } from 'types/interfaces';
 
 import useRegister from '../hook/usePost';
@@ -19,6 +22,9 @@ const PostForm = () => {
   const [tagList, setTagList] = useState<Array<string>>([]);
   const [tag, setTag] = useState('');
   const [meal, setMeal] = useState('');
+  const [isPostUpdate, setIsPostUpdate] = useRecoilState(isPostUpdateState);
+  const [postItem, setPostItem] = useRecoilState(postState);
+
   const [dietList, setdietList] = useState<IDietList>();
   const [routines, setRoutines] = useState<IRoutinesInfo[]>();
   const userId = getUserId();
@@ -28,13 +34,13 @@ const PostForm = () => {
     register,
     handleSubmit,
     watch,
+    setValue,
     formState: { errors },
   } = useForm<IBoardPost>({ mode: 'onChange' });
 
   useEffect(() => {
     if (userId) {
       customAxios.get('/api/routine/').then((res) => {
-        console.log(res);
         setRoutines(res.data.routines);
       });
 
@@ -46,13 +52,35 @@ const PostForm = () => {
         )
         .then((res) => {
           setdietList(res);
-          console.log(res);
         });
     }
   }, [userId]);
 
-  const onSubmit = (data: IBoardPost) => {
-    // registerRequest(data);
+  const modifyBoardData = (data: IBoardPost) => {
+    const postData = {
+      ...data,
+      tag_list: tagList.join(','),
+      post_image: data.post_image[0],
+    };
+    const formData = new FormData();
+
+    formData.append('post_image', data.post_image[0]);
+    formData.append('userId', data.userId);
+    formData.append('contents', data.contents);
+    formData.append('is_open', 'true');
+    formData.append('tag_list', tagList.join(','));
+
+    if (data.meal) formData.append('meal', data.meal);
+    if (data.routine) formData.append('routine', data.routine);
+    // console.log('test');
+    customAxios.patch(`/api/post/${postItem._id}`, formData).then((res) => {
+      if (res.status === 201) {
+        window.location.href = '/';
+      }
+    });
+  };
+
+  const postBoardData = (data: IBoardPost) => {
     const postData = {
       ...data,
       tag_list: tagList.join(','),
@@ -68,13 +96,16 @@ const PostForm = () => {
     if (data.meal) formData.append('meal', data.meal);
     if (data.routine) formData.append('routine', data.routine);
 
-    console.log(data.routine);
     customAxios.post(`/api/post/register`, formData).then((res) => {
       if (res.status === 201) {
         window.location.href = '/';
       }
     });
   };
+
+  const onSubmit = (data: IBoardPost) =>
+    isPostUpdate ? modifyBoardData(data) : postBoardData(data);
+
   const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -89,9 +120,12 @@ const PostForm = () => {
     // return targetDate.getDate() === 15;
   };
 
-  const todayFunc = (diet: IDiet[]) => {
-    setMeal(diet[0]._id);
-  };
+  useEffect(() => {
+    console.log(isPostUpdate);
+    if (isPostUpdate) {
+      setValue('contents', postItem.contents);
+    }
+  }, []);
 
   return (
     <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>
@@ -171,7 +205,7 @@ const PostForm = () => {
       </div>
 
       <SC.RegisterButton type="submit" ref={buttonRef}>
-        작성하기
+        {isPostUpdate ? '수정하기' : '작성하기'}
       </SC.RegisterButton>
     </SC.StyledForm>
   );
