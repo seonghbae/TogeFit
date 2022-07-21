@@ -69,13 +69,13 @@ export class PostModel {
         $lookup: {
           from: 'routines',
           localField: 'routine',
-          foreignField: '_id',
+          foreignField: 'routines._id',
           as: 'routine_info',
         },
       },
       { $set: { routine_info: '$routine_info.routines' } },
-      { $unwind: { path: '$meal_info', preserveNullAndEmptyArrays: true } },
       { $unwind: { path: '$routine_info', preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: '$meal_info', preserveNullAndEmptyArrays: true } },
 
       // 4. meal object ID, routine object ID가 필요 없으므로 표시하지 않음.
       {
