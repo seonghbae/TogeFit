@@ -1,6 +1,6 @@
 import { userModel, UserModel, UserInfo } from '../db';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 interface RequiredInfo {
   userId: string;

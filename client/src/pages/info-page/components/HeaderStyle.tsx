@@ -7,24 +7,31 @@ interface LiProps {
 export const InfoHeader = styled.header`
   position: relative;
   width: 70%;
-  height: 350px;
+  height: 30rem;
   margin-top: 50px;
   margin-bottom: 50px;
   border-radius: 4rem;
   background-color: #fff;
 `;
 
-export const ProfileImg = styled.img`
+export const ProfileDiv = styled.div`
   position: absolute;
-  width: 22%;
+  width: 10rem;
+  height: 10rem;
   min-width: 150px;
-  height: auto;
   margin: 10px;
-  top: -24%;
+  top: 0%;
   left: 6%;
+  overflow: hidden;
   background-color: ${(props) => props.theme.pointColors.beige};
   border: 1rem solid ${(props) => props.theme.pointColors.beige};
   border-radius: 100%;
+`;
+
+export const ProfileImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 export const InfoContainer = styled.div`
@@ -74,4 +81,8 @@ export const Li = styled.li<LiProps>`
 export const JandiContainer = styled.div`
   width: 100%;
   height: 60%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

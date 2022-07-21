@@ -22,7 +22,7 @@ export const Modal = styled.div`
   transform: translate(-50%, -50%);
   background-color: #fff;
   z-index: 9999;
-  height: 90vh;
+  height: auto;
   @media only screen and (max-width: 768px) {
     flex-direction: column;
     height: auto;
@@ -67,7 +67,7 @@ export const Article = styled.article`
   margin-left: 1rem;
   justify-content: center;
   flex-direction: column;
-  height: 80vh;
+  height: auto;
 
   & > div + div {
     margin-top: 2rem;
@@ -82,7 +82,7 @@ export const Article = styled.article`
 export const ArticleContent = styled.div`
   font-size: 1.2rem;
   line-height: 140%;
-  height: 70vh;
+  height: auto;
   @media only screen and (max-width: 768px) {
     width: 100%;
     margin-top: 2rem;
@@ -124,14 +124,18 @@ export const CommentWrapper = styled.div`
   padding-left: 0;
   margin-left: 0;
   overflow: scroll;
-  height: 20vh;
+  height: auto;
+  max-height: 20vh;
+  border-top: 1px rgba(0, 0, 0, 0.1);
   ::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera*/
   }
-  li {
-    :hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
+  li:nth-child(2n) {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+  li:hover {
+    background-color: rgba(0, 0, 0, 0.1);
   }
 `;
 

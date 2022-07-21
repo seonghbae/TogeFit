@@ -1,9 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import { PostResponse } from 'types/interfaces';
+import { PostResponse, ModalCloseEvent } from 'types/interfaces';
 import { MutableRefObject, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
+import { nanoid } from 'nanoid';
 
 import { getUserId } from 'common/utils/getUserId';
 import isPostUpdateState from 'recoil/isPostUpdateState';
@@ -21,10 +22,6 @@ interface ArticleProps {
   articleId?: string;
   getArticle?: (id: string | undefined) => Promise<void>;
 }
-
-type ClickEvent =
-  | React.MouseEvent<HTMLDivElement, MouseEvent>
-  | React.MouseEvent<SVGSVGElement, MouseEvent>;
 
 const ArticleModal = ({
   post,
@@ -62,7 +59,7 @@ const ArticleModal = ({
     window.location.reload();
   };
 
-  const handleClose = (e: ClickEvent) => {
+  const handleClose = (e: ModalCloseEvent) => {
     if (
       e.currentTarget.closest('.close-area') ||
       wrapperRef.current === e.target
@@ -80,7 +77,6 @@ const ArticleModal = ({
   };
 
   useEffect(() => {
-    console.log(result?.status);
     if (result?.status === 201 && getArticle) {
       getArticle(articleId);
       resetField('content');
@@ -115,20 +111,21 @@ const ArticleModal = ({
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
               {post.tag_list.map((tagObject) => (
-                <SC.Tag key={Math.random()}>{`#${tagObject.tag}`}</SC.Tag>
+                <SC.Tag key={nanoid()}>{`#${tagObject.tag}`}</SC.Tag>
               ))}
             </SC.TagContainer>
-            <SC.DivideLine />
             {post.meal_info.length !== 0 && (
               <>
-                <MealList mealList={post.meal_info} />
                 <SC.DivideLine />
+                <MealList mealList={post.meal_info} />
               </>
             )}
             {post.routine_info.length !== 0 && (
-              <RoutineList routineList={post.routine_info} />
+              <>
+                <SC.DivideLine />
+                <RoutineList routineList={post.routine_info} />
+              </>
             )}
-            {/* 아래 댓글 연결 필요 */}
             <SC.CommentContainer>
               <SC.CommentInputWrapper onSubmit={handleSubmit(onSubmit)}>
                 <SC.CommentInput

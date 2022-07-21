@@ -1,6 +1,6 @@
-/* eslint-disable no-underscore-dangle */
 import { useNavigate } from 'react-router-dom';
 import { useCallback, useRef, useEffect } from 'react';
+import { nanoid } from 'nanoid';
 
 import { IDiet } from 'types/interfaces';
 
@@ -63,16 +63,17 @@ const MealContainer = () => {
 
   return (
     <>
-      <SC.ContainerSection>
+      <SC.ContainerSection isGrid={reducedMealList?.length !== 0}>
+        {reducedMealList?.length === 0 && <h1>게시글이 존재하지 않습니다.</h1>}
         {reducedMealList?.map((meal, index) => {
           if (reducedMealList.length === index + 2) {
             return (
-              <div ref={lastArticleRef}>
-                <MealCard key={Math.random()} data={meal} />
+              <div ref={lastArticleRef} key={nanoid()}>
+                <MealCard data={meal} />
               </div>
             );
           }
-          return <MealCard key={Math.random()} data={meal} />;
+          return <MealCard key={nanoid()} data={meal} />;
         })}
         {isOpen && <Modal message={errorMessage} handleConfirm={handleClick} />}
       </SC.ContainerSection>

@@ -104,7 +104,7 @@ userRouter.patch(
 );
 
 // 회원 탈퇴
-userRouter.delete('/', loginRequired, async (req, res, next) => {
+userRouter.post('/unregister', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -121,7 +121,7 @@ userRouter.delete('/', loginRequired, async (req, res, next) => {
 
     const result = await userService.deleteUser(userId, password);
 
-    res.status(200).json(result);
+    res.status(200).json({ message: '정상적으로 회원 탈퇴 되었습니다.' });
   } catch (error) {
     next(error);
   }
