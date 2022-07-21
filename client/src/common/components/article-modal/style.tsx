@@ -54,8 +54,8 @@ export const CarouselContainer = styled.div`
   width: 50%;
   margin: auto;
   margin-right: 1rem;
-  max-height: 50vh;
-  overflow: hidden;
+  /* max-height: 50vh; */
+  /* overflow: hidden; */
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   @media only screen and (max-width: 768px) {
     width: 100%;
