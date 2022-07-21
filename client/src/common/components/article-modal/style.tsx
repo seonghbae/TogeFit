@@ -70,7 +70,7 @@ export const Article = styled.article`
   justify-content: center;
   flex-direction: column;
   height: auto;
-
+  width: 50%;
   & > div + div {
     margin-top: 2rem;
   }

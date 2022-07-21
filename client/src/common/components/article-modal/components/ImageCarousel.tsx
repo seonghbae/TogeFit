@@ -12,6 +12,7 @@ const Wrapper = styled.div`
   }
   img {
     object-fit: scale-down;
+    /* min-width: 40vw; */
   }
 
   .slick-prev {
