@@ -116,6 +116,17 @@ const ArticleModal = ({
       .catch((err) => alert(err));
   };
 
+  const parseDate = (dateString: string) => {
+    const date = new Date(dateString);
+
+    return `${date.getFullYear()}-${String(date.getMonth()).padStart(
+      2,
+      '0'
+    )}-${String(date.getDay()).padStart(2, '0')} ${String(
+      date.getHours()
+    ).padStart(2, '0')}:${date.getMinutes()}`;
+  };
+
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
@@ -131,6 +142,7 @@ const ArticleModal = ({
             ''
           )}
           <SC.Article>
+            <SC.AuthorContent>{post.userId}</SC.AuthorContent>
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
               {post.tag_list.map((tagObject) => (
@@ -196,6 +208,9 @@ const ArticleModal = ({
                           </SC.CommentButtonDiv>
                         ) : (
                           <SC.CommentButtonDiv>
+                            <SC.CommentDateWrapper>
+                              {parseDate(comment.updatedAt)}
+                            </SC.CommentDateWrapper>
                             <button
                               type="button"
                               onClick={() =>
@@ -215,7 +230,13 @@ const ArticleModal = ({
                             </button>
                           </SC.CommentButtonDiv>
                         )
-                      ) : null}
+                      ) : (
+                        <SC.CommentDateWrapper>
+                          {comment.updatedAt
+                            .replace(/\..*$/, '')
+                            .replace(/[T]/g, ' ')}
+                        </SC.CommentDateWrapper>
+                      )}
                     </SC.CommentEleWrapper>
                   </li>
                 ))}

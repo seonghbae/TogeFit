@@ -119,6 +119,8 @@ const BoardContainer = () => {
             key={index}
           >
             <BoardCard
+              updateAt={article.updatedAt}
+              author={article.userId}
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
@@ -130,6 +132,8 @@ const BoardContainer = () => {
       }
       return (
         <BoardCard
+          updateAt={article.updatedAt}
+          author={article.userId}
           key={index}
           imgUrl={article.post_image[0]}
           content={article.contents}

@@ -18,11 +18,12 @@ export const Modal = styled.div`
   left: 50%;
   width: 80%;
   max-width: 1200px;
-  padding: 4rem 2rem;
+  padding: 2rem 1rem;
   transform: translate(-50%, -50%);
   background-color: #fff;
   z-index: 9999;
   height: auto;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   @media only screen and (max-width: 768px) {
     flex-direction: column;
     height: auto;
@@ -40,7 +41,6 @@ export const CloseIcon = styled(Close)`
 
 export const ArticleImg = styled.img`
   width: 80%;
-  object-fit: cover;
   aspect-ratio: 1 / 1;
 
   @media only screen and (max-width: 768px) {
@@ -54,7 +54,9 @@ export const CarouselContainer = styled.div`
   width: 50%;
   margin: auto;
   margin-right: 1rem;
-
+  max-height: 50vh;
+  overflow: hidden;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   @media only screen and (max-width: 768px) {
     width: 100%;
     margin-top: 1rem;
@@ -68,7 +70,7 @@ export const Article = styled.article`
   justify-content: center;
   flex-direction: column;
   height: auto;
-
+  width: 50%;
   & > div + div {
     margin-top: 2rem;
   }
@@ -82,7 +84,24 @@ export const Article = styled.article`
 export const ArticleContent = styled.div`
   font-size: 1.2rem;
   line-height: 140%;
+  max-height: 25vh;
+  word-break: break-all;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    margin-top: 2rem;
+  }
+`;
+
+export const AuthorContent = styled.div`
+  font-size: 1.5rem;
+  font-weight: bolder;
+  line-height: 140%;
   height: auto;
+
   @media only screen and (max-width: 768px) {
     width: 100%;
     margin-top: 2rem;
@@ -100,6 +119,10 @@ export const CommentInput = styled.input`
   font-size: 1rem;
   padding: 0.5rem 0.8rem;
   border-bottom: 3px solid gray;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
   padding-right: 4rem;
   &:focus {
     border-bottom: 3px solid ${(props) => props.theme.pointColors.lightGreen};
@@ -148,7 +171,10 @@ export const CommentAuthorWrapper = styled.p`
   font-size: 1.1rem;
   font-weight: 1000;
 `;
-
+export const CommentDateWrapper = styled.span`
+  text-align: center;
+  margin: auto;
+`;
 export const CommentContent = styled.p`
   padding-left: 1rem;
   font-size: 1rem;
@@ -183,6 +209,12 @@ export const TagContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, auto));
   grid-gap: 10px;
+  max-height: 4vh;
+
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 export const Tag = styled.span`

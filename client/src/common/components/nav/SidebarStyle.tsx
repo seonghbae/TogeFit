@@ -2,13 +2,13 @@ import styled, { css, keyframes } from 'styled-components';
 
 const wipeIn = keyframes`
   to {
-    transform: translateX(200px);
+    transform: translateX(20vw);
   }
   `;
 
 const wipeOut = keyframes`
   from {
-    transform: translateX(200px);
+    transform: translateX(20vw);
   }
   to {
     transform: translateX(0px);
@@ -19,7 +19,7 @@ export const Wrapper = styled.div<{ isOpen: boolean }>`
   display: flex;
   position: absolute;
   top: 100px;
-  left: -200px;
+  left: -20vw;
   width: 10%;
   min-width: 200px;
   min-height: ${document.documentElement.scrollHeight}px;

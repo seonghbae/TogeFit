@@ -10,6 +10,10 @@ const Wrapper = styled.div`
   .slick-next:before {
     color: #fff;
   }
+  img {
+    object-fit: scale-down;
+    /* min-width: 40vw; */
+  }
 
   .slick-prev {
     left: 5px;
