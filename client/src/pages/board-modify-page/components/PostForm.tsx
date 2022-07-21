@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
@@ -185,14 +186,23 @@ const PostForm = () => {
           />
         </label>
         <Slider {...settings}>
-          {showImages.map((image: any, id: string) => (
-            <SC.Slide key={id}>
-              <img src={image} alt={`${image}-${id}`} />
-              {/* <button onClick={() => handleDeleteImage(id)} type="button">
+          {isPostUpdate
+            ? postItem.post_image.map((item: any) => (
+                <SC.Slide>
+                  <img src={item} alt={`${item}`} />
+                  {/* <button onClick={() => handleDeleteImage(id)} type="button">
+              삭제
+            </button> */}
+                </SC.Slide>
+              ))
+            : showImages.map((image: any, id: string) => (
+                <SC.Slide key={id}>
+                  <img src={image} alt={`${image}-${id}`} />
+                  {/* <button onClick={() => handleDeleteImage(id)} type="button">
                 삭제
               </button> */}
-            </SC.Slide>
-          ))}
+                </SC.Slide>
+              ))}
         </Slider>
       </div>
       <div>
