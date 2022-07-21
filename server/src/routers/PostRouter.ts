@@ -241,6 +241,30 @@ postRouter.post('/like', loginRequired, async (req, res, next) => {
   }
 });
 
+// 좋아요 눌렀는지 확인 GET
+postRouter.get('/liked', async (req, res, next) => {
+  try {
+    const { userId, postId } = req.query;
+
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
+    if (!postId) {
+      throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
+    const isLiked = await userService.checkLiked(
+      userId as string,
+      postId as string
+    );
+
+    res.status(200).json(isLiked);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // 게시글 삭제
 postRouter.delete('/', loginRequired, async (req, res, next) => {
   try {

@@ -42,6 +42,12 @@ class UserService {
     return isExistPostId;
   }
 
+  async checkLiked(userId: string, postId: string) {
+    const isLiked = await this.userModel.findUserLike(userId, postId);
+
+    return isLiked;
+  }
+
   async manipulateLikedArray(userId: string, postId: string, mode: string) {
     const Liked = await this.userModel.manipulateLikedArray(
       userId,
