@@ -24,6 +24,7 @@ const useDietDelete = () => {
         setResult({ status: response.status, data: response.data });
         setError('');
         setShowError(false);
+        window.location.reload();
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
