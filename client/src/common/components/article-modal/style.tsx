@@ -23,6 +23,7 @@ export const Modal = styled.div`
   background-color: #fff;
   z-index: 9999;
   height: auto;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   @media only screen and (max-width: 768px) {
     flex-direction: column;
     height: auto;
@@ -40,7 +41,6 @@ export const CloseIcon = styled(Close)`
 
 export const ArticleImg = styled.img`
   width: 80%;
-  object-fit: cover;
   aspect-ratio: 1 / 1;
 
   @media only screen and (max-width: 768px) {
@@ -54,7 +54,9 @@ export const CarouselContainer = styled.div`
   width: 50%;
   margin: auto;
   margin-right: 1rem;
-
+  max-height: 50vh;
+  overflow: hidden;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
   @media only screen and (max-width: 768px) {
     width: 100%;
     margin-top: 1rem;
@@ -83,6 +85,7 @@ export const ArticleContent = styled.div`
   font-size: 1.2rem;
   line-height: 140%;
   height: auto;
+
   @media only screen and (max-width: 768px) {
     width: 100%;
     margin-top: 2rem;
