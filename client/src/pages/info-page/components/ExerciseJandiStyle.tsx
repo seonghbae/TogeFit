@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div`
-  width: 100%;
+  width: 80%;
   height: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -34,7 +34,7 @@ export const JandiContainer = styled.div`
   width: 100%;
   height: 100%;
   place-items: center center;
-  grid-row-gap: 10px;
+  grid-row-gap: 5px;
 `;
 
 export const JandiItem = styled.div<{ active: boolean }>`

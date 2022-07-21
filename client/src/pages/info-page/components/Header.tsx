@@ -34,7 +34,9 @@ const Header = () => {
 
   return (
     <SC.InfoHeader>
-      <SC.ProfileImg src={profileImg} />
+      <SC.ProfileDiv>
+        <SC.ProfileImg src={profileImg} />
+      </SC.ProfileDiv>
       <SC.InfoContainer>
         <SC.NameNavContainer>
           <SC.UserName>{nickName}</SC.UserName>

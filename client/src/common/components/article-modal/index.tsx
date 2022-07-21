@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { PostResponse, ModalCloseEvent } from 'types/interfaces';
 import { MutableRefObject, useEffect, useRef } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
@@ -77,15 +78,17 @@ const ArticleModal = ({
                 <SC.Tag key={nanoid()}>{`#${tagObject.tag}`}</SC.Tag>
               ))}
             </SC.TagContainer>
-            <SC.DivideLine />
             {post.meal_info.length !== 0 && (
               <>
-                <MealList mealList={post.meal_info} />
                 <SC.DivideLine />
+                <MealList mealList={post.meal_info} />
               </>
             )}
             {post.routine_info.length !== 0 && (
-              <RoutineList routineList={post.routine_info} />
+              <>
+                <SC.DivideLine />
+                <RoutineList routineList={post.routine_info} />
+              </>
             )}
             <SC.CommentContainer>
               <SC.CommentInputWrapper onSubmit={handleSubmit(onSubmit)}>
