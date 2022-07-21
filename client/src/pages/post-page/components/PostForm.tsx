@@ -13,6 +13,7 @@ import Slider from 'react-slick';
 import { useRecoilState } from 'recoil';
 import isPostUpdateState from 'recoil/isPostUpdateState';
 import postState from 'recoil/postState';
+import { CollectionsBookmark } from 'styled-icons/material-rounded';
 import { IBoardPost, IDietList, IDiet, IRoutinesInfo } from 'types/interfaces';
 
 import * as SC from './PostFormStyle';

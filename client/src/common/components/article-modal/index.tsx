@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import { PostResponse, ModalCloseEvent } from 'types/interfaces';
@@ -170,6 +171,12 @@ const ArticleModal = ({
     setDebounceTimer(newTimer);
   };
 
+  const isSearchRoutine = () => {
+    if (post) {
+      return post.routine_info.filter((item) => item._id === post.routine);
+    }
+  };
+
   useEffect(() => {
     if (post?._id) {
       customAxios
@@ -177,6 +184,7 @@ const ArticleModal = ({
         .then((res) => setIsLike(res.data));
     }
   }, [post]);
+
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
@@ -218,7 +226,7 @@ const ArticleModal = ({
             {post.routine_info.length !== 0 && (
               <>
                 <SC.DivideLine />
-                <RoutineList routineList={post.routine_info} />
+                <RoutineList routineList={isSearchRoutine() || []} />
               </>
             )}
             <SC.CommentContainer>

@@ -93,21 +93,21 @@ const PostPage = () => {
   const clearPage = () => {
     if (isPostUpdate) {
       setIsPostUpdate(false);
-      setPostItem({
-        _id: '',
-        userId: '',
-        contents: '',
-        post_image: [],
-        is_open: false,
-        tag_list: [],
-        like: 0,
-        comments: [],
-        meal_info: [],
-        routine_info: [],
-        message: '',
-        updatedAt: '',
-        meal_createdAt: '',
-      });
+      // setPostItem({
+      //   _id: '',
+      //   userId: '',
+      //   contents: '',
+      //   post_image: [],
+      //   is_open: false,
+      //   tag_list: [],
+      //   like: 0,
+      //   comments: [],
+      //   meal_info: [],
+      //   routine_info: [],
+      //   message: '',
+      //   updatedAt: '',
+      //   meal_createdAt: '',
+      // });
     }
     resetField('contents');
     resetField('meal');
