@@ -1,7 +1,9 @@
+import { useState } from 'react';
+
 import { ICalorieProps, IDiet } from 'types/interfaces';
 import CalorieChart from 'common/components/calorie-chart/CalorieChart';
 import getPadString from 'common/utils/getPadString';
-import { useState } from 'react';
+
 import * as SC from './style';
 import MealModal from '../meal-modal';
 
