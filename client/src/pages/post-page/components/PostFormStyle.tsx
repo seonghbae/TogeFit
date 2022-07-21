@@ -139,4 +139,11 @@ export const StyledForm = styled.form`
     font-size: 1.2rem;
     border: 1rem 0;
   }
+  select {
+    width: 100%;
+    text-align: center;
+    height: 1.5rem;
+    font-size: 1rem;
+    border-radius: 1rem;
+  }
 `;
