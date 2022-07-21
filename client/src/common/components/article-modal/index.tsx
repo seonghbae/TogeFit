@@ -14,6 +14,7 @@ import { nanoid } from 'nanoid';
 
 import { Pencil, Trash } from 'styled-icons/boxicons-solid';
 import { CheckmarkOutline } from 'styled-icons/evaicons-outline';
+import { HeartFill, Heart } from 'styled-icons/bootstrap';
 
 import { Cross } from 'styled-icons/entypo';
 import { getUserId } from 'common/utils/getUserId';
@@ -43,6 +44,7 @@ const ArticleModal = ({
   const [commentModiTarget, setCommentModiTarget] = useState('');
   const [modiComment, setModiComment] = useState('');
   const localUserId = useMemo(() => getUserId(), []);
+  const [isLike, setIsLike] = useState(false);
 
   const {
     register,
@@ -127,6 +129,9 @@ const ArticleModal = ({
     ).padStart(2, '0')}:${date.getMinutes()}`;
   };
 
+  const handleLikeBtn = () => {
+    setIsLike((cur) => !cur);
+  };
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
@@ -162,6 +167,15 @@ const ArticleModal = ({
               </>
             )}
             <SC.CommentContainer>
+              <SC.HeaderWrapper>
+                <button type="button" onClick={handleLikeBtn}>
+                  {isLike ? (
+                    <HeartFill size="2rem" color="red" />
+                  ) : (
+                    <Heart size="2rem" color="red" />
+                  )}
+                </button>
+              </SC.HeaderWrapper>
               <SC.CommentInputWrapper onSubmit={handleSubmit(onSubmit)}>
                 <SC.CommentInput
                   placeholder="댓글을 입력하세요."
