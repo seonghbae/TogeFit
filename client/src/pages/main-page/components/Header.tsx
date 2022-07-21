@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <SC.HeaderWrapper>
       <SC.Search>
-        <SearchForm searchFunc={searchFunc} />
+        <SearchForm searchFunc={searchFunc} placeholder="태그를 검색하세요!" />
       </SC.Search>
     </SC.HeaderWrapper>
   );
