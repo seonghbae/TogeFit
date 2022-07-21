@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Modal from 'common/components/alert-modal';
 import Loading from 'common/components/loading';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IUserInfoModify, RegisterInputType } from 'types/interfaces';
 
@@ -146,6 +146,7 @@ const RegisterForm: React.FC = () => {
         >
           수정하기
         </SC.RegisterButton>
+        <SC.WithdrawalButton type="button">회원 탈퇴</SC.WithdrawalButton>
       </SC.StyledForm>
       {isLoading && <Loading />}
     </>

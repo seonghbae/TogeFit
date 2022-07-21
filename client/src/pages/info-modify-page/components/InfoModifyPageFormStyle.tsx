@@ -8,17 +8,17 @@ export const RegisterButton = styled.button<RegisterButtonProps>`
   width: 100%;
   height: 2.6rem;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border: 3px solid ${(props) => props.theme.pointColors.orange};
   border-radius: 2.6rem;
   margin-bottom: 1.5rem;
   font-size: 1.2rem;
-  background-color: ${(props) => props.theme.pointColors.orange};
-  color: white;
-  opacity: 0.7;
   cursor: pointer;
-  transition: opacity 0.2s linear;
+  transition: all 0.2s ease-in-out;
 
   &:hover {
-    ${(props) => (props.isDisabled ? 'cursor: not-allowed' : 'opacity: 1')}
+    color: white;
+    background-color: ${(props) => props.theme.pointColors.orange};
+    ${(props) => props.isDisabled && 'cursor: not-allowed'}
   }
 `;
 
@@ -119,5 +119,21 @@ export const StyledForm = styled.form`
     color: red;
     font-size: 1.2rem;
     border: 1rem 0;
+  }
+`;
+
+export const WithdrawalButton = styled.button`
+  width: 100%;
+  height: 2.6rem;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  margin-bottom: 1.5rem;
+  border: 3px solid red;
+  border-radius: 2.6rem;
+  font-size: 1.2rem;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #eb5353;
+    color: #fff;
   }
 `;
