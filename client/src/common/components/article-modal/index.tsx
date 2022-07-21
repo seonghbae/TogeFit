@@ -129,9 +129,29 @@ const ArticleModal = ({
     ).padStart(2, '0')}:${date.getMinutes()}`;
   };
 
-  const handleLikeBtn = () => {
+  const [debounceTimer, setDebounceTimer] = useState<NodeJS.Timeout>();
+
+  const handleLikeBtn = (id: string) => {
     setIsLike((cur) => !cur);
+
+    if (debounceTimer) {
+      clearTimeout(debounceTimer);
+    }
+
+    const newTimer = setTimeout(() => {
+      customAxios
+        .post('/api/post/like', { postId: id })
+        .then((res) => console.log(res));
+    }, 500);
+
+    setDebounceTimer(newTimer);
   };
+
+  useEffect(() => {
+    customAxios
+      .get(`/api/post/liked?userId=${localUserId}&postId=${post?._id}`)
+      .then((res) => setIsLike(res.data));
+  }, []);
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
@@ -168,7 +188,7 @@ const ArticleModal = ({
             )}
             <SC.CommentContainer>
               <SC.HeaderWrapper>
-                <button type="button" onClick={handleLikeBtn}>
+                <button type="button" onClick={() => handleLikeBtn(post._id)}>
                   {isLike ? (
                     <HeartFill size="2rem" color="red" />
                   ) : (
