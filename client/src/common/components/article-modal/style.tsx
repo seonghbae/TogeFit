@@ -84,8 +84,12 @@ export const Article = styled.article`
 export const ArticleContent = styled.div`
   font-size: 1.2rem;
   line-height: 140%;
-  height: auto;
-
+  height: 40vh;
+  word-break: break-all;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
   @media only screen and (max-width: 768px) {
     width: 100%;
     margin-top: 2rem;
@@ -115,6 +119,10 @@ export const CommentInput = styled.input`
   font-size: 1rem;
   padding: 0.5rem 0.8rem;
   border-bottom: 3px solid gray;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
   padding-right: 4rem;
   &:focus {
     border-bottom: 3px solid ${(props) => props.theme.pointColors.lightGreen};
@@ -201,6 +209,12 @@ export const TagContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(90px, auto));
   grid-gap: 10px;
+  height: 10vh;
+
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+  }
 `;
 
 export const Tag = styled.span`

@@ -12,6 +12,7 @@ interface CustomCardProps {
   tagList: Array<tagType>;
   onClick: (articleId: string | undefined) => void;
   id: string;
+  updateAt: string;
   author: string;
 }
 
@@ -22,6 +23,7 @@ const BoardCard = ({
   id,
   onClick,
   author,
+  updateAt,
 }: CustomCardProps) => {
   const handleClick = () => {
     onClick(id);
@@ -32,7 +34,13 @@ const BoardCard = ({
       {imgUrl ? <SC.ArticleImg src={imgUrl} /> : ''}
 
       <SC.Article>
-        <SC.AuthorContent>{author}</SC.AuthorContent>
+        <SC.AuthorContent>
+          {author}
+          <SC.DateContent>
+            {updateAt.replace(/\..*$/, '').replace(/[T]/g, ' ')}
+          </SC.DateContent>
+        </SC.AuthorContent>
+
         <SC.ArticleContent>{content}</SC.ArticleContent>
         <SC.TagContainer>
           {tagList.map((tagObject, i) => (
