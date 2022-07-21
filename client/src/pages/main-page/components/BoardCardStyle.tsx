@@ -28,6 +28,18 @@ export const Article = styled.article`
   flex-direction: column;
 `;
 
+export const AuthorContent = styled.div`
+  font-size: 1.5rem;
+  font-weight: bolder;
+  line-height: 140%;
+  height: auto;
+
+  @media only screen and (max-width: 768px) {
+    width: 100%;
+    margin-top: 2rem;
+  }
+`;
+
 export const ArticleContent = styled.h1`
   font-size: 2rem;
 `;

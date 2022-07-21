@@ -119,6 +119,7 @@ const BoardContainer = () => {
             key={index}
           >
             <BoardCard
+              author={article.userId}
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
@@ -130,6 +131,7 @@ const BoardContainer = () => {
       }
       return (
         <BoardCard
+          author={article.userId}
           key={index}
           imgUrl={article.post_image[0]}
           content={article.contents}

@@ -131,6 +131,7 @@ const ArticleModal = ({
             ''
           )}
           <SC.Article>
+            <SC.AuthorContent>{post.userId}</SC.AuthorContent>
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
               {post.tag_list.map((tagObject) => (
@@ -196,6 +197,11 @@ const ArticleModal = ({
                           </SC.CommentButtonDiv>
                         ) : (
                           <SC.CommentButtonDiv>
+                            <SC.CommentDateWrapper>
+                              {comment.updatedAt
+                                .replace(/\..*$/, '')
+                                .replace(/[T]/g, ' ')}
+                            </SC.CommentDateWrapper>
                             <button
                               type="button"
                               onClick={() =>
