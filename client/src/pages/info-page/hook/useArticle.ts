@@ -49,7 +49,7 @@ const useArticle = <T>(apiLink: string) => {
         }
       }
     }
-    loadingThrottle(2, getArticle, setLoading);
+    loadingThrottle(1, getArticle, setLoading);
   }, [standardDate, userId, reqNumber]);
 
   const getArticle = async (articleId: string | undefined) => {
