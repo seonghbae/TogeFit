@@ -42,12 +42,20 @@ class UserService {
     return isExistPostId;
   }
 
-  async pushPostIdInLikedArray(userId: string, postId: string) {
-    const pushedLiked = await this.userModel.pushPostIdInLikedArray(
+  async checkLiked(userId: string, postId: string) {
+    const isLiked = await this.userModel.findUserLike(userId, postId);
+
+    return isLiked;
+  }
+
+  async manipulateLikedArray(userId: string, postId: string, mode: string) {
+    const Liked = await this.userModel.manipulateLikedArray(
       userId,
-      postId
+      postId,
+      mode
     );
-    return pushedLiked;
+
+    return Liked;
   }
 
   // 유저 정보 등록
