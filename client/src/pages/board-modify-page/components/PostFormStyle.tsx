@@ -18,6 +18,20 @@ export const RegisterButton = styled.button`
   transition: opacity 0.2s linear;
 `;
 
+export const Slide = styled.div`
+  width: 100%;
+  height: 20vh;
+  position: relative;
+  img {
+    object-fit: contain;
+  }
+  button {
+    position: absolute;
+    top: 5%;
+    right: 5%;
+  }
+`;
+
 export const TagContainer = styled.div`
   /* height: 20vh; */
   margin-top: 1rem;

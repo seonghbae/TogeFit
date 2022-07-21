@@ -23,7 +23,7 @@ const PostForm = () => {
   const [tag, setTag] = useState('');
   const [meal, setMeal] = useState('');
   const [showImages, setShowImages] = useState<any>([]);
-  const [images, setImages] = useState<any>([]);
+  const [images, setImages] = useState<any>({});
 
   const [dietList, setdietList] = useState<IDietList>();
   const [routines, setRoutines] = useState<IRoutinesInfo[]>();
@@ -74,8 +74,8 @@ const PostForm = () => {
     };
     const formData = new FormData();
 
-    for (let i = 0; i < data.post_image.length; i += 1) {
-      formData.append('post_image', data.post_image[i]);
+    for (let i = 0; i < images.length; i += 1) {
+      formData.append('post_image', images[i] as File);
     }
 
     formData.append('userId', data.userId);
@@ -110,9 +110,9 @@ const PostForm = () => {
   // 이미지 상대경로 저장
   const handleAddImages = (event: any) => {
     const imageLists = event.target.files;
-    console.log(event.target.files);
-    setImages((cur: any) => [...cur, event.target.files[0]]);
-    let imageUrlLists = [...showImages];
+    setImages(event.target.files);
+    let imageUrlLists = [];
+    // let imageUrlLists = [...showImages];
 
     for (let i = 0; i < imageLists.length; i += 1) {
       const currentImageUrl = URL.createObjectURL(imageLists[i]);
@@ -128,9 +128,9 @@ const PostForm = () => {
   // X버튼 클릭 시 이미지 삭제
   const handleDeleteImage = (id: string) => {
     setShowImages(showImages.filter((_: any, index: string) => index !== id));
-    setImages((cur: any) => [
-      ...cur.filter((_: any, index: string) => index !== id),
-    ]);
+    // setImages(delete images[id]);
+    const fileArray = Array.from(images);
+    setImages({ ...fileArray.filter((_: any, index: any) => index !== id) });
   };
 
   return (
@@ -147,12 +147,12 @@ const PostForm = () => {
         </label>
         <Slider {...settings}>
           {showImages.map((image: any, id: string) => (
-            <div key={id}>
+            <SC.Slide key={id}>
               <img src={image} alt={`${image}-${id}`} />
-              <button onClick={() => handleDeleteImage(id)} type="button">
+              {/* <button onClick={() => handleDeleteImage(id)} type="button">
                 삭제
-              </button>
-            </div>
+              </button> */}
+            </SC.Slide>
           ))}
         </Slider>
       </div>
