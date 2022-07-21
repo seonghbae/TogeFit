@@ -88,7 +88,7 @@ const PostForm = () => {
   const isToday = (dateString: string) => {
     const targetDate = new Date(dateString);
     return targetDate.getDate() === date.getDate();
-    // return targetDate.getDate() === 15;
+    // return targetDate.getDate() === 10;
   };
 
   return (
