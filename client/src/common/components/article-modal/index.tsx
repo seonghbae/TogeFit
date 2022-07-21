@@ -10,8 +10,12 @@ import {
   useState,
 } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { nanoid } from 'nanoid';
 
+import isPostUpdateState from 'recoil/isPostUpdateState';
+import postState from 'recoil/postState';
 import { Pencil, Trash } from 'styled-icons/boxicons-solid';
 import { CheckmarkOutline } from 'styled-icons/evaicons-outline';
 import { HeartFill, Heart } from 'styled-icons/bootstrap';
@@ -23,6 +27,7 @@ import ImageCarousel from './components/ImageCarousel';
 import RoutineList from './components/RoutineList';
 import MealList from './components/MealList';
 import useComment from './hooks/useComment';
+import usePostDelete from './hooks/usePostDelete';
 
 import * as SC from './style';
 
@@ -41,6 +46,11 @@ const ArticleModal = ({
 }: ArticleProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
   const { addComment, result } = useComment();
+  const { deletePost } = usePostDelete();
+  const [isPostUpdate, setIsPostUpdate] = useRecoilState(isPostUpdateState);
+  const [postItem, setPostItem] = useRecoilState(postState);
+  const userId = getUserId();
+  const navigate = useNavigate();
   const [commentModiTarget, setCommentModiTarget] = useState('');
   const [modiComment, setModiComment] = useState('');
   const localUserId = useMemo(() => getUserId(), []);
@@ -52,6 +62,21 @@ const ArticleModal = ({
     resetField,
     formState: { errors },
   } = useForm<{ content: string }>();
+
+  const handleUpdate = () => {
+    setIsPostUpdate(true);
+    if (post !== undefined) {
+      setPostItem(post);
+    }
+    modalState(false);
+    navigate('/post');
+  };
+
+  const handleDelete = () => {
+    deletePost({ postId: post?._id });
+    modalState(false);
+    window.location.reload();
+  };
 
   const handleClose = (e: ModalCloseEvent) => {
     if (
@@ -158,6 +183,16 @@ const ArticleModal = ({
         <SC.Modal>게시글이 존재하지 않습니다!</SC.Modal>
       ) : (
         <SC.Modal>
+          {userId === post.userId && (
+            <SC.ButtonContainer>
+              <button type="button" onClick={handleUpdate}>
+                수정
+              </button>
+              <button type="button" onClick={handleDelete}>
+                삭제
+              </button>
+            </SC.ButtonContainer>
+          )}
           <SC.CloseIcon className="close-area" onClick={handleClose} />
           {post.post_image.length !== 0 ? (
             <SC.CarouselContainer>
