@@ -1,13 +1,9 @@
 import { atom } from 'recoil';
 import { IRoutinesInfo } from 'types/interfaces';
 
-const routinesState = atom<IRoutinesInfo>({
+const routinesState = atom<Array<IRoutinesInfo>>({
   key: 'routineState',
-  default: {
-    routine_name: '',
-    routine_list: [],
-    _id: '',
-  },
+  default: [],
 });
 
 export default routinesState;

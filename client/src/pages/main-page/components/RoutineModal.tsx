@@ -22,11 +22,9 @@ const routineModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
   const [routine, setRoutine] = useRecoilState(routineState);
 
   const handleCancel = () => {
-    setRoutine({
-      routine_name: '',
-      routine_list: [],
-      _id: '',
-    });
+    // setRoutine({
+    //   // routine_list: [],
+    // });
     setIsOpen(false);
     setIsCancel(true);
   };
@@ -42,7 +40,7 @@ const routineModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
   return (
     <SC.RoutineContainer view={isOpen} onClick={handleCancel}>
       <form onSubmit={handleSubmit(onSubmit)} onClick={handleDivClick}>
-        <h3>{routine.routine_name}</h3>
+        {/* <h3>{routine.routine_name}</h3>
         {routine.routine_list.map((routineItem) => (
           <>
             <div key={routineItem._id}>{routineItem.name}</div>
@@ -50,7 +48,7 @@ const routineModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
               {routineItem.count}개 {routineItem.set}세트 {routineItem.weight}kg
             </div>
           </>
-        ))}
+        ))} */}
         <div>
           <button type="submit">확인</button>
           <button type="button" onClick={handleCancel}>

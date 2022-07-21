@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 import { PostResponse, ModalCloseEvent } from 'types/interfaces';
@@ -10,8 +11,12 @@ import {
   useState,
 } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import { nanoid } from 'nanoid';
 
+import isPostUpdateState from 'recoil/isPostUpdateState';
+import postState from 'recoil/postState';
 import { Pencil, Trash } from 'styled-icons/boxicons-solid';
 import { CheckmarkOutline } from 'styled-icons/evaicons-outline';
 import { HeartFill, Heart } from 'styled-icons/bootstrap';
@@ -23,6 +28,7 @@ import ImageCarousel from './components/ImageCarousel';
 import RoutineList from './components/RoutineList';
 import MealList from './components/MealList';
 import useComment from './hooks/useComment';
+import usePostDelete from './hooks/usePostDelete';
 
 import * as SC from './style';
 
@@ -41,6 +47,11 @@ const ArticleModal = ({
 }: ArticleProps) => {
   const wrapperRef = useRef() as MutableRefObject<HTMLDivElement>;
   const { addComment, result } = useComment();
+  const { deletePost } = usePostDelete();
+  const [isPostUpdate, setIsPostUpdate] = useRecoilState(isPostUpdateState);
+  const [postItem, setPostItem] = useRecoilState(postState);
+  const userId = getUserId();
+  const navigate = useNavigate();
   const [commentModiTarget, setCommentModiTarget] = useState('');
   const [modiComment, setModiComment] = useState('');
   const localUserId = useMemo(() => getUserId(), []);
@@ -52,6 +63,21 @@ const ArticleModal = ({
     resetField,
     formState: { errors },
   } = useForm<{ content: string }>();
+
+  const handleUpdate = () => {
+    setIsPostUpdate(true);
+    if (post !== undefined) {
+      setPostItem(post);
+    }
+    modalState(false);
+    navigate('/board-modify');
+  };
+
+  const handleDelete = () => {
+    deletePost({ postId: post?._id });
+    modalState(false);
+    window.location.reload();
+  };
 
   const handleClose = (e: ModalCloseEvent) => {
     if (
@@ -145,6 +171,12 @@ const ArticleModal = ({
     setDebounceTimer(newTimer);
   };
 
+  const isSearchRoutine = () => {
+    if (post) {
+      return post.routine_info.filter((item) => item._id === post.routine);
+    }
+  };
+
   useEffect(() => {
     if (post?._id) {
       customAxios
@@ -152,12 +184,23 @@ const ArticleModal = ({
         .then((res) => setIsLike(res.data));
     }
   }, [post]);
+
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
         <SC.Modal>게시글이 존재하지 않습니다!</SC.Modal>
       ) : (
         <SC.Modal>
+          {userId === post.userId && (
+            <SC.ButtonContainer>
+              <button type="button" onClick={handleUpdate}>
+                수정
+              </button>
+              <button type="button" onClick={handleDelete}>
+                삭제
+              </button>
+            </SC.ButtonContainer>
+          )}
           <SC.CloseIcon className="close-area" onClick={handleClose} />
           {post.post_image.length !== 0 ? (
             <SC.CarouselContainer>
@@ -167,7 +210,7 @@ const ArticleModal = ({
             ''
           )}
           <SC.Article>
-            <SC.AuthorContent>{post.userId}</SC.AuthorContent>
+            <SC.AuthorContent>{post.nickname}</SC.AuthorContent>
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
               {post.tag_list.map((tagObject) => (
@@ -183,7 +226,7 @@ const ArticleModal = ({
             {post.routine_info.length !== 0 && (
               <>
                 <SC.DivideLine />
-                <RoutineList routineList={post.routine_info} />
+                <RoutineList routineList={isSearchRoutine() || []} />
               </>
             )}
             <SC.CommentContainer>

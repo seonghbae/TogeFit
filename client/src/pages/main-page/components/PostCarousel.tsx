@@ -98,7 +98,7 @@ const CustomCarousel = ({
         (routineItem) => routineItem.routine_name === item
       );
       if (selectRoutine !== undefined) {
-        setRoutine(selectRoutine);
+        // setRoutine(selectRoutine);
       }
     }
     if (setModalView) setModalView(true);

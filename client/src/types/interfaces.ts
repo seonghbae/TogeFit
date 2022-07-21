@@ -38,7 +38,7 @@ interface IRoutinesInfo {
 
 interface IRoutines {
   name: string;
-  routines: [IRoutinesInfo];
+  routines: IRoutinesInfo[];
   _id: string;
 }
 
@@ -111,6 +111,7 @@ interface IComment {
   createdAt: string;
 }
 interface IBoard {
+  nickname: string;
   _id: string;
   userId: string;
   contents: string;
@@ -134,15 +135,29 @@ interface PostResponse {
   _id: string;
   userId: string;
   contents: string;
+  nickname: string;
   post_image: Array<string>;
   is_open: boolean;
   tag_list: Array<tagType>;
   like: number;
   comments: Array<comment>;
+  routine: string;
   meal_info: Array<IMeal[]>;
   routine_info: Array<IRoutinesInfo>;
   message: string;
   updatedAt: string;
+  meal_createdAt: string;
+}
+
+interface IBoardPost {
+  nickname: string;
+  userId: string;
+  contents: string;
+  post_image: string[];
+  is_open: boolean;
+  tag_list: string;
+  meal: string;
+  routine: string;
 }
 
 interface ArticleErrResponse {
@@ -175,4 +190,5 @@ export type {
   ITag,
   IError,
   IUserInfoModify,
+  IBoardPost,
 };
