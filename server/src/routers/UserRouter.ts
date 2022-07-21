@@ -120,7 +120,7 @@ userRouter.post('/unregister', loginRequired, async (req, res, next) => {
     }
 
     const result = await userService.deleteUser(userId, password);
-
+    res.cookie('token', '', { maxAge: 0 });
     res.status(200).json({ message: '정상적으로 회원 탈퇴 되었습니다.' });
   } catch (error) {
     next(error);
