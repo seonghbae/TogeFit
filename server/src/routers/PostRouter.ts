@@ -188,7 +188,7 @@ postRouter.post(
         contents,
         tag_list: newTagList,
         post_image: postImages,
-        is_open,
+        is_open: is_open === 'true',
         meal,
         routine,
       };
@@ -297,7 +297,7 @@ postRouter.patch(
       const toUpdateInfo = {
         ...(contents && { contents }),
         ...(imageArrayLength > 0 && { post_image: postImages }),
-        ...(is_open && { is_open }),
+        ...(is_open && { is_open: is_open === 'true' }),
         ...(newTagList && { tag_list: newTagList }),
         ...(meal && { meal }),
         ...(routine && { routine }),
