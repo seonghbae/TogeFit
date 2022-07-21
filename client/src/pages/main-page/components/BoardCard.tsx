@@ -38,7 +38,6 @@ const BoardCard = ({
           {author}
           <SC.DateContent>{updateAt.slice(0, 10)}</SC.DateContent>
         </SC.AuthorContent>
-
         <SC.ArticleContent>{content}</SC.ArticleContent>
         <SC.TagContainer>
           {tagList.map((tagObject, i) => (

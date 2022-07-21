@@ -142,6 +142,7 @@ interface PostResponse {
   meal_info: Array<IMeal[]>;
   routine_info: Array<IRoutinesInfo>;
   message: string;
+  updatedAt: string;
 }
 
 interface ArticleErrResponse {
