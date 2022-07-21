@@ -148,10 +148,12 @@ const ArticleModal = ({
   };
 
   useEffect(() => {
-    customAxios
-      .get(`/api/post/liked?userId=${localUserId}&postId=${post?._id}`)
-      .then((res) => setIsLike(res.data));
-  }, []);
+    if (post?._id) {
+      customAxios
+        .get(`/api/post/liked?userId=${localUserId}&postId=${post?._id}`)
+        .then((res) => setIsLike(res.data));
+    }
+  }, [post]);
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
