@@ -151,7 +151,10 @@ export const CommentAuthorWrapper = styled.p`
   font-size: 1.1rem;
   font-weight: 1000;
 `;
-
+export const CommentDateWrapper = styled.span`
+  text-align: center;
+  margin: auto;
+`;
 export const CommentContent = styled.p`
   padding-left: 1rem;
   font-size: 1rem;

@@ -215,7 +215,13 @@ const ArticleModal = ({
                             </button>
                           </SC.CommentButtonDiv>
                         )
-                      ) : null}
+                      ) : (
+                        <SC.CommentDateWrapper>
+                          {comment.updatedAt
+                            .replace(/\..*$/, '')
+                            .replace(/[T]/g, ' ')}
+                        </SC.CommentDateWrapper>
+                      )}
                     </SC.CommentEleWrapper>
                   </li>
                 ))}
