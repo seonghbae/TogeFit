@@ -86,6 +86,7 @@ const RegisterForm: React.FC = () => {
           <input
             id="password_check"
             type="password"
+            placeholder="필수 입력 항목"
             {...register('password_check', {
               validate: (value) => value === watch('password'),
               required: true,
@@ -108,6 +109,7 @@ const RegisterForm: React.FC = () => {
           <input
             id="name"
             type="text"
+            placeholder="필수 입력 항목"
             {...register('name', {
               required: true,
               maxLength: 20,
@@ -127,8 +129,8 @@ const RegisterForm: React.FC = () => {
           <input
             id="nickName"
             type="text"
+            placeholder="필수 입력 항목"
             {...register('nickname', { required: true, maxLength: 20 })}
-            placeholder="미 입력시 랜덤으로 주어집니다."
           />
           {errors.nickname && errors.nickname.type === 'required' && (
             <p>닉네임을 입력해주세요.</p>

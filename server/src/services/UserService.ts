@@ -169,10 +169,11 @@ class UserService {
       throw error;
     }
 
+    const nickname = user.nickname;
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
     // accessToken은 5분으로 설정
-    const accessToken = jwt.sign({ userId }, secretKey, {
+    const accessToken = jwt.sign({ userId, nickname }, secretKey, {
       expiresIn: '5m',
     });
 

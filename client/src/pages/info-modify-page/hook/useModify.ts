@@ -1,7 +1,6 @@
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { customAxios } from 'common/api';
 import { useCallback, useState } from 'react';
-import { IUserInfoModify, RegisterInputType } from 'types/interfaces';
 
 interface data {
   reason: string;
@@ -30,24 +29,26 @@ const useModify = () => {
       .patch(`/api/user`, formData)
       .then((res) => {
         setError(undefined);
-        setShowError(false);
-        // alert('성공적으로 수정되었습니다.');
-        // window.location.href = '/';
+        if (res.data) {
+          setMessage({
+            reason: '성공적으로 수정되었습니다.',
+            result: '',
+          });
+        }
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
           const responseError = err as ValidationResponse;
           if (responseError && responseError.response) {
-            console.log(responseError.response.data);
-            setError({
+            setMessage({
               reason: responseError.response.data.reason,
               result: responseError.response.data.result,
             });
-            setShowError(true);
           }
         }
       })
       .finally(() => {
+        setShowError(true);
         setLoading(false);
       });
   }, []);

@@ -36,4 +36,11 @@ export const FoodContainer = styled.div<{ view: boolean }>`
   div {
     margin: 0.5rem;
   }
+
+  p {
+    color: red;
+    text-align: center;
+    margin: 0;
+    margin-top: 10px;
+  }
 `;

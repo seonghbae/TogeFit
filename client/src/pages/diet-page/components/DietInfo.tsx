@@ -23,9 +23,9 @@ const DietInfo = () => {
   return (
     <SC.DietInfoContainer>
       <SC.Header>
-        <div>{`${date.getMonth() + 1}/${date.getDate()}`}</div>
+        <div>{`${date.getMonth() + 1}/${date.getDate()}`} 식사 목록</div>
         <button type="button" onClick={handleAddMeal}>
-          +
+          식사 추가
         </button>
       </SC.Header>
       {food?.status === 200 &&
