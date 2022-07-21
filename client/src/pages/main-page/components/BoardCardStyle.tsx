@@ -14,8 +14,12 @@ export const Wrapper = styled.div`
   cursor: pointer;
 `;
 
+export const ImgContainer = styled.div`
+  width: 90%;
+`;
+
 export const ArticleImg = styled.img`
-  width: 50%;
+  width: 100%;
   object-fit: cover;
   border-radius: 5px;
   aspect-ratio: 1 / 1;

@@ -6,6 +6,7 @@ export const Wrapper = styled.div`
   padding: 2%;
   margin-bottom: 1rem;
   background-color: #fff;
+  height: 300px;
   max-height: 50vh;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   :hover {
@@ -61,8 +62,9 @@ export const ArticleContent = styled.h1`
 
 export const TagContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(70px, auto));
+  grid-template-columns: repeat(auto-fill, minmax(90px, auto));
   grid-gap: 10px;
+  max-height: 4vh;
   overflow: hidden;
 `;
 

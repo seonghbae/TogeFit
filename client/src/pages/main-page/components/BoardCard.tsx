@@ -35,7 +35,13 @@ const BoardCard = ({
 
   return (
     <SC.Wrapper onClick={handleClick}>
-      {imgUrl ? <SC.ArticleImg src={imgUrl} /> : ''}
+      {imgUrl ? (
+        <SC.ImgContainer>
+          <SC.ArticleImg src={imgUrl} />
+        </SC.ImgContainer>
+      ) : (
+        ''
+      )}
 
       <SC.Article>
         <SC.AuthorContent>
