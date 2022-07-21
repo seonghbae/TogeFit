@@ -27,6 +27,7 @@ export const Article = styled.article`
   margin-left: 1rem;
   justify-content: space-around;
   flex-direction: column;
+  position: relative;
 `;
 
 export const AuthorContent = styled.div`
@@ -52,14 +53,30 @@ export const DateContent = styled.div`
   }
 `;
 
+export const LikeWrapper = styled.div`
+  position: absolute;
+  font-size: 1.5rem;
+  word-break: break-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  span {
+    margin-left: 1rem;
+  }
+  top: 0%;
+  right: 0%;
+`;
+
 export const ArticleContent = styled.h1`
   font-size: 2rem;
   word-break: break-all;
   text-overflow: ellipsis;
   overflow: hidden;
+  max-height: 20vh;
 `;
 
 export const TagContainer = styled.div`
+  /* height: 20vh; */
+  margin-top: 3rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, auto));
   grid-gap: 10px;

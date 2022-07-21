@@ -1,4 +1,6 @@
 /* eslint-disable react/no-array-index-key */
+import { HeartFill } from 'styled-icons/bootstrap';
+
 import * as SC from './BoardCardStyle';
 
 type tagType = {
@@ -14,6 +16,7 @@ interface CustomCardProps {
   id: string;
   updateAt: string;
   author: string;
+  like: number;
 }
 
 const BoardCard = ({
@@ -24,6 +27,7 @@ const BoardCard = ({
   onClick,
   author,
   updateAt,
+  like,
 }: CustomCardProps) => {
   const handleClick = () => {
     onClick(id);
@@ -39,6 +43,10 @@ const BoardCard = ({
           <SC.DateContent>{updateAt.slice(0, 10)}</SC.DateContent>
         </SC.AuthorContent>
         <SC.ArticleContent>{content}</SC.ArticleContent>
+        <SC.LikeWrapper>
+          <HeartFill color="red" width="2rem" />
+          <span>{like}</span>
+        </SC.LikeWrapper>
         <SC.TagContainer>
           {tagList.map((tagObject, i) => (
             <SC.Tag key={i}>{`#${tagObject.tag}`}</SC.Tag>
