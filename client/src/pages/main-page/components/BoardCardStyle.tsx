@@ -74,8 +74,8 @@ export const LikeWrapper = styled.div`
   span {
     margin-left: 1rem;
   }
-  top: 0%;
-  right: 0%;
+  bottom: 1rem;
+  right: 1rem;
 `;
 
 export const ArticleContent = styled.h1`

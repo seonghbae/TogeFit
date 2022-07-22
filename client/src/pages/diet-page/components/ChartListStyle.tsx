@@ -5,6 +5,7 @@ export const ChartContainer = styled.div`
   align-items: center;
   margin: 0 5%;
   position: relative;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
 
 export const ButtonContainer = styled.div`

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 
 export const DietInfoContainer = styled.div`
-  background-color: #fff;
   margin: 0 5%;
   height: 100vh;
   overflow: scroll;
@@ -22,6 +21,7 @@ export const Header = styled.div`
     padding: 5px 10px;
     font-size: 1.2rem;
     border-radius: 1rem;
+    background-color: #fff;
   }
   > div {
     font-size: 2.5rem;
