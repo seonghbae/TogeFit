@@ -1,15 +1,7 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
-import { PostResponse, ModalCloseEvent } from 'types/interfaces';
-import {
-  MouseEventHandler,
-  MutableRefObject,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { MutableRefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -20,8 +12,9 @@ import postState from 'recoil/postState';
 import { Pencil, Trash } from 'styled-icons/boxicons-solid';
 import { CheckmarkOutline } from 'styled-icons/evaicons-outline';
 import { HeartFill, Heart } from 'styled-icons/bootstrap';
-
 import { Cross } from 'styled-icons/entypo';
+
+import { PostResponse, ModalCloseEvent } from 'types/interfaces';
 import { getUserId } from 'common/utils/getUserId';
 import { customAxios } from 'common/api';
 import ImageCarousel from './components/ImageCarousel';
@@ -185,6 +178,10 @@ const ArticleModal = ({
     }
   }, [post]);
 
+  const navigateInfo = () => {
+    navigate(`/info/exercise/${post?.userId}`);
+  };
+
   return (
     <SC.Wrapper onClick={handleClose} ref={wrapperRef}>
       {!post ? (
@@ -210,7 +207,9 @@ const ArticleModal = ({
             ''
           )}
           <SC.Article>
-            <SC.AuthorContent>{post.nickname}</SC.AuthorContent>
+            <SC.AuthorContent onClick={navigateInfo}>
+              {post.nickname}
+            </SC.AuthorContent>
             <SC.ArticleContent>{post.contents}</SC.ArticleContent>
             <SC.TagContainer>
               {post.tag_list.map((tagObject) => (

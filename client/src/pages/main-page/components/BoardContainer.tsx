@@ -45,7 +45,6 @@ const BoardContainer = () => {
   const {
     isSearchLoading,
     searchBoardList,
-    searchErrorMessage,
     searchHasMore,
     setSearchReqNumber,
   } = useSearchBoardList();
@@ -125,6 +124,7 @@ const BoardContainer = () => {
               imgUrl={article.post_image[0]}
               content={article.contents}
               tagList={article.tag_list}
+              userId={article.userId}
               onClick={articleModalOpen}
               id={article._id}
             />
@@ -140,6 +140,7 @@ const BoardContainer = () => {
           imgUrl={article.post_image[0]}
           content={article.contents}
           tagList={article.tag_list}
+          userId={article.userId}
           onClick={articleModalOpen}
           id={article._id}
         />

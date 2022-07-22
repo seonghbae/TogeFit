@@ -35,10 +35,18 @@ export const Article = styled.article`
 `;
 
 export const AuthorContent = styled.div`
-  font-size: 1.5rem;
-  font-weight: bolder;
-  line-height: 140%;
   height: auto;
+
+  > button {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    line-height: 140%;
+    border-bottom: 3px solid #fff;
+  }
+
+  > button:hover {
+    border-bottom: 3px solid ${(props) => props.theme.pointColors.orange};
+  }
 
   @media only screen and (max-width: 768px) {
     width: 100%;
