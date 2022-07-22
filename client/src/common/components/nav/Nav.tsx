@@ -39,7 +39,7 @@ const Nav = () => {
       <Link to="/">
         <SC.Title>
           <SC.TitleImg
-            src="https://cdn-icons.flaticon.com/png/512/4357/premium/4357645.png?token=exp=1658465421~hmac=dc8745f90e5bb344b20c9c07a7d06902"
+            src="https://team-16-s3.s3.ap-northeast-2.amazonaws.com/run.png"
             alt="runner"
           />
           TogeFit

@@ -139,7 +139,7 @@ const ArticleModal = ({
 
   const parseDate = (dateString: string) => {
     const date = new Date(dateString);
-
+    console.log(dateString);
     return `${date.getFullYear()}-${String(date.getMonth()).padStart(
       2,
       '0'
@@ -257,7 +257,7 @@ const ArticleModal = ({
                         className="comment-div"
                       >
                         <SC.CommentAuthorWrapper>
-                          {comment.author}
+                          {comment.nickname}
                         </SC.CommentAuthorWrapper>
                         {commentModiTarget === comment._id ? (
                           <SC.CommentModiInput
@@ -271,7 +271,7 @@ const ArticleModal = ({
                           </SC.CommentContent>
                         )}
 
-                        {comment.author === localUserId ? (
+                        {comment.userId === localUserId ? (
                           commentModiTarget === comment._id ? (
                             <SC.CommentButtonDiv>
                               <button
@@ -313,9 +313,7 @@ const ArticleModal = ({
                           )
                         ) : (
                           <SC.CommentDateWrapper>
-                            {comment.updatedAt
-                              .replace(/\..*$/, '')
-                              .replace(/[T]/g, ' ')}
+                            {parseDate(comment.updatedAt)}
                           </SC.CommentDateWrapper>
                         )}
                       </SC.CommentEleWrapper>
