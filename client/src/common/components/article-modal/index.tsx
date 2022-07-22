@@ -164,8 +164,10 @@ const ArticleModal = ({
   };
 
   const isSearchRoutine = () => {
-    if (post) {
-      return post.routine_info.filter((item) => item._id === post.routine);
+    console.log(post);
+	if (post) {
+      	console.log(post);
+	return post.routine_info.filter((item) => item._id === post.routine);
     }
   };
 
