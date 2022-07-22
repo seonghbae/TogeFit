@@ -8,6 +8,7 @@ import PostPage from './post-page';
 import RegisterPage from './register-page';
 import InfoModifyPage from './info-modify-page/InfoModifyPage';
 import BoardModifyPage from './board-modify-page/BoardModifyPage';
+import ErrorPage from './error-page/ErrorPage';
 
 export {
   RoutinePage,
@@ -20,4 +21,5 @@ export {
   RegisterPage,
   InfoModifyPage,
   PostPage,
+  ErrorPage,
 };

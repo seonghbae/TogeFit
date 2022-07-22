@@ -18,6 +18,7 @@ import {
   InfoModifyPage,
   PostPage,
   BoardModifyPage,
+  ErrorPage,
 } from './pages';
 
 const App = () => (
@@ -35,7 +36,7 @@ const App = () => (
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/post" element={<PostPage />} />
         <Route path="/board-modify" element={<BoardModifyPage />} />
-        <Route path="*" element={<div>error!</div>} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </RecoilRoot>
   </BrowserRouter>
