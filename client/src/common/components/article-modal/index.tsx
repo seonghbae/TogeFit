@@ -139,7 +139,6 @@ const ArticleModal = ({
 
   const parseDate = (dateString: string) => {
     const date = new Date(dateString);
-    console.log(dateString);
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
       2,
       '0'
