@@ -16,6 +16,7 @@ export interface TagInfo {
 
 export interface PostInfo {
   userId: string;
+  nickname: string;
   contents: string;
   post_image?: string[];
   is_open?: boolean;
