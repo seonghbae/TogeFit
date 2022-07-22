@@ -12,7 +12,6 @@ export const Wrapper = styled.div`
     background-color: rgba(255, 255, 255, 0.726);
   }
   cursor: pointer;
-  z-index: -1;
 `;
 
 export const ImgContainer = styled.div`

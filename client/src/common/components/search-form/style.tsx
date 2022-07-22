@@ -10,7 +10,6 @@ export const StyledForm = styled.form`
   position: relative;
   margin: 5%;
   flex: 1;
-  z-index: 9999;
   & > input[type='text'] {
     font-size: 1.5rem;
     justify-self: flex-start;
