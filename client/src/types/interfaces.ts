@@ -47,6 +47,8 @@ type comment = {
   author: string;
   _id: string;
   updatedAt: string;
+  nickname: string;
+  userId: string;
 };
 
 type tagType = {
