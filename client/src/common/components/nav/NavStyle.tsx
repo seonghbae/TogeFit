@@ -30,6 +30,12 @@ export const NavBurger = styled(Navicon)<{ isOpen: boolean }>`
 
 export const Title = styled.h1`
   font-size: 2.2rem;
+  display: flex;
+`;
+
+export const TitleImg = styled.img`
+  width: 50px;
+  margin-right: 20px;
 `;
 
 export const UserIcon = styled(UserCircle)`

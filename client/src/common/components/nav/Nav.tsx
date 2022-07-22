@@ -8,7 +8,6 @@ const Nav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const [userId, setUserId] = useState(getUserId());
-  const empty = undefined;
 
   useEffect(() => {
     setUserId(getUserId());
@@ -38,7 +37,13 @@ const Nav = () => {
         <Sidebar isOpen={isOpen} userId={userId} handleClick={handleClick} />
       ) : null}
       <Link to="/">
-        <SC.Title>HealthCare for you</SC.Title>
+        <SC.Title>
+          <SC.TitleImg
+            src="https://cdn-icons.flaticon.com/png/512/4357/premium/4357645.png?token=exp=1658465421~hmac=dc8745f90e5bb344b20c9c07a7d06902"
+            alt="runner"
+          />
+          TogeFit
+        </SC.Title>
       </Link>
       {location.pathname === '/' ? null : infoBtn()}
     </SC.NavWrapper>
