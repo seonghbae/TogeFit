@@ -13,6 +13,7 @@ beforeAll(async () => {
   for (let i = 0; i < 5; i++) {
     const post = await postService.addPost({
       userId: 'test',
+      nickname: 'test',
       contents: 'test contents',
       post_image: ['test.png'],
       tag_list: tags,
@@ -24,6 +25,7 @@ beforeAll(async () => {
   for (let i = 0; i < 5; i++) {
     const post = await postService.addPost({
       userId: `test${i}`,
+      nickname: `test${i}`,
       contents: `test contents`,
       post_image: ['test.png'],
       tag_list: tags,
@@ -120,6 +122,7 @@ describe('게시글 추가 TEST', () => {
   test('게시글 추가 성공', async () => {
     const post = await postService.addPost({
       userId: 'test123',
+      nickname: 'test',
       contents: 'test contents',
     });
     expect(typeof post).toBe('object');
@@ -130,6 +133,7 @@ describe('게시글 추가 TEST', () => {
     await expect(
       postService.addPost({
         userId: '',
+        nickname: 'test',
         contents: 'test contents',
       })
     ).rejects.toThrow();
@@ -140,6 +144,7 @@ describe('게시글 삭제 TEST', () => {
   test('게시글 삭제 성공', async () => {
     const post = await postService.addPost({
       userId: 'test123',
+      nickname: 'test',
       contents: 'test contents',
     });
     const result = await postService.deletePost('test123', post._id.toString());
@@ -164,6 +169,7 @@ describe('게시글 수정 TEST', () => {
   test('게시글 수정 성공', async () => {
     const post = await postService.addPost({
       userId: 'test123',
+      nickname: 'test',
       contents: 'test contents',
     });
     const updateInfo = { contents: 'new contents' };
@@ -194,14 +200,22 @@ describe('게시글 수정 TEST', () => {
 });
 
 describe('좋아요 API TEST', () => {
-  test('좋아요 API 성공', async () => {
-    const updatedPost = await postService.updateLike(postId);
+  test('좋아요 성공', async () => {
+    const mode = 'plus';
+    const updatedPost = await postService.updateLike(postId, mode);
     expect(updatedPost?.like).toBe(1);
   });
 
+  test('좋아요 취소 성공', async () => {
+    const mode = 'minus';
+    const updatedPost = await postService.updateLike(postId, mode);
+    expect(updatedPost?.like).toBe(0);
+  });
+
   test('좋아요 API 실패 - 유효하지 않은 게시글 ID', async () => {
+    const mode = 'plus';
     const failPostId = '62cb8bdea66d590b2d4d538d';
-    await expect(postService.updateLike(failPostId)).rejects.toThrow(
+    await expect(postService.updateLike(failPostId, mode)).rejects.toThrow(
       '해당 글을 찾지 못했습니다.'
     );
   });
@@ -212,6 +226,7 @@ describe('게시글 검색 TEST', () => {
     for (let i = 1; i <= 10; i++) {
       await postService.addPost({
         userId: 'test123',
+        nickname: 'test',
         contents: 'test contents',
         tag_list: [{ tag: '하체' }],
       });
@@ -270,7 +285,8 @@ describe('게시글 검색 TEST', () => {
 describe('댓글 등록 TEST', () => {
   test('등록 성공', async () => {
     const data = {
-      author: 'user123',
+      userId: 'user123',
+      nickname: '유저123',
       content: '안녕하세요!',
     };
 
@@ -281,14 +297,16 @@ describe('댓글 등록 TEST', () => {
 
     commentId = added._id.toString();
 
-    expect(added.author).toBe(data.author);
+    expect(added.userId).toBe(data.userId);
+    expect(added.nickname).toBe(data.nickname);
     expect(added.content).toBe(data.content);
   });
 
   test('등록 실패 - 유효하지 않은 게시글 ID', async () => {
     const failPostId = '62cb8bdea66d590b2d4d538d';
     const data = {
-      author: 'user123',
+      userId: 'user123',
+      nickname: '유저123',
       content: '안녕하세요!',
     };
 
@@ -301,6 +319,7 @@ describe('댓글 등록 TEST', () => {
 describe('댓글 수정 TEST', () => {
   test('수정 성공', async () => {
     const userId = 'user123';
+    const nickname = '유저123';
     const content = '좋아요';
 
     const result = await postService.updateComment(commentId, userId, content);
@@ -308,7 +327,8 @@ describe('댓글 수정 TEST', () => {
     // 수정된 내용 확인
     for (const comment of result!.comments) {
       if ((comment as any)._id === commentId) {
-        expect(comment.author).toBe(userId);
+        expect(comment.userId).toBe(userId);
+        expect(comment.nickname).toBe(nickname);
         expect(comment.content).toBe(content);
       }
     }
