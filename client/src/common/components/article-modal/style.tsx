@@ -101,6 +101,7 @@ export const AuthorContent = styled.div`
   font-weight: bolder;
   line-height: 140%;
   height: auto;
+  cursor: pointer;
 
   @media only screen and (max-width: 768px) {
     width: 100%;

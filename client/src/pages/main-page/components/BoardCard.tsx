@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { HeartFill } from 'styled-icons/bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 import * as SC from './BoardCardStyle';
 
@@ -17,6 +18,7 @@ interface CustomCardProps {
   updateAt: string;
   author: string;
   like: number;
+  userId: string;
 }
 
 const BoardCard = ({
@@ -28,9 +30,16 @@ const BoardCard = ({
   author,
   updateAt,
   like,
+  userId,
 }: CustomCardProps) => {
+  const navigate = useNavigate();
+
   const handleClick = () => {
     onClick(id);
+  };
+
+  const navigateInfo = () => {
+    navigate(`/info/exercise/${userId}`);
   };
 
   return (
@@ -45,7 +54,9 @@ const BoardCard = ({
 
       <SC.Article>
         <SC.AuthorContent>
-          {author}
+          <button type="button" onClick={navigateInfo}>
+            {author}
+          </button>
           <SC.DateContent>{updateAt.slice(0, 10)}</SC.DateContent>
         </SC.AuthorContent>
         <SC.ArticleContent>{content}</SC.ArticleContent>
