@@ -20,10 +20,6 @@ foodRouter.get('/search', async (req, res, next) => {
   try {
     const keyword = req.query.foodName as string;
 
-    if (!keyword) {
-      throw new Error('검색 키워드가 반드시 필요합니다.');
-    }
-
     const searchedFoodList = await foodService.searchFood(keyword);
 
     res.status(200).json(searchedFoodList);

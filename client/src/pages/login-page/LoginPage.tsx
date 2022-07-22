@@ -5,21 +5,18 @@ import { customAxios } from 'common/api';
 
 import LoginForm from './components/LoginForm';
 
-import { Wrapper, RegisterLink } from './LoginPageStyle';
+import * as SC from './LoginPageStyle';
 
-const LoginPage: React.FC = () => {
-  console.log('login');
-  return (
-    <Wrapper>
-      <div>
-        <LoginForm />
-        <p>
-          <span>혹시 회원이 아니신가요?</span>
-          <RegisterLink to="/register">회원가입</RegisterLink>
-        </p>
-      </div>
-    </Wrapper>
-  );
-};
+const LoginPage: React.FC = () => (
+  <SC.Wrapper>
+    <div>
+      <LoginForm />
+      <p>
+        <span>혹시 회원이 아니신가요?</span>
+        <SC.RegisterLink to="/register">회원가입</SC.RegisterLink>
+      </p>
+    </div>
+  </SC.Wrapper>
+);
 
 export default LoginPage;

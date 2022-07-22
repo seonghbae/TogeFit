@@ -1,6 +1,6 @@
 import { userModel, UserModel, UserInfo } from '../db';
 import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 interface RequiredInfo {
   userId: string;
@@ -23,6 +23,10 @@ class UserService {
   async findByUserId(userId: string) {
     const user = await this.userModel.findByUserId(userId);
 
+    if (!user) {
+      throw new Error('해당 유저를 찾지 못했습니다.');
+    }
+
     return user;
   }
 
@@ -38,12 +42,20 @@ class UserService {
     return isExistPostId;
   }
 
-  async pushPostIdInLikedArray(userId: string, postId: string) {
-    const pushedLiked = await this.userModel.pushPostIdInLikedArray(
+  async checkLiked(userId: string, postId: string) {
+    const isLiked = await this.userModel.findUserLike(userId, postId);
+
+    return isLiked;
+  }
+
+  async manipulateLikedArray(userId: string, postId: string, mode: string) {
+    const Liked = await this.userModel.manipulateLikedArray(
       userId,
-      postId
+      postId,
+      mode
     );
-    return pushedLiked;
+
+    return Liked;
   }
 
   // 유저 정보 등록
@@ -94,6 +106,7 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
+      throw error;
     }
 
     // 업데이트
@@ -127,6 +140,7 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
+      throw error;
     }
 
     const result = await this.userModel.deleteUser(userId);
@@ -152,13 +166,32 @@ class UserService {
       const error: ErrorWithStatus = new Error(
         '비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.'
       );
+      throw error;
     }
 
+    const nickname = user.nickname;
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
-    const token = jwt.sign({ userId }, secretKey);
+    // accessToken은 5분으로 설정
+    const accessToken = jwt.sign({ userId, nickname }, secretKey, {
+      expiresIn: '5m',
+    });
 
-    return { token, userId };
+    // refreshToken은 7일로 설정
+    const refreshToken = jwt.sign({}, secretKey, {
+      expiresIn: '7d',
+    });
+
+    this.setRefreshToken(userId, refreshToken);
+
+    return { accessToken, userId };
+  }
+
+  async setRefreshToken(userId: string, refreshToken: string) {
+    const updatedUser = await this.userModel.setRefreshToken(
+      userId,
+      refreshToken
+    );
   }
 }
 const userService = new UserService(userModel);

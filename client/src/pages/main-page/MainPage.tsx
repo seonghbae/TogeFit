@@ -1,4 +1,4 @@
-import { BoardContainer, Header } from './components';
+import { BoardContainer, Header, UserInfo } from './components';
 
 import * as SC from './MainPageStyle';
 
@@ -8,7 +8,9 @@ const InfoPage = () => (
       <Header />
       <BoardContainer />
     </SC.Main>
-    <SC.Info>개인정보 div</SC.Info>
+    <SC.Info>
+      <UserInfo />
+    </SC.Info>
   </SC.Wrapper>
 );
 

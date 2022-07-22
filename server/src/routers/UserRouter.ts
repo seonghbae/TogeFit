@@ -12,9 +12,6 @@ userRouter.get('/info/:userId', async (req, res, next) => {
 
     const findUser = await userService.findByUserId(userId);
 
-    if (!findUser) {
-      throw new Error('해당 유저를 찾지 못했습니다.');
-    }
     const user = {
       nickname: findUser.nickname,
       profile_image: findUser.profile_image,
@@ -107,7 +104,7 @@ userRouter.patch(
 );
 
 // 회원 탈퇴
-userRouter.delete('/', loginRequired, async (req, res, next) => {
+userRouter.post('/unregister', loginRequired, async (req, res, next) => {
   try {
     if (is.emptyObject(req.body)) {
       throw new Error(
@@ -123,8 +120,8 @@ userRouter.delete('/', loginRequired, async (req, res, next) => {
     }
 
     const result = await userService.deleteUser(userId, password);
-
-    res.status(200).json(result);
+    res.cookie('token', '', { maxAge: 0 });
+    res.status(200).json({ message: '정상적으로 회원 탈퇴 되었습니다.' });
   } catch (error) {
     next(error);
   }
@@ -152,12 +149,12 @@ userRouter.post('/login', async function (req, res, next) {
 
     const userToken = await userService.getUserToken({ userId, password });
 
-    res.cookie('token', userToken.token, {
-      maxAge: 1000 * 60 * 60 * 24,
+    res.cookie('token', userToken.accessToken, {
+      maxAge: 1000 * 60 * 60 * 24 * 7,
       httpOnly: true,
     });
 
-    res.status(200).json(userToken.userId);
+    res.status(200).json({ userId: userToken.userId });
   } catch (error) {
     next(error);
   }

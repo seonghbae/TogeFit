@@ -1,34 +1,51 @@
 import { getUserId } from 'common/utils/getUserId';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import * as SC from './NavStyle';
 import Sidebar from './Sidebar';
 
 const Nav = () => {
-  const [openSidebar, setOpenSidebar] = useState(false);
-  const userId = getUserId();
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+  const [userId, setUserId] = useState(getUserId());
+
+  useEffect(() => {
+    setUserId(getUserId());
+  }, [location]);
+
+  const handleClick = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const infoBtn = () =>
+    userId ? (
+      <Link to={`/info/exercise/${userId}`}>
+        <SC.UserIcon />
+      </Link>
+    ) : (
+      <Link to="/login">
+        <SC.LoginButton>Sign in</SC.LoginButton>
+      </Link>
+    );
 
   return (
     <SC.NavWrapper>
-      <SC.NavBurger
-        openSidebar={openSidebar}
-        onClick={() => {
-          setOpenSidebar((prev) => !prev);
-        }}
-      />
-      <Sidebar openSidebar={openSidebar} />
+      {location.pathname !== '/' ? (
+        <SC.NavBurger isOpen={isOpen} onClick={handleClick} />
+      ) : null}
+      {location.pathname !== '/' ? (
+        <Sidebar isOpen={isOpen} userId={userId} handleClick={handleClick} />
+      ) : null}
       <Link to="/">
-        <SC.Title>HealthCare for you</SC.Title>
+        <SC.Title>
+          <SC.TitleImg
+            src="https://team-16-s3.s3.ap-northeast-2.amazonaws.com/run.png"
+            alt="runner"
+          />
+          TogeFit
+        </SC.Title>
       </Link>
-      {userId ? (
-        <Link to={`/info/exercise/${userId}`}>
-          <SC.UserIcon />
-        </Link>
-      ) : (
-        <Link to="/login">
-          <SC.LoginButton>Sign in</SC.LoginButton>
-        </Link>
-      )}
+      {location.pathname === '/' ? null : infoBtn()}
     </SC.NavWrapper>
   );
 };

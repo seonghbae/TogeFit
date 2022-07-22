@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
 export const DietInfoContainer = styled.div`
-  border: 1px solid ${(props) => props.theme.pointColors.black};
-  background-color: #fff;
   margin: 0 5%;
   height: 100vh;
   overflow: scroll;
@@ -12,15 +10,20 @@ export const DietInfoContainer = styled.div`
   }
 `;
 
-export const ButtonWrapper = styled.div`
+export const Header = styled.div`
   display: flex;
-  justify-content: right;
-  margin-bottom: 3%;
-  & > button {
+  justify-content: space-between;
+  margin: 3%;
+  padding: 3% 0;
+  > button {
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     margin-right: 1rem;
-    border: 1px solid;
-    width: 3rem;
-    height: 3rem;
-    font-size: 2rem;
+    padding: 5px 10px;
+    font-size: 1.2rem;
+    border-radius: 1rem;
+    background-color: #fff;
+  }
+  > div {
+    font-size: 2.5rem;
   }
 `;

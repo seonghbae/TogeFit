@@ -9,6 +9,8 @@ import {
 import { customAxios } from 'common/api';
 import { useLocation } from 'react-router-dom';
 
+export type actionType = 'right' | 'left' | 'jump';
+
 const getPostGrass = async (
   dateObject: DateObject,
   userId: string | undefined
@@ -50,7 +52,11 @@ const calculateCalendar = async (
   setJandiList(result);
 };
 
-const moveDate = (prevDate: DateObject, type: string) => {
+const moveDate = (
+  prevDate: DateObject,
+  type: actionType,
+  goTo?: DateObject
+) => {
   let { year, month } = prevDate;
 
   switch (type) {
@@ -72,6 +78,13 @@ const moveDate = (prevDate: DateObject, type: string) => {
       }
       break;
 
+    case 'jump':
+      if (goTo) {
+        year = goTo.year;
+        month = goTo.month;
+      }
+      break;
+
     default:
       break;
   }
@@ -85,18 +98,23 @@ const useJandi = () => {
     useRecoilState<Array<JandiType>>(jandiListAtom);
   const [dateObject, setDateObject] =
     useRecoilState<DateObject>(dateObjectAtom);
+  const nowDate = new Date();
 
   const userId = useMemo(() => pathname.split('/').at(-1), [pathname]);
 
-  const changeDate = (type: string) => {
-    setDateObject((prevDate) => moveDate(prevDate, type));
+  const changeDate = (type: actionType, goTo?: DateObject) => {
+    setDateObject((prevDate) => moveDate(prevDate, type, goTo));
+  };
+
+  const resetDate = () => {
+    setDateObject({ year: nowDate.getFullYear(), month: nowDate.getMonth() });
   };
 
   useEffect(() => {
     calculateCalendar(dateObject, setJandiList, userId);
   }, [dateObject]);
 
-  return { dateObject, jandiList, changeDate };
+  return { dateObject, jandiList, changeDate, resetDate };
 };
 
 export default useJandi;

@@ -9,6 +9,7 @@ export const Wrapper = styled.div`
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9998;
 `;
 
 export const Modal = styled.div`
@@ -26,6 +27,7 @@ export const Modal = styled.div`
   padding: 1rem 1.5rem;
   background-color: #fff;
   border-radius: 20px;
+  z-index: 9999;
 `;
 
 export const ModalMessage = styled.p`

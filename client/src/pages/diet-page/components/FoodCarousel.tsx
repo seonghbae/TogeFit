@@ -1,33 +1,25 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
+import React from 'react';
+import { useRecoilState } from 'recoil';
 import Slider from 'react-slick';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import React, { useRef } from 'react';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
 import { isCursorLeftX } from 'common/utils/getElementLocationInfo';
 import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
-import { useRecoilState } from 'recoil';
+import { IMeal } from 'types/interfaces';
+import foodUpdateState from '../states/foodUpdateState';
 
 import * as SC from './FoodCarouselStyle';
-
-type Food = {
-  name: string;
-  carbohydrate?: number;
-  protein?: number;
-  fat?: number;
-  quantity?: number;
-  calories?: number;
-};
 
 interface ISliderProps {
   /** 슬라이더 아이템 요소 */
   data?: Array<string | number | null>;
   setData?: React.Dispatch<React.SetStateAction<Array<string | number | null>>>;
-  objData?: Array<Food>;
-  setObjData?: React.Dispatch<React.SetStateAction<Array<Food>>>;
+  objData?: Array<IMeal>;
+  setObjData?: React.Dispatch<React.SetStateAction<Array<IMeal>>>;
   /** 커스텀 클래스 */
   className?: string;
   /** 자동재생 (속도 설정시 number 타입으로) */
@@ -46,12 +38,12 @@ interface ISliderProps {
   setModalView?: React.Dispatch<React.SetStateAction<boolean>>;
   isCancel?: boolean;
   setIsCancel?: React.Dispatch<React.SetStateAction<boolean>>;
-  cache?: Array<string | number | null> | Array<Food>;
+  cache?: Array<string | number | null> | Array<IMeal>;
   setCache?: React.Dispatch<
-    React.SetStateAction<Array<string | number | null> | Array<Food>>
+    React.SetStateAction<Array<string | number | null> | Array<IMeal>>
   >;
-  objCache?: Array<Food>;
-  setObjCache?: React.Dispatch<React.SetStateAction<Array<Food>>>;
+  objCache?: Array<IMeal>;
+  setObjCache?: React.Dispatch<React.SetStateAction<Array<IMeal>>>;
 }
 
 const FoodCarousel = ({
@@ -78,7 +70,6 @@ const FoodCarousel = ({
 }: ISliderProps) => {
   const configureOnlyOneContent = (dataLength: number, showCount: number) =>
     dataLength < showCount ? dataLength : showCount;
-  const slideRef = useRef(null);
   const settings = {
     dots: true,
     infinite: draggable,
@@ -88,8 +79,8 @@ const FoodCarousel = ({
     initialSlide: 0,
     arrows: draggable,
     draggable: !draggable,
-    nextArrow: <ArrowButton />,
-    prevArrow: <ArrowButton />,
+    nextArrow: <ArrowButton className="arrow-button" />,
+    prevArrow: <ArrowButton className="arrow-button" />,
     responsive: [
       {
         breakpoint: 1024,
@@ -124,6 +115,7 @@ const FoodCarousel = ({
     ],
   };
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
+  const [foodUpdate, setFoodUpdate] = useRecoilState(foodUpdateState);
 
   const dragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -152,7 +144,7 @@ const FoodCarousel = ({
     const cachedData = [...objData];
     const dropTargetIndex = Number(e.currentTarget.dataset.index);
     const isInitial =
-      objData[dropTargetIndex].name === MEAL_INITIAL_MESSAGE ||
+      objData[dropTargetIndex].foodName === MEAL_INITIAL_MESSAGE ||
       data[dropTargetIndex] === MEAL_INITIAL_MESSAGE;
 
     if (setObjCache) setObjCache([...cachedData]);
@@ -174,38 +166,20 @@ const FoodCarousel = ({
       setData([...data]);
     } else if (setObjData) {
       const tempData = objData.slice();
-
+      const dragObj = {
+        foodName: String(dragTarget),
+        quantity: 0,
+      };
       if (isInitial) {
-        tempData.splice(dropTargetIndex, 1, {
-          name: String(dragTarget),
-          carbohydrate: 0,
-          protein: 0,
-          fat: 0,
-          quantity: 0,
-          calories: 0,
-        });
+        tempData.splice(dropTargetIndex, 1, dragObj);
         setCurrentTarget(dropTargetIndex);
       } else {
         // eslint-disable-next-line no-lonely-if
         if (isCursorLeftX(e)) {
-          tempData.splice(dropTargetIndex, 0, {
-            name: String(dragTarget),
-            carbohydrate: 0,
-            protein: 0,
-            fat: 0,
-            quantity: 0,
-            calories: 0,
-          });
+          tempData.splice(dropTargetIndex, 0, dragObj);
           setCurrentTarget(dropTargetIndex);
         } else {
-          tempData.splice(dropTargetIndex + 1, 0, {
-            name: String(dragTarget),
-            carbohydrate: 0,
-            protein: 0,
-            fat: 0,
-            quantity: 0,
-            calories: 0,
-          });
+          tempData.splice(dropTargetIndex + 1, 0, dragObj);
           setCurrentTarget(dropTargetIndex + 1);
         }
       }
@@ -213,17 +187,21 @@ const FoodCarousel = ({
       setObjData([...tempData]);
     }
 
-    // if (setDragTarget) setDragTarget('');
+    if (setModalView) setModalView(true);
+  };
+
+  const handleClick = (item: string | number | null) => {
+    setFoodUpdate(item);
     if (setModalView) setModalView(true);
   };
 
   return (
     <SC.CarouselWrapper width={width} className="CustomCarousel">
-      <Slider {...settings} ref={slideRef}>
+      <Slider {...settings}>
         {data &&
           data.map((item, i) => (
             <SC.Slide
-              key={Math.random()}
+              key={i}
               data-index={i}
               draggable={draggable}
               onDragOver={dragOver}
@@ -231,6 +209,8 @@ const FoodCarousel = ({
               onDragStart={dragStart}
               onDragEnd={dragEnd}
               onDrop={dragDrop}
+              className="slide-element"
+              onClick={() => handleClick(item)}
             >
               <h3>{item}</h3>
             </SC.Slide>
@@ -239,7 +219,7 @@ const FoodCarousel = ({
         {objData &&
           objData.map((item, i) => (
             <SC.Slide
-              key={Math.random()}
+              key={i}
               data-index={i}
               draggable={draggable}
               onDragOver={dragOver}
@@ -247,8 +227,9 @@ const FoodCarousel = ({
               onDragStart={dragStart}
               onDragEnd={dragEnd}
               onDrop={dragDrop}
+              className="slide-element"
             >
-              <h3>{item.name}</h3>
+              <h3>{item.foodName}</h3>
             </SC.Slide>
           ))}
       </Slider>

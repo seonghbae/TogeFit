@@ -5,8 +5,6 @@ export const HeaderWrapper = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-  position: -webkit-sticky; /* 사파리 브라우저 지원 */
-  position: sticky;
   top: 0rem;
 `;
 

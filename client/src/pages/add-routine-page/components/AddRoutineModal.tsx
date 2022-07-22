@@ -4,18 +4,13 @@
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
+import { IRoutinesExerciseInfo } from 'types/interfaces';
 import currentTargetState from '../states/currentTargetState';
 import dragTargetState from '../states/dragTargetState';
 import userRoutineState from '../states/userRoutineState';
 import * as SC from './AddRoutineModalStyle';
 // isCancel, setIsCancel, open, setOpen, renderConfirmModal
 
-type Inputs = {
-  name: string;
-  count: string;
-  set: string;
-  weight: string;
-};
 interface Iprops {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -34,7 +29,7 @@ const AddRoutineModal = ({
     handleSubmit,
     resetField,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<IRoutinesExerciseInfo>();
   const [dragTarget, setDragTarget] = useRecoilState(dragTargetState);
   const [userRoutine, setUserRoutine] = useRecoilState(userRoutineState);
   const [currentTarget, setCurrentTarget] = useRecoilState(currentTargetState);
@@ -58,10 +53,11 @@ const AddRoutineModal = ({
 
     temp[currentTarget] = {
       ...temp[currentTarget],
-      count: data.count,
-      set: data.set,
-      weight: data.weight,
+      count: data.count ? Number(data.count) : undefined,
+      set: data.set ? Number(data.set) : undefined,
+      weight: data.weight ? Number(data.weight) : undefined,
     };
+
     resetField('count');
     resetField('set');
     resetField('weight');
@@ -73,7 +69,7 @@ const AddRoutineModal = ({
     <SC.Wrapper view={isOpen} onClick={handleCancel}>
       <form onSubmit={handleSubmit(onSubmit)} onClick={handleDivClick}>
         <h3>내 루틴에 추가하기</h3>
-        <div>
+        <SC.InputWrapper>
           <label htmlFor="name">이름</label>
           <input
             type="text"
@@ -82,11 +78,11 @@ const AddRoutineModal = ({
             unselectable={'on'}
             value={dragTarget !== null ? dragTarget : ''}
           />
-        </div>
-        <div>
+        </SC.InputWrapper>
+        <SC.InputWrapper>
           <label htmlFor="count">개수</label>
           <input
-            type="text"
+            type="number"
             {...register('count', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.count && errors.count.type === 'min' && (
@@ -95,11 +91,11 @@ const AddRoutineModal = ({
           {errors.count && errors.count.type === 'pattern' && (
             <p>숫자만 입력해주세요.</p>
           )}
-        </div>
-        <div>
+        </SC.InputWrapper>
+        <SC.InputWrapper>
           <label htmlFor="set">세트</label>
           <input
-            type="text"
+            type="number"
             {...register('set', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.set && errors.set.type === 'min' && (
@@ -108,11 +104,11 @@ const AddRoutineModal = ({
           {errors.set && errors.set.type === 'pattern' && (
             <p>숫자만 입력해주세요.</p>
           )}
-        </div>
-        <div>
+        </SC.InputWrapper>
+        <SC.InputWrapper>
           <label htmlFor="weight">무게</label>
           <input
-            type="text"
+            type="number"
             {...register('weight', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.weight && errors.weight.type === 'min' && (
@@ -121,7 +117,7 @@ const AddRoutineModal = ({
           {errors.weight && errors.weight.type === 'pattern' && (
             <p>숫자만 입력해주세요.</p>
           )}
-        </div>
+        </SC.InputWrapper>
         <SC.ButtonWrapper>
           <button type="submit">확인</button>
           <button type="button" onClick={handleCancel}>

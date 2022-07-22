@@ -2,34 +2,23 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
-import Slider, { Settings } from 'react-slick';
+import Slider from 'react-slick';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import React, { useEffect, useRef, useState } from 'react';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
-import { usePrevious } from 'common/hooks';
+import { isCursorLeftX } from 'common/utils/getElementLocationInfo';
 import {
-  getMiddlePointX,
-  isCursorLeftX,
-} from 'common/utils/getElementLocationInfo';
-import routineModifyState from 'pages/routine-page/states/routineModifyState';
+  routineModifyState,
+  exerciseModifyState,
+  routinesState,
+} from 'pages/routine-page/states';
 import currentTargetState from 'pages/add-routine-page/states/currentTargetState';
-import exerciseModifyState from 'pages/routine-page/states/exerciseModifyState';
-import { routinesState } from 'pages/routine-page/states';
+
 import { useRecoilState } from 'recoil';
 
 import { IRoutinesExerciseInfo } from 'types/interfaces';
 
 import * as SC from './style';
-
-type Idata = {
-  name: string;
-  count?: string;
-  set?: string;
-  weight?: string;
-};
 
 interface sliderProps {
   /** 슬라이더 아이템 요소 */
@@ -201,9 +190,6 @@ const CustomCarousel = ({
       const tempData = objData.slice();
       const dragObj = {
         name: String(dragTarget),
-        count: '',
-        set: '',
-        weight: '',
       };
       if (isInitial) {
         tempData.splice(dropTargetIndex, 1, dragObj);
@@ -277,12 +263,11 @@ const CustomCarousel = ({
               <h3>{item.name}</h3>
 
               {item.set && (
-                <p data-type="">
+                <p>
                   세트:
                   <span>{item.set}</span>
                 </p>
               )}
-
               {item.count && <p>개수: {item.count}</p>}
               {item.weight && <p>무게: {item.weight}</p>}
             </SC.Slide>

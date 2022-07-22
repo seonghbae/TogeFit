@@ -7,16 +7,27 @@ interface FormInputType {
   password: string;
 }
 
-interface RegisterInputType extends FormInputType {
-  nickName: string;
+interface IUserInfoModify {
+  profile_image: any;
+  name: string;
+  nickname: string;
+  currentPassword: string;
+  password: string;
   password_check?: string;
-  emailAuthNumber: string;
+}
+
+interface RegisterInputType {
+  name: string;
+  nickname: string;
+  userId: string;
+  password: string;
+  password_check?: string;
 }
 interface IRoutinesExerciseInfo {
   name: string;
-  weight?: string;
-  set?: string;
-  count?: string;
+  weight?: number;
+  set?: number;
+  count?: number;
   _id?: string;
 }
 interface IRoutinesInfo {
@@ -27,36 +38,23 @@ interface IRoutinesInfo {
 
 interface IRoutines {
   name: string;
-  routines: [IRoutinesInfo];
+  routines: IRoutinesInfo[];
   _id: string;
 }
 
 type comment = {
   content: string;
   author: string;
+  _id: string;
+  updatedAt: string;
+  nickname: string;
+  userId: string;
 };
 
 type tagType = {
   tag: string;
   _id: string;
 };
-
-interface ArticleResponse {
-  userId: string;
-  contents: string;
-  post_image: Array<string>;
-  is_open: boolean;
-  tag_list: Array<tagType>;
-  like: number;
-  comments: Array<comment>;
-  meal: string;
-  routine: string;
-  message: string;
-}
-
-interface ArticleErrResponse {
-  reason: string;
-}
 
 interface ICalorieProps {
   names: Array<{ name: string; value: number }>;
@@ -73,7 +71,7 @@ interface IFood {
   fat: number;
   quantity: number;
   calories: number;
-  id: string;
+  _id: string;
 }
 
 interface IFoodList {
@@ -84,19 +82,18 @@ interface IFoodList {
 interface IMeal {
   foodName: string;
   quantity: number;
-  id: string;
 }
 
 interface IMealList {
   meal_list: IMeal[];
-  id: string;
+  _id: string;
 }
 
 interface IDiet {
   userId: string;
   meals: IMealList[];
-  id: string;
   createdAt: string;
+  _id: string;
 }
 
 interface IDietList {
@@ -116,6 +113,7 @@ interface IComment {
   createdAt: string;
 }
 interface IBoard {
+  nickname: string;
   _id: string;
   userId: string;
   contents: string;
@@ -135,13 +133,51 @@ interface IBoardList {
   board: IBoard[];
 }
 
+interface PostResponse {
+  _id: string;
+  userId: string;
+  contents: string;
+  nickname: string;
+  post_image: Array<string>;
+  is_open: boolean;
+  tag_list: Array<tagType>;
+  like: number;
+  comments: Array<comment>;
+  routine: string;
+  meal_info: Array<IMeal[]>;
+  routine_info: Array<IRoutinesInfo>;
+  message: string;
+  updatedAt: string;
+  meal_createdAt: string;
+}
+
+interface IBoardPost {
+  nickname: string;
+  userId: string;
+  contents: string;
+  post_image: string[];
+  is_open: boolean;
+  tag_list: string;
+  meal: string;
+  routine: string;
+}
+
+interface ArticleErrResponse {
+  reason: string;
+}
+
+export type ModalCloseEvent =
+  | React.MouseEvent<HTMLDivElement, MouseEvent>
+  | React.MouseEvent<SVGElement, MouseEvent>
+  | React.MouseEvent<HTMLButtonElement, MouseEvent>;
+
 export type {
   FormInputType,
   RegisterInputType,
   IRoutines,
   IRoutinesInfo,
   IRoutinesExerciseInfo,
-  ArticleResponse,
+  PostResponse,
   ArticleErrResponse,
   ICalorieProps,
   IFood,
@@ -155,4 +191,6 @@ export type {
   IComment,
   ITag,
   IError,
+  IUserInfoModify,
+  IBoardPost,
 };

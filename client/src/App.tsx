@@ -1,5 +1,7 @@
 // module
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import { RecoilRoot } from 'recoil';
 
@@ -14,6 +16,11 @@ import {
   DietPage,
   LoginPage,
   MainPage,
+  RegisterPage,
+  InfoModifyPage,
+  PostPage,
+  BoardModifyPage,
+  ErrorPage,
 } from './pages';
 
 const App = () => (
@@ -24,10 +31,14 @@ const App = () => (
         <Route path="/" element={<MainPage />} />
         <Route path="/routine/add" element={<AddRoutinePage />} />
         <Route path="/routine" element={<RoutinePage />} />
+        <Route path="/modify" element={<InfoModifyPage />} />
         <Route path="/info/*" element={<InfoPage />} />
         <Route path="/diet/*" element={<DietPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<div>error!</div>} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/post" element={<PostPage />} />
+        <Route path="/board-modify" element={<BoardModifyPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </RecoilRoot>
   </BrowserRouter>

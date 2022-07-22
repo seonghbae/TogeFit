@@ -16,13 +16,21 @@ mealRouter.get('/all', async (req, res, next) => {
   }
 });
 
-// 식단 리스트 반환 (유저 별 + 무한스크롤)
+// 식단 리스트 반환 (유저 + 월 별 + 무한스크롤)
 mealRouter.get('/user', async (req, res, next) => {
   try {
-    const { userId, limit, reqNumber } = req.query;
+    const { userId, year, month, limit, reqNumber } = req.query;
 
     if (!userId) {
       throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
+    if (!year) {
+      throw new Error('연도가 반드시 필요합니다.');
+    }
+
+    if (!month) {
+      throw new Error('월 정보가 반드시 필요합니다.');
     }
 
     if (!limit) {
@@ -32,6 +40,11 @@ mealRouter.get('/user', async (req, res, next) => {
     if (!reqNumber) {
       throw new Error('reqNumber 정보가 반드시 필요합니다.');
     }
+
+    const date = {
+      year: parseInt(year as string),
+      month: parseInt(month as string),
+    };
 
     const conditions = {
       limit: parseInt(limit as string),
@@ -46,6 +59,7 @@ mealRouter.get('/user', async (req, res, next) => {
 
     const mealArticleList = await mealService.getMealArticleListByUserId(
       userId as string,
+      date,
       conditions
     );
 

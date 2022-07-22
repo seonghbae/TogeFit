@@ -30,21 +30,22 @@ const Modal = ({
     };
   }, []);
 
+  const handleModalEvent = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    if (e.target === ref.current) {
+      if (handleCancel) handleCancel();
+      else handleConfirm();
+    }
+  };
+
   return (
-    <SC.Wrapper
-      onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-        if (e.target === ref.current) {
-          if (handleCancel) handleCancel();
-          else handleConfirm();
-        }
-      }}
-      ref={ref}
-    >
+    <SC.Wrapper onClick={handleModalEvent} ref={ref}>
       <SC.Modal>
         <SC.ModalMessage>{message}</SC.ModalMessage>
         {children}
         <SC.ButtonContainer>
-          <SC.Button onClick={handleConfirm}>확인</SC.Button>
+          <SC.Button type="submit" onClick={handleConfirm}>
+            확인
+          </SC.Button>
           {handleCancel && <SC.Button onClick={handleCancel}>취소</SC.Button>}
         </SC.ButtonContainer>
       </SC.Modal>

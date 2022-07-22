@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { customAxios } from 'common/api';
+import { useNavigate } from 'react-router-dom';
 
 type ValidationResponse = {
   message: string;
@@ -21,6 +22,7 @@ const useRoutineAdd = () => {
   const [isLoading, setLoading] = useState(false);
   const [showError, setShowError] = useState(false);
   const [result, setResult] = useState<IResult>();
+  const navigate = useNavigate();
 
   const addRoutine = useCallback((data: object) => {
     setLoading(true);
@@ -30,10 +32,10 @@ const useRoutineAdd = () => {
         setResult({ status: response.status, data: response.data });
         setError('');
         setShowError(false);
+        navigate('/routine');
       })
       .catch((err) => {
         if (axios.isAxiosError(err)) {
-          console.log('catch', err);
           const responseError = err as AxiosError<ValidationResponse>;
           if (responseError && responseError.response) {
             setError(responseError.response.data.message);

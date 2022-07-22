@@ -7,6 +7,7 @@ type Inputs = {
 };
 interface ISearchForm {
   searchFunc: (query: string) => void;
+  placeholder?: string;
 }
 const SearchForm = (props: ISearchForm) => {
   const {
@@ -16,7 +17,7 @@ const SearchForm = (props: ISearchForm) => {
     // formState: { errors },
   } = useForm<Inputs>();
 
-  const { searchFunc } = props;
+  const { searchFunc, placeholder } = props;
   let timer: string | number | NodeJS.Timeout | undefined;
   // eslint-disable-next-line no-console
   const onSubmit: SubmitHandler<Inputs> = (data) => searchFunc(data.searchData);
@@ -27,11 +28,16 @@ const SearchForm = (props: ISearchForm) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       searchFunc(searchData);
-    }, 300);
+    }, 400);
   };
   return (
     <SC.StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <input type="text" {...register('searchData')} onChange={handleChange} />
+      <input
+        type="text"
+        {...register('searchData')}
+        placeholder={placeholder}
+        onChange={handleChange}
+      />
       <input type="submit" value="검색" />
     </SC.StyledForm>
   );

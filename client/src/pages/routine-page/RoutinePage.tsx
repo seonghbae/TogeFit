@@ -23,7 +23,9 @@ const RoutinePage = () => {
   }, []);
 
   useEffect(() => {
-    setRoutines(result?.data.routines);
+    if (result?.data !== null) {
+      setRoutines(result?.data.routines);
+    }
   }, [result]);
 
   return (

@@ -51,13 +51,31 @@ export class UserModel {
     return user ? true : false;
   }
 
-  async pushPostIdInLikedArray(userId: string, postId: string) {
+  async manipulateLikedArray(userId: string, postId: string, mode: string) {
     const objectPostId = new mongoose.Types.ObjectId(postId);
     const filter = { userId };
-    const update = { $push: { liked: objectPostId } };
+
+    let update =
+      mode === 'plus'
+        ? { $push: { liked: objectPostId } }
+        : { $pull: { liked: objectPostId } };
+
     const updatedUser = await User.findOneAndUpdate(filter, update, {
       new: true,
     });
+    return updatedUser;
+  }
+
+  async setRefreshToken(userId: string, refreshToken: string) {
+    const filter = { userId };
+    const options = { returnOriginal: false };
+    const updatedUser = await User.findOneAndUpdate(
+      filter,
+      {
+        refresh_token: refreshToken,
+      },
+      options
+    );
     return updatedUser;
   }
 }

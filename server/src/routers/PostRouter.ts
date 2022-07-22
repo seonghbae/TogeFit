@@ -6,10 +6,25 @@ import { getTagList, getPostImageList } from '../utils';
 
 const postRouter = Router();
 
-// 게시글 리스트 가져오기 (전체)
+// 게시글 리스트 가져오기 (전체 + 무한 스크롤)
 postRouter.get('/all', async (req, res, next) => {
   try {
-    const postListAll = await postService.getAllPost();
+    const { limit, reqNumber } = req.query;
+
+    if (!limit) {
+      throw new Error('limit 정보가 반드시 필요합니다.');
+    }
+
+    if (!reqNumber) {
+      throw new Error('reqNumber 정보가 반드시 필요합니다.');
+    }
+
+    const conditions = {
+      limit: parseInt(limit as string),
+      reqNumber: parseInt(reqNumber as string),
+    };
+
+    const postListAll = await postService.getAllPost(conditions);
 
     res.status(200).json(postListAll);
   } catch (error) {
@@ -66,7 +81,7 @@ postRouter.get('/user', async (req, res, next) => {
     }
 
     const date = {
-      year: year as string,
+      year: parseInt(year as string),
       month: parseInt(month as string),
     };
     const conditions = {
@@ -86,6 +101,27 @@ postRouter.get('/user', async (req, res, next) => {
   }
 });
 
+// 게시글 검색
+postRouter.get('/search', async (req, res, next) => {
+  try {
+    const { tagName, limit, reqNumber } = req.query;
+
+    const conditions = {
+      limit: parseInt(limit as string),
+      reqNumber: parseInt(reqNumber as string),
+    };
+
+    const searchedPostList = await postService.searchPost(
+      tagName as string,
+      conditions
+    );
+
+    res.status(200).json(searchedPostList);
+  } catch (error) {
+    next(error);
+  }
+});
+
 postRouter.get('/grass', async (req, res, next) => {
   try {
     const userId = req.query.userId as string;
@@ -100,17 +136,21 @@ postRouter.get('/grass', async (req, res, next) => {
       throw new Error('해당 유저를 찾지 못했습니다.');
     }
 
-    if (!req.query.year || !req.query.month) {
-      const today = new Date();
-      const year = today.getFullYear();
-      const month = today.getMonth() + 1;
-      const dateList = await postService.getDateList(userId, year, month);
-      res.status(200).json(dateList);
-      return;
+    let year = req.query.year as string | number;
+    let month = req.query.month as string | number;
+    const today = new Date();
+
+    if (!year) {
+      year = today.getFullYear();
+    } else {
+      year = Number(year);
     }
 
-    const year = Number(req.query.year);
-    const month = Number(req.query.month);
+    if (!month) {
+      month = today.getMonth() + 1;
+    } else {
+      month = Number(month);
+    }
     const dateList = await postService.getDateList(userId, year, month);
     res.status(200).json(dateList);
   } catch (error) {
@@ -132,6 +172,7 @@ postRouter.post(
       }
 
       const userId = req.currentUserId;
+      const nickname = req.currentUserNickname;
       const { contents, tag_list, is_open, meal, routine } = req.body;
       // 'a,b,c'로 태그를 받아와 배열로 만들어줌
       const newTagList = tag_list ? getTagList(tag_list) : [];
@@ -145,6 +186,7 @@ postRouter.post(
 
       const data = {
         userId,
+        nickname,
         contents,
         tag_list: newTagList,
         post_image: postImages,
@@ -179,17 +221,47 @@ postRouter.post('/like', loginRequired, async (req, res, next) => {
     // 유저의 liked 배열에 postId가 있는지 검사
     const isExistPostId = await userService.isExistPostId(userId, postId);
 
-    // 없다면 좋아요 + 1
+    let mode = 'plus';
+    // 있다면 좋아요 취소
     if (isExistPostId) {
-      throw new Error('이미 좋아요를 누른 게시글 입니다.');
+      mode = 'minus';
     }
 
-    const updatedPost = await postService.updateLike(postId);
+    // 없다면 좋아요 + 1
+    const updatedPost = await postService.updateLike(postId, mode);
 
-    const pushLike = await userService.pushPostIdInLikedArray(userId, postId);
+    const pushLike = await userService.manipulateLikedArray(
+      userId,
+      postId,
+      mode
+    );
 
     res.status(201).json(updatedPost);
     // 유저의 liked 배열에 postId 추가
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 좋아요 눌렀는지 확인 GET
+postRouter.get('/liked', async (req, res, next) => {
+  try {
+    const { userId, postId } = req.query;
+
+    if (!userId) {
+      throw new Error('유저 아이디가 반드시 필요합니다.');
+    }
+
+    if (!postId) {
+      throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
+    }
+
+    const isLiked = await userService.checkLiked(
+      userId as string,
+      postId as string
+    );
+
+    res.status(200).json(isLiked);
   } catch (error) {
     next(error);
   }
@@ -289,14 +361,16 @@ postRouter.post('/comment', loginRequired, async (req, res, next) => {
       throw new Error('해당 글의 ID(object ID)가 반드시 필요합니다.');
     }
 
-    if (content) {
+    if (!content) {
       throw new Error('댓글의 내용이 반드시 필요합니다.');
     }
 
     const userId = req.currentUserId;
+    const nickname = req.currentUserNickname;
 
     const data = {
-      author: userId,
+      userId,
+      nickname,
       content,
     };
 
@@ -323,7 +397,7 @@ postRouter.patch('/comment/patch', loginRequired, async (req, res, next) => {
       throw new Error('해당 댓글의 ID(object ID)가 반드시 필요합니다.');
     }
 
-    if (content) {
+    if (!content) {
       throw new Error('댓글의 내용이 반드시 필요합니다.');
     }
 

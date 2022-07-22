@@ -41,7 +41,7 @@ const MealModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
 
     temp[currentTarget] = {
       ...temp[currentTarget],
-      foodName: data.foodName,
+      foodName: String(dragTarget || ''),
       quantity: data.quantity,
     };
     resetField('foodName');
@@ -55,11 +55,10 @@ const MealModal = ({ isOpen, setIsOpen, isCancel, setIsCancel }: IProps) => {
       <form onSubmit={handleSubmit(onSubmit)} onClick={handleDivClick}>
         <h3>음식 상세정보</h3>
         <div>
-          <label htmlFor="foodName">이름</label>
-          <input type="input" {...register('foodName')} />
+          <span>{dragTarget}</span>
         </div>
         <div>
-          <label htmlFor="quantity">양</label>
+          <label htmlFor="quantity">양 &nbsp;&nbsp;</label>
           <input type="input" {...register('quantity')} />
         </div>
         <div>

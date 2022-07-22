@@ -53,7 +53,7 @@ describe('로그인 TEST', () => {
     await expect(
       userService.getUserToken({
         userId: 'jest1',
-        password: '123456789',
+        password: '1',
       })
     ).rejects.toThrow('비밀번호가 일치하지 않습니다. 다시 한 번 확인해주세요.');
   });
@@ -126,5 +126,60 @@ describe('회원 탈퇴 TEST', () => {
     const result = await userService.deleteUser(userId, password);
 
     expect(result).toEqual({ deletedCount: 1 });
+  });
+});
+
+describe('유저 정보 가져오기 TEST', () => {
+  (async function () {
+    const input = [
+      {
+        name: 'jest1',
+        nickname: 'jest1',
+        userId: 'jest1',
+        password: '1234',
+      },
+      {
+        name: 'jest2',
+        nickname: 'jest2',
+        userId: 'jest2',
+        password: '1234',
+      },
+      {
+        name: 'jest3',
+        nickname: 'jest3',
+        userId: 'jest3',
+        password: '1234',
+      },
+      {
+        name: 'jest4',
+        nickname: 'jest4',
+        userId: 'jest4',
+        password: '1234',
+      },
+      {
+        name: 'jest5',
+        nickname: 'jest5',
+        userId: 'jest5',
+        password: '1234',
+      },
+    ];
+
+    for (const person of input) {
+      await userService.addUser(person);
+    }
+  })();
+
+  test('가져오기 성공', async () => {
+    for (let i = 1; i <= 5; i++) {
+      await expect(
+        userService.findByUserId(`jest${i}`)
+      ).resolves.not.toBeNull();
+    }
+  });
+
+  test('가져오기 실패 - 잘못된 유저 id', async () => {
+    await expect(userService.findByUserId('jest777')).rejects.toThrow(
+      '해당 유저를 찾지 못했습니다.'
+    );
   });
 });

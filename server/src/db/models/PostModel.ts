@@ -1,11 +1,13 @@
-import { model } from 'mongoose';
+import mongoose, { model } from 'mongoose';
+import { getCurrentAndNextMonth } from '../../utils';
 import { PostSchema } from '../schemas/PostSchema';
 
 const Post = model('posts', PostSchema);
 
 export interface CommentInfo {
   content: string;
-  author: string;
+  userId: string;
+  nickname: string;
 }
 
 export interface TagInfo {
@@ -14,6 +16,7 @@ export interface TagInfo {
 
 export interface PostInfo {
   userId: string;
+  nickname: string;
   contents: string;
   post_image?: string[];
   is_open?: boolean;
@@ -22,13 +25,8 @@ export interface PostInfo {
   routine?: string;
 }
 
-export interface CommentInfo {
-  author: string;
-  content: string;
-}
-
 export interface DateInfo {
-  year: string;
+  year: number;
   month: number;
 }
 
@@ -38,14 +36,66 @@ export interface ConditionInfo {
 }
 
 export class PostModel {
-  async findAll() {
-    const postListAll = await Post.find({});
+  async findAll(conditions: ConditionInfo) {
+    const postListAll = await Post.find({})
+      .skip(conditions.reqNumber * conditions.limit)
+      .sort({ _id: -1 })
+      .limit(conditions.limit);
+
     return postListAll;
   }
 
   async findById(id: string) {
-    const post = await Post.findOne({ _id: id });
-    return post;
+    const post = await Post.aggregate([
+      // 1. id로 해당 데이터 검색
+      { $match: { _id: new mongoose.Types.ObjectId(id) } },
+
+      // 2. meal object ID로 meal 데이터 찾기
+      {
+        $lookup: {
+          from: 'meals',
+          localField: 'meal',
+          foreignField: '_id',
+          as: 'meal_info',
+        },
+      },
+      { $addFields: { meal_createdAt: '$meal_info.createdAt' } },
+      {
+        $unwind: { path: '$meal_createdAt', preserveNullAndEmptyArrays: true },
+      },
+      { $set: { meal_info: '$meal_info.meals.meal_list' } },
+
+      // 3. routine object ID로 routine 데이터 찾기
+      {
+        $lookup: {
+          from: 'routines',
+          localField: 'routine',
+          foreignField: 'routines._id',
+          as: 'routine_info',
+        },
+      },
+      { $set: { routine_info: '$routine_info.routines' } },
+      { $unwind: { path: '$routine_info', preserveNullAndEmptyArrays: true } },
+      { $unwind: { path: '$meal_info', preserveNullAndEmptyArrays: true } },
+
+      // 4. meal object ID, routine object ID가 필요 없으므로 표시하지 않음.
+      {
+        $project: {
+          meal: 0,
+        },
+      },
+    ]);
+
+    // meal, routine 데이터를 찾지 못하는 경우 빈 배열 반환
+    if (post[0] && !post[0].meal_info) {
+      post[0].meal_info = [];
+    }
+
+    if (post[0] && !post[0].routine_info) {
+      post[0].routine_info = [];
+    }
+
+    return post[0];
   }
 
   async findByUserId(userId: string) {
@@ -54,17 +104,15 @@ export class PostModel {
   }
 
   async findByDate(userId: string, date: DateInfo, conditions: ConditionInfo) {
-    const currentMonth =
-      date.month < 10 ? '0' + date.month : String(date.month);
-    const nextMonth = date.month + 1 > 12 ? String(1) : String(date.month + 1);
+    const { current, next } = getCurrentAndNextMonth(date.year, date.month);
 
     const filter = {
       $and: [
         { userId: userId },
         {
           createdAt: {
-            $gte: new Date(`${date.year}-${currentMonth}-01`).toISOString(),
-            $lt: new Date(`${date.year}-${nextMonth}-01`).toISOString(),
+            $gte: new Date(`${current.year}-${current.month}-01`).toISOString(),
+            $lt: new Date(`${next.year}-${next.month}-01`).toISOString(),
           },
         },
       ],
@@ -91,22 +139,53 @@ export class PostModel {
   }
 
   async findByMonth(userId: string, year: number, month: number) {
-    const list = await Post.find({
+    const { current, next } = getCurrentAndNextMonth(year, month);
+
+    const filter = {
       $and: [
-        { userId },
+        { userId: userId },
         {
           createdAt: {
-            $gte: new Date(year, month - 1, 1),
-            $lt: new Date(year, month - 1, 32),
+            $gte: new Date(`${current.year}-${current.month}-01`).toISOString(),
+            $lt: new Date(`${next.year}-${next.month}-01`).toISOString(),
           },
         },
       ],
-    }).sort({ createdAt: 1 });
-    const dateList = list.map((e) => {
-      return e.createdAt?.getDate();
-    });
+    };
+
+    // UTC 기준 + 9시간
+    const list = await Post.find(filter).sort({ createdAt: 1 });
+    const dateList = list
+      .filter((e) => {
+        const createdAtTime = e.createdAt as Date;
+        const date = new Date(createdAtTime);
+        date.setTime(date.getTime() + 9 * 60 * 60 * 1000);
+        if (date.getMonth() + 1 == month) {
+          return date.getDate();
+        }
+      })
+      .map((e) => {
+        return e.createdAt?.getDate();
+      });
 
     return Array.from(new Set(dateList));
+  }
+
+  async searchTag(tag: string, conditions: ConditionInfo) {
+    if (!tag) {
+      const postListAll = await this.findAll(conditions);
+      return postListAll;
+    }
+    const postListByTag = await Post.find({
+      tag_list: {
+        $elemMatch: { tag: { $regex: `.*${tag}.*` } },
+      },
+    })
+      .skip(conditions.reqNumber * conditions.limit)
+      .sort({ _id: -1 })
+      .limit(conditions.limit);
+
+    return postListByTag;
   }
 
   async create(postInfo: PostInfo) {
@@ -126,12 +205,12 @@ export class PostModel {
     return updatedPost;
   }
 
-  async updateLike(postId: string, currentLikeNumber: number) {
+  async updateLike(postId: string, nextLikeNumber: number) {
     const filter = { _id: postId };
     const updatedPost = await Post.findByIdAndUpdate(
       filter,
       {
-        like: currentLikeNumber + 1,
+        like: nextLikeNumber,
       },
       { new: true }
     );

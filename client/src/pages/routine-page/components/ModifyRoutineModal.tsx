@@ -4,20 +4,14 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { IRoutinesExerciseInfo } from 'types/interfaces';
 import useExcerciseModify from '../hooks/useExerciseModify';
 import { routinesState } from '../states';
 import exerciseModifyState from '../states/exerciseModifyState';
 import routineModifyState from '../states/routineModifyState';
-// isCancel, setIsCancel, open, setOpen, renderConfirmModal
 import * as SC from './ModifyRoutineModalStyle';
 
-type Inputs = {
-  name: string;
-  count: string;
-  set: string;
-  weight: string;
-};
 interface Iprops {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,10 +30,9 @@ const ModifyRoutineModal = ({
     handleSubmit,
     resetField,
     formState: { errors },
-  } = useForm<Inputs>();
-  const [modifyRoutine, setModifyRoutine] = useRecoilState(routineModifyState);
-  const [exerciseModify, setExerciseModify] =
-    useRecoilState(exerciseModifyState);
+  } = useForm<IRoutinesExerciseInfo>();
+  const modifyRoutine = useRecoilValue(routineModifyState);
+  const exerciseModify = useRecoilValue(exerciseModifyState);
   const [routines, setRoutines] = useRecoilState(routinesState);
   const { modifyExercise, result } = useExcerciseModify();
 
@@ -62,10 +55,11 @@ const ModifyRoutineModal = ({
     const routineList = [...routine.routine_list];
 
     routineList[routine.exerciseIndex] = {
-      name: data.name || exerciseModify?.name || '',
-      count: data.count || exerciseModify?.count || '',
-      set: data.set || exerciseModify?.set || '',
-      weight: data.weight || exerciseModify?.weight || '',
+      name: data.name || exerciseModify?.name || undefined,
+      count: Number(data.count) || Number(exerciseModify?.count) || undefined,
+      set: Number(data.set) || Number(exerciseModify?.set) || undefined,
+      weight:
+        Number(data.weight) || Number(exerciseModify?.weight) || undefined,
     };
     const temp = { ...routine, routine_list: routineList };
 
@@ -95,9 +89,11 @@ const ModifyRoutineModal = ({
     setIsOpen(false);
   };
   useEffect(() => {
-    resetField('count', { defaultValue: exerciseModify?.count });
-    resetField('set', { defaultValue: exerciseModify?.set });
-    resetField('weight', { defaultValue: exerciseModify?.weight });
+    if (!exerciseModify) return;
+
+    resetField('count', { defaultValue: exerciseModify.count ?? 0 });
+    resetField('set', { defaultValue: exerciseModify.set ?? 0 });
+    resetField('weight', { defaultValue: exerciseModify.weight ?? 0 });
   }, [exerciseModify, isOpen]);
 
   return (
@@ -109,29 +105,14 @@ const ModifyRoutineModal = ({
           <input
             type="text"
             {...register('name', { required: true })}
-            // eslint-disable-next-line react/jsx-curly-brace-presence
-            unselectable={'on'}
+            unselectable="on"
             defaultValue={exerciseModify?.name}
-            // value={dragTarget !== null ? dragTarget : ''}
           />
-        </div>
-        <div>
-          <label htmlFor="count">개수</label>
-          <input
-            type="text"
-            {...register('count', { min: 0, pattern: /^[0-9]/g })}
-          />
-          {errors.count && errors.count.type === 'min' && (
-            <p>0 이상의 수를 입력하세요.</p>
-          )}
-          {errors.count && errors.count.type === 'pattern' && (
-            <p>숫자만 입력해주세요.</p>
-          )}
         </div>
         <div>
           <label htmlFor="set">세트</label>
           <input
-            type="text"
+            type="number"
             {...register('set', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.set && errors.set.type === 'min' && (
@@ -142,9 +123,22 @@ const ModifyRoutineModal = ({
           )}
         </div>
         <div>
+          <label htmlFor="count">개수</label>
+          <input
+            type="number"
+            {...register('count', { min: 0, pattern: /^[0-9]/g })}
+          />
+          {errors.count && errors.count.type === 'min' && (
+            <p>0 이상의 수를 입력하세요.</p>
+          )}
+          {errors.count && errors.count.type === 'pattern' && (
+            <p>숫자만 입력해주세요.</p>
+          )}
+        </div>
+        <div>
           <label htmlFor="weight">무게</label>
           <input
-            type="text"
+            type="number"
             {...register('weight', { min: 0, pattern: /^[0-9]/g })}
           />
           {errors.weight && errors.weight.type === 'min' && (

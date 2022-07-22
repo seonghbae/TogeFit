@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import axios from 'axios';
 
 export const customAxios = axios.create({
@@ -8,15 +9,24 @@ export const customAxios = axios.create({
     2. 응답 인터셉터
     2개의 콜백 함수를 받습니다.
 */
+
+customAxios.interceptors.request.use((config) => {
+  config.withCredentials = true;
+  return config;
+});
+
+customAxios.defaults.timeout = 5000;
+
 customAxios.interceptors.response.use(
   (response) => response,
-
   (error) => {
     if (error?.response?.status === 401) {
-      document.cookie = 'userId=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+      localStorage.removeItem('userId');
+      alert('접근 권한이 없습니다. 로그인 화면으로 이동합니다.');
+      window.location.href = '/login';
+      return Promise.reject(error);
     }
-    alert('권한이 올바르지 않습니다. 로그인 화면으로 이동합니다.');
-    window.location.href = '/login';
+
     return Promise.reject(error);
   }
 );

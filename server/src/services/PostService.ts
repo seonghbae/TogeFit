@@ -16,8 +16,8 @@ interface ErrorWithStatus {
 class PostService {
   constructor(private postModel: PostModel) {}
 
-  async getAllPost() {
-    const postListAll = await this.postModel.findAll();
+  async getAllPost(conditions: ConditionInfo) {
+    const postListAll = await this.postModel.findAll(conditions);
     return postListAll;
   }
 
@@ -42,8 +42,21 @@ class PostService {
   }
 
   async getDateList(userId: string, year: number, month: number) {
+    if (!(month >= 1 && month <= 12)) {
+      throw new Error('월의 범위는 1~12입니다.');
+    }
+
     const dateList = await this.postModel.findByMonth(userId, year, month);
     return dateList;
+  }
+
+  async searchPost(tag: string, conditions: ConditionInfo) {
+    if (conditions.limit < 0 || conditions.reqNumber < 0) {
+      throw new Error('잘못된 조건입니다.');
+    }
+
+    const postList = await this.postModel.searchTag(tag, conditions);
+    return postList;
   }
 
   async addPost(postInfo: PostInfo) {
@@ -91,17 +104,19 @@ class PostService {
     return updatedPost;
   }
 
-  async updateLike(postId: string) {
+  async updateLike(postId: string, mode: string) {
     const post = await this.postModel.findById(postId);
     if (!post) {
       throw new Error('해당 글을 찾지 못했습니다.');
     }
 
-    const currentLikeNumber = post.like;
-    const updatedPost = await this.postModel.updateLike(
-      postId,
-      currentLikeNumber
-    );
+    let nextLikeNumber = mode === 'plus' ? post.like + 1 : post.like - 1;
+
+    if (nextLikeNumber < 0) {
+      nextLikeNumber = 0;
+    }
+
+    const updatedPost = await this.postModel.updateLike(postId, nextLikeNumber);
 
     return updatedPost;
   }
@@ -129,7 +144,7 @@ class PostService {
       throw new Error('해당 댓글을 찾지 못했습니다.');
     }
 
-    if (comment.author !== userId) {
+    if (comment.userId !== userId) {
       const error: ErrorWithStatus = new Error('작성자만 수정할 수 있습니다.');
       error.status = 403;
       throw error;
@@ -150,7 +165,7 @@ class PostService {
       throw new Error('해당 댓글을 찾지 못했습니다.');
     }
 
-    if (comment.author !== userId) {
+    if (comment.userId !== userId) {
       const error: ErrorWithStatus = new Error('작성자만 삭제할 수 있습니다.');
       error.status = 403;
       throw error;

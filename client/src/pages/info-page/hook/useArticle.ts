@@ -1,19 +1,23 @@
 import { useState, useEffect } from 'react';
-import { customAxios } from 'common/api';
-import { dateObjectAtom } from 'recoil/infoState';
 import { useRecoilValue } from 'recoil';
 import axios, { AxiosError } from 'axios';
 import { useParams } from 'react-router-dom';
-import { ArticleResponse, ArticleErrResponse } from 'types/interfaces';
 
-const useArticle = () => {
+import { dateObjectAtom } from 'recoil/infoState';
+import { customAxios } from 'common/api';
+import loadingThrottle from 'common/utils/loadingThrottle';
+import { ArticleErrResponse } from 'types/interfaces';
+
+const useArticle = <T>(apiLink: string) => {
   const [isLoading, setLoading] = useState(false);
   const standardDate = useRecoilValue(dateObjectAtom);
-  const [articleList, setArticleList] = useState<Array<ArticleResponse>>([]);
+  const [articleList, setArticleList] = useState<Array<T>>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
-  const [reqNumber, setReqNumber] = useState(1);
+  const [reqNumber, setReqNumber] = useState(0);
   const [hasMore, setHasMore] = useState(false);
+  const [post, setPost] = useState<T>();
+  const [id, setId] = useState<string>();
   const { userId } = useParams();
 
   useEffect(() => {
@@ -24,10 +28,9 @@ const useArticle = () => {
 
   useEffect(() => {
     async function getArticle() {
-      setLoading(true);
       try {
         const response = await customAxios.get(
-          `/api/post/list/month?userId=${userId}&year=${
+          `/api/${apiLink}/user?userId=${userId}&year=${
             standardDate.year
           }&month=${standardDate.month + 1}&limit=6&reqNumber=${reqNumber}`
         );
@@ -45,10 +48,23 @@ const useArticle = () => {
           }
         }
       }
-      setLoading(false);
     }
-    getArticle();
+    loadingThrottle(0.8, getArticle, setLoading);
   }, [standardDate, userId, reqNumber]);
+
+  const getArticle = async (articleId: string | undefined) => {
+    setLoading(true);
+    setId(articleId);
+    try {
+      const response = await customAxios.get(
+        `/api/${apiLink}/article/${articleId}`
+      );
+      setPost(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+    setLoading(false);
+  };
 
   return {
     isLoading,
@@ -56,8 +72,11 @@ const useArticle = () => {
     errorMessage,
     isOpen,
     hasMore,
+    post,
+    id,
     setIsOpen,
     setReqNumber,
+    getArticle,
   };
 };
 

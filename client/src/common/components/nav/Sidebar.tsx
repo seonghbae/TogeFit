@@ -4,34 +4,67 @@ import { Link } from 'react-router-dom';
 import { Dumbbell } from 'styled-icons/fa-solid';
 import { SpoonKnife } from 'styled-icons/icomoon';
 import { Article } from 'styled-icons/material-rounded';
+import { Logout } from 'styled-icons/material-twotone';
+import { AlertModal } from 'common/components';
+import useLogoutRequest from './hook/useLogoutRequest';
 
 import * as SC from './SidebarStyle';
 
 interface SidebarProps {
-  openSidebar: boolean;
+  isOpen: boolean;
+  userId: string | undefined;
+  handleClick(): void;
 }
 
-const Sidebar = ({ openSidebar }: SidebarProps) => (
-  <SC.Wrapper openSidebar={openSidebar}>
-    <SC.NavLink>
-      <Link to="/">
-        <Article />
-        전체 게시글
-      </Link>
-    </SC.NavLink>
-    <SC.NavLink>
-      <Link to="/routine">
-        <Dumbbell />
-        루틴 관리
-      </Link>
-    </SC.NavLink>
-    <SC.NavLink>
-      <Link to="/diet">
-        <SpoonKnife />
-        식단 관리
-      </Link>
-    </SC.NavLink>
-  </SC.Wrapper>
-);
+const Sidebar = ({ isOpen, userId, handleClick }: SidebarProps) => {
+  const { requestLogout, responseMsg, setModalOpen, isModalOpen } =
+    useLogoutRequest();
+
+  const handleLogout = () => {
+    handleClick();
+    requestLogout();
+  };
+
+  const handleConfirm = () => {
+    setModalOpen(false);
+    window.location.reload();
+  };
+
+  return (
+    <>
+      <SC.Wrapper isOpen={isOpen}>
+        <SC.NavLink>
+          <Link to="/" onClick={handleClick}>
+            <Article />
+            전체 게시글
+          </Link>
+        </SC.NavLink>
+        <SC.NavLink>
+          <Link to="/routine" onClick={handleClick}>
+            <Dumbbell />
+            루틴 관리
+          </Link>
+        </SC.NavLink>
+        <SC.NavLink>
+          <Link to="/diet" onClick={handleClick}>
+            <SpoonKnife />
+            식단 관리
+          </Link>
+        </SC.NavLink>
+        {userId && (
+          <SC.NavLink>
+            <button type="button" onClick={handleLogout}>
+              <Logout />
+              로그아웃
+            </button>
+          </SC.NavLink>
+        )}
+      </SC.Wrapper>
+      {isModalOpen && (
+        <AlertModal message={responseMsg} handleConfirm={handleConfirm} />
+      )}
+    </>
+  );
+};
 
 export default Sidebar;

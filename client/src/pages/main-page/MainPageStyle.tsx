@@ -15,10 +15,6 @@ export const Main = styled.div`
   flex-direction: column;
 `;
 export const Info = styled.div`
-  margin-left: 1rem;
-  position: relative;
-  top: 10rem;
-  border: 1px solid;
+  margin: 0 3rem;
   width: 10rem;
-  height: 10rem;
 `;
