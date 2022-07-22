@@ -5,8 +5,6 @@ import React from 'react';
 import { useRecoilState } from 'recoil';
 import Slider from 'react-slick';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { MEAL_INITIAL_MESSAGE } from 'common/constants';
 import { isCursorLeftX } from 'common/utils/getElementLocationInfo';

@@ -1,7 +1,5 @@
 /* eslint-disable react/no-array-index-key */
 import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';

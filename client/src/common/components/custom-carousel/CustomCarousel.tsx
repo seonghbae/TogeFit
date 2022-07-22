@@ -2,18 +2,11 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable jsx-a11y/interactive-supports-focus */
-import Slider, { Settings } from 'react-slick';
+import Slider from 'react-slick';
 
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import React, { useEffect, useRef, useState } from 'react';
 import ArrowButton from 'common/components/arrow-button/ArrowButton';
 import { ROUTINE_INITIAL_MESSAGE } from 'common/constants';
-import { usePrevious } from 'common/hooks';
-import {
-  getMiddlePointX,
-  isCursorLeftX,
-} from 'common/utils/getElementLocationInfo';
+import { isCursorLeftX } from 'common/utils/getElementLocationInfo';
 import {
   routineModifyState,
   exerciseModifyState,
