@@ -16,6 +16,7 @@ export const MealContainer = styled.div`
 
 export const ContentContainer = styled.div`
   display: flex;
+  background-color: #fff;
   align-items: center;
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   margin-right: 1rem;
@@ -35,6 +36,7 @@ export const ButtonContainer = styled.div`
   row-gap: 1rem;
 
   & > button {
+    background-color: #fff;
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     width: 3rem;
     height: 3rem;

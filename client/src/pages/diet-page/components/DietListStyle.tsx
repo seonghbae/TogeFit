@@ -9,8 +9,8 @@ export const DietListContainer = styled.div`
 export const Header = styled.div`
   display: flex;
   justify-content: space-between;
-  margin: 5%;
-  padding: 3% 0;
+  margin: 0% 5% 2% 5%;
+
   > button {
     box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
