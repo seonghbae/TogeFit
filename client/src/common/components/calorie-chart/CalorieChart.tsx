@@ -46,6 +46,7 @@ const CalorieChart = ({
 }) => (
   <PieChart width={300} height={180}>
     <Pie
+      isAnimationActive={false}
       data={foods}
       cx={150}
       cy={80}
