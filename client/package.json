@@ -28,6 +28,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "serve": "npx serve -l 3000 -s build",
     "build": "env-cmd -f .env react-scripts build",
     "build:prod": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
